@@ -102,14 +102,12 @@ try {
   const publicClient = createClient(env.PUBLIC_SUPABASE_URL, env.PUBLIC_SUPABASE_PUBLISHABLE_KEY, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
-  const denied = await publicClient
-    .from('contact_messages')
-    .insert({
-      name: draft.name,
-      email: draft.email,
-      subject: draft.subject,
-      message: draft.message,
-    });
+  const denied = await publicClient.from('contact_messages').insert({
+    name: draft.name,
+    email: draft.email,
+    subject: draft.subject,
+    message: draft.message,
+  });
   check(denied.error?.code === '42501', 'Direct public contact INSERT remains denied');
   check(
     !!(await publicClient.rpc('edge_record_contact', {})).error,
