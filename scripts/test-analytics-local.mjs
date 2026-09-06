@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { randomUUID, randomBytes } from 'node:crypto';
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, mkdirSync } from 'node:fs';
 import { setTimeout as delay } from 'node:timers/promises';
 import { createClient } from '@supabase/supabase-js';
 import { createAdminClient } from '@supabase/server/core';
@@ -8,6 +8,7 @@ import { localStatus, localSql } from './edge-local.mjs';
 import { configureLocalEdgeCors } from './configure-edge-local-cors.mjs';
 import { loadAnalyticsReport, reportingToday } from '../src/lib/analytics/queries.ts';
 const status = localStatus();
+mkdirSync(new URL('../.tools/f10/', import.meta.url), { recursive: true });
 configureLocalEdgeCors();
 const admin = createAdminClient({
   env: {

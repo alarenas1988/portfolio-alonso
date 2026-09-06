@@ -171,9 +171,10 @@ try {
   );
 } finally {
   if (browser) await browser.close();
-  if (server) {
+  if (server && server.exitCode === null && server.signalCode === null) {
+    const exited = once(server, 'exit');
     server.kill();
-    await once(server, 'exit');
+    await exited;
   }
   for (const id of fixtureIds)
     localSql(

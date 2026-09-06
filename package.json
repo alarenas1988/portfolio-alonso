@@ -43,7 +43,10 @@
     "db:baseline:generate": "node scripts/generate-baseline.mjs",
     "db:baseline:check": "node scripts/generate-baseline.mjs --check",
     "test:baseline:local": "node scripts/test-local-baseline.mjs",
-    "db:baseline:review": "node scripts/review-initial-diff.mjs"
+    "db:baseline:review": "node scripts/review-initial-diff.mjs",
+    "test:admin": "playwright test --config playwright.admin.config.ts",
+    "test:admin:upgrade": "node scripts/test-admin-upgrade-local.mjs",
+    "check:admin:static": "node scripts/check-admin-static.mjs"
   },
   "dependencies": {
     "@lucide/astro": "1.41.0",
