@@ -13,7 +13,17 @@ export function getBrowserSupabase(): SupabaseClient<Database> {
   if (!supabase)
     throw new Error('Supabase is not configured. Complete the public variables in .env.local.');
   client ??= createClient<Database>(supabase.url, supabase.publishableKey, {
-    global: { fetch: supabaseFetch },
+    global: {
+      fetch: (input, init) => {
+        const signal = init?.signal ?? (input instanceof Request ? input.signal : undefined);
+        return supabaseFetch(input, {
+          ...init,
+          signal: signal
+            ? AbortSignal.any([signal, AbortSignal.timeout(15000)])
+            : AbortSignal.timeout(15000),
+        });
+      },
+    },
     auth: {
       persistSession: true,
       autoRefreshToken: true,
