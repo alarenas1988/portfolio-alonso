@@ -32,8 +32,19 @@ if (replace) {
 const names = cliJson(['secrets', 'list', '--project-ref', ref])
   .map((s) => s.name)
   .sort();
+// Platform provisions these after the first function; they are not application secrets.
+const managedNames = [
+  'SUPABASE_URL',
+  'SUPABASE_DB_URL',
+  'SUPABASE_ANON_KEY',
+  'SUPABASE_SERVICE_ROLE_KEY',
+  'SUPABASE_JWKS',
+  'SUPABASE_PUBLISHABLE_KEYS',
+  'SUPABASE_SECRET_KEYS',
+];
+const applicationNames = names.filter((name) => !managedNames.includes(name));
 assert.deepEqual(
-  names,
+  applicationNames,
   [
     'ANALYTICS_HMAC_SECRET',
     'CONTACT_GLOBAL_HOURLY_LIMIT',
@@ -56,7 +67,8 @@ const result = {
   date: new Date().toISOString(),
   history,
   functions,
-  configured_names: names,
+  configured_names: applicationNames,
+  managed_names: names.filter((name) => managedNames.includes(name)),
   form_enabled: false,
   function_only_resume: true,
 };
