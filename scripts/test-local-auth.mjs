@@ -14,16 +14,16 @@ const status = spawnSync(process.execPath, [cli, 'status', '--output', 'json'], 
   encoding: 'utf8',
   windowsHide: true,
 });
-if (status.status !== 0) throw new Error('Start the F8 local Supabase stack first.');
+if (status.status !== 0) throw new Error('Start the readiness local Supabase stack first.');
 const local = JSON.parse(status.stdout);
 if (
-  local.API_URL !== 'http://127.0.0.1:56421' ||
+  local.API_URL !== 'http://127.0.0.1:57421' ||
   new URL(local.DB_URL).hostname !== '127.0.0.1' ||
-  new URL(local.DB_URL).port !== '56422'
+  new URL(local.DB_URL).port !== '57422'
 ) {
-  throw new Error('Auth integration tests only permit the isolated F8 loopback stack.');
+  throw new Error('Auth integration tests only permit the isolated readiness loopback stack.');
 }
-const container = 'supabase_db_portfolio-alonso-f8-local';
+const container = 'supabase_db_portfolio-alonso-readiness-local';
 function sql(statement) {
   const result = spawnSync(
     'docker',
@@ -54,7 +54,9 @@ if (
     'select (not exists(select 1 from public.admin_profiles) and not exists(select 1 from public.projects) and not exists(select 1 from public.contact_settings where email is not null))::text;',
   ) !== 'true'
 ) {
-  throw new Error('Auth tests require a clean F8 local seed. Run npm run db:reset locally first.');
+  throw new Error(
+    'Auth tests require a clean readiness local seed. Run npm run db:reset locally first.',
+  );
 }
 let checks = 0;
 function check(condition, label) {

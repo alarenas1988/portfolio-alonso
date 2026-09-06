@@ -32,21 +32,21 @@ const status = spawnSync(process.execPath, [cli, 'status', '--output', 'json'], 
   encoding: 'utf8',
   windowsHide: true,
 });
-if (status.status !== 0) throw new Error('Start the F8 local stack.');
+if (status.status !== 0) throw new Error('Start the readiness local stack.');
 const local = JSON.parse(status.stdout);
 if (
-  local.API_URL !== 'http://127.0.0.1:56421' ||
+  local.API_URL !== 'http://127.0.0.1:57421' ||
   new URL(local.DB_URL).hostname !== '127.0.0.1' ||
-  new URL(local.DB_URL).port !== '56422'
+  new URL(local.DB_URL).port !== '57422'
 )
-  throw new Error('Media tests permit only the isolated F8 local stack.');
+  throw new Error('Media tests permit only the isolated readiness local stack.');
 function sql(statement) {
   const result = spawnSync(
     'docker',
     [
       'exec',
       '-i',
-      'supabase_db_portfolio-alonso-f8-local',
+      'supabase_db_portfolio-alonso-readiness-local',
       'psql',
       '-U',
       'postgres',

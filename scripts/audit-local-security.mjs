@@ -10,7 +10,7 @@ const result = spawnSync(
   [
     'exec',
     '-i',
-    'supabase_db_portfolio-alonso-f8-local',
+    'supabase_db_portfolio-alonso-readiness-local',
     'psql',
     '-U',
     'postgres',

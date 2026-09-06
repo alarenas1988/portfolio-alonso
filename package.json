@@ -29,7 +29,8 @@
     "db:snapshot:check": "node scripts/check-local-snapshot.mjs",
     "test:auth:local": "node scripts/test-local-auth.mjs",
     "db:audit": "node scripts/audit-local-security.mjs",
-    "test:media:local": "node scripts/test-local-media.mjs"
+    "test:media:local": "node scripts/test-local-media.mjs",
+    "test:storage:identity:local": "node scripts/probe-local-storage-identity.mjs"
   },
   "dependencies": {
     "@lucide/astro": "1.41.0",
