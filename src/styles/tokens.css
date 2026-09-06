@@ -1,0 +1,114 @@
+:root {
+  --midnight-950: #050816;
+  --midnight-900: #080c1a;
+  --midnight-850: #0b1020;
+  --midnight-800: #10172a;
+  --midnight-950-rgb: 5 8 22;
+  --black-rgb: 0 0 0;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+
+  --accent-cyan: #22d3ee;
+  --accent-blue: #3b82f6;
+  --accent-violet: #8b5cf6;
+  --accent-magenta: #d946ef;
+  --accent-cyan-rgb: 34 211 238;
+  --accent-blue-rgb: 59 130 246;
+  --accent-violet-rgb: 139 92 246;
+  --accent-magenta-rgb: 217 70 239;
+  --text-primary-rgb: 248 250 252;
+  --gradient-brand: linear-gradient(135deg, #22d3ee 0%, #3b82f6 42%, #8b5cf6 72%, #d946ef 100%);
+
+  --glass-subtle: rgba(255, 255, 255, 0.035);
+  --glass-standard: rgba(255, 255, 255, 0.055);
+  --glass-strong: rgba(255, 255, 255, 0.085);
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.18);
+  --shadow-glass: 0 24px 80px rgba(0, 0, 0, 0.25);
+  --blur-glass: 24px;
+
+  --font-body: 'Manrope Variable', 'Manrope', 'Segoe UI', sans-serif;
+  --font-display: 'Space Grotesk Variable', 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'Cascadia Code', 'SFMono-Regular', monospace;
+  --font-size-hero: clamp(3.4rem, 7vw, 7.2rem);
+  --font-size-h1: clamp(2.8rem, 5vw, 5.5rem);
+  --font-size-h2: clamp(2rem, 3.6vw, 3.8rem);
+  --font-size-h3: clamp(1.4rem, 2vw, 2rem);
+  --font-size-body: clamp(1rem, 0.96rem + 0.18vw, 1.125rem);
+  --font-size-body-lg: clamp(1.125rem, 1.08rem + 0.2vw, 1.25rem);
+  --font-size-editorial: 1.125rem;
+  --line-height-body: 1.65;
+  --line-height-editorial: 1.75;
+
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-80: 80px;
+  --space-96: 96px;
+  --space-128: 128px;
+  --space-160: 160px;
+
+  --content-wide: 1440px;
+  --content-default: 1280px;
+  --content-editorial: 760px;
+  --page-gutter: 20px;
+  --section-space: 72px;
+
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-hero: 40px;
+  --radius-pill: 9999px;
+
+  --glow-blur-sm: 80px;
+  --glow-blur-lg: 160px;
+  --glow-opacity-low: 0.1;
+  --glow-opacity-high: 0.24;
+
+  --duration-micro: 150ms;
+  --duration-normal: 250ms;
+  --duration-premium: 400ms;
+  --duration-section: 600ms;
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --focus-ring: 0 0 0 3px var(--midnight-950), 0 0 0 6px var(--accent-cyan);
+}
+
+@theme inline {
+  --color-midnight-950: var(--midnight-950);
+  --color-midnight-900: var(--midnight-900);
+  --color-midnight-850: var(--midnight-850);
+  --color-midnight-800: var(--midnight-800);
+  --color-foreground: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-muted: var(--text-muted);
+  --color-brand-cyan: var(--accent-cyan);
+  --color-brand-blue: var(--accent-blue);
+  --color-brand-violet: var(--accent-violet);
+  --color-brand-magenta: var(--accent-magenta);
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
+  --font-code: var(--font-mono);
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --page-gutter: 32px;
+    --section-space: 96px;
+  }
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --page-gutter: 48px;
+    --section-space: clamp(120px, 9vw, 160px);
+  }
+}

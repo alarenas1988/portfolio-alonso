@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'Manrope Variable';
+  src: url('../assets/fonts/manrope-latin-variable.woff2') format('woff2-variations');
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk Variable';
+  src: url('../assets/fonts/space-grotesk-latin-variable.woff2') format('woff2-variations');
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Variable';
+  src: url('../assets/fonts/jetbrains-mono-latin-variable.woff2') format('woff2-variations');
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+}

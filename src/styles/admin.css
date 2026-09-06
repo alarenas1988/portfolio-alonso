@@ -1,0 +1,41 @@
+.admin-shell {
+  --blur-glass: 12px;
+  --shadow-glass: 0 16px 48px rgb(var(--black-rgb) / 0.22);
+  --section-space: var(--space-48);
+  background:
+    radial-gradient(circle at 92% 0%, rgb(var(--accent-cyan-rgb) / 0.035), transparent 28rem),
+    var(--midnight-950);
+}
+
+.admin-shell::before {
+  opacity: 0.34;
+}
+
+.admin-container {
+  width: min(100% - (var(--page-gutter) * 2), var(--content-wide));
+  margin-inline: auto;
+  padding-block: var(--space-32);
+}
+
+.admin-panel {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--glass-subtle);
+  box-shadow: 0 12px 32px rgb(var(--black-rgb) / 0.16);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+}
+
+.admin-shell h1,
+.admin-shell h2,
+.admin-shell h3 {
+  letter-spacing: -0.025em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-shell *,
+  .admin-shell *::before,
+  .admin-shell *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
