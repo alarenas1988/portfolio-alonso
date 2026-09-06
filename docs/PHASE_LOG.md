@@ -583,13 +583,15 @@ No se modificó Supabase remoto ni Automatic RLS. No hubo db push, buckets/uploa
 
 Base `302a00211db100237630d16bd323f07e8475bc92`, rama `feat/f9-edge-functions`, worktree nuevo. Cuatro funciones, shared utilities, RPC service-only sobre tablas existentes, formulario F4 conectado y pruebas adversariales/HTTP/navegador. Baseline 019 intacto; migraciones 020/021 aplicadas local y remotamente. Contact-submit versión 2 ACTIVE y formulario habilitado tras 27 comprobaciones remotas; fixtures eliminados. Publish-site/build-status/track-event permanecen locales. SQL 659, Edge 90, HTTP 79, Auth 107, Storage/media 66, npm 146, E2E 179 aprobadas (73 omisiones por breakpoint). Reconstrucción posterior, tipos y auditoría sin drift inesperado. Se corrigieron empaquetado de dependencias e identificación del origen tras evidencia del runtime administrado. [Registro detallado](EDGE_FUNCTIONS.md) y [evidencia de cierre](checkpoints/F9_EDGE_FUNCTIONS.md). Sin PR/merge ni inicio de F10/F7/F11/F12/F13/F14.
 
-# F10 — Analytics first-party (implementación local)
+# F10 — Analytics first-party (2026-09-06, completada)
 
 Base e528078f19a245af7d56b00be6895e3af681777a; rama feat/f10-first-party-analytics y worktree nuevo. F9 ya integrada; no se repitió su integración. Ejecución secuencial al no estar disponible el skill superpowers solicitado.
 
 Cliente y hooks públicos, contrato F9 único, sesiones efímeras, DNT/GPC, agregados horarios, retención 90/400 fechas y repositorio owner-only. 022 posterior a 019/020/021; no tablas duplicadas ni cambios a esas migraciones. [Detalle de implementación](ANALYTICS.md).
 
-Upgrade con raw existente y reconstrucción desde volumen local vacío verificados. 714 SQL, 99 Edge, 49 Analytics HTTP, 79 Edge HTTP, 107 Auth/RLS, 66 Storage/media; formulario local real conserva recepción/retry/conversión única. E2E completo: 197 aprobados y 136 omisiones previstas por breakpoint. Build público remoto: seis páginas, sin secretos. El cierre operativo F10 se documentará después del despliegue y smoke.
+Upgrade con raw existente y reconstrucción desde volumen local vacío verificados. 714 SQL, 99 Edge, 49 Analytics HTTP, 79 Edge HTTP, 107 Auth/RLS, 66 Storage/media; formulario local real conserva recepción/retry/conversión única. 176 unitarias npm; E2E completo: 197 aprobados y 136 omisiones previstas por breakpoint. Build público remoto posterior: seis páginas y 22 artefactos sin secretos.
+
+022 aplicada a las 21:34 UTC, sin seed/roles/Vault. Track-event v1 ACTIVE; se añadió solo ANALYTICS_RATE_LIMIT_HMAC_SECRET y se reutilizó el HMAC existente. Contacto pasó de v2 a v3 por la actualización de configuración de la plataforma, con los 14 archivos idénticos a F9 y sin deploy de su código. 35 smoke checks remotos aprobados, fixtures eliminados y agregados recalculados. Tipos y catálogo propios coinciden; dry-run vacío, Automatic RLS activo. [Cierre, incidencias y evidencia](checkpoints/F10_ANALYTICS.md).
 
 Incidencia ambiental: cinco stacks Supabase anteriores acumulaban 56 contenedores. Se detuvieron 44 contenedores de cuatro stacks antiguos del portfolio preservando sus volúmenes. db reset quedó bloqueado en inicialización de esquemas administrados; se sustituyó por el procedimiento soportado stop/start desde volumen vacío. La prueba de upgrade usa copias ignoradas de migraciones/configuración/dependencias de funciones. No hubo modificación de tablas administradas para resolverlo.
 

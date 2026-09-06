@@ -128,8 +128,8 @@ Sin cambios Auth, owner, buckets, políticas ni contenido final. No se han inici
 
 # Actualización F10
 
-La implementación histórica F9 descrita debajo conserva su alcance y evidencia. F10 conecta `track-event` al cliente público, añade retención/agregación mediante 022 y prepara su despliegue independiente. `contact-submit` no cambia ni se vuelve a desplegar; conserva la conversión server-side única. `publish-site` y `build-status` siguen pendientes de F11.
+La implementación histórica F9 anterior conserva su alcance y evidencia. F10 conecta `track-event` al cliente público, añade retención/agregación mediante 022 y lo despliega como v1 ACTIVE. `contact-submit` conserva código y conversión server-side; la plataforma incrementó su versión de 2 a 3 al añadir el secreto del proyecto. Sus 14 archivos desplegados coinciden con el SHA base F9 y no se ejecutó deploy de contacto. `publish-site` y `build-status` siguen pendientes de F11.
 
 Allowlist única extraída a `_shared/events.ts`. El referrer finito comparte un módulo puro con el browser; no arrastra contexto de servidor. Acciones globales como CV/redes pueden llevar el contexto de un detalle público; la RPC sigue verificando UUID/publicación/slug. DNT/GPC y bots evidentes se omiten sin persistencia. Se conserva CORS, SDK, rate limit, límites de body y privacidad F9.
 
-F10 reutiliza ANALYTICS_HMAC_SECRET y requiere únicamente ANALYTICS_RATE_LIMIT_HMAC_SECRET adicional para tracking remoto. [Contrato y operación Analytics](ANALYTICS.md). El cierre F10 registra el estado efectivo de despliegue y smoke; las afirmaciones de “local solamente” en el informe histórico inferior corresponden al cierre de F9.
+F10 reutiliza ANALYTICS_HMAC_SECRET y añadió únicamente ANALYTICS_RATE_LIMIT_HMAC_SECRET para tracking remoto. [Contrato y operación Analytics](ANALYTICS.md) y [cierre F10 con 35 comprobaciones remotas](checkpoints/F10_ANALYTICS.md). Las afirmaciones de “local solamente” en el informe histórico anterior corresponden al cierre de F9.

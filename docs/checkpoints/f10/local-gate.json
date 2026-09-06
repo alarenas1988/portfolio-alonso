@@ -1,0 +1,131 @@
+{
+  "date": "2026-09-06T21:34:24.286Z",
+  "commit": "6648f684781e69e099ed44784c6f0f822deda6dd",
+  "checks": [
+    {
+      "name": "npm test",
+      "passed": true,
+      "evidence": ".tools/f10/unit-final.log"
+    },
+    {
+      "name": "Edge unit",
+      "passed": true,
+      "evidence": ".tools/f10/edge-final.log"
+    },
+    {
+      "name": "SQL",
+      "passed": true,
+      "evidence": ".tools/f10/db-test.log"
+    },
+    {
+      "name": "DB lint",
+      "passed": true,
+      "evidence": ".tools/f10/db-lint.log"
+    },
+    {
+      "name": "Auth RLS",
+      "passed": true,
+      "evidence": ".tools/f10/test-auth-local.log"
+    },
+    {
+      "name": "Storage media",
+      "passed": true,
+      "evidence": ".tools/f10/test-media-local.log"
+    },
+    {
+      "name": "Analytics HTTP",
+      "passed": true,
+      "evidence": ".tools/f10/test-analytics-local.log"
+    },
+    {
+      "name": "Edge HTTP",
+      "passed": true,
+      "evidence": ".tools/f10/test-edge-http.log"
+    },
+    {
+      "name": "Contact UI real",
+      "passed": true,
+      "evidence": ".tools/f10/test-contact-local.log"
+    },
+    {
+      "name": "E2E",
+      "passed": true,
+      "evidence": ".tools/f10/e2e-final.log"
+    },
+    {
+      "name": "TypeScript",
+      "passed": true,
+      "evidence": ".tools/f10/typecheck-final.log"
+    },
+    {
+      "name": "Audit",
+      "passed": true,
+      "evidence": ".tools/f10/npm-audit.log"
+    },
+    {
+      "name": "Format",
+      "passed": true,
+      "evidence": ".tools/f10/format-final.log"
+    },
+    {
+      "name": "Build remote public",
+      "passed": true,
+      "evidence": ".tools/f10/build-real.log"
+    },
+    {
+      "name": "Generated types",
+      "passed": true,
+      "evidence": ".tools/f10/db-types-check.log"
+    },
+    {
+      "name": "Snapshot",
+      "passed": true,
+      "evidence": ".tools/f10/db-snapshot-check.log"
+    },
+    {
+      "name": "Edge bundle",
+      "passed": true,
+      "evidence": ".tools/f10/edge-bundle-local.log"
+    },
+    {
+      "name": "Clean rebuild and upgrade 021 to 022",
+      "passed": true
+    },
+    {
+      "name": "npm ci (460 packages, observed successful tool result)",
+      "passed": true
+    },
+    {
+      "name": "npm ls --depth=0",
+      "passed": true
+    },
+    {
+      "name": "ESLint",
+      "passed": true
+    },
+    {
+      "name": "Deno lint",
+      "passed": true
+    },
+    {
+      "name": "git diff --check",
+      "passed": true
+    },
+    {
+      "name": "Static 6 HTML",
+      "passed": true
+    },
+    {
+      "name": "Secrets 22 artifacts",
+      "passed": true
+    }
+  ],
+  "bundles": [
+    {
+      "file": "PublicLayout.astro_astro_type_script_index_0_lang.CKk5Rs7q.js",
+      "bytes": 6055,
+      "gzip": 2620,
+      "scope": "Shared public motion + native analytics, not analytics alone"
+    }
+  ]
+}
