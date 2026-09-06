@@ -135,7 +135,13 @@ import '../styles/admin.css';
               <p class="technical-label">Admin foundation</p>
               <h3>Mayor densidad, menor intensidad.</h3>
             </div>
-            <Badge tone="cyan" icon="terminal">Productivo</Badge>
+            <div class="admin-preview__tools">
+              <span class="brand-scale" aria-label="Escala del isotipo AL">
+                <BrandMark size={16} variant="mono" label="Isotipo AL monocromo a 16 píxeles" />
+                <BrandMark size={32} label="Isotipo AL a 32 píxeles" />
+              </span>
+              <Badge tone="cyan" icon="terminal">Productivo</Badge>
+            </div>
           </div>
         </div>
       </div>
@@ -290,6 +296,18 @@ import '../styles/admin.css';
     gap: var(--space-8);
   }
 
+  .admin-preview__tools,
+  .brand-scale {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+  }
+
+  .brand-scale {
+    min-height: 44px;
+    color: var(--text-secondary);
+  }
+
   @media (max-width: 47.99rem) {
     .foundation-intro {
       min-height: auto;
@@ -308,6 +326,12 @@ import '../styles/admin.css';
     .admin-preview__panel {
       align-items: flex-start;
       flex-direction: column;
+    }
+
+    .admin-preview__tools {
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: space-between;
     }
   }
 

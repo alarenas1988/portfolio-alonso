@@ -12,7 +12,7 @@ Manrope Variable, Space Grotesk Variable y JetBrains Mono Variable se distribuye
 
 ## Marca e iconografía
 
-El isotipo AL usa dos formas geométricas dentro de un campo de 64 unidades. El componente permite gradiente o monocromo y el favicon conserva la misma geometría sin texto ni datos raster. Los iconos de interfaz proceden exclusivamente de `@lucide/astro`; se importan de forma individual y se renderizan como SVG estático.
+El isotipo AL usa dos formas geométricas dentro de un campo de 64 unidades. El componente permite gradiente o monocromo; el fixture comprueba su render a 16px y 32px, y el favicon conserva la misma geometría sin texto ni datos raster. Los iconos de interfaz proceden exclusivamente de `@lucide/astro`; se importan de forma individual y se renderizan como SVG estático.
 
 Durante la instalación se descartó `lucide-astro` porque npm lo marca como deprecado. Se adoptó el sucesor oficial `@lucide/astro`, que mantiene la familia Lucide requerida.
 

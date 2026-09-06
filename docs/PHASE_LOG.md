@@ -97,6 +97,7 @@ Los fallos RED de TDD y los fallos de entorno investigados no se presentan como 
 - Texto Midnight sobre los cuatro stops del CTA: entre 4.71:1 y 11.04:1.
 - Subtle 4.19:1 queda sin uso como texto pequeño.
 - Todos los botones e inputs tienen al menos 44px; foco visible, disabled, loading, error y feedback son verificables.
+- El isotipo se renderiza y conserva su geometría a 16px, 32px y escala principal; el fixture permanece usable con zoom CSS equivalente a 200% y 400%.
 - Reduced motion elimina transformaciones decorativas; touch no activa tilt; el contenido funciona sin JavaScript.
 - El JS propio se limita a un módulo de motion sin framework, loops permanentes ni librerías de animación.
 - Playwright: 42 casos por seis breakpoints; 39 aprobados y 3 omisiones previstas de la prueba touch en desktop.

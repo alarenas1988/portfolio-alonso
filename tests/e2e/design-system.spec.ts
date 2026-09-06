@@ -5,7 +5,9 @@ test.beforeEach(async ({ page }) => {
   await page.goto('./');
 });
 
-test('uses the approved hierarchy, local fonts, and responsive composition', async ({ page }) => {
+test('uses the approved hierarchy, local fonts, and responsive composition', async ({
+  page,
+}, testInfo) => {
   await expect(page.getByTestId('design-foundation')).toBeVisible();
   const headingFont = await page
     .getByRole('heading', { level: 1 })
@@ -20,6 +22,22 @@ test('uses the approved hierarchy, local fonts, and responsive composition', asy
   for (const card of ['.feature-card', '.form-card', '.state-card']) {
     const box = await page.locator(card).boundingBox();
     expect(box?.width).toBeGreaterThanOrEqual(280);
+  }
+  const smallMark = page.getByRole('img', { name: 'Isotipo AL monocromo a 16 píxeles' });
+  const regularMark = page.getByRole('img', { name: 'Isotipo AL a 32 píxeles' });
+  expect((await smallMark.boundingBox())?.width).toBe(16);
+  expect((await regularMark.boundingBox())?.width).toBe(32);
+
+  if (testInfo.project.name === 'desktop-1440') {
+    for (const zoom of ['2', '4']) {
+      await page.evaluate((value) => (document.body.style.zoom = value), zoom);
+      await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+      await expect(page.getByRole('link', { name: 'Acción principal' })).toBeVisible();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+        true,
+      );
+    }
+    await page.evaluate(() => (document.body.style.zoom = '1'));
   }
   expect(
     (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze())
