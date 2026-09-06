@@ -1,0 +1,582 @@
+{
+  "at": "2026-09-06T15:47:19.597Z",
+  "checks": [
+    {
+      "name": "One confirmed definitive Auth account",
+      "passed": true
+    },
+    {
+      "name": "Real Auth session for definitive owner without password access",
+      "passed": true
+    },
+    {
+      "name": "Owner JWT maps to active owner profile",
+      "passed": true
+    },
+    {
+      "name": "Client-controlled user_metadata and supplied owner UUID cannot authorize",
+      "passed": true
+    },
+    {
+      "name": "Owner CREATE and UPDATE through actual Auth JWT",
+      "passed": true
+    },
+    {
+      "name": "anon: hidden projects by known UUID",
+      "passed": true
+    },
+    {
+      "name": "anon: hidden project_features by known UUID",
+      "passed": true
+    },
+    {
+      "name": "anon: hidden posts by known UUID",
+      "passed": true
+    },
+    {
+      "name": "anon: hidden posts by known UUID",
+      "passed": true
+    },
+    {
+      "name": "anon: hidden technologies by known UUID",
+      "passed": true
+    },
+    {
+      "name": "anon: private read denied admin_profiles",
+      "passed": true
+    },
+    {
+      "name": "anon: private read denied contact_messages",
+      "passed": true
+    },
+    {
+      "name": "anon: private read denied analytics_events",
+      "passed": true
+    },
+    {
+      "name": "anon: private read denied analytics_daily",
+      "passed": true
+    },
+    {
+      "name": "anon: private read denied analytics_daily_content",
+      "passed": true
+    },
+    {
+      "name": "anon: private read denied site_builds",
+      "passed": true
+    },
+    {
+      "name": "anon: private read denied admin_activity",
+      "passed": true
+    },
+    {
+      "name": "anon: private read denied media_assets",
+      "passed": true
+    },
+    {
+      "name": "anon: INSERT published project rejected",
+      "passed": true
+    },
+    {
+      "name": "anon: UPDATE DELETE or foreign-key reassignment has no affected rows",
+      "passed": true
+    },
+    {
+      "name": "anon: UPDATE DELETE or foreign-key reassignment has no affected rows",
+      "passed": true
+    },
+    {
+      "name": "anon: UPDATE DELETE or foreign-key reassignment has no affected rows",
+      "passed": true
+    },
+    {
+      "name": "anon: cannot create owner profile",
+      "passed": true
+    },
+    {
+      "name": "anon: cannot change authorization attributes or identity",
+      "passed": true
+    },
+    {
+      "name": "anon: cannot change authorization attributes or identity",
+      "passed": true
+    },
+    {
+      "name": "anon: cannot change authorization attributes or identity",
+      "passed": true
+    },
+    {
+      "name": "anon: private helper unavailable through API",
+      "passed": true
+    },
+    {
+      "name": "anon: public view does not expose private metadata",
+      "passed": true
+    },
+    {
+      "name": "normal: hidden projects by known UUID",
+      "passed": true
+    },
+    {
+      "name": "normal: hidden project_features by known UUID",
+      "passed": true
+    },
+    {
+      "name": "normal: hidden posts by known UUID",
+      "passed": true
+    },
+    {
+      "name": "normal: hidden posts by known UUID",
+      "passed": true
+    },
+    {
+      "name": "normal: hidden technologies by known UUID",
+      "passed": true
+    },
+    {
+      "name": "normal: private read denied admin_profiles",
+      "passed": true
+    },
+    {
+      "name": "normal: private read denied contact_messages",
+      "passed": true
+    },
+    {
+      "name": "normal: private read denied analytics_events",
+      "passed": true
+    },
+    {
+      "name": "normal: private read denied analytics_daily",
+      "passed": true
+    },
+    {
+      "name": "normal: private read denied analytics_daily_content",
+      "passed": true
+    },
+    {
+      "name": "normal: private read denied site_builds",
+      "passed": true
+    },
+    {
+      "name": "normal: private read denied admin_activity",
+      "passed": true
+    },
+    {
+      "name": "normal: private read denied media_assets",
+      "passed": true
+    },
+    {
+      "name": "normal: INSERT published project rejected",
+      "passed": true
+    },
+    {
+      "name": "normal: UPDATE DELETE or foreign-key reassignment has no affected rows",
+      "passed": true
+    },
+    {
+      "name": "normal: UPDATE DELETE or foreign-key reassignment has no affected rows",
+      "passed": true
+    },
+    {
+      "name": "normal: UPDATE DELETE or foreign-key reassignment has no affected rows",
+      "passed": true
+    },
+    {
+      "name": "normal: cannot create owner profile",
+      "passed": true
+    },
+    {
+      "name": "normal: cannot change authorization attributes or identity",
+      "passed": true
+    },
+    {
+      "name": "normal: cannot change authorization attributes or identity",
+      "passed": true
+    },
+    {
+      "name": "normal: cannot change authorization attributes or identity",
+      "passed": true
+    },
+    {
+      "name": "normal: private helper unavailable through API",
+      "passed": true
+    },
+    {
+      "name": "normal: public view does not expose private metadata",
+      "passed": true
+    },
+    {
+      "name": "inactive: hidden projects by known UUID",
+      "passed": true
+    },
+    {
+      "name": "inactive: hidden project_features by known UUID",
+      "passed": true
+    },
+    {
+      "name": "inactive: hidden posts by known UUID",
+      "passed": true
+    },
+    {
+      "name": "inactive: hidden posts by known UUID",
+      "passed": true
+    },
+    {
+      "name": "inactive: hidden technologies by known UUID",
+      "passed": true
+    },
+    {
+      "name": "inactive: private read denied admin_profiles",
+      "passed": true
+    },
+    {
+      "name": "inactive: private read denied contact_messages",
+      "passed": true
+    },
+    {
+      "name": "inactive: private read denied analytics_events",
+      "passed": true
+    },
+    {
+      "name": "inactive: private read denied analytics_daily",
+      "passed": true
+    },
+    {
+      "name": "inactive: private read denied analytics_daily_content",
+      "passed": true
+    },
+    {
+      "name": "inactive: private read denied site_builds",
+      "passed": true
+    },
+    {
+      "name": "inactive: private read denied admin_activity",
+      "passed": true
+    },
+    {
+      "name": "inactive: private read denied media_assets",
+      "passed": true
+    },
+    {
+      "name": "inactive: INSERT published project rejected",
+      "passed": true
+    },
+    {
+      "name": "inactive: UPDATE DELETE or foreign-key reassignment has no affected rows",
+      "passed": true
+    },
+    {
+      "name": "inactive: UPDATE DELETE or foreign-key reassignment has no affected rows",
+      "passed": true
+    },
+    {
+      "name": "inactive: UPDATE DELETE or foreign-key reassignment has no affected rows",
+      "passed": true
+    },
+    {
+      "name": "inactive: cannot create owner profile",
+      "passed": true
+    },
+    {
+      "name": "inactive: cannot change authorization attributes or identity",
+      "passed": true
+    },
+    {
+      "name": "inactive: cannot change authorization attributes or identity",
+      "passed": true
+    },
+    {
+      "name": "inactive: cannot change authorization attributes or identity",
+      "passed": true
+    },
+    {
+      "name": "inactive: private helper unavailable through API",
+      "passed": true
+    },
+    {
+      "name": "inactive: public view does not expose private metadata",
+      "passed": true
+    },
+    {
+      "name": "Owner sees actual private message fixture",
+      "passed": true
+    },
+    {
+      "name": "Owner browser cannot create another owner",
+      "passed": true
+    },
+    {
+      "name": "Owner browser cannot mutate authorization attributes",
+      "passed": true
+    },
+    {
+      "name": "Owner browser cannot mutate authorization attributes",
+      "passed": true
+    },
+    {
+      "name": "Owner browser cannot mutate authorization attributes",
+      "passed": true
+    },
+    {
+      "name": "anon: typed snapshot includes exact public fixture IDs",
+      "passed": true
+    },
+    {
+      "name": "anon: snapshot excludes drafts future posts private messages and hidden technologies",
+      "passed": true
+    },
+    {
+      "name": "anon: public snapshot equivalent across roles",
+      "passed": true
+    },
+    {
+      "name": "owner: typed snapshot includes exact public fixture IDs",
+      "passed": true
+    },
+    {
+      "name": "owner: snapshot excludes drafts future posts private messages and hidden technologies",
+      "passed": true
+    },
+    {
+      "name": "owner: public snapshot equivalent across roles",
+      "passed": true
+    },
+    {
+      "name": "normal: typed snapshot includes exact public fixture IDs",
+      "passed": true
+    },
+    {
+      "name": "normal: snapshot excludes drafts future posts private messages and hidden technologies",
+      "passed": true
+    },
+    {
+      "name": "normal: public snapshot equivalent across roles",
+      "passed": true
+    },
+    {
+      "name": "inactive: typed snapshot includes exact public fixture IDs",
+      "passed": true
+    },
+    {
+      "name": "inactive: snapshot excludes drafts future posts private messages and hidden technologies",
+      "passed": true
+    },
+    {
+      "name": "inactive: public snapshot equivalent across roles",
+      "passed": true
+    },
+    {
+      "name": "Upload starts private without permanent public URL",
+      "passed": true
+    },
+    {
+      "name": "Storage API object UUID matches registered media identity",
+      "passed": true
+    },
+    {
+      "name": "Short-lived signed private URL returns correct bytes",
+      "passed": true
+    },
+    {
+      "name": "Private bytes cannot be read through public endpoint",
+      "passed": true
+    },
+    {
+      "name": "Publication creates separate immutable Storage identity",
+      "passed": true
+    },
+    {
+      "name": "Anonymous public byte download works",
+      "passed": true
+    },
+    {
+      "name": "anon: cannot list actual private object",
+      "passed": true
+    },
+    {
+      "name": "anon: cannot download known private path",
+      "passed": true
+    },
+    {
+      "name": "anon: cannot sign private URL",
+      "passed": true
+    },
+    {
+      "name": "anon: valid upload denied",
+      "passed": true
+    },
+    {
+      "name": "anon: object update denied",
+      "passed": true
+    },
+    {
+      "name": "anon: object upsert denied",
+      "passed": true
+    },
+    {
+      "name": "anon: arbitrary move denied",
+      "passed": true
+    },
+    {
+      "name": "anon: attempted deletion preserves registered object",
+      "passed": true
+    },
+    {
+      "name": "normal: cannot list actual private object",
+      "passed": true
+    },
+    {
+      "name": "normal: cannot download known private path",
+      "passed": true
+    },
+    {
+      "name": "normal: cannot sign private URL",
+      "passed": true
+    },
+    {
+      "name": "normal: valid upload denied",
+      "passed": true
+    },
+    {
+      "name": "normal: object update denied",
+      "passed": true
+    },
+    {
+      "name": "normal: object upsert denied",
+      "passed": true
+    },
+    {
+      "name": "normal: arbitrary move denied",
+      "passed": true
+    },
+    {
+      "name": "normal: attempted deletion preserves registered object",
+      "passed": true
+    },
+    {
+      "name": "inactive: cannot list actual private object",
+      "passed": true
+    },
+    {
+      "name": "inactive: cannot download known private path",
+      "passed": true
+    },
+    {
+      "name": "inactive: cannot sign private URL",
+      "passed": true
+    },
+    {
+      "name": "inactive: valid upload denied",
+      "passed": true
+    },
+    {
+      "name": "inactive: object update denied",
+      "passed": true
+    },
+    {
+      "name": "inactive: object upsert denied",
+      "passed": true
+    },
+    {
+      "name": "inactive: arbitrary move denied",
+      "passed": true
+    },
+    {
+      "name": "inactive: attempted deletion preserves registered object",
+      "passed": true
+    },
+    {
+      "name": "Owner cannot upsert immutable bytes",
+      "passed": true
+    },
+    {
+      "name": "Owner cannot move immutable object",
+      "passed": true
+    },
+    {
+      "name": "Owner updates editorial metadata",
+      "passed": true
+    },
+    {
+      "name": "Project image plus project and post Markdown create three references",
+      "passed": true
+    },
+    {
+      "name": "Normal delete blocked with all usages reported",
+      "passed": true
+    },
+    {
+      "name": "Storage API direct delete rejected by PK RESTRICT and object survives",
+      "passed": true
+    },
+    {
+      "name": "Replacement atomically transfers all three references",
+      "passed": true
+    },
+    {
+      "name": "Replacement retains previous bytes until safe retirement",
+      "passed": true
+    },
+    {
+      "name": "Snapshot returns only referenced public media without signed URLs",
+      "passed": true
+    },
+    {
+      "name": "Unlinked previous asset safely deleted via metadata then Storage API",
+      "passed": true
+    },
+    {
+      "name": "Deleted object is absent from Storage API catalog",
+      "passed": true
+    },
+    {
+      "name": "Metadata cannot register nonexistent Storage UUID",
+      "passed": true
+    },
+    {
+      "name": "Read-only orphan report identifies unregistered object without broken metadata",
+      "passed": true
+    },
+    {
+      "name": "Owner DELETE allowed and child relations cascade",
+      "passed": true
+    },
+    {
+      "name": "Editorial deletion removes media references",
+      "passed": true
+    },
+    {
+      "name": "Delete allowed after controlled unlink",
+      "passed": true
+    },
+    {
+      "name": "Private source removed through controlled lifecycle",
+      "passed": true
+    },
+    {
+      "name": "Final media orphan report is empty",
+      "passed": true
+    }
+  ],
+  "total": 139,
+  "passed": true,
+  "failure": null,
+  "cleanup_errors": [],
+  "cleanup_complete": true,
+  "after": {
+    "active_owners": 1,
+    "media": 0,
+    "messages": 0,
+    "objects": 0,
+    "posts": 0,
+    "profiles": 1,
+    "projects": 0,
+    "references": 0,
+    "technologies": 0,
+    "users": 1
+  },
+  "authentication": "Actual Supabase Auth JWTs; existing admin credential used only for Auth setup and fixture preparation/cleanup",
+  "owner_password_accessed_or_changed": false,
+  "owner_session": "Temporary generated email link verified in memory; local-scope signout revokes its refresh token; issued JWT expires normally",
+  "signed_urls_persisted": false
+}
