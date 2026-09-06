@@ -1,0 +1,8 @@
+{
+  "at": "2026-09-06T15:42:00.967Z",
+  "method": "Administrative SQL; identity selected from the only confirmed Auth user",
+  "active_owner": 1,
+  "authorized": true,
+  "visible_profiles": 1,
+  "credentials_changed": false
+}
