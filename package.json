@@ -19,7 +19,14 @@
     "test": "node --test tests/unit/*.test.ts",
     "test:e2e": "playwright test",
     "check:static": "node scripts/check-static-output.mjs",
-    "check:secrets": "node scripts/check-secrets.mjs"
+    "check:secrets": "node scripts/check-secrets.mjs",
+    "db:start": "node scripts/supabase-local.mjs start",
+    "db:reset": "node scripts/supabase-local.mjs reset",
+    "db:lint": "node scripts/supabase-local.mjs lint",
+    "db:test": "node scripts/supabase-local.mjs test",
+    "db:types": "node scripts/generate-database-types.mjs",
+    "db:types:check": "node scripts/generate-database-types.mjs --check",
+    "db:snapshot:check": "node scripts/check-local-snapshot.mjs"
   },
   "dependencies": {
     "@lucide/astro": "1.41.0",
