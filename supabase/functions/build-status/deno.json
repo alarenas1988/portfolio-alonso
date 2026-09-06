@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "@supabase/server": "npm:@supabase/server@1.5.3",
+    "@supabase/supabase-js": "npm:@supabase/supabase-js@2.115.0"
+  },
+  "nodeModulesDir": "auto",
+  "compilerOptions": { "strict": true, "noUncheckedIndexedAccess": true }
+}

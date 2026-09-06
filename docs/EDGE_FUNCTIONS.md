@@ -108,6 +108,10 @@ Inspección F9: proyecto portfolio-alonso, sa-east-1, PostgreSQL 17.6, CLI auten
 
 Respaldo de roles/schema/datos fuera de Git en `%LOCALAPPDATA%/portfolio-alonso/backups/20260906-f9-edge`, ACL exclusiva del usuario/SYSTEM/Administrators. Se excluyen los dos catálogos vector administrados igual que en el checkpoint aprobado; no hay bytes Storage. Se conservan inventario, configuración y hashes. El nuevo dump no se presenta como una restauración recién ensayada: el procedimiento probado es el del checkpoint inicial. Free no ofrece aquí restauración gestionada disponible. Ante fallo, conservar error e historial, mantener formulario apagado y revisar; no DROP/repair/fixes improvisados.
 
-**Estado actual:** verificación previa en curso. No se ha ejecutado push ni configurado secretos/desplegado funciones remotamente. El cierre de F9 actualizará este apartado con evidencia efectiva.
+**Incidencia de empaquetado:** 020/021 se aplicaron correctamente el 2026-09-06 a las 19:35 UTC, sin seed/roles/Vault. El primer deploy por API falló con HTTP 400: no resolvía `@supabase/server` porque el deno.json global de desarrollo no se incluyó en los assets del deploy. Se reprodujo el mismo error sin cambiar DB ni secretos y se conservó el diagnóstico. El formulario permaneció desactivado y no había función activa.
+
+Corrección: deno.json y lock propios en cada función, con versiones idénticas a las probadas. `edge:check` verifica esos mapas y `edge:bundle:local` empaqueta las cuatro funciones con el runtime real. Se añadió una regresión sobre la presencia de configuración/lock de despliegue. [Configuración de dependencias recomendada por Supabase](https://supabase.com/docs/guides/functions/dependencies). La reanudación `resume-contact-edge.mjs --deploy-function-only-f9` comprueba historial/configuración y no repite push ni genera secretos. No se modificó lógica de autorización, RLS ni SQL para corregir el empaquetado.
+
+**Estado actual:** validación de la corrección de empaquetado. El cierre de F9 registrará el resultado remoto efectivo.
 
 Sin cambios Auth, owner, buckets, políticas ni contenido final. No se han iniciado F10/F7/F11/F12/F13/F14. No hay PR ni merge automático.

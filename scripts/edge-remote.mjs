@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, writeFileSync, mkdirSync } from 'node:fs';
 import { parseEnv } from 'node:util';
 import { fileURLToPath } from 'node:url';
 export const root = fileURLToPath(new URL('../', import.meta.url));
@@ -18,10 +18,26 @@ export function cli(args, timeout = 120000) {
     maxBuffer: 32 * 1024 * 1024,
     stdio: ['ignore', 'pipe', 'pipe'],
   });
-  if (result.status !== 0)
+  if (result.status !== 0) {
+    // Deployment diagnostics contain bundler errors; preserve them after redaction.
+    // Other commands (API keys, SQL) may carry private values and are never logged.
+    if (args[0] === 'functions' && args[1] === 'deploy') {
+      let diagnostic = (result.stdout || '') + (result.stderr || '');
+      for (const value of Object.values(env))
+        if (value) diagnostic = diagnostic.replaceAll(value, '[public-config-redacted]');
+      diagnostic = diagnostic
+        .replaceAll(ref, '[project-ref]')
+        .replace(
+          /(?:sb_secret_|sbp_|ghp_|github_pat_)[A-Za-z0-9_-]+|eyJ[\w-]+\.[\w-]+\.[\w-]+/g,
+          '[credential-redacted]',
+        );
+      mkdirSync('.tools/f9', { recursive: true });
+      writeFileSync('.tools/f9/deployment-error-' + Date.now() + '.log', diagnostic);
+    }
     throw new Error(
       'Supabase CLI operation failed: ' + args.slice(0, 2).join(' ') + '; details withheld.',
     );
+  }
   return result.stdout;
 }
 export function cliJson(args) {
