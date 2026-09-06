@@ -1,0 +1,267 @@
+---
+import type { HomeProject, PublicModel } from '../../lib/content/home.ts';
+import { nextProject, projectStatuses } from '../../lib/content/pages.ts';
+import { renderMarkdown } from '../../lib/markdown/render.ts';
+import { safeExternalUrl } from '../../lib/content/presentation.ts';
+import Breadcrumbs from './Breadcrumbs.astro';
+import MarkdownContent from './MarkdownContent.astro';
+import MediaImage from '../shared/MediaImage.astro';
+import TechnologyBadge from './TechnologyBadge.astro';
+interface Props {
+  content: PublicModel;
+  project: HomeProject;
+}
+const { content, project } = Astro.props;
+const row = project.row,
+  snapshot = content.snapshot;
+const markdown = (source: string, prefix: string) =>
+  renderMarkdown(source, { assets: content.assets, siteUrl: content.siteUrl, prefix });
+const narratives = [
+  ['Resumen ejecutivo', row.summary, 'summary'],
+  ['El problema', row.problem, 'problem'],
+  ['El objetivo', row.objective, 'objective'],
+  ['La solución', row.solution, 'solution'],
+  ['Arquitectura y flujo', row.architecture, 'architecture'],
+  ['Antes', row.before_markdown, 'before'],
+  ['Después', row.after_markdown, 'after'],
+] as const;
+const sections = await Promise.all(
+  narratives
+    .filter((entry) => entry[1]?.trim())
+    .map(async ([title, source, prefix]) => ({ title, rendered: await markdown(source!, prefix) })),
+);
+const ordered = <T extends { project_id: string; sort_order: number }>(rows: readonly T[]) =>
+  rows.filter((entry) => entry.project_id === row.id).sort((a, b) => a.sort_order - b.sort_order);
+const features = await Promise.all(
+  ordered(snapshot.project_features).map(async (feature, index) => ({
+    ...feature,
+    rendered: feature.description ? await markdown(feature.description, `feature-${index}`) : null,
+  })),
+);
+const challenges = await Promise.all(
+  ordered(snapshot.project_challenges).map(async (challenge, index) => ({
+    ...challenge,
+    problemHtml: challenge.problem
+      ? await markdown(challenge.problem, `challenge-problem-${index}`)
+      : null,
+    solutionHtml: challenge.solution
+      ? await markdown(challenge.solution, `challenge-solution-${index}`)
+      : null,
+  })),
+);
+const challengeSummary =
+  !challenges.length && row.challenges ? await markdown(row.challenges, 'challenges') : null;
+const learnings = row.learnings ? await markdown(row.learnings, 'learnings') : null;
+const images = ordered(snapshot.project_images);
+const metrics = ordered(snapshot.project_metrics).filter((metric) => metric.visible);
+const next = nextProject(content, row.id);
+const links = [
+  ['Demo', row.demo_url],
+  ['Repositorio', row.github_url],
+  ['Documentación', row.documentation_url],
+].flatMap(([label, url]) => {
+  const href = safeExternalUrl(url ?? null);
+  return href ? [{ label, href }] : [];
+});
+---
+
+<header class="page-hero container">
+  <Breadcrumbs
+    items={[
+      { label: 'Inicio', href: content.links.home },
+      { label: 'Proyectos', href: content.links.projects },
+      { label: row.title },
+    ]}
+  />
+  <p class="technical-label">Caso de estudio / {projectStatuses[row.status] ?? row.status}</p><h1>
+    {row.title}
+  </h1>
+  {
+    (row.subtitle || row.summary) && (
+      <p class="page-hero__description">{row.subtitle || row.summary}</p>
+    )
+  }
+  <dl class="page-meta">
+    {
+      row.year && (
+        <div>
+          <>
+            <dt>Año</dt>
+            <dd>{row.year}</dd>
+          </>
+        </div>
+      )
+    }{
+      row.role && (
+        <div>
+          <>
+            <dt>Mi rol</dt>
+            <dd>{row.role}</dd>
+          </>
+        </div>
+      )
+    }
+  </dl>
+  <div class="badge-list">
+    {
+      project.technologies.map((technology) => (
+        <TechnologyBadge technology={technology} assets={content.assets} compact />
+      ))
+    }
+  </div>
+  {
+    links.length > 0 && (
+      <div class="page-actions">
+        {links.map((link) => (
+          <a class="text-link" href={link.href} target="_blank" rel="noopener noreferrer">
+            {link.label} ↗
+          </a>
+        ))}
+      </div>
+    )
+  }
+</header>
+<div class="container">
+  {
+    project.imageId && (
+      <div class="case-cover">
+        <MediaImage
+          assets={content.assets}
+          assetId={row.cover_image_asset_id ?? project.imageId}
+          sizes="(min-width: 1280px) 1280px, 100vw"
+          eager
+        />
+      </div>
+    )
+  }
+  {
+    sections.map((section) => (
+      <section class="case-section">
+        <>
+          <h2>{section.title}</h2>
+          <MarkdownContent rendered={section.rendered} />
+        </>
+      </section>
+    ))
+  }
+  {
+    features.length > 0 && (
+      <section class="case-section">
+        <>
+          <h2>Funcionalidades</h2>
+          <ul class="case-features">
+            {features.map((feature) => (
+              <li>
+                <h3>{feature.title}</h3>
+                {feature.rendered && <MarkdownContent rendered={feature.rendered} />}
+              </li>
+            ))}
+          </ul>
+        </>
+      </section>
+    )
+  }
+  {
+    project.technologies.length > 0 && (
+      <section class="case-section">
+        <>
+          <h2>Tecnologías</h2>
+          <div class="badge-list">
+            {project.technologies.map((technology) => (
+              <TechnologyBadge technology={technology} assets={content.assets} />
+            ))}
+          </div>
+        </>
+      </section>
+    )
+  }
+  {
+    images.length > 0 && (
+      <section class="page-section">
+        <>
+          <h2>Una mirada al sistema</h2>
+          <div class="gallery">
+            {images.map((image) => (
+              <figure>
+                <MediaImage
+                  assets={content.assets}
+                  assetId={image.asset_id}
+                  sizes="(min-width: 768px) 600px, 100vw"
+                />
+                {image.caption && <figcaption>{image.caption}</figcaption>}
+              </figure>
+            ))}
+          </div>
+        </>
+      </section>
+    )
+  }
+  {
+    metrics.length > 0 && (
+      <section class="case-section">
+        <>
+          <h2>Resultados e impacto</h2>
+          <ul class="results-list">
+            {metrics.map((metric) => (
+              <li>
+                <strong>{metric.value}</strong>
+                <p>{metric.label}</p>
+                {metric.description && <small>{metric.description}</small>}
+              </li>
+            ))}
+          </ul>
+        </>
+      </section>
+    )
+  }
+  {
+    (challenges.length > 0 || challengeSummary) && (
+      <section class="case-section">
+        <h2>Desafíos</h2>
+        {challengeSummary ? (
+          <MarkdownContent rendered={challengeSummary} />
+        ) : (
+          <ul class="case-challenges">
+            {challenges.map((challenge) => (
+              <li>
+                <h3>{challenge.title}</h3>
+                {challenge.problemHtml && <MarkdownContent rendered={challenge.problemHtml} />}
+                {challenge.solutionHtml && (
+                  <>
+                    <h4>Cómo se resolvió</h4>
+                    <MarkdownContent rendered={challenge.solutionHtml} />
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    )
+  }
+  {
+    learnings && (
+      <section class="case-section">
+        <>
+          <h2>Aprendizajes</h2>
+          <MarkdownContent rendered={learnings} />
+        </>
+      </section>
+    )
+  }
+  {
+    next && (
+      <nav class="next-project" aria-label="Continuar explorando">
+        <>
+          <p class="technical-label">Siguiente proyecto</p>
+          <a href={next.href}>
+            {next.row.title} <span aria-hidden="true">→</span>
+          </a>
+        </>
+      </nav>
+    )
+  }
+</div>
+<script>
+  import '../../scripts/code-copy.ts';
+</script>

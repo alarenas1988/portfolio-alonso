@@ -1,0 +1,8 @@
+---
+import type { RenderedMarkdown } from '../../lib/markdown/render.ts';
+interface Props {
+  rendered: RenderedMarkdown;
+}
+---
+
+<div class="prose" set:html={Astro.props.rendered.html} />

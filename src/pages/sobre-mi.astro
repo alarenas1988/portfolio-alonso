@@ -1,0 +1,123 @@
+---
+import { fileURLToPath } from 'node:url';
+import { outDir } from 'astro:config/server';
+import { getPublicConfig } from '../lib/config/public.ts';
+import { loadPublicPages } from '../lib/content/public-build.ts';
+import { pageSeo } from '../lib/content/pages.ts';
+import { renderMarkdown } from '../lib/markdown/render.ts';
+import InternalLayout from '../layouts/InternalLayout.astro';
+import PageHero from '../components/public/PageHero.astro';
+import MarkdownContent from '../components/public/MarkdownContent.astro';
+import SpecialtiesSection from '../components/public/SpecialtiesSection.astro';
+import ExperienceTimeline from '../components/public/ExperienceTimeline.astro';
+import StackSection from '../components/public/StackSection.astro';
+import ProjectCard from '../components/public/ProjectCard.astro';
+import ContactSection from '../components/public/ContactSection.astro';
+import MediaImage from '../components/shared/MediaImage.astro';
+const content = await loadPublicPages(getPublicConfig(), fileURLToPath(outDir));
+const render = (source: string, prefix: string) =>
+  renderMarkdown(source, { assets: content.assets, siteUrl: content.siteUrl, prefix });
+const profile = content.settings.about_profile_markdown
+  ? await render(content.settings.about_profile_markdown, 'profile')
+  : null;
+const method = content.settings.working_method_markdown
+  ? await render(content.settings.working_method_markdown, 'method')
+  : null;
+const relatedIds = new Set(
+  content.experiences.flatMap((experience) => experience.projects.map((project) => project.row.id)),
+);
+const related = content.projects.filter((project) => relatedIds.has(project.row.id)).slice(0, 3);
+---
+
+<InternalLayout
+  content={content}
+  active="about"
+  seo={pageSeo(content, '/sobre-mi/', 'Sobre mí', content.about.summary ?? '')}
+>
+  <PageHero
+    eyebrow={`Sobre mí / ${content.settings.site_name}`}
+    title={content.about.summary ?? content.settings.site_name}
+    description={content.settings.professional_title}
+  >
+    {
+      content.contact.cv && (
+        <div class="page-actions">
+          <a class="text-link" href={content.contact.cv.href} download="CV.pdf">
+            Descargar CV ↓
+          </a>
+        </div>
+      )
+    }
+  </PageHero>
+  <div class="container">
+    {
+      content.about.imageId && (
+        <div class="case-cover">
+          <MediaImage assets={content.assets} assetId={content.about.imageId} eager />
+        </div>
+      )
+    }
+    {
+      profile && (
+        <section class="case-section">
+          <>
+            <h2>Qué hago</h2>
+            <MarkdownContent rendered={profile} />
+          </>
+        </section>
+      )
+    }
+    {
+      method && (
+        <section class="case-section">
+          <>
+            <h2>Cómo trabajo</h2>
+            <MarkdownContent rendered={method} />
+          </>
+        </section>
+      )
+    }
+  </div>
+  <SpecialtiesSection home={content} />
+  {
+    content.principles.length > 0 && (
+      <section class="container page-section">
+        <>
+          <div class="section-heading">
+            <h2>Principios que guían el trabajo.</h2>
+          </div>
+          <ol class="profile-principles">
+            {content.principles.map((principle) => (
+              <li>
+                <span aria-hidden="true">{String(principle.number).padStart(2, '0')}</span>
+                <div>
+                  <h3>{principle.title}</h3>
+                  {principle.description && <p>{principle.description}</p>}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </>
+      </section>
+    )
+  }
+  <ExperienceTimeline home={content} full />
+  <StackSection home={content} />
+  {
+    related.length > 0 && (
+      <section class="container page-section">
+        <>
+          <h2>El trabajo, en contexto.</h2>
+          <div class="project-index-grid">
+            {related.map((project, index) => (
+              <div>
+                <ProjectCard project={project} assets={content.assets} index={index} />
+              </div>
+            ))}
+          </div>
+        </>
+      </section>
+    )
+  }
+  <ContactSection home={content} />
+</InternalLayout>

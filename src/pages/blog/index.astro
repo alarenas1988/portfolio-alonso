@@ -1,0 +1,99 @@
+---
+import { fileURLToPath } from 'node:url';
+import { outDir } from 'astro:config/server';
+import { getPublicConfig } from '../../lib/config/public.ts';
+import { loadPublicPages } from '../../lib/content/public-build.ts';
+import { pageSeo, blogCategories } from '../../lib/content/pages.ts';
+import InternalLayout from '../../layouts/InternalLayout.astro';
+import PageHero from '../../components/public/PageHero.astro';
+import BlogCard from '../../components/public/BlogCard.astro';
+import ContentFilters from '../../components/public/ContentFilters.astro';
+import EditorialEmpty from '../../components/public/EditorialEmpty.astro';
+import ContactSection from '../../components/public/ContactSection.astro';
+const content = await loadPublicPages(getPublicConfig(), fileURLToPath(outDir));
+const featured = content.posts.find((post) => post.row.featured);
+const popular = content.posts
+  .filter((post) => post.row.popular_rank !== null)
+  .sort((a, b) => a.row.popular_rank! - b.row.popular_rank!)
+  .slice(0, 3);
+const options = blogCategories(content).map((category) => ({
+  value: category.id,
+  label: category.name,
+}));
+---
+
+<InternalLayout
+  content={content}
+  active="blog"
+  seo={pageSeo(
+    content,
+    '/blog/',
+    'Blog / Insights',
+    'Ideas, decisiones y aprendizajes sobre tecnología aplicada.',
+  )}
+>
+  <PageHero
+    eyebrow="AL / Insights"
+    title="Ideas que se construyen."
+    description="Notas sobre tecnología, procesos y las decisiones detrás de una solución."
+    editorial
+  />
+  <div class="container">
+    {
+      featured && (
+        <section class="page-section" aria-labelledby="featured-post">
+          <>
+            <h2 id="featured-post" class="sr-only">
+              Insight destacado
+            </h2>
+            <BlogCard post={featured} assets={content.assets} featured />
+          </>
+        </section>
+      )
+    }
+    {
+      content.posts.length ? (
+        <section class="page-section" aria-labelledby="latest-posts">
+          <>
+            <div class="section-heading">
+              <>
+                <h2 id="latest-posts">Todas las publicaciones</h2>
+                <span class="technical-label">Más recientes primero</span>
+              </>
+            </div>
+            <ContentFilters label="Categoría" options={options} target="post-list" />
+            <div class="blog-index-grid" id="post-list">
+              {content.posts.map((post) => (
+                <div data-filter-values={post.categories.map((category) => category.id).join(' ')}>
+                  <BlogCard post={post} assets={content.assets} />
+                </div>
+              ))}
+            </div>
+          </>
+        </section>
+      ) : (
+        <EditorialEmpty
+          label="El próximo insight está en camino"
+          title="Un espacio para compartir lo aprendido."
+          description="Aquí encontrarás nuevas ideas, decisiones técnicas y notas del proceso. Puedes explorar las áreas en las que trabajo mientras preparo las primeras publicaciones."
+          href={content.links.about}
+          action="Explorar mi enfoque"
+        />
+      )
+    }
+    {
+      popular.length > 0 && (
+        <section class="page-section">
+          <>
+            <h2>Más leídos</h2>
+            <div class="blog-index-grid">
+              {popular.map((post) => (
+                <BlogCard post={post} assets={content.assets} />
+              ))}
+            </div>
+          </>
+        </section>
+      )
+    }
+  </div><ContactSection home={content} />
+</InternalLayout>

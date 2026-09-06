@@ -1,5 +1,49 @@
 # Registro de fases
 
+## F4 — Páginas públicas internas — 2026-09-06
+
+**Estado:** implementada y validada; se detiene para revisión del usuario, sin push, PR ni merge automático. Base origin/main `1f4780a1e87a418c0cee9e8ad12df7f7c38dcb50`, sincronizada con main limpio y con F1/F2/F5/F6/F8/F3 y los checkpoints Supabase integrados. F3 ya había sido aprobada y mergeada mediante PR #9. Rama nueva `feat/f4-public-pages`, worktree aislado `.worktrees/f4-public-pages`; no se reutilizaron worktrees anteriores.
+
+Se implementan `/proyectos/`, `/proyectos/[slug]/`, `/blog/`, `/blog/[slug]/`, `/sobre-mi/`, `/contacto/` y 404 coherente. Los detalles son HTML estático mediante getStaticPaths; no se generan drafts, archivados o posts futuros. Navbar, navegación móvil, Footer, tarjetas, timeline y MediaImage se reutilizan con estado activo y enlaces definitivos bajo el base. Se mantienen tokens, tipografía y movimiento F2/F3.
+
+Una lectura pública compartida por build alimenta Home, índices y detalles: snapshot F5/F6 → pipeline de assets F8 → DTO de presentación. El build falla ante error de lectura, contrato incompatible o asset obligatorio ausente. No hay SSR ni cliente privilegiado. Las colecciones vacías son contenido editorial válido y no se rellenan con fixtures.
+
+Markdown compartido y tipado: AST remark/GFM, transformaciones controladas, allowlist rehype-sanitize y HTML estático. Se descarta HTML del autor, se neutralizan enlaces inseguros y se exige `media:UUID` resuelto mediante el mapa F8. Incluye tablas con scroll local, TOC con IDs únicos, lectura determinista, resaltado Shiki con tokens F2, copia accesible y relacionados públicos por categorías/tags/recencia. Los parsers no llegan al navegador público.
+
+El formulario tiene UI, validación cliente, ayudas, errores, contador y adapter desacoplado. **Enviar permanece deshabilitado** y nunca informa entrega exitosa. Con form_enabled=true se puede revisar el texto localmente; con false se deshabilitan los campos. No hay peticiones, inserciones ni mailto sustitutivo. F9 sigue pendiente.
+
+### Verificaciones finales
+
+- npm ci y npm ls --depth=0 correctos; npm audit --audit-level=high: **0 vulnerabilidades**. Dependencias exactas de Markdown/sanitización y Shiki fijadas en lockfile; sin framework UI adicional.
+- format:check, lint y typecheck correctos; **120 archivos, 0 errores, warnings o hints**.
+- **133/133 pruebas unitarias**, incluidas rutas, visibilidad, mínimos/completos, filtros, orden, canonical, CV, validación de contacto, TOC, lectura, sanitización e imágenes/enlaces dentro de tablas.
+- **176 E2E aprobadas, 58 omitidas por dispositivo/matriz, 0 fallos**. Nueve anchos: 320/360/390/640/768/1024/1280/1440/1920. Conserva regresiones de F1/F2/F3/F8 y añade páginas internas, filtros, casos/artículos, teclado, Escape/foco, copy, formulario sin envío, no-JS, reduced motion, refresh, enlaces y 404.
+- Axe WCAG A/AA sin violaciones en páginas probadas. La revisión detectó IDs repetidos del SVG compartido: BrandMark ahora asigna un ID por instancia. Un enlace de BlogCard quedaba bajo 44px durante transform a 768px; se ajustó a 48px y se repitió toda la suite, conservando la aserción original.
+- **Cinco builds aislados**: completo y vacío correctos; indisponibilidad, contrato incompatible y asset faltante fallan. Una RPC por build; tres assets sintéticos F8; tres casos y cuatro artículos públicos del fixture, sin rutas privadas.
+- **16 comprobaciones adicionales del artefacto vacío offline** y **16 del artefacto remoto real**: móvil/desktop, con/sin JS, navegación, accesibilidad, formulario inactivo y 404. Astro dev también sirve snapshot y tres assets F8 bajo el base correcto.
+- **Build con snapshot remoto público real correcto**: seis HTML — Home, proyectos, blog, sobre-mi, contacto y 404 — y cero detalles de proyectos/posts. check:static correcto; check:secrets correcto sobre **21 artefactos**.
+- Revisión visual de **13 capturas completas con fixtures**: proyectos 390/768/1440; caso, blog, artículo, sobre-mi y contacto 390/1440. También **nueve capturas reales** de índices/perfil/contacto sin contenido inventado. Evidencia local ignorada en `.tools/f4-visual/`. Sin overflow global, imágenes rotas ni recursos remotos en el navegador.
+- git diff --check correcto; cambios permanentes separados en commits locales. Las capturas/builds y `.env.local` permanecen ignorados.
+
+### Commits e inventario
+
+- `a95fb1c` — feat: add shared sanitized markdown rendering
+- `8a12da8` — feat: add static public project case studies
+- `98e733f` — feat: add editorial blog pages and article interactions
+- `a60abe7` — feat: add public profile and safe contact form
+- `6d637a5` — test: verify public content routes
+- Cierre documental: `docs: record phase four validation`.
+
+El inventario completo, dependencias, contratos y comandos están en [PUBLIC_PAGES.md](PUBLIC_PAGES.md). El historial exacto se obtiene con `git log 1f4780a..feat/f4-public-pages --oneline`.
+
+### Decisiones y pendientes
+
+La skill superpowers solicitada no estaba disponible: ejecución secuencial con frontend-design, preservando F2/F3. Los filtros aparecen solo cuando hay varias opciones reales utilizadas. Las secciones de casos y perfil son condicionales; no se inventan arquitectura, experiencia, tecnologías, resultados ni logros. Se corrigieron dos detalles de los componentes compartidos por evidencia de accesibilidad, sin rediseñar Home.
+
+El contenido real muestra identidad/claim/resumen, seis especialidades y cuatro principios. Aún no hay proyectos/posts/experiencias/tecnologías/métricas/media publicados; contacto y CV no están configurados como visibles. El envío real depende de F9. Las auditorías finales SEO/performance siguen pendientes de sus fases: estas verificaciones no certifican LCP/CLS/INP de producción.
+
+**Supabase remoto no fue modificado en F4.** No cambiaron migraciones, tipos de PostgreSQL, RLS, Auth, Storage, buckets, owner ni seed. No se inició F7/F9/F10/F11/F12/F13/F14 ni otra fase. El siguiente paso es la revisión del usuario.
+
 ## F3 — Frontend público / Home — 2026-09-06
 
 **Estado:** implementada y validada, pendiente de revisión del usuario. Base origin/main `ac2045a85e9d8d10ffc9675b3dc82c8a300a9ccf`, que contiene F1/F2/F5/F6/F8, baseline 019 y primer despliegue remoto. Main se verificó limpio, se sincronizó sin reescribir historial y permaneció intacto. Trabajo aislado en `feat/f3-public-home` / `.worktrees/f3-public-home`.

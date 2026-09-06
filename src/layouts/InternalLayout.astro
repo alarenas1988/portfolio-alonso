@@ -1,0 +1,21 @@
+---
+import PublicLayout from './PublicLayout.astro';
+import Navbar from '../components/public/Navbar.astro';
+import Footer from '../components/public/Footer.astro';
+import type { PublicModel } from '../lib/content/home.ts';
+import type { pageSeo } from '../lib/content/pages.ts';
+import '../styles/home.css';
+import '../styles/editorial.css';
+interface Props {
+  content: PublicModel;
+  active?: 'projects' | 'blog' | 'about' | 'contact';
+  seo: ReturnType<typeof pageSeo>;
+}
+const { content, active, seo } = Astro.props;
+---
+
+<PublicLayout {...seo}>
+  <Navbar home={content} {...active ? { active } : {}} slot="navigation" />
+  <slot />
+  <Footer home={content} slot="footer" />
+</PublicLayout>

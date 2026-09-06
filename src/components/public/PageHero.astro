@@ -1,0 +1,16 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  description?: string | null;
+  editorial?: boolean;
+}
+const { eyebrow, title, description, editorial = false } = Astro.props;
+---
+
+<header class:list={['page-hero', 'container', { 'page-hero--editorial': editorial }]}>
+  <p class="technical-label">{eyebrow}</p>
+  <h1>{title}</h1>
+  {description && <p class="page-hero__description">{description}</p>}
+  <slot />
+</header>

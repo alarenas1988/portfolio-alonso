@@ -1,0 +1,28 @@
+---
+import { fileURLToPath } from 'node:url';
+import { outDir } from 'astro:config/server';
+import { getPublicConfig } from '../../lib/config/public.ts';
+import { loadPublicPages } from '../../lib/content/public-build.ts';
+import { publicPaths, pageSeo } from '../../lib/content/pages.ts';
+import type { HomeProject } from '../../lib/content/home.ts';
+import InternalLayout from '../../layouts/InternalLayout.astro';
+import ProjectCaseStudy from '../../components/public/ProjectCaseStudy.astro';
+import ContactSection from '../../components/public/ContactSection.astro';
+export async function getStaticPaths() {
+  const content = await loadPublicPages(getPublicConfig(), fileURLToPath(outDir));
+  return publicPaths(content.projects);
+}
+interface Props {
+  item: HomeProject;
+}
+const { item } = Astro.props;
+const content = await loadPublicPages(getPublicConfig(), fileURLToPath(outDir));
+---
+
+<InternalLayout
+  content={content}
+  active="projects"
+  seo={pageSeo(content, item.href, item.row.title, item.row.summary ?? '', item.row)}
+>
+  <ProjectCaseStudy content={content} project={item} /><ContactSection home={content} />
+</InternalLayout>

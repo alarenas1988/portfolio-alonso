@@ -1,5 +1,11 @@
 # Contenido y esquema F5
 
+## Presentación pública vigente — F4
+
+Proyectos y artículos se generan desde el snapshot público como HTML físico por slug. Los campos narrativos de proyectos y perfiles, y content_markdown de posts, usan el mismo pipeline Markdown sanitizado; ninguna sección requiere rellenar campos ausentes. Los índices vacíos son válidos y no generan rutas de detalle. Las categorías sin posts públicos no se muestran como filtros.
+
+Imágenes editoriales: `![Descripción](media:UUID)`, resueltas exclusivamente por el asset map F8. No se admite HTML embebido, estilos del autor ni URLs arbitrarias de imagen. TOC, código, lectura, orden, relacionados y el formulario pendiente de F9 se explican en [PUBLIC_PAGES.md](PUBLIC_PAGES.md). Los fixtures ricos permanecen bajo tests; no cambian seed ni contenido remoto. Las secciones F5/F6/F8 posteriores conservan su contexto histórico.
+
 F8 amplía localmente este modelo con decorative, FK de objeto Storage, logos de tecnologías, documentos generales y referencias Markdown. La metadata exige tipo/tamaño/extensión/privacidad coherentes. Reemplazo, eliminación y CV tienen servicios y pruebas reales. El contrato vigente de multimedia y sus comandos está en [MEDIA.md](MEDIA.md); las secciones F5 siguientes conservan la evidencia histórica.
 
 Este documento conserva el modelo y la evidencia de entrega de F5. F6 habilita ahora el acceso local mediante grants/RLS y proyecciones públicas: consultar [SECURITY.md](SECURITY.md) para permisos vigentes y [DEPLOYMENT.md](DEPLOYMENT.md) para los puertos y comandos del entorno F6. Las referencias posteriores al acceso cerrado y al entorno F5 describen ese punto histórico. PostgreSQL es la fuente única de verdad. No se han aplicado migraciones al proyecto remoto ni cambiado Automatic RLS.

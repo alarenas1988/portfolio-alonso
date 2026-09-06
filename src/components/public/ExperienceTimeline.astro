@@ -1,13 +1,33 @@
 ---
 import type { HomeModel } from '../../lib/content/home.ts';
+import { renderMarkdown } from '../../lib/markdown/render.ts';
+import MarkdownContent from './MarkdownContent.astro';
 import SectionIntro from './SectionIntro.astro';
 import TechnologyBadge from './TechnologyBadge.astro';
 import EmptyState from './EmptyState.astro';
 import { safeExternalUrl } from '../../lib/content/presentation.ts';
 interface Props {
   home: HomeModel;
+  full?: boolean;
 }
-const { home } = Astro.props;
+const { home, full = false } = Astro.props;
+const descriptions = new Map(
+  await Promise.all(
+    home.experiences.map(
+      async (experience, index) =>
+        [
+          experience.row.id,
+          full && experience.row.description_markdown
+            ? await renderMarkdown(experience.row.description_markdown, {
+                assets: home.assets,
+                siteUrl: home.siteUrl,
+                prefix: `experience-${index}`,
+              })
+            : null,
+        ] as const,
+    ),
+  ),
+);
 ---
 
 <section
@@ -46,6 +66,25 @@ const { home } = Astro.props;
                 )}
               </p>
               {experience.row.summary && <p>{experience.row.summary}</p>}
+              {descriptions.get(experience.row.id) && (
+                <MarkdownContent rendered={descriptions.get(experience.row.id)!} />
+              )}
+              {full &&
+                home.snapshot.experience_highlights.some(
+                  (highlight) => highlight.experience_id === experience.row.id,
+                ) && (
+                  <ul class="experience-highlights">
+                    {home.snapshot.experience_highlights
+                      .filter((highlight) => highlight.experience_id === experience.row.id)
+                      .sort((a, b) => a.sort_order - b.sort_order)
+                      .map((highlight) => (
+                        <li>
+                          <strong>{highlight.title}</strong>
+                          {highlight.description && <p>{highlight.description}</p>}
+                        </li>
+                      ))}
+                  </ul>
+                )}
               {experience.technologies.length > 0 && (
                 <div class="experience-timeline__technologies">
                   {experience.technologies.map((technology) => (
@@ -57,7 +96,11 @@ const { home } = Astro.props;
                 <div class="experience-timeline__projects">
                   <span>Proyectos relacionados</span>
                   {experience.projects.map((project) => (
-                    <p>{project.row.title}</p>
+                    <p>
+                      <a class="text-link" href={project.href}>
+                        {project.row.title} →
+                      </a>
+                    </p>
                   ))}
                 </div>
               )}

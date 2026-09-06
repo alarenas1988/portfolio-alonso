@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
-import { readFile, access } from 'node:fs/promises';
+import { readFile, access, readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { startHomeFixtureServer, fixtureKey } from '../tests/fixtures/home-server.ts';
 
@@ -40,6 +40,33 @@ for (const mode of ['full', 'empty', 'unavailable', 'incompatible', 'missing-ass
       );
       assert(!html.includes('__fixtures'));
       await assert.rejects(access(resolve(directory, '__fixtures')));
+      for (const route of ['proyectos', 'blog', 'sobre-mi', 'contacto']) {
+        const page = await readFile(resolve(directory, route, 'index.html'), 'utf8');
+        assert.equal((page.match(/<h1\b/g) ?? []).length, 1);
+        assert(!page.includes(fixtureKey) && !page.includes(fixture.origin));
+      }
+      const projectPaths = (
+        await readdir(resolve(directory, 'proyectos'), { withFileTypes: true })
+      ).filter((entry) => entry.isDirectory());
+      const postPaths = (await readdir(resolve(directory, 'blog'), { withFileTypes: true })).filter(
+        (entry) => entry.isDirectory(),
+      );
+      assert.equal(projectPaths.length, mode === 'full' ? 3 : 0);
+      assert.equal(postPaths.length, mode === 'full' ? 4 : 0);
+      for (const [resource, entries] of [
+        ['proyectos', projectPaths],
+        ['blog', postPaths],
+      ]) {
+        for (const entry of entries) {
+          assert(!entry.name.startsWith('never-'));
+          const page = await readFile(
+            resolve(directory, resource, entry.name, 'index.html'),
+            'utf8',
+          );
+          assert(!/PRIVATE_\w+_CANARY|FUTURE_\w+_CANARY|ARCHIVED_\w+_CANARY/.test(page));
+          assert(!page.includes(fixture.origin) && !page.includes(fixtureKey));
+        }
+      }
       const manifest = JSON.parse(
         await readFile(resolve(directory, 'assets/media/manifest.json'), 'utf8'),
       );

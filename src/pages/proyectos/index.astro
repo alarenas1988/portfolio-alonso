@@ -1,0 +1,95 @@
+---
+import { fileURLToPath } from 'node:url';
+import { outDir } from 'astro:config/server';
+import { getPublicConfig } from '../../lib/config/public.ts';
+import { loadPublicPages } from '../../lib/content/public-build.ts';
+import { pageSeo, projectFilters } from '../../lib/content/pages.ts';
+import InternalLayout from '../../layouts/InternalLayout.astro';
+import PageHero from '../../components/public/PageHero.astro';
+import ProjectCard from '../../components/public/ProjectCard.astro';
+import ContentFilters from '../../components/public/ContentFilters.astro';
+import EditorialEmpty from '../../components/public/EditorialEmpty.astro';
+import ContactSection from '../../components/public/ContactSection.astro';
+const content = await loadPublicPages(getPublicConfig(), fileURLToPath(outDir));
+const featured = content.projects.filter((project) => project.row.featured).slice(0, 3);
+const options = projectFilters(content).map((technology) => ({
+  value: technology.id,
+  label: technology.name,
+}));
+---
+
+<InternalLayout
+  content={content}
+  active="projects"
+  seo={pageSeo(
+    content,
+    '/proyectos/',
+    'Proyectos',
+    'Casos de estudio: el problema, las decisiones y la solución.',
+  )}
+>
+  <PageHero
+    eyebrow="Portfolio / Casos de estudio"
+    title="Del problema a la solución."
+    description="Una mirada al proceso: qué había que resolver, cómo se construyó y qué cambió."
+  />
+  <div class="container">
+    {
+      featured.length > 0 && (
+        <section class="page-section" aria-labelledby="featured-title">
+          <>
+            <div class="section-heading">
+              <>
+                <h2 id="featured-title">Selección destacada</h2>
+                <span class="technical-label">En profundidad ↗</span>
+              </>
+            </div>
+            <div class="project-index-grid project-index-grid--featured">
+              {featured.map((project, index) => (
+                <div>
+                  <ProjectCard project={project} assets={content.assets} index={index} />
+                </div>
+              ))}
+            </div>
+          </>
+        </section>
+      )
+    }
+    {
+      content.projects.length ? (
+        <section class="page-section" aria-labelledby="all-projects">
+          <>
+            <h2 id="all-projects">Todos los proyectos</h2>
+            <ContentFilters label="Tecnología" options={options} target="project-list" />
+            <div id="project-list" class="project-index-grid">
+              {content.projects.map((project, index) => (
+                <div
+                  data-filter-values={project.technologies
+                    .map((technology) => technology.id)
+                    .join(' ')}
+                >
+                  <ProjectCard
+                    project={project}
+                    assets={content.assets}
+                    index={index}
+                    prominent={false}
+                    idPrefix="lista-proyecto"
+                  />
+                </div>
+              ))}
+            </div>
+          </>
+        </section>
+      ) : (
+        <EditorialEmpty
+          label="Trabajo en preparación"
+          title="Los próximos casos empiezan aquí."
+          description="Este espacio reunirá proyectos documentados, con sus decisiones técnicas y aprendizajes. Mientras tanto, puedes conocer mi enfoque de trabajo."
+          href={content.links.about}
+          action="Conocer mi enfoque"
+        />
+      )
+    }
+  </div>
+  <ContactSection home={content} />
+</InternalLayout>

@@ -1,15 +1,27 @@
 ---
-import PublicLayout from '../layouts/PublicLayout.astro';
+import { fileURLToPath } from 'node:url';
+import { outDir } from 'astro:config/server';
+import InternalLayout from '../layouts/InternalLayout.astro';
+import PageHero from '../components/public/PageHero.astro';
+import { loadPublicPages } from '../lib/content/public-build.ts';
+import { pageSeo } from '../lib/content/pages.ts';
 import { getPublicConfig } from '../lib/config/public.ts';
-import { createUrlHelpers } from '../lib/utils/urls.ts';
-const { withBase } = createUrlHelpers(getPublicConfig().siteUrl);
+const content = await loadPublicPages(getPublicConfig(), fileURLToPath(outDir));
 ---
 
-<PublicLayout
-  title="Página no encontrada — Alonso Larenas"
-  description="La página solicitada no existe."
+<InternalLayout
+  content={content}
+  seo={{
+    ...pageSeo(content, '/404.html', 'Página no encontrada', 'La página solicitada no existe.'),
+    robots: 'noindex,nofollow',
+  }}
 >
-  <h1>Página no encontrada</h1>
-  <p>Revisa la dirección o vuelve al inicio.</p>
-  <a class="navigation-link" href={withBase('/')}>Volver al inicio</a>
-</PublicLayout>
+  <PageHero
+    eyebrow="404 / Otra dirección"
+    title="Página no encontrada"
+    description="Revisa la dirección o vuelve al inicio."
+    ><div class="page-actions">
+      <a class="text-link" href={content.links.home}>Volver al inicio</a>
+    </div></PageHero
+  >
+</InternalLayout>

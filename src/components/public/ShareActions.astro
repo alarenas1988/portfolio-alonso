@@ -1,0 +1,47 @@
+---
+interface Props {
+  url: string;
+}
+const { url } = Astro.props;
+const linkedin = new URL('https://www.linkedin.com/sharing/share-offsite/');
+linkedin.searchParams.set('url', url);
+---
+
+<div class="share-actions" data-share-url={url}>
+  <span class="technical-label">Compartir</span><button type="button" data-copy-link hidden
+    >Copiar enlace</button
+  >
+  <a
+    class="text-link"
+    href={linkedin.href}
+    target="_blank"
+    rel="noopener noreferrer"
+    data-share-linkedin>LinkedIn ↗</a
+  >
+  <span role="status" aria-live="polite" data-share-status></span>
+</div>
+<script>
+  import { recordPublicInteraction } from '../../lib/content/interactions.ts';
+  document.querySelectorAll<HTMLElement>('[data-share-url]').forEach((section) => {
+    const button = section.querySelector<HTMLButtonElement>('[data-copy-link]');
+    if (button && navigator.clipboard) {
+      button.hidden = false;
+      button.addEventListener('click', async () => {
+        const status = section.querySelector('[data-share-status]');
+        try {
+          await navigator.clipboard.writeText(section.dataset.shareUrl!);
+          if (status) status.textContent = 'Enlace copiado';
+          recordPublicInteraction({ name: 'share_copy', source: 'article' });
+        } catch {
+          if (status)
+            status.textContent = 'No se pudo copiar. Copia la dirección desde el navegador.';
+        }
+      });
+    }
+    section
+      .querySelector('[data-share-linkedin]')
+      ?.addEventListener('click', () =>
+        recordPublicInteraction({ name: 'share_linkedin', source: 'article' }),
+      );
+  });
+</script>

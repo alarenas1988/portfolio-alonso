@@ -1,0 +1,120 @@
+---
+import { fileURLToPath } from 'node:url';
+import { outDir } from 'astro:config/server';
+import { getPublicConfig } from '../../lib/config/public.ts';
+import { loadPublicPages } from '../../lib/content/public-build.ts';
+import { publicPaths, pageSeo, relatedPosts } from '../../lib/content/pages.ts';
+import { renderMarkdown } from '../../lib/markdown/render.ts';
+import type { HomePost } from '../../lib/content/home.ts';
+import InternalLayout from '../../layouts/InternalLayout.astro';
+import Breadcrumbs from '../../components/public/Breadcrumbs.astro';
+import MarkdownContent from '../../components/public/MarkdownContent.astro';
+import ShareActions from '../../components/public/ShareActions.astro';
+import BlogCard from '../../components/public/BlogCard.astro';
+import MediaImage from '../../components/shared/MediaImage.astro';
+import ContactSection from '../../components/public/ContactSection.astro';
+export async function getStaticPaths() {
+  const content = await loadPublicPages(getPublicConfig(), fileURLToPath(outDir));
+  return publicPaths(content.posts);
+}
+interface Props {
+  item: HomePost;
+}
+const { item } = Astro.props;
+const content = await loadPublicPages(getPublicConfig(), fileURLToPath(outDir));
+const rendered = await renderMarkdown(item.row.content_markdown, {
+  assets: content.assets,
+  siteUrl: content.siteUrl,
+});
+const seo = pageSeo(content, item.href, item.row.title, item.row.excerpt ?? '', item.row);
+const related = relatedPosts(content, item);
+const tags = content.snapshot.tags.filter((tag) =>
+  content.snapshot.post_tags.some((join) => join.post_id === item.row.id && join.tag_id === tag.id),
+);
+---
+
+<InternalLayout content={content} active="blog" seo={seo}>
+  <article>
+    <header class="page-hero page-hero--editorial container">
+      <Breadcrumbs
+        items={[
+          { label: 'Inicio', href: content.links.home },
+          { label: 'Blog', href: content.links.blog },
+          { label: item.row.title },
+        ]}
+      />
+      <p class="technical-label">
+        {item.categories.map((category) => category.name).join(' / ') || 'Insight'}
+      </p>
+      <h1>{item.row.title}</h1>{
+        item.row.excerpt && <p class="page-hero__description">{item.row.excerpt}</p>
+      }
+      <div class="page-meta">
+        <time datetime={item.row.published_at!}>{item.date}</time><span
+          >{item.readingTime} min de lectura</span
+        >
+      </div>
+    </header>
+    <div class="container">
+      {
+        item.imageId && (
+          <div class="case-cover">
+            <MediaImage
+              assets={content.assets}
+              assetId={item.imageId}
+              eager
+              sizes="(min-width: 1280px) 1280px, 100vw"
+            />
+          </div>
+        )
+      }
+      <div class="article-layout">
+        {
+          rendered.toc.length > 0 && (
+            <nav class="article-toc" aria-label="Contenido del artículo">
+              <>
+                <h2>En este artículo</h2>
+                <ol>
+                  {rendered.toc.map((entry) => (
+                    <li data-depth={entry.depth}>
+                      <a href={`#${entry.id}`}>{entry.text}</a>
+                    </li>
+                  ))}
+                </ol>
+              </>
+            </nav>
+          )
+        }
+        <div class="article-body">
+          <MarkdownContent rendered={rendered} />{
+            tags.length > 0 && (
+              <p class="page-meta" aria-label="Etiquetas">
+                {tags.map((tag) => (
+                  <span>#{tag.name}</span>
+                ))}
+              </p>
+            )
+          }<ShareActions url={seo.canonical} />
+        </div>
+      </div>
+    </div>
+  </article>
+  {
+    related.length > 0 && (
+      <section class="container page-section">
+        <>
+          <h2>Seguir explorando</h2>
+          <div class="blog-index-grid">
+            {related.map((post) => (
+              <BlogCard post={post} assets={content.assets} />
+            ))}
+          </div>
+        </>
+      </section>
+    )
+  }
+  <ContactSection home={content} />
+</InternalLayout>
+<script>
+  import '../../scripts/code-copy.ts';
+</script>

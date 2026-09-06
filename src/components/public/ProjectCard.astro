@@ -8,8 +8,11 @@ interface Props {
   project: HomeProject;
   assets: AssetMap;
   index: number;
+  idPrefix?: string;
+  prominent?: boolean;
 }
-const { project, assets, index } = Astro.props;
+const { project, assets, index, idPrefix = 'proyecto' } = Astro.props;
+const prominent = Astro.props.prominent ?? index === 0;
 const statuses: Record<string, string> = {
   concept: 'Concepto',
   development: 'En desarrollo',
@@ -21,9 +24,9 @@ const statuses: Record<string, string> = {
 <article
   class:list={[
     'project-card',
-    { 'project-card--primary': index === 0, 'project-card--text': !project.imageId },
+    { 'project-card--primary': prominent, 'project-card--text': !project.imageId },
   ]}
-  id={`proyecto-${project.row.slug}`}
+  id={`${idPrefix}-${project.row.slug}`}
   data-project-card
   data-spotlight
 >
@@ -34,7 +37,7 @@ const statuses: Record<string, string> = {
           assets={assets}
           assetId={project.imageId}
           sizes={
-            index === 0
+            prominent
               ? '(min-width: 1024px) 700px, (min-width: 768px) 50vw, 100vw'
               : '(min-width: 768px) 45vw, 100vw'
           }
@@ -69,14 +72,9 @@ const statuses: Record<string, string> = {
       )
     }
     {
-      project.action && (
-        <a
-          class="project-card__action"
-          href={project.action.href}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {project.action.label}
+      project.href && (
+        <a class="project-card__action" href={project.href}>
+          Explorar caso
           <Icon name="arrow-up-right" size={20} />
           <span class="sr-only">: {project.row.title}</span>
         </a>

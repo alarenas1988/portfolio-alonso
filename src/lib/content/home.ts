@@ -1,6 +1,7 @@
 import type { PublicSnapshot, PublicSnapshotRows as Rows } from '../../types/content.ts';
 import type { AssetMap } from '../media/build-assets.ts';
 import { createUrlHelpers } from '../utils/urls.ts';
+import { readingTime } from '../markdown/reading-time.ts';
 import {
   emailActions,
   excerptText,
@@ -16,6 +17,7 @@ const visible = <T extends { visible: boolean; sort_order: number }>(rows: reado
   rows.filter((row) => row.visible).sort(byOrder);
 
 export interface HomeProject {
+  href: string;
   row: Rows['projects'];
   technologies: readonly Rows['technologies'][];
   impact: Rows['project_metrics'] | null;
@@ -23,6 +25,8 @@ export interface HomeProject {
   action: { href: string; label: string } | null;
 }
 export interface HomePost {
+  href: string;
+  readingTime: number;
   row: Rows['posts'];
   categories: readonly Rows['categories'][];
   date: string;
@@ -35,7 +39,7 @@ export interface HomeExperience {
   projects: readonly HomeProject[];
 }
 
-export function createHomeModel(snapshot: PublicSnapshot, assets: AssetMap, siteUrl: string) {
+export function createPublicModel(snapshot: PublicSnapshot, assets: AssetMap, siteUrl: string) {
   const settings = snapshot.settings;
   if (!settings?.site_name.trim() || !settings.brand_short.trim() || !settings.hero_title?.trim())
     throw new Error('Public Home requires site identity and a Hero title.');
@@ -65,6 +69,7 @@ export function createHomeModel(snapshot: PublicSnapshot, assets: AssetMap, site
         github = safeExternalUrl(row.github_url),
         documentation = safeExternalUrl(row.documentation_url);
       return {
+        href: withBase(`/proyectos/${row.slug}/`),
         row,
         technologies: joinedTechnologies(
           snapshot.project_technologies
@@ -93,8 +98,9 @@ export function createHomeModel(snapshot: PublicSnapshot, assets: AssetMap, site
       (a, b) =>
         Date.parse(b.published_at!) - Date.parse(a.published_at!) || a.id.localeCompare(b.id),
     )
-    .slice(0, 3)
     .map((row) => ({
+      href: withBase(`/blog/${row.slug}/`),
+      readingTime: row.reading_time ?? readingTime(row.content_markdown),
       row,
       categories: categories.filter((category) =>
         snapshot.post_category_relations.some(
@@ -104,22 +110,20 @@ export function createHomeModel(snapshot: PublicSnapshot, assets: AssetMap, site
       date: formatEditorialDate(row.published_at!, settings.timezone),
       imageId: imageId(row.featured_image_asset_id),
     }));
-  const experiences: HomeExperience[] = visible(snapshot.experiences)
-    .slice(0, 4)
-    .map((row) => ({
-      row,
-      period: formatPeriod(row.start_date, row.end_date, row.current),
-      technologies: joinedTechnologies(
-        snapshot.experience_technologies
-          .filter((join) => join.experience_id === row.id)
-          .map((join) => join.technology_id),
+  const experiences: HomeExperience[] = visible(snapshot.experiences).map((row) => ({
+    row,
+    period: formatPeriod(row.start_date, row.end_date, row.current),
+    technologies: joinedTechnologies(
+      snapshot.experience_technologies
+        .filter((join) => join.experience_id === row.id)
+        .map((join) => join.technology_id),
+    ),
+    projects: projects.filter((project) =>
+      snapshot.experience_projects.some(
+        (join) => join.experience_id === row.id && join.project_id === project.row.id,
       ),
-      projects: projects.filter((project) =>
-        snapshot.experience_projects.some(
-          (join) => join.experience_id === row.id && join.project_id === project.row.id,
-        ),
-      ),
-    }));
+    ),
+  }));
   const stack = [...new Set(technologies.map((row) => row.category))].map((category) => ({
     category,
     technologies: technologies.filter((row) => row.category === category),
@@ -150,16 +154,18 @@ export function createHomeModel(snapshot: PublicSnapshot, assets: AssetMap, site
   const canonical = createUrlHelpers(canonicalBase).absoluteUrl('/');
   const ogImageId = imageId(settings.default_og_image_asset_id);
   return {
+    snapshot,
+    siteUrl,
     settings,
     assets,
     links: {
       home: withBase('/'),
-      projects: withBase('/#proyectos'),
-      blog: withBase('/#blog'),
-      about: withBase('/#sobre-mi'),
-      contact: withBase('/#contacto'),
+      projects: withBase('/proyectos/'),
+      blog: withBase('/blog/'),
+      about: withBase('/sobre-mi/'),
+      contact: withBase('/contacto/'),
     },
-    projects: projects.filter((project) => project.row.featured).slice(0, 6),
+    projects,
     posts,
     experiences,
     stack,
@@ -196,4 +202,16 @@ export function createHomeModel(snapshot: PublicSnapshot, assets: AssetMap, site
     },
   };
 }
+export function createHomeModel(snapshot: PublicSnapshot, assets: AssetMap, siteUrl: string) {
+  return homeFromPublic(createPublicModel(snapshot, assets, siteUrl));
+}
+export function homeFromPublic(content: PublicModel) {
+  return {
+    ...content,
+    projects: content.projects.filter((project) => project.row.featured).slice(0, 6),
+    posts: content.posts.slice(0, 3),
+    experiences: content.experiences.slice(0, 4),
+  };
+}
+export type PublicModel = ReturnType<typeof createPublicModel>;
 export type HomeModel = ReturnType<typeof createHomeModel>;

@@ -2,7 +2,8 @@ import { createServer } from 'node:http';
 import { once } from 'node:events';
 import sharp from 'sharp';
 import { PDFDocument } from 'pdf-lib';
-import { emptyHomeSnapshot, fullHomeSnapshot, ids } from './home-snapshot.ts';
+import { emptyHomeSnapshot, ids } from './home-snapshot.ts';
+import { publicPagesSnapshot } from './public-pages-snapshot.ts';
 
 export type HomeFixtureMode = 'full' | 'empty' | 'unavailable' | 'incompatible' | 'missing-asset';
 export const fixtureKey = 'sb_publishable_offline_home_fixture';
@@ -46,7 +47,7 @@ export async function startHomeFixtureServer(mode: HomeFixtureMode = 'full') {
         response.writeHead(503).end(JSON.stringify({ message: 'Fixture unavailable' }));
         return;
       }
-      const snapshot = mode === 'empty' ? emptyHomeSnapshot() : fullHomeSnapshot(origin);
+      const snapshot = mode === 'empty' ? emptyHomeSnapshot() : publicPagesSnapshot(origin);
       for (const asset of snapshot.media_assets) asset.file_size = files.get(asset.id)!.length;
       response.end(JSON.stringify(mode === 'incompatible' ? { schema_version: 999 } : snapshot));
       return;
