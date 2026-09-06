@@ -4,9 +4,9 @@ Portfolio personal premium de Alonso Larenas. El proyecto usa una arquitectura C
 
 ## Estado
 
-Fase 1 completada: bootstrap técnico. La pantalla actual es deliberadamente mínima y no contiene datos ficticios. El Design System, el contenido público, PostgreSQL, RLS, Storage, Edge Functions y el CMS corresponden a las fases siguientes del [plan de implementación](./PLAN_IMPLEMENTACION_PORTFOLIO_ALONSO.md).
+Fases 1 y 2 completadas: bootstrap técnico y Design System. La pantalla actual es un fixture visual temporal, sin datos profesionales ficticios; F3 la reemplazará por la Home definitiva. El contenido público, PostgreSQL, RLS, Storage, Edge Functions y el CMS corresponden a fases posteriores del [plan de implementación](./PLAN_IMPLEMENTACION_PORTFOLIO_ALONSO.md).
 
-## Stack de F1
+## Stack actual
 
 - Astro 7 con salida estática y rutas con barra final.
 - Tailwind CSS 4 mediante `@tailwindcss/vite`.
@@ -14,6 +14,14 @@ Fase 1 completada: bootstrap técnico. La pantalla actual es deliberadamente mí
 - Supabase JS preparado con publishable key y sin secretos privilegiados.
 - ESLint, Prettier, Node Test Runner, Playwright y axe.
 - Node.js 24 LTS y npm 11 fijados para desarrollo y CI.
+- Manrope Variable, Space Grotesk Variable y JetBrains Mono Variable servidas localmente.
+- Lucide Astro para iconos SVG estáticos.
+
+## Design System
+
+Los tokens canónicos viven en `src/styles/tokens.css`; los estilos globales, motion y admin se mantienen separados. Los componentes compartidos cubren botones, glass cards, encabezados, badges, inputs, campos, iconos, feedback e isotipo.
+
+La interacción usa CSS, IntersectionObserver y `requestAnimationFrame`. Tilt y spotlight solo se activan con puntero fino; reduced motion y funcionamiento sin JavaScript están cubiertos por pruebas. Las decisiones visuales se documentan en [docs/DECISIONS.md](./docs/DECISIONS.md).
 
 ## Requisitos
 
@@ -68,7 +76,7 @@ La primera ejecución E2E requiere instalar Chromium:
 npm.cmd exec playwright install chromium
 ```
 
-Las pruebas unitarias comprueban rutas con y sin subruta, configuración pública, separación de credenciales y validadores del artefacto. Las pruebas E2E verifican desktop, tablet, mobile, navegación básica, 404, accesibilidad automatizada, reduced motion y funcionamiento sin JavaScript.
+Las pruebas unitarias comprueban rutas con y sin subruta, configuración pública, separación de credenciales, tokens, contraste y validadores del artefacto. Las pruebas E2E verifican 360, 390, 768, 1024, 1440 y 1920px, navegación básica, controles, 404, accesibilidad automatizada, reduced motion, touch, overflow y funcionamiento sin JavaScript.
 
 ## Build
 
@@ -79,7 +87,7 @@ npm.cmd run preview
 
 Astro genera `dist/` con HTML estático. `check:static` valida estructura y referencias internas bajo la base configurada; `check:secrets` busca material privado conocido y valores canario de las variables privadas disponibles durante el check.
 
-El build de producción consumirá contenido público de Supabase con la publishable key y RLS. No necesita service role. En F1 la página indica explícitamente que el contenido todavía no está conectado.
+El build de producción consumirá contenido público de Supabase con la publishable key y RLS. No necesita service role. La página de F2 indica explícitamente que la infraestructura visual está lista; todavía no consulta contenido.
 
 ## Despliegue
 
@@ -99,6 +107,7 @@ Los workflows y la publicación se implementarán en F11. La credencial GitHub C
 - [Especificación maestra](./PORTFOLIO_ALONSO_LARENAS_CODEX_MASTER.md)
 - [Plan de implementación](./PLAN_IMPLEMENTACION_PORTFOLIO_ALONSO.md)
 - [Arquitectura](./docs/ARCHITECTURE.md)
+- [Decisiones de diseño](./docs/DECISIONS.md)
 - [Registro de fases](./docs/PHASE_LOG.md)
 
 No ejecutar todavía migraciones o tablas manuales. Desde F5, `supabase/migrations/` será la fuente reproducible del esquema; Automatic RLS permanece habilitado y se complementará con RLS, grants y policies explícitos en migraciones.

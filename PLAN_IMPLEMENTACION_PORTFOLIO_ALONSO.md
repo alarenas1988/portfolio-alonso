@@ -274,12 +274,12 @@ Las verificaciones de cada fase se suman a la puerta de calidad común de §9. L
 
 **Archivos:** `src/styles/{tokens,global,motion,admin}.css`, `src/components/shared/{Button,GlassCard,SectionHeader,Icon,FormField}.astro`, componentes base de badge/input, `public/favicon.svg`, fuentes locales, `src/scripts/motion.ts`, `docs/DECISIONS.md`.
 
-- [ ] Implementar tokens exactos del maestro y asignarlos a Tailwind con variables CSS; nombres semánticos consistentes.
-- [ ] Crear isotipo AL geométrico en SVG legible a 16/32px; Lucide como base, logos tecnológicos de fuentes oficiales con permisos. No usar generación raster para reemplazar este sistema vectorial.
-- [ ] Cargar Manrope Variable, Space Grotesk Variable y JetBrains Mono con WOFF2 optimizado, `font-display` y fallback ajustado; limitar pesos y preload.
-- [ ] Construir botones Primary/Secondary glass/Ghost, cards, inputs, badges y estados hover/focus/disabled/loading/error. Separar tokens de estilos del admin.
-- [ ] Implementar motion con CSS/WAAPI/IntersectionObserver, degradación sin JS, `@supports` para blur y reduced motion. Solo activar tilt/spotlight en puntero fino con `requestAnimationFrame`.
-- [ ] Revisar composiciones Home/editorial/admin a 360, 768 y 1440px; los componentes se prueban en fixtures de desarrollo, sin publicar una galería interna del sistema.
+- [x] Implementar tokens exactos del maestro y asignarlos a Tailwind con variables CSS; nombres semánticos consistentes.
+- [x] Crear isotipo AL geométrico en SVG legible a 16/32px; Lucide como base, logos tecnológicos de fuentes oficiales con permisos. No usar generación raster para reemplazar este sistema vectorial.
+- [x] Cargar Manrope Variable, Space Grotesk Variable y JetBrains Mono con WOFF2 optimizado, `font-display` y fallback ajustado; limitar pesos y preload.
+- [x] Construir botones Primary/Secondary glass/Ghost, cards, inputs, badges y estados hover/focus/disabled/loading/error. Separar tokens de estilos del admin.
+- [x] Implementar motion con CSS/WAAPI/IntersectionObserver, degradación sin JS, `@supports` para blur y reduced motion. Solo activar tilt/spotlight en puntero fino con `requestAnimationFrame`.
+- [x] Revisar composiciones Home/editorial/admin a 360, 768 y 1440px; los componentes se prueban en fixtures de desarrollo, sin publicar una galería interna del sistema.
 
 **Tokens que no se pueden reinterpretar:**
 
@@ -738,8 +738,9 @@ Un timeout de GitHub después de enviar dispatch es resultado incierto: conserva
 - [x] Trazabilidad de las 37 secciones y decisiones que completan vacíos.
 - [x] Aprobación de Alonso para iniciar únicamente F1 conforme a este plan y sus precisiones.
 - [x] Inicio y cierre de F1 con resultados reales registrados; detenida para revisión antes de F2.
+- [x] Aprobación, ejecución y cierre de F2 con tokens, componentes, accesibilidad y revisión visual; detenida antes de F3 y fases posteriores.
 
-La autorización vigente comprende **F1 — Bootstrap**: maestro versionado, configuración reproducible, controles y documentación. Al finalizar F1 se entrega evidencia y se detiene el trabajo para revisión, sin avanzar a F2.
+La autorización ejecutada comprende **F2 — Design System** sobre el bootstrap aprobado: infraestructura visual, componentes compartidos y validación responsive. Al finalizar F2 se entrega evidencia y se detiene el trabajo para revisión, sin avanzar a F3 ni a fases posteriores.
 
 ### Precisiones aprobadas antes de F1
 

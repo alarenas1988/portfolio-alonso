@@ -12,11 +12,10 @@ Supabase ──lectura pública/RLS──> Astro build ──artefacto──> Gi
 
 Un solo repositorio contiene el sitio público y el shell administrativo. No existe un servidor Astro en producción ni routing dinámico del lado servidor. Las páginas administrativas editables serán físicas, por ejemplo `/admin/projects/edit/?id=UUID`.
 
-## Límites de F1
+## Límites de F1 y F2
 
-F1 entrega configuración, rutas, clientes Supabase separados, layout mínimo, pruebas y documentación. La pantalla visible es un bootstrap sin contenido administrable. Estas responsabilidades permanecen para fases autorizadas posteriores:
+F1 entrega configuración, rutas, clientes Supabase separados, pruebas y documentación. F2 añade tokens visuales, fuentes locales, componentes compartidos, motion progresivo y estilos base del administrador. La pantalla visible es un fixture temporal sin contenido administrable. Estas responsabilidades permanecen para fases autorizadas posteriores:
 
-- F2: Design System completo.
 - F5/F6: esquema, tipos generados, Automatic RLS más declaraciones explícitas, grants, policies, Auth owner y Storage policies.
 - F3/F4: contenido público y rutas internas alimentadas desde Supabase.
 - F9: Edge Functions.
@@ -69,6 +68,6 @@ Las carpetas se crean cuando su fase las necesita. Las páginas coordinan; consu
 
 TypeScript usa el preset `strictest`. ESLint prohíbe `any` explícito y evita importar módulos build-only en código general de `src`. Prettier conserva una copia byte por byte del maestro fuera de su alcance.
 
-El artefacto se valida por estructura, base y referencias; luego se analiza en busca de patrones privados. Unit tests ejercitan configuración y URLs. Playwright y axe prueban el bootstrap renderizado en desktop, tablet y mobile, incluida la 404, uso sin JavaScript y reduced motion.
+El artefacto se valida por estructura, base y referencias; luego se analiza en busca de patrones privados. Unit tests ejercitan configuración, URLs, tokens y contraste. Playwright y axe prueban el artefacto a 360, 390, 768, 1024, 1440 y 1920px, incluida la 404, controles, touch, uso sin JavaScript y reduced motion.
 
-El estilo de F1 utiliza exclusivamente colores ya definidos por el maestro para una página mínima accesible. Los tokens, fuentes, componentes y efectos completos se implementan en F2; F1 no adelanta otra identidad visual.
+Los tokens de F2 son la fuente visual compartida por Tailwind, el frontend y el futuro administrador. El admin reduce blur, glow y movimiento para priorizar densidad y legibilidad. La portada de muestra se reemplaza en F3 y no adelanta contenido público, navegación ni funcionalidades posteriores.
