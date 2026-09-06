@@ -91,7 +91,7 @@ test('desktop navigation compacts on scroll and preserves keyboard targets', asy
     expect((await link.boundingBox())!.height).toBeGreaterThanOrEqual(44);
   }
   await nav.getByRole('link', { name: 'Proyectos', exact: true }).click();
-  await expect(page).toHaveURL(/#proyectos$/);
+  await expect(page).toHaveURL(/\/proyectos\/$/);
   await expect(page.locator('[data-navbar]')).toHaveAttribute('data-scrolled');
   await expect(page.getByRole('button', { name: 'Abrir menú' })).toBeHidden();
 });
@@ -125,7 +125,7 @@ test('mobile dialog traps focus, locks scroll, closes with Escape and returns fo
   await trigger.click();
   await dialog.getByRole('link', { name: 'Contacto' }).click();
   await expect(dialog).not.toBeVisible();
-  await expect(page).toHaveURL(/#contacto$/);
+  await expect(page).toHaveURL(/\/contacto\/$/);
   await trigger.click();
   await dialog.click({ position: { x: 3, y: 3 } });
   await expect(dialog).not.toBeVisible();
@@ -200,7 +200,9 @@ test('essential navigation and complete content work without JavaScript', async 
     .getByRole('navigation', { name: 'Navegación móvil' })
     .getByRole('link', { name: 'Proyectos' })
     .click();
-  await expect(page).toHaveURL(/#proyectos$/);
+  await expect(page).toHaveURL(/\/proyectos\/$/);
+  await expect(page.locator('.project-card').first()).toBeVisible();
+  await page.goto('http://127.0.0.1:4322/portfolio-alonso/');
   for (const selector of [
     '.project-card',
     '.blog-card',
