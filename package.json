@@ -18,6 +18,7 @@
     "format:check": "prettier --check .",
     "test": "node --test tests/unit/*.test.ts",
     "test:e2e": "playwright test",
+    "test:home:build": "node scripts/test-home-build.mjs",
     "check:static": "node scripts/check-static-output.mjs",
     "check:secrets": "node scripts/check-secrets.mjs",
     "db:start": "node scripts/supabase-local.mjs start",

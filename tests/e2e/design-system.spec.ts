@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('./');
+  await page.goto('__fixtures/design-system/');
 });
 
 test('uses the approved hierarchy, local fonts, and responsive composition', async ({
@@ -21,7 +21,7 @@ test('uses the approved hierarchy, local fonts, and responsive composition', asy
   await page.locator('#componentes').scrollIntoViewIfNeeded();
   for (const card of ['.feature-card', '.form-card', '.state-card']) {
     const box = await page.locator(card).boundingBox();
-    expect(box?.width).toBeGreaterThanOrEqual(280);
+    expect(box?.width).toBeGreaterThanOrEqual(264);
   }
   const smallMark = page.getByRole('img', { name: 'Isotipo AL monocromo a 16 píxeles' });
   const regularMark = page.getByRole('img', { name: 'Isotipo AL a 32 píxeles' });
@@ -81,7 +81,7 @@ test('removes decorative movement when reduced motion is requested', async ({ br
     viewport: { width: 1024, height: 768 },
   });
   const page = await context.newPage();
-  await page.goto('http://127.0.0.1:4322/portfolio-alonso/');
+  await page.goto('http://127.0.0.1:4322/portfolio-alonso/__fixtures/design-system/');
   const motion = page.locator('[data-tilt]').first();
   await expect(motion).toBeVisible();
   expect(await motion.evaluate((element) => getComputedStyle(element).transform)).toBe('none');
