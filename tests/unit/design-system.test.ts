@@ -95,3 +95,32 @@ it('provides a geometric AL favicon without text nodes or raster data', async ()
   assert.match(svg, /<path\b/);
   assert.doesNotMatch(svg, /<text\b|data:image|<image\b/i);
 });
+
+it('keeps text and CTA color combinations at WCAG AA contrast', async () => {
+  const luminance = (hex: string): number => {
+    const channels = hex
+      .match(/../g)!
+      .map((channel) => Number.parseInt(channel, 16) / 255)
+      .map((channel) =>
+        channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4,
+      );
+    return 0.2126 * channels[0]! + 0.7152 * channels[1]! + 0.0722 * channels[2]!;
+  };
+  const contrast = (foreground: string, background: string): number => {
+    const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
+    return (values[0]! + 0.05) / (values[1]! + 0.05);
+  };
+
+  for (const text of ['F8FAFC', 'CBD5E1', '94A3B8']) {
+    assert.ok(contrast(text, '050816') >= 4.5, `${text} must pass AA on Midnight 950`);
+  }
+  for (const accent of ['22D3EE', '3B82F6', '8B5CF6', 'D946EF']) {
+    assert.ok(contrast('050816', accent) >= 4.5, `Midnight 950 must pass AA on ${accent}`);
+  }
+
+  const implementation = await Promise.all([
+    read('src/styles/global.css'),
+    read('src/pages/index.astro'),
+  ]);
+  assert.doesNotMatch(implementation.join('\n'), /var\(--text-subtle\)/);
+});

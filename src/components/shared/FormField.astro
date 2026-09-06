@@ -1,0 +1,69 @@
+---
+import Input from './Input.astro';
+
+interface Props {
+  id: string;
+  label: string;
+  name?: string;
+  type?: 'text' | 'email' | 'url' | 'search' | 'password';
+  placeholder?: string;
+  autocomplete?: string;
+  hint?: string;
+  error?: string;
+  required?: boolean;
+  disabled?: boolean;
+}
+
+const { id, label, hint, error, ...inputProps } = Astro.props;
+const descriptionId = error ? `${id}-error` : hint ? `${id}-hint` : undefined;
+---
+
+<div class="form-field">
+  <label for={id} class="form-field__label">
+    {label}
+    {inputProps.required && <span aria-hidden="true">*</span>}
+  </label>
+  <Input {id} {...inputProps} invalid={Boolean(error)} describedBy={descriptionId} />
+  {
+    hint && !error && (
+      <p id={`${id}-hint`} class="form-field__hint">
+        {hint}
+      </p>
+    )
+  }
+  {
+    error && (
+      <p id={`${id}-error`} class="form-field__error" role="alert">
+        {error}
+      </p>
+    )
+  }
+</div>
+
+<style>
+  .form-field {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .form-field__label {
+    color: var(--text-primary);
+    font-size: 0.9375rem;
+    font-weight: 700;
+  }
+
+  .form-field__label span,
+  .form-field__error {
+    color: var(--accent-magenta);
+  }
+
+  .form-field__hint,
+  .form-field__error {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .form-field__hint {
+    color: var(--text-muted);
+  }
+</style>

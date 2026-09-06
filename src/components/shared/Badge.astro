@@ -1,0 +1,46 @@
+---
+import Icon, { type IconName } from './Icon.astro';
+
+interface Props {
+  tone?: 'neutral' | 'cyan' | 'violet';
+  icon?: IconName;
+}
+
+const { tone = 'neutral', icon } = Astro.props;
+---
+
+<span class:list={['badge', `badge--${tone}`]}>
+  {icon && <Icon name={icon} size={15} />}
+  <slot />
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    min-height: 32px;
+    align-items: center;
+    gap: var(--space-8);
+    padding: var(--space-4) var(--space-12);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-pill);
+    background: var(--glass-subtle);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    line-height: 1.2;
+  }
+
+  .badge--cyan {
+    border-color: rgb(var(--accent-cyan-rgb) / 0.3);
+    background: rgb(var(--accent-cyan-rgb) / 0.07);
+    color: var(--accent-cyan);
+  }
+
+  .badge--violet {
+    border-color: rgb(var(--accent-violet-rgb) / 0.32);
+    background: rgb(var(--accent-violet-rgb) / 0.08);
+    color: var(--text-secondary);
+  }
+</style>

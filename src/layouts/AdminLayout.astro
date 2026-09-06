@@ -1,5 +1,6 @@
 ---
 import PageHead from '../components/shared/PageHead.astro';
+import '../styles/admin.css';
 interface Props {
   title: string;
 }
@@ -10,8 +11,8 @@ const { title } = Astro.props;
 <!doctype html>
 <html lang="es">
   <head><PageHead title={title} description="Administración del portfolio." /></head>
-  <body>
+  <body class="admin-shell">
     <a class="skip-link" href="#contenido-admin">Saltar al contenido</a>
-    <main id="contenido-admin" tabindex="-1"><slot /></main>
+    <main id="contenido-admin" class="admin-container" tabindex="-1"><slot /></main>
   </body>
 </html>

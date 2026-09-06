@@ -1,0 +1,64 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  tone?: 'info' | 'success' | 'error';
+  title: string;
+}
+
+const { tone = 'info', title } = Astro.props;
+const icon = tone === 'error' ? 'error' : tone === 'success' ? 'check' : 'info';
+---
+
+<div class:list={['feedback', `feedback--${tone}`]} role={tone === 'error' ? 'alert' : 'status'}>
+  <Icon name={icon} />
+  <div>
+    <p class="feedback__title">{title}</p>
+    <div class="feedback__body"><slot /></div>
+  </div>
+</div>
+
+<style>
+  .feedback {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-12);
+    padding: var(--space-16);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    background: var(--glass-subtle);
+    color: var(--text-secondary);
+  }
+
+  .feedback--info,
+  .feedback--success {
+    border-color: rgb(var(--accent-cyan-rgb) / 0.28);
+  }
+
+  .feedback--info :global(.icon),
+  .feedback--success :global(.icon) {
+    color: var(--accent-cyan);
+  }
+
+  .feedback--error {
+    border-color: rgb(var(--accent-magenta-rgb) / 0.34);
+  }
+
+  .feedback--error :global(.icon) {
+    color: var(--accent-magenta);
+  }
+
+  .feedback__title {
+    color: var(--text-primary);
+    font-weight: 750;
+  }
+
+  .feedback__body {
+    margin-top: var(--space-4);
+    font-size: 0.9375rem;
+  }
+
+  .feedback__body :global(p) {
+    color: var(--text-secondary);
+  }
+</style>

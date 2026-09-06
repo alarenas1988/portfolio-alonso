@@ -1,0 +1,58 @@
+---
+import {
+  Accessibility,
+  ArrowRight,
+  Check,
+  CircleAlert,
+  Info,
+  Layers,
+  LoaderCircle,
+  MousePointer2,
+  Sparkles,
+  Terminal,
+} from '@lucide/astro';
+
+const icons = {
+  accessibility: Accessibility,
+  'arrow-right': ArrowRight,
+  check: Check,
+  error: CircleAlert,
+  info: Info,
+  layers: Layers,
+  loader: LoaderCircle,
+  pointer: MousePointer2,
+  sparkles: Sparkles,
+  terminal: Terminal,
+} as const;
+
+export type IconName = keyof typeof icons;
+
+interface Props {
+  name: IconName;
+  size?: number;
+  label?: string;
+  class?: string;
+}
+
+const { name, size = 20, label, class: className } = Astro.props;
+const Glyph = icons[name];
+---
+
+<span
+  class:list={['icon', className]}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  <Glyph size={size} stroke-width={1.75} />
+</span>
+
+<style>
+  .icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+  }
+</style>

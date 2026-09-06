@@ -1,0 +1,60 @@
+---
+interface Props {
+  size?: number;
+  variant?: 'gradient' | 'mono';
+  label?: string;
+}
+
+const { size = 32, variant = 'gradient', label = 'AL — Alonso Larenas' } = Astro.props;
+---
+
+<svg
+  class:list={['brand-mark', `brand-mark--${variant}`]}
+  width={size}
+  height={size}
+  viewBox="0 0 64 64"
+  role="img"
+  aria-label={label}
+>
+  <defs>
+    <linearGradient
+      id="al-brand-gradient"
+      x1="8"
+      y1="8"
+      x2="56"
+      y2="56"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop offset="0" stop-color="var(--accent-cyan)"></stop>
+      <stop offset="0.42" stop-color="var(--accent-blue)"></stop>
+      <stop offset="0.72" stop-color="var(--accent-violet)"></stop>
+      <stop offset="1" stop-color="var(--accent-magenta)"></stop>
+    </linearGradient>
+  </defs>
+  <rect class="brand-mark__field" width="64" height="64" rx="14"></rect>
+  <path
+    class="brand-mark__letters"
+    fill-rule="evenodd"
+    d="M7 49 22 15h9l13 30V15h8v26h7v8H37l-3-8H20l-3 8H7Zm16-16h8l-4-11-4 11Z"></path>
+</svg>
+
+<style>
+  .brand-mark {
+    display: block;
+    flex: 0 0 auto;
+    color: currentColor;
+  }
+
+  .brand-mark__field {
+    fill: var(--midnight-950);
+    stroke: var(--border-subtle);
+  }
+
+  .brand-mark--gradient .brand-mark__letters {
+    fill: url('#al-brand-gradient');
+  }
+
+  .brand-mark--mono .brand-mark__letters {
+    fill: currentColor;
+  }
+</style>
