@@ -10,6 +10,19 @@ import {
   MousePointer2,
   Sparkles,
   Terminal,
+  ArrowUpRight,
+  ArrowDown,
+  Menu,
+  X,
+  Mail,
+  MessageCircle,
+  Copy,
+  Workflow,
+  CodeXml,
+  Database,
+  BrainCircuit,
+  PanelsTopLeft,
+  Gauge,
 } from '@lucide/astro';
 
 const icons = {
@@ -23,6 +36,19 @@ const icons = {
   pointer: MousePointer2,
   sparkles: Sparkles,
   terminal: Terminal,
+  'arrow-up-right': ArrowUpRight,
+  'arrow-down': ArrowDown,
+  menu: Menu,
+  close: X,
+  mail: Mail,
+  message: MessageCircle,
+  copy: Copy,
+  workflow: Workflow,
+  code: CodeXml,
+  database: Database,
+  brain: BrainCircuit,
+  panels: PanelsTopLeft,
+  gauge: Gauge,
 } as const;
 
 export type IconName = keyof typeof icons;

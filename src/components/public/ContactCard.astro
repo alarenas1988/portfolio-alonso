@@ -1,0 +1,114 @@
+---
+import Icon from '../shared/Icon.astro';
+interface Props {
+  kind: 'email' | 'whatsapp';
+  href: string;
+  label: string;
+  detail: string;
+  email?: string;
+}
+const { kind, href, label, detail, email } = Astro.props;
+---
+
+<div class="contact-card">
+  <a
+    class="contact-card__link"
+    href={href}
+    target={kind === 'whatsapp' ? '_blank' : undefined}
+    rel={kind === 'whatsapp' ? 'noopener noreferrer' : undefined}
+    data-interaction={kind === 'whatsapp' ? 'whatsapp_click' : 'email_click'}
+    ><span class="contact-card__icon"
+      ><Icon name={kind === 'email' ? 'mail' : 'message'} size={24} /></span
+    ><span class="contact-card__copy"><strong>{label}</strong><span>{detail}</span></span><Icon
+      name="arrow-up-right"
+      size={20}
+    /></a
+  >{
+    email && (
+      <div class="contact-card__clipboard">
+        <>
+          <button
+            type="button"
+            data-copy-email={email}
+            aria-describedby="email-copy-feedback"
+            hidden
+          >
+            <Icon name="copy" size={16} />
+            Copiar correo
+          </button>
+          <span id="email-copy-feedback" role="status" aria-live="polite" />
+        </>
+      </div>
+    )
+  }
+</div>
+<style>
+  .contact-card {
+    border-top: 1px solid var(--border-subtle);
+    padding-top: var(--space-16);
+    min-width: 0;
+  }
+  .contact-card__link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    min-height: 76px;
+    text-decoration: none;
+  }
+  .contact-card__icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--accent-cyan);
+    background: var(--glass-subtle);
+  }
+  .contact-card__copy {
+    display: grid;
+    gap: var(--space-4);
+    min-width: 0;
+    flex: 1;
+  }
+  .contact-card__copy strong {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 500;
+  }
+  .contact-card__copy > span {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    overflow-wrap: anywhere;
+  }
+  .contact-card__link > :global(.icon) {
+    color: var(--accent-cyan);
+  }
+  .contact-card__clipboard {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    flex-wrap: wrap;
+    min-height: 44px;
+    font-size: 0.6875rem;
+  }
+  .contact-card__clipboard button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    min-height: 44px;
+    padding: var(--space-8);
+    border: 0;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+  .contact-card__clipboard button[hidden] {
+    display: none;
+  }
+  .contact-card__clipboard [role='status'] {
+    color: var(--accent-cyan);
+    max-width: 35ch;
+  }
+</style>

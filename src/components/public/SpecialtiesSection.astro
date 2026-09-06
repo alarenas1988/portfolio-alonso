@@ -1,0 +1,92 @@
+---
+import type { HomeModel } from '../../lib/content/home.ts';
+import SectionIntro from './SectionIntro.astro';
+import Icon from '../shared/Icon.astro';
+import type { IconName } from '../shared/Icon.astro';
+interface Props {
+  home: HomeModel;
+}
+const { home } = Astro.props;
+const icons: IconName[] = ['workflow', 'code', 'brain', 'database', 'panels', 'gauge'];
+---
+
+{
+  home.specialties.length > 0 && (
+    <section
+      id="especialidades"
+      class="home-section container"
+      aria-labelledby="specialties-title"
+      data-section="specialties"
+    >
+      <>
+        <SectionIntro
+          eyebrow="Áreas de especialidad"
+          number="03"
+          title="Distintas herramientas. Una mirada integral."
+          id="specialties-title"
+        />
+        <div class="specialties-grid">
+          {home.specialties.map((specialty, i) => (
+            <article class="specialty" data-reveal data-reveal-delay={String((i % 3) * 70)}>
+              <div class="specialty__top">
+                <Icon name={icons[i % icons.length]!} size={24} />
+                <span class="technical-label" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+              </div>
+              <h3>{specialty.title}</h3>
+              {specialty.description && <p>{specialty.description}</p>}
+            </article>
+          ))}
+        </div>
+      </>
+    </section>
+  )
+}
+<style>
+  .specialties-grid {
+    display: grid;
+    gap: var(--space-32) var(--space-32);
+  }
+  .specialty {
+    display: grid;
+    align-content: start;
+    gap: var(--space-24);
+    padding-top: var(--space-24);
+    border-top: 1px solid var(--border-subtle);
+  }
+  .specialty__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .specialty__top :global(.icon) {
+    color: var(--accent-cyan);
+  }
+  .specialty:nth-child(3n) .specialty__top :global(.icon) {
+    color: var(--text-secondary);
+  }
+  .specialty__top .technical-label {
+    font-size: 0.625rem;
+  }
+  .specialty h3 {
+    font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+    line-height: 1.25;
+    max-width: 22ch;
+  }
+  .specialty p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+  @media (min-width: 40rem) {
+    .specialties-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 64rem) {
+    .specialties-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-48) var(--space-48);
+    }
+  }
+</style>

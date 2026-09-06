@@ -1,0 +1,196 @@
+---
+import type { HomeProject } from '../../lib/content/home.ts';
+import type { AssetMap } from '../../lib/media/build-assets.ts';
+import MediaImage from '../shared/MediaImage.astro';
+import TechnologyBadge from './TechnologyBadge.astro';
+import Icon from '../shared/Icon.astro';
+interface Props {
+  project: HomeProject;
+  assets: AssetMap;
+  index: number;
+}
+const { project, assets, index } = Astro.props;
+const statuses: Record<string, string> = {
+  concept: 'Concepto',
+  development: 'En desarrollo',
+  production: 'En producción',
+  completed: 'Completado',
+};
+---
+
+<article
+  class:list={[
+    'project-card',
+    { 'project-card--primary': index === 0, 'project-card--text': !project.imageId },
+  ]}
+  id={`proyecto-${project.row.slug}`}
+  data-project-card
+  data-spotlight
+>
+  {
+    project.imageId && (
+      <div class="project-card__image">
+        <MediaImage
+          assets={assets}
+          assetId={project.imageId}
+          sizes={
+            index === 0
+              ? '(min-width: 1024px) 700px, (min-width: 768px) 50vw, 100vw'
+              : '(min-width: 768px) 45vw, 100vw'
+          }
+        />
+      </div>
+    )
+  }
+  <div class="project-card__body">
+    <div class="project-card__meta technical-label">
+      <span
+        >{String(index + 1).padStart(2, '0')} / {
+          statuses[project.row.status] ?? project.row.status
+        }</span
+      >{project.row.year && <span>{project.row.year}</span>}
+    </div>
+    <h3>{project.row.title}</h3>
+    {project.row.summary && <p class="project-card__summary">{project.row.summary}</p>}
+    {
+      project.impact && (
+        <p class="project-card__impact">
+          <strong>{project.impact.value}</strong> {project.impact.label}
+        </p>
+      )
+    }
+    {
+      project.technologies.length > 0 && (
+        <div class="project-card__technologies">
+          {project.technologies.map((technology) => (
+            <TechnologyBadge technology={technology} assets={assets} compact />
+          ))}
+        </div>
+      )
+    }
+    {
+      project.action && (
+        <a
+          class="project-card__action"
+          href={project.action.href}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {project.action.label}
+          <Icon name="arrow-up-right" size={20} />
+          <span class="sr-only">: {project.row.title}</span>
+        </a>
+      )
+    }
+  </div>
+</article>
+<style>
+  .project-card {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--midnight-900);
+    transition:
+      translate var(--duration-premium) var(--ease-premium),
+      border-color var(--duration-premium),
+      box-shadow var(--duration-premium);
+  }
+  .project-card--primary {
+    background: var(--glass-standard);
+  }
+  .project-card__image {
+    overflow: hidden;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .project-card__image :global(img) {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    transition: transform var(--duration-premium) var(--ease-premium);
+  }
+  .project-card__body {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    align-content: start;
+    gap: var(--space-16);
+    padding: var(--space-24);
+  }
+  .project-card__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-12);
+    font-size: 0.5625rem;
+    letter-spacing: 0.05em;
+  }
+  .project-card__meta span:first-child {
+    color: var(--accent-cyan);
+  }
+  .project-card h3 {
+    font-size: clamp(1.5rem, 2.2vw, 2.125rem);
+    max-width: 21ch;
+  }
+  .project-card__summary {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    max-width: 54ch;
+  }
+  .project-card__impact {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+  .project-card__impact strong {
+    color: var(--accent-cyan);
+    font-weight: 600;
+  }
+  .project-card__technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+  }
+  .project-card__action {
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    gap: var(--space-16);
+    min-height: 44px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+  .project-card__action :global(.icon) {
+    transition: transform var(--duration-normal) var(--ease-premium);
+    color: var(--accent-cyan);
+  }
+  @media (min-width: 48rem) {
+    .project-card--primary {
+      grid-row: span 2;
+    }
+    .project-card--primary .project-card__body {
+      padding: var(--space-32);
+      gap: var(--space-24);
+    }
+    .project-card:not(.project-card--primary) .project-card__image :global(img) {
+      aspect-ratio: 2.2;
+    }
+    .project-card--text .project-card__body {
+      padding-top: var(--space-32);
+    }
+  }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .project-card:hover {
+      translate: 0 -5px;
+      border-color: rgb(var(--accent-cyan-rgb) / 0.35);
+      box-shadow: 0 16px 50px rgb(var(--accent-cyan-rgb) / 0.05);
+    }
+    .project-card:hover .project-card__image :global(img) {
+      transform: scale(1.025);
+    }
+    .project-card:hover .project-card__action :global(.icon) {
+      transform: translate(2px, -2px);
+    }
+  }
+</style>

@@ -1,16 +1,16 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-test('serves the static, accessible design foundation under the repository base', async ({
-  page,
-}) => {
+test('serves the static, accessible public Home under the repository base', async ({ page }) => {
   const failures: string[] = [];
   page.on('pageerror', (error) => failures.push(error.message));
   const response = await page.goto('./');
   expect(response?.status()).toBe(200);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Sistema visual AL');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    'Tecnología aplicada a problemas reales.',
+  );
   await expect(page.locator('html')).toHaveAttribute('lang', 'es');
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex,nofollow');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index,follow');
   expect(await page.locator('body').evaluate((body) => getComputedStyle(body).color)).toBe(
     'rgb(248, 250, 252)',
   );
@@ -34,7 +34,7 @@ test('serves the static, accessible design foundation under the repository base'
   });
   await page.waitForTimeout(100);
   await page.screenshot({
-    path: `test-results/design-system-${test.info().project.name}.png`,
+    path: `test-results/home-${test.info().project.name}.png`,
     fullPage: true,
   });
 });
@@ -49,7 +49,9 @@ test('404 recovery remains inside the repository subpath', async ({ page }) => {
     44,
   );
   await home.click();
-  await expect(page.getByRole('heading', { name: 'Sistema visual AL' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Tecnología aplicada a problemas reales.' }),
+  ).toBeVisible();
 });
 
 test('remains readable without JavaScript and with reduced motion', async ({ browser }) => {
@@ -60,9 +62,11 @@ test('remains readable without JavaScript and with reduced motion', async ({ bro
   });
   const page = await context.newPage();
   await page.goto('http://127.0.0.1:4322/portfolio-alonso/');
-  await expect(page.getByRole('heading', { name: 'Sistema visual AL' })).toBeVisible();
   await expect(
-    page.getByText('La infraestructura visual está lista para construir el portfolio.'),
+    page.getByRole('heading', { name: 'Tecnología aplicada a problemas reales.' }),
+  ).toBeVisible();
+  await expect(
+    page.getByText('Construyo soluciones digitales para simplificar procesos complejos.'),
   ).toBeVisible();
   await context.close();
 });

@@ -1,0 +1,44 @@
+.home-section {
+  display: grid;
+  gap: var(--space-48);
+  padding-block: var(--section-space);
+  min-width: 0;
+}
+.home-section--empty {
+  padding-block: var(--space-64);
+  gap: var(--space-32);
+}
+.home-section--empty h2 {
+  font-size: clamp(1.75rem, 2.6vw, 2.5rem);
+}
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-12);
+  min-height: 44px;
+  justify-self: start;
+  width: fit-content;
+  text-decoration: none;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  color: var(--text-primary);
+}
+.text-link .icon {
+  color: var(--accent-cyan);
+}
+.text-link:hover {
+  color: var(--accent-cyan);
+}
+section[id],
+div[id='principios'] {
+  scroll-margin-top: 100px;
+}
+@media (min-width: 64rem) {
+  .home-section {
+    gap: var(--space-64);
+  }
+  .home-section--empty {
+    padding-block: var(--space-80);
+    gap: var(--space-32);
+  }
+}

@@ -1,0 +1,73 @@
+---
+import type { HomeModel } from '../../lib/content/home.ts';
+import SectionIntro from './SectionIntro.astro';
+import TechnologyBadge from './TechnologyBadge.astro';
+import EmptyState from './EmptyState.astro';
+interface Props {
+  home: HomeModel;
+}
+const { home } = Astro.props;
+---
+
+<section
+  id="stack"
+  class:list={['home-section container', { 'home-section--empty': !home.stack.length }]}
+  aria-labelledby="stack-title"
+  data-section="stack"
+>
+  <SectionIntro
+    eyebrow="Stack tecnológico"
+    number="04"
+    title="La herramienta adecuada para cada reto."
+    id="stack-title"
+  />{
+    home.stack.length ? (
+      <div class="stack-groups">
+        {home.stack.map((group) => (
+          <div class="stack-group" data-reveal>
+            <h3 class="technical-label">{group.category}</h3>
+            <div>
+              {group.technologies.map((technology) => (
+                <TechnologyBadge technology={technology} assets={home.assets} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <EmptyState message="La selección de tecnologías estará disponible aquí." />
+    )
+  }
+</section>
+<style>
+  .stack-groups {
+    display: grid;
+    gap: var(--space-32);
+  }
+  .stack-group {
+    display: grid;
+    align-items: start;
+    gap: var(--space-16);
+    padding-top: var(--space-24);
+    border-top: 1px solid var(--border-subtle);
+  }
+  .stack-group h3 {
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  .stack-group > div {
+    display: flex;
+    gap: var(--space-12);
+    flex-wrap: wrap;
+  }
+  @media (min-width: 48rem) {
+    .stack-group {
+      grid-template-columns: 180px 1fr;
+    }
+    .stack-group h3 {
+      padding-top: var(--space-12);
+    }
+  }
+</style>

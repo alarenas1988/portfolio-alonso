@@ -1,0 +1,179 @@
+---
+import type { HomeModel } from '../../lib/content/home.ts';
+import ContactCard from './ContactCard.astro';
+import Icon from '../shared/Icon.astro';
+interface Props {
+  home: HomeModel;
+}
+const { home } = Astro.props;
+const hasChannels =
+  home.contact.email || home.contact.whatsapp || home.contact.cv || home.socialLinks.length;
+---
+
+<section
+  id="contacto"
+  class="home-section container"
+  aria-labelledby="contact-title"
+  data-section="contact"
+>
+  <div class="contact-cta" data-glass="strong">
+    <div class="contact-cta__heading">
+      <div>
+        <p class="technical-label"><span>08 /</span> Contacto</p><h2 id="contact-title">
+          {home.contact.title || '¿Construimos algo?'}
+        </h2>{
+          home.contact.description && (
+            <p class="contact-cta__description">{home.contact.description}</p>
+          )
+        }
+      </div><span class="contact-cta__arrow" aria-hidden="true"
+        ><Icon name="arrow-up-right" size={40} /></span
+      >
+    </div>{
+      hasChannels ? (
+        <div class="contact-cta__channels">
+          {home.contact.whatsapp && (
+            <ContactCard
+              kind="whatsapp"
+              href={home.contact.whatsapp}
+              label="WhatsApp"
+              detail={home.contact.whatsappLabel}
+            />
+          )}{' '}
+          {home.contact.email && (
+            <ContactCard
+              kind="email"
+              href={home.contact.email.href}
+              label="Email"
+              detail={home.contact.email.email}
+              email={home.contact.email.email}
+            />
+          )}
+        </div>
+      ) : (
+        <p class="contact-cta__empty">Los canales de contacto estarán disponibles aquí.</p>
+      )
+    }{
+      (home.socialLinks.length > 0 || home.contact.cv) && (
+        <div class="contact-cta__links">
+          {home.socialLinks.map((link) => (
+            <a
+              class="text-link"
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-interaction="social_click"
+            >
+              {link.label}
+              <Icon name="arrow-up-right" size={16} />
+            </a>
+          ))}
+          {home.contact.cv && (
+            <a
+              class="text-link contact-cta__cv"
+              href={home.contact.cv.href}
+              download="CV.pdf"
+              data-interaction="cv_download"
+            >
+              Descargar CV
+              <Icon name="arrow-down" size={18} />
+            </a>
+          )}
+        </div>
+      )
+    }
+  </div>
+</section>
+<script>
+  import '../../scripts/contact.ts';
+</script>
+<style>
+  .contact-cta {
+    padding: var(--space-32) var(--space-24);
+    border: 1px solid var(--border-hover);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(
+      115deg,
+      rgb(var(--accent-cyan-rgb) / 0.045),
+      var(--glass-standard) 55%,
+      rgb(var(--accent-violet-rgb) / 0.04)
+    );
+    box-shadow: var(--shadow-glass);
+  }
+  .contact-cta__heading {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: var(--space-24);
+  }
+  .contact-cta__heading .technical-label {
+    font-size: 0.6875rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-24);
+  }
+  .technical-label span {
+    color: var(--accent-cyan);
+    margin-right: var(--space-12);
+  }
+  .contact-cta h2 {
+    font-size: clamp(2.5rem, 4.8vw, 4.5rem);
+    max-width: 14ch;
+    letter-spacing: -0.055em;
+    line-height: 1.08;
+  }
+  .contact-cta__description {
+    margin-top: var(--space-24);
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    max-width: 46ch;
+  }
+  .contact-cta__arrow {
+    display: none;
+    color: var(--accent-cyan);
+  }
+  .contact-cta__channels {
+    display: grid;
+    gap: var(--space-24);
+    margin-top: var(--space-48);
+  }
+  .contact-cta__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-12) var(--space-32);
+    margin-top: var(--space-24);
+  }
+  .contact-cta__cv {
+    margin-left: auto;
+  }
+  .contact-cta__empty {
+    padding-top: var(--space-24);
+    margin-top: var(--space-32);
+    border-top: 1px solid var(--border-subtle);
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+  @media (min-width: 48rem) {
+    .contact-cta {
+      padding: var(--space-64);
+    }
+    .contact-cta__arrow {
+      display: grid;
+      place-items: center;
+      width: 88px;
+      height: 88px;
+      border: 1px solid rgb(var(--accent-cyan-rgb) / 0.25);
+      border-radius: var(--radius-pill);
+      flex-shrink: 0;
+    }
+    .contact-cta__channels {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-48);
+    }
+  }
+  @media (max-width: 39.99rem) {
+    .contact-cta__cv {
+      margin-left: 0;
+    }
+  }
+</style>

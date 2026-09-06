@@ -1,0 +1,123 @@
+---
+import BrandMark from '../shared/BrandMark.astro';
+import MobileNavigation from './MobileNavigation.astro';
+import type { HomeModel } from '../../lib/content/home.ts';
+interface Props {
+  home: HomeModel;
+}
+const { home } = Astro.props;
+---
+
+<header class="navbar" data-navbar>
+  <div class="navbar__inner container">
+    <a
+      class="navbar__brand"
+      href={home.links.home}
+      aria-label={`${home.settings.brand_short} — ${home.settings.site_name}, inicio`}
+      ><BrandMark size={34} /><span aria-hidden="true">{home.settings.site_name}</span></a
+    >
+    <nav class="navbar__desktop" aria-label="Navegación principal">
+      <a href={home.links.projects}>Proyectos</a><a href={home.links.blog}>Blog</a><a
+        href={home.links.about}>Sobre mí</a
+      ><a class="navbar__contact" href={home.links.contact}
+        >Contacto<span aria-hidden="true">↗</span></a
+      >
+    </nav>
+    <MobileNavigation home={home} />
+  </div>
+</header>
+<script>
+  import '../../scripts/navigation.ts';
+</script>
+<style>
+  .navbar {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 50;
+    padding-block: var(--space-16);
+    transition: padding var(--duration-premium) var(--ease-premium);
+  }
+  .navbar[data-enhanced] {
+    position: fixed;
+  }
+  .navbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 64px;
+    gap: var(--space-24);
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    transition:
+      background var(--duration-premium),
+      border-color var(--duration-premium),
+      padding var(--duration-premium),
+      min-height var(--duration-premium);
+  }
+  .navbar__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    min-height: 44px;
+    min-width: 44px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .navbar__brand span {
+    font-size: 0.8125rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+  .navbar__desktop {
+    display: flex;
+    align-items: center;
+    gap: var(--space-24);
+  }
+  .navbar__desktop a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-12);
+    min-height: 44px;
+    padding-inline: var(--space-8);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 650;
+    transition: color var(--duration-normal);
+  }
+  .navbar__desktop a:hover {
+    color: var(--accent-cyan);
+  }
+  .navbar__desktop .navbar__contact {
+    padding-inline: var(--space-24);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-pill);
+    color: var(--text-primary);
+  }
+  .navbar[data-scrolled] {
+    padding-block: var(--space-8);
+  }
+  .navbar[data-scrolled] .navbar__inner {
+    min-height: 60px;
+    padding: var(--space-8) var(--space-24);
+    border-color: var(--border-subtle);
+    background: rgb(var(--midnight-950-rgb) / 0.82);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 12px 40px rgb(var(--black-rgb) / 0.16);
+  }
+  @media (max-width: 47.99rem) {
+    .navbar__desktop {
+      display: none;
+    }
+    .navbar__brand span {
+      display: none;
+    }
+    .navbar[data-scrolled] .navbar__inner {
+      padding: var(--space-4) var(--space-16);
+    }
+    .navbar__inner {
+      min-height: 52px;
+    }
+  }
+</style>

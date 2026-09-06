@@ -1,0 +1,51 @@
+---
+import type { PublicSnapshotRows } from '../../types/content.ts';
+import type { AssetMap } from '../../lib/media/build-assets.ts';
+import MediaImage from '../shared/MediaImage.astro';
+interface Props {
+  technology: PublicSnapshotRows['technologies'];
+  assets: AssetMap;
+  compact?: boolean;
+}
+const { technology, assets, compact = false } = Astro.props;
+---
+
+<span class:list={['technology-badge', { 'technology-badge--compact': compact }]}
+  >{
+    technology.icon_asset_id && (
+      <span class="technology-badge__icon">
+        <MediaImage assets={assets} assetId={technology.icon_asset_id} sizes="24px" />
+      </span>
+    )
+  }<span>{technology.name}</span></span
+>
+<style>
+  .technology-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    min-height: 40px;
+    padding: var(--space-8) var(--space-16);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    background: var(--glass-subtle);
+  }
+  .technology-badge--compact {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    min-height: 28px;
+    padding: var(--space-4) var(--space-8);
+    background: transparent;
+    border-radius: 6px;
+  }
+  .technology-badge__icon {
+    width: 20px;
+    flex: 0 0 20px;
+  }
+  .technology-badge__icon :global(img) {
+    max-height: 24px;
+    object-fit: contain;
+  }
+</style>

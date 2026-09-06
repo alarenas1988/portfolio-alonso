@@ -1,0 +1,143 @@
+---
+import type { HomeModel } from '../../lib/content/home.ts';
+import BrandMark from '../shared/BrandMark.astro';
+interface Props {
+  home: HomeModel;
+}
+const { home } = Astro.props;
+const connections = [
+  ...home.socialLinks.map((link) => ({ label: link.label, href: link.href })),
+  ...(home.contact.whatsapp ? [{ label: 'WhatsApp', href: home.contact.whatsapp }] : []),
+  ...(home.contact.email ? [{ label: 'Email', href: home.contact.email.href }] : []),
+];
+---
+
+<footer class="footer container">
+  <div class="footer__top">
+    <div class="footer__identity">
+      <a href={home.links.home} aria-label={`${home.settings.site_name}, inicio`}
+        ><BrandMark size={38} /><span>{home.settings.site_name}</span></a
+      >{home.settings.professional_title && <p>{home.settings.professional_title}</p>}{
+        home.settings.location_public && (
+          <p class="footer__location">{home.settings.location_public}</p>
+        )
+      }
+    </div><nav aria-label="Navegación del pie de página">
+      <h2 class="technical-label">Explora</h2><a href={home.links.home}>Inicio</a><a
+        href={home.links.projects}>Proyectos</a
+      ><a href={home.links.blog}>Blog</a><a href={home.links.about}>Sobre mí</a>
+    </nav>{
+      connections.length > 0 && (
+        <nav aria-label="Conectar">
+          <h2 class="technical-label">Conectar</h2>
+          {connections.map((link) => (
+            <a
+              href={link.href}
+              target={link.href.startsWith('https:') ? '_blank' : undefined}
+              rel={link.href.startsWith('https:') ? 'noopener noreferrer' : undefined}
+            >
+              {link.label}
+              <span aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </nav>
+      )
+    }
+  </div><div class="footer__bottom">
+    <p>© {new Date().getFullYear()} {home.settings.site_name}</p><p>
+      Built with Astro · Tailwind · Supabase
+    </p>
+  </div>
+</footer>
+<style>
+  .footer {
+    padding-top: var(--space-32);
+    padding-bottom: var(--space-24);
+  }
+  .footer__top {
+    display: grid;
+    gap: var(--space-32);
+    padding-top: var(--space-48);
+    padding-bottom: var(--space-48);
+    border-top: 1px solid var(--border-subtle);
+  }
+  .footer__identity > a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    min-height: 44px;
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    font-size: 1.125rem;
+  }
+  .footer__identity p {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin-top: var(--space-16);
+    max-width: 36ch;
+  }
+  .footer__identity .footer__location {
+    font-size: 0.75rem;
+  }
+  nav {
+    display: grid;
+    align-content: start;
+  }
+  nav h2 {
+    font-size: 0.625rem;
+    margin-bottom: var(--space-12);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    min-height: 44px;
+    min-width: 44px;
+    text-decoration: none;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    width: fit-content;
+  }
+  nav a:hover {
+    color: var(--accent-cyan);
+  }
+  nav a span {
+    color: var(--text-muted);
+  }
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-16);
+    padding-top: var(--space-24);
+    border-top: 1px solid var(--border-subtle);
+  }
+  .footer__bottom p {
+    font-size: 0.625rem;
+    color: var(--text-muted);
+  }
+  .footer__bottom p:last-child {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+  }
+  @media (min-width: 40rem) {
+    .footer__top {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
+    .footer__identity {
+      padding-right: var(--space-32);
+    }
+  }
+  @media (max-width: 39.99rem) {
+    .footer__top {
+      grid-template-columns: 1fr 1fr;
+    }
+    .footer__identity {
+      grid-column: 1/-1;
+    }
+  }
+</style>

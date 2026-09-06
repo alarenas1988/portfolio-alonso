@@ -1,5 +1,17 @@
 # Arquitectura del portfolio
 
+## Home pública de F3 — 2026-09-06
+
+La portada consume una lectura consistente de `loadPublicSnapshot()` durante el build. `loadHomePage()` coordina la RPC anónima, `buildSnapshotAssets()` de F8 y el DTO de presentación `createHomeModel()`. La página solo compone componentes Astro. El navegador recibe HTML, CSS, assets locales y scripts pequeños para navegación, movimiento progresivo y copia de correo; no recibe un cliente Supabase ni una sesión administrativa.
+
+Los datos administrables vienen del snapshot: identidad, Hero, perfil, colecciones visibles, contacto y CV. Las etiquetas de interfaz y el terminal conceptual son presentación. No hay contenido profesional inventado ni fallback de datos productivos. Snapshot inválido, configuración ausente o media obligatoria rota detienen el build. El diseño vacío es un resultado válido de una lectura correcta.
+
+F8 mantiene el único pipeline: UUID editorial → asset map → archivos con hash, dimensiones, AVIF/WebP/PNG y PDF. `MediaImage.astro` oculta Storage a los componentes. En desarrollo, una integración sirve exclusivamente esos archivos con hash desde el outDir de Astro. No acepta URLs de descarga arbitrarias. En producción el mismo outDir forma el artefacto autocontenido.
+
+La navegación móvil usa details/summary sin JavaScript y un dialog modal nativo como mejora progresiva. Incluye Escape, foco, bloqueo de scroll y retorno al disparador. Los eventos de contacto pasan por un no-op tipado; no existe tracking F10. Las rutas internas y el listado completo del blog se completarán en F4; F3 utiliza anclas de Home para conservar navegación funcional.
+
+El [contrato de Home y evidencia](HOME.md) describe estados vacíos, pruebas sin red remota y límites. El fixture F2 permanece fuera de src/pages, inyectado solo en el artefacto de pruebas junto al fixture F8. Las secciones siguientes conservan el historial de los checkpoints del backend; F3 no cambia migraciones, tipos DB, grants, Auth ni Storage.
+
 ## Primer backend remoto — 2026-09-06
 
 El baseline 019 está aplicado en portfolio-alonso, sa-east-1, PostgreSQL 17.6. Las 32 tablas public, 3 private, vistas, funciones, grants/RLS y buckets coinciden con una nueva reconstrucción local. Supabase contiene los 21 registros base autorizados y la cuenta Auth/perfil del owner definitivo; no quedan fixtures. loadPublicSnapshot funciona contra remoto. La única diferencia de tipos generados es la anotación del servicio PostgREST 14.5; los schemas tipados no cambian.
