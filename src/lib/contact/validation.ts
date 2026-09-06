@@ -7,9 +7,9 @@ export interface ContactDraft {
 }
 export type ContactErrors = Partial<Record<keyof ContactDraft, string>>;
 export const contactLimits = {
-  name: [2, 100],
+  name: [2, 120],
   email: [3, 254],
-  subject: [3, 160],
+  subject: [3, 200],
   message: [20, 5000],
 } as const;
 export function validateContact(draft: ContactDraft): ContactErrors {
