@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "dry_run": true,
+  "skip_vault": true,
+  "seed": false,
+  "roles": false,
+  "migrations": ["20260906001900_initial_portfolio.sql"],
+  "applied": false
+}

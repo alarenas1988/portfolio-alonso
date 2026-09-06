@@ -19,8 +19,9 @@ insert into public.admin_profiles(id,display_name,active) values
 create temp table expected_snapshot as select public.get_public_snapshot()-'generated_at' as value;
 grant select on expected_snapshot to anon,authenticated;
 select ok((select prosecdef from pg_proc where oid='private.is_portfolio_admin()'::regprocedure),'Owner lookup uses definer to avoid recursive RLS');
-select is((select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in ('public','private') and p.prosecdef),3::bigint,'Exactly three audited application definers');
-select ok(not exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in ('public','private') and p.prosecdef and (p.proconfig is null or not ('search_path=""'=any(p.proconfig)))),'Every definer fixes empty search_path');
+select is((select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in ('public','private') and p.prosecdef and p.oid is distinct from to_regprocedure('public.rls_auto_enable()')),3::bigint,'Exactly three audited application definers');
+select ok(not exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in ('public','private') and p.prosecdef and p.oid is distinct from to_regprocedure('public.rls_auto_enable()') and (p.proconfig is null or not ('search_path=""'=any(p.proconfig)))),'Every application definer fixes empty search_path');
+select ok(not exists(select 1 from pg_proc p where p.oid=to_regprocedure('public.rls_auto_enable()') and (p.prorettype<>'event_trigger'::regtype or not p.prosecdef or pg_get_userbyid(p.proowner)<>'postgres' or p.proconfig is distinct from array['search_path=pg_catalog'])), 'Optional platform Automatic RLS function has audited event-trigger type, owner and search_path');
 select ok(not (select prosecdef from pg_proc where oid='public.get_public_snapshot()'::regprocedure),'Public snapshot remains invoker');
 select ok(not exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind='v' and not ('security_invoker=true'=any(c.reloptions))),'All API views are invoker');
 reset role;

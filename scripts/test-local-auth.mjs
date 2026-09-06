@@ -18,13 +18,13 @@ const status = spawnSync(process.execPath, [cli, 'status', '--output', 'json'], 
 if (status.status !== 0) throw new Error('Start the readiness local Supabase stack first.');
 const local = JSON.parse(status.stdout);
 if (
-  local.API_URL !== 'http://127.0.0.1:57421' ||
+  local.API_URL !== 'http://127.0.0.1:58421' ||
   new URL(local.DB_URL).hostname !== '127.0.0.1' ||
-  new URL(local.DB_URL).port !== '57422'
+  new URL(local.DB_URL).port !== '58422'
 ) {
   throw new Error('Auth integration tests only permit the isolated readiness loopback stack.');
 }
-const container = 'supabase_db_portfolio-alonso-readiness-local';
+const container = 'supabase_db_portfolio-alonso-baseline-local';
 function sql(statement) {
   const result = spawnSync(
     'docker',

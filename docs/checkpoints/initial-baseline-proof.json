@@ -1,0 +1,38 @@
+{
+  "base": "c89ed9c0220cfbb088b55138279e4ba14eb54e29",
+  "baseline": "20260906001900_initial_portfolio.sql",
+  "baseline_sha256": "e9de91bbee5851c12d898269584c25782846d2a9f2fb949d5ded4fc72b78e0c9",
+  "source_count": 18,
+  "checks": [
+    "logical_backup_restored_into_empty_local_supabase",
+    "observer_rejects_even_transient_non_pk_dependencies",
+    "interrupted_initial_installation_rolls_back_all_application_changes",
+    "initial_baseline_never_creates_non_pk_fk_and_preserves_automatic_rls",
+    "baseline_rejects_populated_application_without_changes",
+    "populated_f8_upgrade_via_018_passes_thirteen_api_checks",
+    "both_paths_have_identical_schema_grants_rls_functions_storage_and_seed_contract",
+    "verified_local_history_adoption_preserves_existing_content_and_future_migrations",
+    "final_empty_reconstruction_reproduces_the_verified_baseline"
+  ],
+  "observed_ddl_events": 596,
+  "canonical_catalog_sha256": "7c7c3ce8d5edb402ba177197de614bb9b3c47191b585ae470b57ae7199daa346",
+  "compared_sections": [
+    "views",
+    "buckets",
+    "columns",
+    "indexes",
+    "schemas",
+    "defaults",
+    "policies",
+    "triggers",
+    "functions",
+    "relations",
+    "constraints",
+    "automatic_rls",
+    "storage_grants",
+    "managed_storage"
+  ],
+  "differences": [],
+  "restore_tested": true,
+  "scope": "local loopback only; remote not modified"
+}

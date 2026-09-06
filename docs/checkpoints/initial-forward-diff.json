@@ -1,0 +1,79 @@
+{
+  "direction": "actual remote prestate -> initial portfolio baseline",
+  "method": "catalog comparison and exact forward SQL replay against restored remote prestate",
+  "sql": "supabase/migrations/20260906001900_initial_portfolio.sql",
+  "sql_sha256": "e9de91bbee5851c12d898269584c25782846d2a9f2fb949d5ded4fc72b78e0c9",
+  "removed_preexisting_application_objects": [],
+  "managed_storage_structure_unchanged": true,
+  "automatic_rls_function_owner_acl_body_and_event_unchanged": true,
+  "public_schema_unchanged": true,
+  "application_tables": 35,
+  "tables_without_rls": 0,
+  "views": 4,
+  "policies": 138,
+  "storage_policies": [
+    {
+      "name": "portfolio_owner_objects_delete",
+      "operation": "DELETE"
+    },
+    {
+      "name": "portfolio_owner_objects_insert",
+      "operation": "INSERT"
+    },
+    {
+      "name": "portfolio_owner_objects_read",
+      "operation": "SELECT"
+    },
+    {
+      "name": "portfolio_public_objects",
+      "operation": "SELECT"
+    }
+  ],
+  "buckets": [
+    {
+      "id": "blog",
+      "mime": ["image/jpeg", "image/png", "image/webp", "image/avif"],
+      "name": "blog",
+      "limit": 10485760,
+      "public": true
+    },
+    {
+      "id": "documents",
+      "mime": ["application/pdf"],
+      "name": "documents",
+      "limit": 10485760,
+      "public": true
+    },
+    {
+      "id": "portfolio-public",
+      "mime": ["image/jpeg", "image/png", "image/webp", "image/avif"],
+      "name": "portfolio-public",
+      "limit": 10485760,
+      "public": true
+    },
+    {
+      "id": "private",
+      "mime": ["image/jpeg", "image/png", "image/webp", "image/avif", "application/pdf"],
+      "name": "private",
+      "limit": 10485760,
+      "public": false
+    }
+  ],
+  "constraints": 256,
+  "indexes": 99,
+  "default_privilege_change": "Revoke anon/authenticated default table privileges owned by postgres in public; no change to managed role defaults or sequence defaults.",
+  "expected_internal_replacements": [
+    "drop policy portfolio_owner_objects_update on storage.objects;",
+    "alter table public.media_assets drop constraint media_assets_public_url_check;",
+    "alter table public.documents drop constraint documents_type_check;",
+    "drop index public.documents_one_active_cv;",
+    "alter table public.media_references drop constraint media_references_check;",
+    "drop policy public_read on public.project_images;",
+    "drop policy public_read on public.documents;",
+    "drop policy public_read on public.media_references;",
+    "drop view public.public_media_assets;",
+    "drop function private.read_public_media();"
+  ],
+  "replacement_scope": "Only objects created earlier inside this same transaction; no pre-existing objects are dropped.",
+  "remote_sql_executed": false
+}
