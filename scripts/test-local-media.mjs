@@ -130,6 +130,70 @@ try {
   );
   const duplicate = (await uploadPrivate(owner, file, metadata, options)).asset;
   check(
+    original.storage_object_id ===
+      sql(
+        `select id from storage.objects where bucket_id='private' and name='${original.storage_path}';`,
+      ),
+    'Media stores the UUID returned by Storage API and matching its primary key',
+  );
+  const absentObject = await owner
+    .from('media_assets')
+    .insert({ ...original, id: randomUUID(), storage_object_id: randomUUID() });
+  check(absentObject.error?.code === '23503', 'Metadata cannot reference an absent Storage UUID');
+  const mismatchedObject = await owner
+    .from('media_assets')
+    .insert({ ...original, id: randomUUID(), storage_object_id: duplicate.storage_object_id });
+  check(
+    mismatchedObject.error?.code === '23503',
+    'Existing Storage UUID cannot be paired with a different path',
+  );
+  const duplicateObject = await owner
+    .from('media_assets')
+    .insert({ ...original, id: randomUUID() });
+  check(duplicateObject.error?.code === '23505', 'One object cannot be registered twice');
+  const changedIdentity = await owner
+    .from('media_assets')
+    .update({ storage_object_id: duplicate.storage_object_id })
+    .eq('id', original.id);
+  check(Boolean(changedIdentity.error), 'Owner cannot mutate registered Storage identity');
+  for (let race = 0; race < 3; race++) {
+    const racePath = 'temporary/' + randomUUID() + '.png';
+    const allocated = await owner.storage
+      .from('private')
+      .upload(racePath, png, { contentType: 'image/png', upsert: false });
+    assert.ifError(allocated.error);
+    const [registration] = await Promise.all([
+      owner
+        .from('media_assets')
+        .insert({
+          ...original,
+          id: randomUUID(),
+          storage_path: racePath,
+          storage_object_id: allocated.data.id,
+        })
+        .select()
+        .single(),
+      owner.storage.from('private').remove([racePath]),
+    ]);
+    if (registration.data) {
+      assert.ifError((await owner.storage.from('private').download(racePath)).error);
+      assert.ifError(
+        (await owner.from('media_assets').delete().eq('id', registration.data.id)).error,
+      );
+    } else {
+      assert.equal(
+        (await owner.from('media_assets').select('id').eq('storage_object_id', allocated.data.id))
+          .data?.length,
+        0,
+      );
+    }
+    assert.ifError((await owner.storage.from('private').remove([racePath])).error);
+    check(
+      true,
+      'Concurrent registration/delete cannot leave registered metadata without its object',
+    );
+  }
+  check(
     original.storage_path !== duplicate.storage_path,
     'Repeated Unicode filename produces different immutable UUID paths',
   );
@@ -145,6 +209,14 @@ try {
   check(
     published.visibility === 'public' && published.public_url !== null,
     'Explicit publication creates public copy',
+  );
+  check(
+    published.storage_object_id !== original.storage_object_id &&
+      published.storage_object_id ===
+        sql(
+          `select id from storage.objects where bucket_id='portfolio-public' and name='${published.storage_path}';`,
+        ),
+    'Publication registers a new Storage UUID and keeps private source identity',
   );
   check(
     Buffer.from(await (await fetch(published.public_url)).arrayBuffer()).equals(png),
@@ -417,25 +489,51 @@ try {
     ),
     'Failed byte deletion appears in orphan report',
   );
-  const missingId = randomUUID(),
-    missingPath = 'temporary/' + randomUUID() + '.png';
-  sql(
-    "begin; insert into storage.objects(bucket_id,name,owner_id) values('private','" +
-      missingPath +
-      "','" +
-      actors.owner.user.id +
-      "'); insert into public.media_assets(id,storage_bucket,storage_path,filename,mime_type,file_size,width,height,alt_text,created_by) values('" +
-      missingId +
-      "','private','" +
-      missingPath +
-      "','missing.png','image/png',100,1,1,'Fixture','" +
-      actors.owner.user.id +
-      "'); commit;",
-  );
+  // Simulate an inaccessible backend through transport, never forge Storage rows.
+  const unavailableClient = makeClient(async (input, init) => {
+    const request = new Request(input, init);
+    if (request.method === 'GET' && request.url.endsWith('/private/' + original.storage_path))
+      return new Response('{"message":"injected backend failure"}', {
+        status: 500,
+        headers: { 'content-type': 'application/json' },
+      });
+    return supabaseFetch(input, init);
+  });
+  assert.ifError((await unavailableClient.auth.setSession(actors.owner.session)).error);
   check(
-    (await reportMediaOrphans(owner)).unavailableObjects.some((o) => o.id === missingId),
+    (await reportMediaOrphans(unavailableClient)).unavailableObjects.some(
+      (o) => o.id === original.id,
+    ),
     'Maintenance reports unreadable backend bytes without claiming that a 500 confirms deletion',
   );
+  for (const scenario of ['missing', 'different-uuid']) {
+    const inconsistent = makeClient(async (input, init) => {
+      const request = new Request(input, init);
+      const response = await supabaseFetch(input, init);
+      if (request.url.endsWith('/storage/v1/object/list/private') && response.ok) {
+        const rows = await response.json();
+        const adjusted =
+          scenario === 'missing'
+            ? rows.filter((row) => row.id !== original.storage_object_id)
+            : rows.map((row) =>
+                row.id === original.storage_object_id ? { ...row, id: randomUUID() } : row,
+              );
+        return new Response(JSON.stringify(adjusted), {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      return response;
+    });
+    assert.ifError((await inconsistent.auth.setSession(actors.owner.session)).error);
+    const report = await reportMediaOrphans(inconsistent);
+    check(
+      scenario === 'missing'
+        ? report.metadataWithoutObjects.some((a) => a.id === original.id)
+        : !report.complete && report.identityMismatches.some((a) => a.id === original.id),
+      'Read-only orphan report detects ' + scenario + ' without deleting anything',
+    );
+  }
   console.log('Real local Storage/media integration passed: ' + checks + ' checks.');
 } finally {
   const users = Object.values(actors).map((a) => a.user.id);

@@ -9,6 +9,8 @@ import { createClient } from '@supabase/supabase-js';
 import { supabaseFetch } from '../src/lib/supabase/transport.ts';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
+const upgrade = process.argv[2] === '--upgrade-f8';
+if (process.argv.length > (upgrade ? 3 : 2)) throw new Error('Unexpected probe arguments.');
 const status = spawnSync(
   process.execPath,
   ['node_modules/supabase/dist/supabase.js', 'status', '-o', 'json'],
@@ -76,6 +78,9 @@ const objects = [];
 const checks = [];
 let user;
 let probeCreated = false;
+let legacyAsset;
+const legacyProject = randomUUID(),
+  legacyPost = randomUUID();
 const png = await sharp({ create: { width: 8, height: 8, channels: 4, background: '#22d3ee' } })
   .png()
   .toBuffer();
@@ -145,10 +150,67 @@ try {
   );
   assert.notEqual(objectId('private', path), uploaded.data.id);
   checks.push('recreated_path_has_different_uuid');
+  if (upgrade) {
+    assert.equal(sql('select count(*) from supabase_migrations.schema_migrations;'), '17');
+    const registered = await owner
+      .from('media_assets')
+      .insert({
+        storage_bucket: 'private',
+        storage_path: replacementPath,
+        filename: 'legacy.png',
+        mime_type: 'image/png',
+        file_size: png.length,
+        width: 8,
+        height: 8,
+        alt_text: 'Legacy upgrade fixture',
+        created_by: user.id,
+      })
+      .select()
+      .single();
+    assert.ifError(registered.error);
+    legacyAsset = registered.data;
+    sql(`insert into public.projects(id,title,slug,featured_image_asset_id) values('${legacyProject}','Upgrade fixture','upgrade-${legacyProject}','${legacyAsset.id}');
+      insert into public.posts(id,title,slug,featured_image_asset_id) values('${legacyPost}','Upgrade fixture','upgrade-${legacyPost}','${legacyAsset.id}');`);
+    const applied = spawnSync(
+      process.execPath,
+      ['node_modules/supabase/dist/supabase.js', 'migration', 'up', '--local'],
+      {
+        cwd: root,
+        encoding: 'utf8',
+        windowsHide: true,
+      },
+    );
+    if (applied.status !== 0) throw new Error('Local F8 upgrade failed.');
+    assert.equal(sql('select count(*) from supabase_migrations.schema_migrations;'), '18');
+    const migrated = await owner.from('media_assets').select().eq('id', legacyAsset.id).single();
+    assert.ifError(migrated.error);
+    assert.equal(migrated.data.storage_object_id, replacement.data.id);
+    assert.equal(migrated.data.storage_path, legacyAsset.storage_path);
+    checks.push('populated_f8_upgrade_backfills_actual_uuid_preserves_location');
+    assert.equal(
+      sql(`select count(*) from public.media_references where asset_id='${legacyAsset.id}';`),
+      '2',
+    );
+    checks.push('populated_upgrade_preserves_multiple_references');
+    assert.ok((await owner.from('media_assets').delete().eq('id', legacyAsset.id)).error);
+    assert.ok((await owner.storage.from('private').remove([replacementPath])).error);
+    assert.ifError((await owner.storage.from('private').download(replacementPath)).error);
+    checks.push('new_media_pk_fk_blocks_api_delete_and_preserves_bytes');
+    assert.equal(
+      sql("select count(*) from pg_constraint where conname='media_assets_storage_object_fk';"),
+      '0',
+    );
+    checks.push('legacy_composite_dependency_removed');
+  }
   assert.equal(sql(catalogSql), before);
   checks.push('storage_structure_unchanged');
   await writeFile(
-    new URL('../docs/checkpoints/local-storage-identity-probe.json', import.meta.url),
+    new URL(
+      upgrade
+        ? '../docs/checkpoints/local-storage-upgrade.json'
+        : '../docs/checkpoints/local-storage-identity-probe.json',
+      import.meta.url,
+    ),
     JSON.stringify(
       {
         postgres: '17.6',
@@ -163,6 +225,10 @@ try {
   );
   console.log('Storage primary-key compatibility probe passed: ' + checks.length + ' checks.');
 } finally {
+  if (legacyAsset)
+    sql(
+      `delete from public.projects where id='${legacyProject}'; delete from public.posts where id='${legacyPost}'; delete from public.media_assets where id='${legacyAsset.id}';`,
+    );
   if (probeCreated) sql('drop table private.storage_identity_probe;');
   for (const object of objects)
     assert.ifError((await service.storage.from(object.bucket).remove([object.path])).error);
