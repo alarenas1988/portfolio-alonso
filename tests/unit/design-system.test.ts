@@ -124,3 +124,9 @@ it('keeps text and CTA color combinations at WCAG AA contrast', async () => {
   ]);
   assert.doesNotMatch(implementation.join('\n'), /var\(--text-subtle\)/);
 });
+
+it('defines the bounded active state for shared buttons', async () => {
+  const component = await read('src/components/shared/Button.astro');
+  assert.match(component, /:active\s*\{/);
+  assert.match(component, /transform:\s*scale\(0\.98\)/);
+});

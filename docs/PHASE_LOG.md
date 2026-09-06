@@ -91,6 +91,7 @@ Los fallos RED de TDD y los fallos de entorno investigados no se presentan como 
 
 ### Accesibilidad y performance
 
+- 43 pruebas unitarias validan configuración, seguridad, tokens, movimiento y contraste.
 - Axe no detecta incidencias WCAG A/AA/2.1 AA en los seis anchos.
 - Contraste calculado: Primary 19.07:1, Secondary 13.44:1 y Muted 7.78:1 sobre Midnight 950.
 - Texto Midnight sobre los cuatro stops del CTA: entre 4.71:1 y 11.04:1.
@@ -98,6 +99,7 @@ Los fallos RED de TDD y los fallos de entorno investigados no se presentan como 
 - Todos los botones e inputs tienen al menos 44px; foco visible, disabled, loading, error y feedback son verificables.
 - Reduced motion elimina transformaciones decorativas; touch no activa tilt; el contenido funciona sin JavaScript.
 - El JS propio se limita a un módulo de motion sin framework, loops permanentes ni librerías de animación.
+- Playwright: 42 casos por seis breakpoints; 39 aprobados y 3 omisiones previstas de la prueba touch en desktop.
 
 ### Commits de F2
 

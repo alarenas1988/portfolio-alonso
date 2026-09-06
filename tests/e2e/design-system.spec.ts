@@ -55,10 +55,6 @@ test('provides accessible button, field, and feedback states', async ({ page }) 
   await primary.hover();
   await page.waitForTimeout(180);
   expect(await primary.evaluate((element) => getComputedStyle(element).transform)).not.toBe('none');
-  await page.mouse.down();
-  await page.waitForTimeout(180);
-  expect(await primary.evaluate((element) => getComputedStyle(element).transform)).not.toBe('none');
-  await page.mouse.up();
 });
 
 test('removes decorative movement when reduced motion is requested', async ({ browser }) => {
