@@ -130,3 +130,7 @@ Esta lista describe trabajo futuro, no autorización para ejecutarlo:
 - Preparar variables/secretos únicamente en sus entornos privados; nunca exponer service_role ni secret keys en Astro/dist.
 - Obtener autorización explícita antes de db push, cambios de Auth remoto o alta de owner.
 - No se han creado Edge Functions, secretos, buckets remotos ni workflows de despliegue.
+
+# Operación Edge F9 — 2026-09-06
+
+El procedimiento vigente de Edge, configuración ignorada, contratos de secretos y puerta remota está en [EDGE_FUNCTIONS.md](EDGE_FUNCTIONS.md). CLI 2.116.0; nuevas migraciones 020/021 posteriores al baseline 019 intacto. Solo se prepara despliegue de contact-submit; publicación/callback/tracking siguen locales hasta sus consumidores F11/F10. No utilizar --prune ni desplegar todas las funciones por omisión. No introducir PAT ni credenciales en frontend. Los procedimientos siguientes se conservan como historia de las fases anteriores.
