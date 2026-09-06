@@ -1,5 +1,9 @@
 # Storage y multimedia — F8
 
+## Instalación inicial sin dependencia transitoria
+
+La instalación nueva utiliza la baseline 019 y referencia exclusivamente la PK UUID de Storage. El historial 001–018 se conserva sin cambios en `supabase/legacy-migrations/`; una base F8 existente usa la transición 018 y adopta el historial nuevo solo después de verificar equivalencia. No cambia upload, replace, delete, media_references ni el pipeline. [Instalación y pruebas](checkpoints/INITIAL_BASELINE.md).
+
 ## Corrección local de identidad Storage — 2026-09-06
 
 F8 ya está integrada en main. El checkpoint corrige localmente la dependencia del índice administrado no primario: la migración 018 agrega `media_assets.storage_object_id uuid NOT NULL UNIQUE`, con FK RESTRICT hacia `storage.objects.id`. Bucket y path siguen siendo información de aplicación, comprobada al registrar e inmutable. Upload, copia/publicación y reemplazo conservan el UUID devuelto por Storage API; copiar o reemplazar crea otra identidad. No se altera ninguna tabla ni índice administrado. [Decisión, catálogo y pruebas](checkpoints/STORAGE_OBJECT_IDENTITY.md).
@@ -12,16 +16,16 @@ F8 se desarrolla exclusivamente en Supabase local, desde origin/main 25c351557d0
 
 ## Entorno reproducible
 
-- Worktree vigente: .worktrees/supabase-remote-readiness; rama: chore/supabase-remote-readiness. El worktree de F8 se conserva como historial.
+- Worktree vigente: .worktrees/supabase-initial-baseline; rama: chore/supabase-initial-baseline. Los worktrees anteriores se conservan.
 - Docker Desktop 4.89.0, Engine 29.7.2, WSL 2.
 - Supabase CLI 2.116.0 fijada; PostgreSQL 17.6, imagen 17.6.1.165.
-- Stack portfolio-alonso-readiness-local: API 57421, DB 57422, shadow 57420, Studio 57423, Mailpit 57424, analytics 57427 e inspector 8383.
+- Stack portfolio-alonso-baseline-local: API 58421, DB 58422, shadow 58420, Studio 58423, Mailpit 58424, analytics 58427 e inspector 8483.
 - Node 24.20.0 y npm 11.19.0. .env.local está ignorado y no se imprimen credenciales.
 - Las pruebas Auth/media verifican el endpoint local exacto antes de crear fixtures. Nunca utilizan el proyecto remoto de las variables públicas.
 
 ```powershell
 $env:Path = 'C:/laragon/www/portfolio/.tools/node-v24.20.0-win-x64;' + $env:Path
-Set-Location C:/laragon/www/portfolio/.worktrees/supabase-remote-readiness
+Set-Location C:/laragon/www/portfolio/.worktrees/supabase-initial-baseline
 npm ci
 npm ls --depth=0
 npm run db:start
@@ -35,7 +39,7 @@ npm run test:media:local
 npm run db:audit
 ```
 
-Los wrappers de DB fijan --local y rechazan argumentos extra. La reconstrucción aplica las 18 migraciones y el seed original, que no contiene usuarios ni archivos reales. Las pruebas SQL se revierten; las pruebas HTTP crean identidades/bytes sintéticos y eliminan sus fixtures al finalizar. No ejecutar estas pruebas simultáneamente sobre el mismo stack.
+Los wrappers de DB fijan --local y rechazan argumentos extra. La reconstrucción aplica la baseline 019 y el seed original, que no contiene usuarios ni archivos reales. Las 18 migraciones históricas se usan únicamente en el ensayo separado de actualización/equivalencia. Las pruebas SQL se revierten; las pruebas HTTP crean identidades/bytes sintéticos y eliminan sus fixtures al finalizar. No ejecutar estas pruebas simultáneamente sobre el mismo stack.
 
 ## Buckets y formatos
 

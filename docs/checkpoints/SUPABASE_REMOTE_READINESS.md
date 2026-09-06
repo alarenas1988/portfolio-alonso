@@ -6,6 +6,8 @@ F8 ya estaba integrada mediante PR #5. Se verificaron los ancestros F1/F2/F5/F6/
 
 ## Resultado de la puerta de despliegue
 
+**Estado posterior en rama de instalación inicial:** [INITIAL_BASELINE.md](INITIAL_BASELINE.md) prepara la migración atómica 019 sin la dependencia transitoria, conserva el historial, prueba equivalencia y ensaya recuperación. Su dry-run lista solo 019. Se entrega para revisión, sin despliegue efectivo. El resto de este informe conserva las observaciones históricas que motivaron esa corrección.
+
 **NO APTO PARA PUSH TODAVÍA. No se modificó Supabase remoto.**
 
 **Actualización local del 2026-09-06:** el blocker de identidad Storage se corrigió mediante la migración 018, después de reproducir la FK a columnas no-PK y demostrar la alternativa con Storage API. La solución usa `media_assets.storage_object_id` hacia `storage.objects.id`, con RESTRICT; no modifica la estructura administrada. Ver [decisión y pruebas](STORAGE_OBJECT_IDENTITY.md), [sondeo API](local-storage-identity-probe.json) y [actualización F8 con referencias existentes](local-storage-upgrade.json).

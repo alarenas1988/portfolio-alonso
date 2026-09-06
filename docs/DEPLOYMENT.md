@@ -1,5 +1,13 @@
 # Entorno y despliegue — contrato F6
 
+## Instalación inicial preparada para revisión
+
+El directorio activo contiene ahora únicamente `20260906001900_initial_portfolio.sql`, generada a partir del historial archivado sin la dependencia Storage no-PK. El dry-run remoto lista solo esa migración; no aplicó SQL, seed, roles ni Vault. La puerta de aplicación sigue requiriendo aprobación del usuario y una nueva comprobación de que el remoto no cambió. [Informe vigente](checkpoints/INITIAL_BASELINE.md).
+
+No ejecutar la baseline sobre bases F8 existentes: usar 018 archivada, comparar equivalencia y reconciliar el historial según el procedimiento probado. Tampoco usar el diff inverso del checkpoint anterior como script de instalación. El SQL forward autorizado para revisión es la baseline versionada, contrastada con el catálogo remoto y reproducida sobre su respaldo restaurado.
+
+El ensayo de recuperación usa el respaldo fuera de Git y conserva Automatic RLS; documenta el GRANT administrado ya existente y la normalización local de defaults de secuencias. El entorno aislado actual es `portfolio-alonso-baseline-local`: API 58421, DB 58422, shadow 58420, Studio 58423, correo 58424, analytics 58427, inspector 8483. Los párrafos de checkpoints/fases siguientes se conservan como historial, no instrucciones vigentes para este stack.
+
 ## Checkpoint remoto del 2026-09-06
 
 **Estado posterior al login:** CLI 2.116.0 autenticada, proyecto enlazado, auditoría de lectura actualizada y respaldo lógico fuera de Git. La simulación no aplicó migraciones. El orden 014 → 018 sigue creando temporalmente la FK rechazada; se detiene para acordar la instalación inicial, sin reescribir historial. [Informe CLI](checkpoints/CLI_REMOTE_PREFLIGHT.md). La recuperación aún requiere ensayo y el diff disponible tiene dirección inversa al despliegue. Los párrafos siguientes conservan el contexto previo a este acceso CLI.

@@ -1,5 +1,13 @@
 # Seguridad — F6
 
+## Instalación inicial y Automatic RLS
+
+La baseline 019 instala esquema, grants y RLS en una transacción, sin crear la FK compuesta de 014. Su guard bloquea bases con aplicación/datos previos; un observador DDL local demostró que ni siquiera aparece una FK no-PK transitoria. Las 18 migraciones anteriores se conservan como fuentes inmutables, no como camino de instalación nuevo. [Pruebas de equivalencia y recuperación](checkpoints/INITIAL_BASELINE.md).
+
+El catálogo local auditado incluye las tres funciones SECURITY DEFINER propias y la función de evento preexistente `public.rls_auto_enable()`, restaurada desde el respaldo remoto para el ensayo. No es una nueva RPC administrativa. Los tests distinguen la función de plataforma y verifican su tipo event_trigger, owner postgres y search_path pg_catalog; la prueba de instalación compara también cuerpo/ACL y el event trigger, sin cambiarlos. Todas las funciones propias conservan el search_path vacío.
+
+La reconciliación de historial se permite en el ensayo únicamente después de comprobar equivalencia de catálogo y respaldar el registro anterior. No concede permisos editoriales ni aplica SQL funcional. No se ejecutó repair, cambios Auth/owner ni despliegue en remoto.
+
 ## Estado remoto inspeccionado el 2026-09-06
 
 El [checkpoint remoto](checkpoints/SUPABASE_REMOTE_READINESS.md) es una auditoría de solo lectura, sin aprobación de despliegue efectivo. Remoto aún no contiene las tablas/policies/RPC del portfolio. Automatic RLS está habilitado mediante ensure_rls y una función de evento SECURITY DEFINER de plataforma con search_path pg_catalog; se conserva. Las tres funciones SECURITY DEFINER propias siguen únicamente en local, con owner postgres y search_path vacío. El registro público remoto está habilitado y debe cerrarse antes de declarar el backend listo. No se crearon usuarios ni fixtures, ni se probaron escrituras remotas.
