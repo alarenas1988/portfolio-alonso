@@ -15,7 +15,7 @@ export const ids = {
   technology: fixtureId(40),
   category: fixtureId(60),
 };
-function row<K extends keyof PublicSnapshotRows>(
+export function row<K extends keyof PublicSnapshotRows>(
   table: K,
   values: Partial<PublicSnapshotRows[K]>,
 ): PublicSnapshotRows[K] {
