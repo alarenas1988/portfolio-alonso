@@ -25,21 +25,21 @@ Las decisiones principales son: conservar C2; usar Tailwind mediante su plugin V
 
 ## 2. Fase 0 — Inspección completada
 
-| Elemento | Resultado comprobado | Consecuencia |
-| --- | --- | --- |
-| Directorio | `C:\laragon\www\portfolio` | Será la raíz del único proyecto Astro. |
-| Repositorio | `https://github.com/alarenas1988/portfolio-alonso.git` | Conservar `origin`. |
-| Rama / historial | `main`, seguimiento `origin/main`; `094ec0f Initial commit` | No reescribir historial. |
-| Archivos versionados | Solo `README.md`: nombre del repositorio y “portfolio projects” | Ampliarlo en F1; no hay aplicación que preservar. |
-| Estado inicial | Sin cambios pendientes | Esta tarea añade únicamente este documento. |
-| Instrucciones locales | No se encontraron `AGENTS.md` en la raíz del proyecto ni en sus directorios ascendentes inspeccionados | Se aplican las instrucciones de la sesión y el maestro. |
-| Documento maestro | Está en Downloads, fuera del repositorio | F1 incorporará una copia idéntica versionada en la raíz, sin alterar el original. |
-| Node/npm en PATH | No encontrados por sus comandos habituales | Preparar una invocación reproducible antes del bootstrap. |
-| Node/npm de Laragon | `C:\laragon\bin\nodejs\node-v22`: Node `22.22.0`, npm `10.9.4` | Cumplen los mínimos consultados; alinear desarrollo y CI con Node 24 LTS. |
-| Git / GitHub CLI | Git `2.54.0.windows.1`; `gh` disponible | Git local utilizable. |
-| Identidad GitHub CLI | Cuenta activa `alarenas-slepac`; `viewerPermission: READ` en el repositorio solicitado | Esta credencial no autoriza push, configuración ni dispatch. No se ha cambiado de cuenta. |
-| GitHub Pages | Consulta de estado devuelve HTTP 404 con la credencial actual | No permite distinguir sitio inexistente de falta de acceso; verificar con una cuenta autorizada antes de F11. |
-| Supabase / Docker | CLI Supabase y Docker no encontrados en PATH; no hay configuración ni credenciales del proyecto en el repositorio | Preparar entorno local reproducible y confirmar proyecto remoto antes de integración. |
+| Elemento              | Resultado comprobado                                                                                              | Consecuencia                                                                                                  |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Directorio            | `C:\laragon\www\portfolio`                                                                                        | Será la raíz del único proyecto Astro.                                                                        |
+| Repositorio           | `https://github.com/alarenas1988/portfolio-alonso.git`                                                            | Conservar `origin`.                                                                                           |
+| Rama / historial      | `main`, seguimiento `origin/main`; `094ec0f Initial commit`                                                       | No reescribir historial.                                                                                      |
+| Archivos versionados  | Solo `README.md`: nombre del repositorio y “portfolio projects”                                                   | Ampliarlo en F1; no hay aplicación que preservar.                                                             |
+| Estado inicial        | Sin cambios pendientes                                                                                            | Esta tarea añade únicamente este documento.                                                                   |
+| Instrucciones locales | No se encontraron `AGENTS.md` en la raíz del proyecto ni en sus directorios ascendentes inspeccionados            | Se aplican las instrucciones de la sesión y el maestro.                                                       |
+| Documento maestro     | Está en Downloads, fuera del repositorio                                                                          | F1 incorporará una copia idéntica versionada en la raíz, sin alterar el original.                             |
+| Node/npm en PATH      | No encontrados por sus comandos habituales                                                                        | Preparar una invocación reproducible antes del bootstrap.                                                     |
+| Node/npm de Laragon   | `C:\laragon\bin\nodejs\node-v22`: Node `22.22.0`, npm `10.9.4`                                                    | Cumplen los mínimos consultados; alinear desarrollo y CI con Node 24 LTS.                                     |
+| Git / GitHub CLI      | Git `2.54.0.windows.1`; `gh` disponible                                                                           | Git local utilizable.                                                                                         |
+| Identidad GitHub CLI  | Cuenta activa `alarenas-slepac`; `viewerPermission: READ` en el repositorio solicitado                            | Esta credencial no autoriza push, configuración ni dispatch. No se ha cambiado de cuenta.                     |
+| GitHub Pages          | Consulta de estado devuelve HTTP 404 con la credencial actual                                                     | No permite distinguir sitio inexistente de falta de acceso; verificar con una cuenta autorizada antes de F11. |
+| Supabase / Docker     | CLI Supabase y Docker no encontrados en PATH; no hay configuración ni credenciales del proyecto en el repositorio | Preparar entorno local reproducible y confirmar proyecto remoto antes de integración.                         |
 
 No se han instalado paquetes, creado tablas, modificado servicios externos ni generado código de aplicación. No se ha probado el permiso de escritura Git por otra credencial distinta de GitHub CLI.
 
@@ -47,16 +47,16 @@ No se han instalado paquetes, creado tablas, modificado servicios externos ni ge
 
 Consulta directa de los metadatos publicados por los mantenedores en npm y del índice oficial de Node. Son versiones observadas en esta fecha, no una promesa de que seguirán siendo las últimas al ejecutar el plan.
 
-| Tecnología | Estable más reciente observada | Selección propuesta | Restricción / evidencia |
-| --- | --- | --- | --- |
-| Astro | `7.3.1` | `7.3.1` | `engines.node >=22.12.0`, npm `>=9.6.5`; usa Vite `^8.0.13`. [Metadatos](https://registry.npmjs.org/astro/7.3.1). |
-| Tailwind CSS | `4.3.3` | `4.3.3` | Integración CSS-first mediante plugin Vite. [Metadatos](https://registry.npmjs.org/tailwindcss/4.3.3). |
-| `@tailwindcss/vite` | `4.3.3` | `4.3.3` | Su peer admite Vite 5, 6, 7 y 8. [Metadatos](https://registry.npmjs.org/@tailwindcss/vite/4.3.3). |
-| TypeScript | `7.0.2` | **`6.0.3`** | Última estable de la rama 6 observada, compatible con el peer del comprobador. [TS 7](https://registry.npmjs.org/typescript/7.0.2), [TS 6](https://registry.npmjs.org/typescript/6.0.3). |
-| `@astrojs/check` | `0.9.10` | `0.9.10` | Peer TypeScript `^5.0.0 || ^6.0.0`, excluye 7. [Metadatos](https://registry.npmjs.org/@astrojs/check/0.9.10). |
-| Supabase JS | `2.115.0` | `2.115.0` | Node `>=22.0.0`. [Metadatos](https://registry.npmjs.org/@supabase/supabase-js/2.115.0). |
-| Node.js | `26.8.1` Current; `24.20.0` LTS | **`24.20.0` LTS** | Mismo runtime en desarrollo y CI; piso combinado `22.12.0`. [Índice oficial](https://nodejs.org/dist/index.json), [ciclo de versiones](https://nodejs.org/en/about/previous-releases). |
-| Sitemap / RSS Astro | `3.7.4` / `4.0.19` | Esas versiones, sujeto a instalación comprobada | [Sitemap](https://registry.npmjs.org/@astrojs/sitemap/3.7.4), [RSS](https://registry.npmjs.org/@astrojs/rss/4.0.19). |
+| Tecnología          | Estable más reciente observada  | Selección propuesta                             | Restricción / evidencia                                                                                                                                                                  |
+| ------------------- | ------------------------------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Astro               | `7.3.1`                         | `7.3.1`                                         | `engines.node >=22.12.0`, npm `>=9.6.5`; usa Vite `^8.0.13`. [Metadatos](https://registry.npmjs.org/astro/7.3.1).                                                                        |
+| Tailwind CSS        | `4.3.3`                         | `4.3.3`                                         | Integración CSS-first mediante plugin Vite. [Metadatos](https://registry.npmjs.org/tailwindcss/4.3.3).                                                                                   |
+| `@tailwindcss/vite` | `4.3.3`                         | `4.3.3`                                         | Su peer admite Vite 5, 6, 7 y 8. [Metadatos](https://registry.npmjs.org/@tailwindcss/vite/4.3.3).                                                                                        |
+| TypeScript          | `7.0.2`                         | **`6.0.3`**                                     | Última estable de la rama 6 observada, compatible con el peer del comprobador. [TS 7](https://registry.npmjs.org/typescript/7.0.2), [TS 6](https://registry.npmjs.org/typescript/6.0.3). |
+| `@astrojs/check`    | `0.9.10`                        | `0.9.10`                                        | Peer TypeScript `^5.0.0                                                                                                                                                                  |     | ^6.0.0`, excluye 7. [Metadatos](https://registry.npmjs.org/@astrojs/check/0.9.10). |
+| Supabase JS         | `2.115.0`                       | `2.115.0`                                       | Node `>=22.0.0`. [Metadatos](https://registry.npmjs.org/@supabase/supabase-js/2.115.0).                                                                                                  |
+| Node.js             | `26.8.1` Current; `24.20.0` LTS | **`24.20.0` LTS**                               | Mismo runtime en desarrollo y CI; piso combinado `22.12.0`. [Índice oficial](https://nodejs.org/dist/index.json), [ciclo de versiones](https://nodejs.org/en/about/previous-releases).   |
+| Sitemap / RSS Astro | `3.7.4` / `4.0.19`              | Esas versiones, sujeto a instalación comprobada | [Sitemap](https://registry.npmjs.org/@astrojs/sitemap/3.7.4), [RSS](https://registry.npmjs.org/@astrojs/rss/4.0.19).                                                                     |
 
 La compatibilidad aquí es **declarada por metadatos**. F1 debe demostrarla con instalación limpia, `npm ls`, typecheck y build; no se ha realizado una instalación en esta tarea. Si cambian versiones, registrar fecha, evidencia y resultado antes de actualizar el lockfile. No usar `--force` ni `--legacy-peer-deps` para ocultar conflictos.
 
@@ -86,24 +86,24 @@ PostgreSQL y el runtime Edge se alinearán con el proyecto Supabase que se aprov
 
 Estas resoluciones completan la especificación y forman parte del plan que debe aprobarse. No cambian C2.
 
-| ID | Requisito afectado / causa | Alternativa propuesta | Impacto y verificación |
-| --- | --- | --- | --- |
-| D01 | Últimas versiones: TypeScript 7 queda fuera del peer de `@astrojs/check` | Fijar TS 6.0.3 hasta soporte declarado y validado de TS 7 | Conserva TypeScript estricto; F1 demuestra instalación sin conflictos. |
-| D02 | Rutas `/...` del maestro frente al hosting de repositorio | Base inicial inferida `https://alarenas1988.github.io/portfolio-alonso/`; helpers únicos de URL y `trailingSlash: always` | `/admin` lógico será `/portfolio-alonso/admin/`. Todas las rutas/assets/callbacks de Auth deben respetar la base. [Astro Pages](https://docs.astro.build/en/guides/deploy/github/). |
-| D03 | Robots efectivo: un repositorio Pages en subruta no controla `/robots.txt` del host | Generar robots y meta robots; admin siempre `noindex,nofollow`. Para robots efectivo en raíz, usar dominio propio en este mismo repo o configuración autorizada del host | Registrar limitación si se mantiene subruta; no declarar resuelto robots del host con un archivo en `/portfolio-alonso/`. [Ubicación requerida](https://developers.google.com/crawling/docs/robots-txt/create-robots-txt). |
-| D04 | Contenido Sobre mí/cómo trabajo, antes-después, canonical y robots no tienen todos sus campos en §13 | Extensiones mínimas explícitas del esquema, descritas en §7.2 de este plan | Migraciones aditivas, tipos y CMS correspondientes; no campos sueltos hardcodeados. |
-| D05 | Lectura pública de hijos podría revelar proyectos/posts privados | RLS de cada hijo/join comprueba visibilidad propia y del padre; vistas/RPC respetan esa frontera | Pruebas directas por UUID de borradores, relaciones y galerías. |
-| D06 | “CMS privado” alojado estáticamente | HTML administrativo sin datos privados; autorización real en RLS y Edge; guard de cliente para UX | La ruta y su código pueden descargarse públicamente. Eso no concede acceso a datos. |
-| D07 | Autosave y publicación; C2 tiene demora | Guardar persiste en Supabase; publicar guarda, valida y solicita rebuild. Mostrar “Guardado” y estado de publicación por separado | Otro build puede recoger cualquier contenido marcado público ya guardado; V1 no incluye versiones editoriales aisladas. Aviso explícito en el CMS. |
-| D08 | Cancelación de Actions puede impedir callback final; `site_builds` no tiene estado cancelled | Usar `failed` con razón `cancelled/superseded/timeout`, callbacks idempotentes y reconciliación | Nunca dejar un build indefinidamente “building”; `success` significa despliegue comprobado. [Concurrencia](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency). |
-| D09 | Metadatos de RLS no protegen bytes de bucket público | Borradores en bucket `private`; traslado deliberado a bucket público al hacer público el asset | URLs de buckets públicos son públicas aun sin SELECT sobre metadatos. [Storage](https://supabase.com/docs/guides/storage/buckets/fundamentals). |
-| D10 | Reemplazar/borrar assets remotos puede romper la última publicación correcta | Objetos con nombre inmutable; copiar imágenes y CV usados al artefacto estático; borrar referencias de DB con control de uso | Build fallido conserva HTML y archivos anteriores. Retirar datos sensibles ya publicados requiere despliegue efectivo y gestionar copias externas. |
-| D11 | `/blog` pide “Más leídos” pero analytics es privado | Guardar únicamente ranking derivado público en posts; el agregador privado lo actualiza, sin exponer eventos, sesiones ni RPC de analytics | Ranking sin tráfico no se presenta como medición; se usa un estado vacío. |
-| D12 | Agregados definidos no cubren origen, dispositivo, todos los clics y rangos largos | Ampliar agregados privados por dimensiones y conservar sesiones mínimas para únicos por rango | Evita sumar únicos diarios como si fueran usuarios únicos mensuales; detalles en F10. |
-| D13 | Claves nuevas de Supabase no son JWT; el runtime actual expone diccionarios de claves | Priorizar `@supabase/server`, `withSupabase()` / `createSupabaseContext()` y modos `user/publishable/secret/none`. JWT de usuario en Authorization; API keys únicamente en apikey. | Usar autenticación del SDK; ninguna implementación manual equivalente si el SDK resuelve el caso. La autorización owner y validación del webhook siguen siendo obligatorias. [Auth SDK](https://supabase.com/docs/guides/functions/auth). |
-| D14 | Cuenta GitHub inspeccionada solo puede leer | Configurar cuenta/credencial con acceso al repo antes del despliegue y PAT acotado para dispatch | Bloquea publicación remota, no planificación ni desarrollo local. No cambiar dueño, remoto o repositorio para eludirlo. |
-| D15 | “Subtle” y acentos del diseño no garantizan AA en todas las combinaciones | Mantener tokens; reservar combinaciones insuficientes para decoración y elegir tokens de texto con contraste comprobado | No usar gris sutil para texto pequeño ni texto blanco sobre gradiente sin medir cada punto. |
-| D16 | Sitio estático no ofrece protección de ruta por servidor, 301 configurables ni headers arbitrarios | Páginas físicas, 404 real, advertencia de cambio de slug y política CSP compatible mediante meta cuando corresponda | No prometer redirects HTTP o headers que Pages no permite configurar; Auth/RLS siguen siendo la protección. |
+| ID  | Requisito afectado / causa                                                                           | Alternativa propuesta                                                                                                                                                              | Impacto y verificación                                                                                                                                                                                                                    |
+| --- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| D01 | Últimas versiones: TypeScript 7 queda fuera del peer de `@astrojs/check`                             | Fijar TS 6.0.3 hasta soporte declarado y validado de TS 7                                                                                                                          | Conserva TypeScript estricto; F1 demuestra instalación sin conflictos.                                                                                                                                                                    |
+| D02 | Rutas `/...` del maestro frente al hosting de repositorio                                            | Base inicial inferida `https://alarenas1988.github.io/portfolio-alonso/`; helpers únicos de URL y `trailingSlash: always`                                                          | `/admin` lógico será `/portfolio-alonso/admin/`. Todas las rutas/assets/callbacks de Auth deben respetar la base. [Astro Pages](https://docs.astro.build/en/guides/deploy/github/).                                                       |
+| D03 | Robots efectivo: un repositorio Pages en subruta no controla `/robots.txt` del host                  | Generar robots y meta robots; admin siempre `noindex,nofollow`. Para robots efectivo en raíz, usar dominio propio en este mismo repo o configuración autorizada del host           | Registrar limitación si se mantiene subruta; no declarar resuelto robots del host con un archivo en `/portfolio-alonso/`. [Ubicación requerida](https://developers.google.com/crawling/docs/robots-txt/create-robots-txt).                |
+| D04 | Contenido Sobre mí/cómo trabajo, antes-después, canonical y robots no tienen todos sus campos en §13 | Extensiones mínimas explícitas del esquema, descritas en §7.2 de este plan                                                                                                         | Migraciones aditivas, tipos y CMS correspondientes; no campos sueltos hardcodeados.                                                                                                                                                       |
+| D05 | Lectura pública de hijos podría revelar proyectos/posts privados                                     | RLS de cada hijo/join comprueba visibilidad propia y del padre; vistas/RPC respetan esa frontera                                                                                   | Pruebas directas por UUID de borradores, relaciones y galerías.                                                                                                                                                                           |
+| D06 | “CMS privado” alojado estáticamente                                                                  | HTML administrativo sin datos privados; autorización real en RLS y Edge; guard de cliente para UX                                                                                  | La ruta y su código pueden descargarse públicamente. Eso no concede acceso a datos.                                                                                                                                                       |
+| D07 | Autosave y publicación; C2 tiene demora                                                              | Guardar persiste en Supabase; publicar guarda, valida y solicita rebuild. Mostrar “Guardado” y estado de publicación por separado                                                  | Otro build puede recoger cualquier contenido marcado público ya guardado; V1 no incluye versiones editoriales aisladas. Aviso explícito en el CMS.                                                                                        |
+| D08 | Cancelación de Actions puede impedir callback final; `site_builds` no tiene estado cancelled         | Usar `failed` con razón `cancelled/superseded/timeout`, callbacks idempotentes y reconciliación                                                                                    | Nunca dejar un build indefinidamente “building”; `success` significa despliegue comprobado. [Concurrencia](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency).            |
+| D09 | Metadatos de RLS no protegen bytes de bucket público                                                 | Borradores en bucket `private`; traslado deliberado a bucket público al hacer público el asset                                                                                     | URLs de buckets públicos son públicas aun sin SELECT sobre metadatos. [Storage](https://supabase.com/docs/guides/storage/buckets/fundamentals).                                                                                           |
+| D10 | Reemplazar/borrar assets remotos puede romper la última publicación correcta                         | Objetos con nombre inmutable; copiar imágenes y CV usados al artefacto estático; borrar referencias de DB con control de uso                                                       | Build fallido conserva HTML y archivos anteriores. Retirar datos sensibles ya publicados requiere despliegue efectivo y gestionar copias externas.                                                                                        |
+| D11 | `/blog` pide “Más leídos” pero analytics es privado                                                  | Guardar únicamente ranking derivado público en posts; el agregador privado lo actualiza, sin exponer eventos, sesiones ni RPC de analytics                                         | Ranking sin tráfico no se presenta como medición; se usa un estado vacío.                                                                                                                                                                 |
+| D12 | Agregados definidos no cubren origen, dispositivo, todos los clics y rangos largos                   | Ampliar agregados privados por dimensiones y conservar sesiones mínimas para únicos por rango                                                                                      | Evita sumar únicos diarios como si fueran usuarios únicos mensuales; detalles en F10.                                                                                                                                                     |
+| D13 | Claves nuevas de Supabase no son JWT; el runtime actual expone diccionarios de claves                | Priorizar `@supabase/server`, `withSupabase()` / `createSupabaseContext()` y modos `user/publishable/secret/none`. JWT de usuario en Authorization; API keys únicamente en apikey. | Usar autenticación del SDK; ninguna implementación manual equivalente si el SDK resuelve el caso. La autorización owner y validación del webhook siguen siendo obligatorias. [Auth SDK](https://supabase.com/docs/guides/functions/auth). |
+| D14 | Cuenta GitHub inspeccionada solo puede leer                                                          | Configurar cuenta/credencial con acceso al repo antes del despliegue y PAT acotado para dispatch                                                                                   | Bloquea publicación remota, no planificación ni desarrollo local. No cambiar dueño, remoto o repositorio para eludirlo.                                                                                                                   |
+| D15 | “Subtle” y acentos del diseño no garantizan AA en todas las combinaciones                            | Mantener tokens; reservar combinaciones insuficientes para decoración y elegir tokens de texto con contraste comprobado                                                            | No usar gris sutil para texto pequeño ni texto blanco sobre gradiente sin medir cada punto.                                                                                                                                               |
+| D16 | Sitio estático no ofrece protección de ruta por servidor, 301 configurables ni headers arbitrarios   | Páginas físicas, 404 real, advertencia de cambio de slug y política CSP compatible mediante meta cuando corresponda                                                                | No prometer redirects HTTP o headers que Pages no permite configurar; Auth/RLS siguen siendo la protección.                                                                                                                               |
 
 ### 4.1 Dependencias externas y datos que se necesitarán
 
@@ -118,22 +118,22 @@ No bloquean la aprobación del plan. Antes de su fase correspondiente se deben d
 
 ## 5. Orden y dependencias
 
-| Orden | Fase de la solicitud | Depende de | Entregable que desbloquea |
-| --- | --- | --- | --- |
-| 1 | F1 Bootstrap | Aprobación de este plan | Proyecto verificable, rutas/base y configuración. |
-| 2 | F2 Design System | F1 | Tokens y componentes compartidos. |
-| 3 | F5 Base de datos | F1; resoluciones D04/D12 | Esquema, seed, tipos y contratos de contenido. |
-| 4 | F6 Seguridad/RLS | F5; se diseña y migra junto a ella | Acceso seguro desde build y CMS. |
-| 5 | F8 Storage | F2, F5, F6 | Contrato de assets, biblioteca base y CV. |
-| 6 | F3 Frontend público | F2, F5, F6, F8 | Home y navegación con datos Supabase. |
-| 7 | F4 Páginas internas | F3 | Casos, blog, perfil y contacto prerenderizados. |
-| 8 | F9 Edge Functions | F5, F6; contratos de F8 | APIs privadas/públicas verificadas localmente. |
-| 9 | F10 Analítica | F9; eventos de F3/F4 | Tracking, agregados y consultas del dashboard. |
-| 10 | F7 CMS | F2, F5, F6, F8, F9, F10 | CMS integrado, persistencia, panel y acciones. |
-| 11 | F11 Publicación C2 | F4, F7, F9; permisos externos | Recorrido real guardar → publicar → Pages. |
-| 12 | F12 SEO | F4; URL verificada en F11 | Metadata y feeds auditados en producción. |
-| 13 | F13 Performance/AA | F2–F12 aplicables | Evidencia de calidad y correcciones de cierre. |
-| 14 | F14 QA final | Todas | Release candidata, documentación y validación completa. |
+| Orden | Fase de la solicitud | Depende de                         | Entregable que desbloquea                               |
+| ----- | -------------------- | ---------------------------------- | ------------------------------------------------------- |
+| 1     | F1 Bootstrap         | Aprobación de este plan            | Proyecto verificable, rutas/base y configuración.       |
+| 2     | F2 Design System     | F1                                 | Tokens y componentes compartidos.                       |
+| 3     | F5 Base de datos     | F1; resoluciones D04/D12           | Esquema, seed, tipos y contratos de contenido.          |
+| 4     | F6 Seguridad/RLS     | F5; se diseña y migra junto a ella | Acceso seguro desde build y CMS.                        |
+| 5     | F8 Storage           | F2, F5, F6                         | Contrato de assets, biblioteca base y CV.               |
+| 6     | F3 Frontend público  | F2, F5, F6, F8                     | Home y navegación con datos Supabase.                   |
+| 7     | F4 Páginas internas  | F3                                 | Casos, blog, perfil y contacto prerenderizados.         |
+| 8     | F9 Edge Functions    | F5, F6; contratos de F8            | APIs privadas/públicas verificadas localmente.          |
+| 9     | F10 Analítica        | F9; eventos de F3/F4               | Tracking, agregados y consultas del dashboard.          |
+| 10    | F7 CMS               | F2, F5, F6, F8, F9, F10            | CMS integrado, persistencia, panel y acciones.          |
+| 11    | F11 Publicación C2   | F4, F7, F9; permisos externos      | Recorrido real guardar → publicar → Pages.              |
+| 12    | F12 SEO              | F4; URL verificada en F11          | Metadata y feeds auditados en producción.               |
+| 13    | F13 Performance/AA   | F2–F12 aplicables                  | Evidencia de calidad y correcciones de cierre.          |
+| 14    | F14 QA final         | Todas                              | Release candidata, documentación y validación completa. |
 
 F5 y F6 son dos unidades revisables pero una frontera de seguridad: no desplegar migraciones de F5 a un entorno expuesto sin F6. Desde F5 todas las tablas nacen con RLS activo y denegación por defecto. F8 entrega servicios/componentes que F7 incorpora al CMS. F9 prueba dispatch y callbacks con dobles de GitHub antes de F11; la validación remota de C2 permanece expresamente en F11.
 
@@ -211,19 +211,19 @@ No se crearán archivos vacíos por cumplir un árbol. Cada archivo aparece cuan
 
 Implementar **todos los campos de §13**, no solo los visibles en la primera pantalla. Este catálogo identifica las tablas por dominio; el maestro mantiene la definición funcional de sus columnas.
 
-| Dominio | Tablas |
-| --- | --- |
-| Identidad | `auth.users` administrada por Supabase; `admin_profiles` |
-| Configuración | `site_settings`, `social_links`, `contact_settings` |
+| Dominio          | Tablas                                                                                                            |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Identidad        | `auth.users` administrada por Supabase; `admin_profiles`                                                          |
+| Configuración    | `site_settings`, `social_links`, `contact_settings`                                                               |
 | Casos de estudio | `projects`, `project_features`, `project_images`, `project_metrics`, `project_challenges`, `project_technologies` |
-| Tecnologías | `technologies` |
-| Blog | `posts`, `post_categories`, `post_category_relations`, `tags`, `post_tags` |
-| Trayectoria | `experiences`, `experience_highlights`, `experience_projects`, `experience_technologies` |
-| Perfil / impacto | `specialties`, `work_principles`, `impact_metrics` |
-| Archivos | `media_assets`, `documents` |
-| Comunicación | `contact_messages` |
-| Analítica | `analytics_events`, `analytics_daily`, `analytics_daily_content` |
-| Operación | `admin_activity`, `site_builds` |
+| Tecnologías      | `technologies`                                                                                                    |
+| Blog             | `posts`, `post_categories`, `post_category_relations`, `tags`, `post_tags`                                        |
+| Trayectoria      | `experiences`, `experience_highlights`, `experience_projects`, `experience_technologies`                          |
+| Perfil / impacto | `specialties`, `work_principles`, `impact_metrics`                                                                |
+| Archivos         | `media_assets`, `documents`                                                                                       |
+| Comunicación     | `contact_messages`                                                                                                |
+| Analítica        | `analytics_events`, `analytics_daily`, `analytics_daily_content`                                                  |
+| Operación        | `admin_activity`, `site_builds`                                                                                   |
 
 UUID como identidad salvo claves naturales de agregados y joins. Claves compuestas en relaciones, unicidad de slugs por recurso, FK e índices de FK, publicación/fecha/orden y eventos/fecha. `timestamptz` para instantes, `date` para fechas editoriales y períodos, `value` textual para métricas. Constraints de estados, slugs ASCII, rangos temporales, tamaño de entradas, positivos/no negativos donde corresponda. `updated_at` mediante triggers; acciones administrativas mediante auditoría sin cuerpos de mensajes, contraseñas ni tokens.
 
@@ -251,12 +251,12 @@ Las verificaciones de cada fase se suman a la puerta de calidad común de §9. L
 
 **Archivos:** `package.json`, `package-lock.json`, `astro.config.mjs`, `tsconfig.json`, `.nvmrc`, `.gitignore`, `.env.example`, `.env.edge.example`, `eslint.config.mjs`, `.prettierrc.json`, `src/lib/config/{public,build}.ts`, `src/lib/supabase/{browser,build}.ts`, `src/lib/utils/urls.ts`, layouts base, `src/pages/index.astro`, `README.md`, `docs/ARCHITECTURE.md`, `docs/PHASE_LOG.md`, copia del maestro en raíz.
 
-- [ ] Preservar README e historial; copiar el maestro íntegro y verificar su hash. Fijar Node/npm, paquetes compatibles y lockfile. Resolver PATH para la sesión/documentar Laragon, sin dependencia de PHP o Apache.
-- [ ] Configurar Astro estático, plugin Tailwind Vite, TypeScript estricto y separación de configuración pública/privada. Inicializar clientes Supabase sin secretos privilegiados en `src/`.
-- [ ] Crear `.env.local` ignorado por Git y `.env.example` sin valores reales con `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_PUBLISHABLE_KEY`. Sin credenciales aportadas, dejarlas vacías y comprobar el estado sin configuración; no inventar una conexión real.
-- [ ] Crear helpers de base URL y rutas; usar `site`/`base` derivados de configuración validada. Preparar `404.astro` y salida por directorios.
-- [ ] Configurar lint de Astro/TS, formato y runner de pruebas significativas. Agregar scripts `dev`, `build`, `preview`, `typecheck`, `lint`, `format:check`, `test`, `test:e2e` y comprobación de artefactos al incorporarlos.
-- [ ] Documentar instalación Windows/CI, variables y alcance C2. La página de bootstrap identifica que el contenido todavía no está conectado; no lleva métricas ficticias.
+- [x] Preservar README e historial; copiar el maestro íntegro y verificar su hash. Fijar Node/npm, paquetes compatibles y lockfile. Resolver PATH para la sesión/documentar Laragon, sin dependencia de PHP o Apache.
+- [x] Configurar Astro estático, plugin Tailwind Vite, TypeScript estricto y separación de configuración pública/privada. Inicializar clientes Supabase sin secretos privilegiados en `src/`.
+- [x] Crear `.env.local` ignorado por Git y `.env.example` sin valores reales con `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_PUBLISHABLE_KEY`. Sin credenciales aportadas, dejarlas vacías y comprobar el estado sin configuración; no inventar una conexión real.
+- [x] Crear helpers de base URL y rutas; usar `site`/`base` derivados de configuración validada. Preparar `404.astro` y salida por directorios.
+- [x] Configurar lint de Astro/TS, formato y runner de pruebas significativas. Agregar scripts `dev`, `build`, `preview`, `typecheck`, `lint`, `format:check`, `test`, `test:e2e` y comprobación de artefactos al incorporarlos.
+- [x] Documentar instalación Windows/CI, variables y alcance C2. La página de bootstrap identifica que el contenido todavía no está conectado; no lleva métricas ficticias.
 
 **Verificaciones:** instalación limpia con `npm ci` una vez generado el lockfile; `npm ls`; `npm run typecheck`, `npm run lint`, `npm run format:check`, pruebas del helper URL con base `/` y `/portfolio-alonso/`, `npm run build`, inspección de `dist` y preview. Comprobar que los paquetes no requieren forzar peers.
 
@@ -283,21 +283,21 @@ Las verificaciones de cada fase se suman a la puerta de calidad común de §9. L
 
 **Tokens que no se pueden reinterpretar:**
 
-| Grupo | Valores del maestro |
-| --- | --- |
-| Midnight | 950 `#050816`; 900 `#080C1A`; 850 `#0B1020`; 800 `#10172A` |
-| Glass / bordes | Blanco alpha `.035/.055/.085`; bordes `.10/.18` |
-| Texto | `#F8FAFC`, `#CBD5E1`, `#94A3B8`, `#64748B` con uso sujeto a contraste |
-| Acentos | Cyan `#22D3EE`; Blue `#3B82F6`; Violet `#8B5CF6`; Magenta `#D946EF` |
-| Gradiente | 135deg; cyan 0%, blue 42%, violet 72%, magenta 100%; uso selectivo |
-| Tipo | Hero `clamp(3.4rem,7vw,7.2rem)`; H1 `clamp(2.8rem,5vw,5.5rem)`; H2 `clamp(2rem,3.6vw,3.8rem)`; H3 `clamp(1.4rem,2vw,2rem)`; blog 18px / 1.75 |
-| Espaciado | 4/8/12/16/24/32/48/64/80/96/128/160px; secciones desktop 120–160, tablet 96, mobile 72px |
-| Anchos / padding | General 1440px; normal 1280px; editorial 720–780px; padding lateral 48/32/20px |
-| Radios | 12/18/24/32/40px; pill 9999px |
-| Glass conceptual | Blanco `.05`; borde blanco `.10`; blur 24px; sombra `0 24px 80px rgba(0,0,0,.25)` |
-| Glow | Blur 80–160px; opacidad `.10–.24`; ambiental |
-| Motion | 150/250/400/600ms; `cubic-bezier(0.22,1,0.36,1)`; tilt X ±2°, Y ±3° |
-| Breakpoints | 0–639, 640–767, 768–1023, 1024–1279, 1280–1535, 1536+ |
+| Grupo            | Valores del maestro                                                                                                                          |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Midnight         | 950 `#050816`; 900 `#080C1A`; 850 `#0B1020`; 800 `#10172A`                                                                                   |
+| Glass / bordes   | Blanco alpha `.035/.055/.085`; bordes `.10/.18`                                                                                              |
+| Texto            | `#F8FAFC`, `#CBD5E1`, `#94A3B8`, `#64748B` con uso sujeto a contraste                                                                        |
+| Acentos          | Cyan `#22D3EE`; Blue `#3B82F6`; Violet `#8B5CF6`; Magenta `#D946EF`                                                                          |
+| Gradiente        | 135deg; cyan 0%, blue 42%, violet 72%, magenta 100%; uso selectivo                                                                           |
+| Tipo             | Hero `clamp(3.4rem,7vw,7.2rem)`; H1 `clamp(2.8rem,5vw,5.5rem)`; H2 `clamp(2rem,3.6vw,3.8rem)`; H3 `clamp(1.4rem,2vw,2rem)`; blog 18px / 1.75 |
+| Espaciado        | 4/8/12/16/24/32/48/64/80/96/128/160px; secciones desktop 120–160, tablet 96, mobile 72px                                                     |
+| Anchos / padding | General 1440px; normal 1280px; editorial 720–780px; padding lateral 48/32/20px                                                               |
+| Radios           | 12/18/24/32/40px; pill 9999px                                                                                                                |
+| Glass conceptual | Blanco `.05`; borde blanco `.10`; blur 24px; sombra `0 24px 80px rgba(0,0,0,.25)`                                                            |
+| Glow             | Blur 80–160px; opacidad `.10–.24`; ambiental                                                                                                 |
+| Motion           | 150/250/400/600ms; `cubic-bezier(0.22,1,0.36,1)`; tilt X ±2°, Y ±3°                                                                          |
+| Breakpoints      | 0–639, 640–767, 768–1023, 1024–1279, 1280–1535, 1536+                                                                                        |
 
 **Verificaciones:** controles por teclado, foco visible, targets ≥44px, contraste sobre superficies compuestas y gradientes; zoom 200/400%; reduced motion; fallback sin blur; inspección de tipografía sin CLS apreciable; capturas por breakpoint. Comparación visual con §§19–26, no con una plantilla externa.
 
@@ -457,12 +457,12 @@ Las verificaciones de cada fase se suman a la puerta de calidad común de §9. L
 
 **Archivos:** `supabase/functions/_shared/`, las cuatro carpetas de funciones, `supabase/config.toml`, pruebas Deno/integración, migraciones de rate limit/idempotencia, `docs/SECURITY.md`.
 
-| Función | Autenticación / responsabilidad | Resultado |
-| --- | --- | --- |
-| `publish-site` | Validar JWT con Auth y comprobar owner activo; validar recurso y solicitud; crear queued y llamar dispatch `portfolio_publish` con `build_id` | `202` con build; error GitHub deja `failed` recuperable |
-| `track-event` | Endpoint público; allowlist, tamaño, ruta y UUID válidos; no confundir publishable key con identidad | HMAC y evento persistido o rechazo controlado; sin escritura anon directa |
-| `contact-submit` | Endpoint público; honeypot, duración mínima, validación/sanitización/límites e idempotencia | Mensaje persistido; correo opcional; fallo de correo conserva mensaje |
-| `build-status` | Callback privado con secreto/firma; sin dependencia de JWT de usuario | Estado y run/intento/deployment actualizados de manera idempotente |
+| Función          | Autenticación / responsabilidad                                                                                                               | Resultado                                                                 |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `publish-site`   | Validar JWT con Auth y comprobar owner activo; validar recurso y solicitud; crear queued y llamar dispatch `portfolio_publish` con `build_id` | `202` con build; error GitHub deja `failed` recuperable                   |
+| `track-event`    | Endpoint público; allowlist, tamaño, ruta y UUID válidos; no confundir publishable key con identidad                                          | HMAC y evento persistido o rechazo controlado; sin escritura anon directa |
+| `contact-submit` | Endpoint público; honeypot, duración mínima, validación/sanitización/límites e idempotencia                                                   | Mensaje persistido; correo opcional; fallo de correo conserva mensaje     |
+| `build-status`   | Callback privado con secreto/firma; sin dependencia de JWT de usuario                                                                         | Estado y run/intento/deployment actualizados de manera idempotente        |
 
 - [ ] Implementar helpers de entorno, CORS por orígenes exactos localhost/producción, OPTIONS, JSON y errores. CORS limita navegadores, no sustituye autenticación ni controles de abuso.
 - [ ] Priorizar `@supabase/server`: `withSupabase()` o `createSupabaseContext()` según integración. `publish-site` usa modo `user` y verifica owner; tracking/contacto usan `publishable` sin equiparar clave con identidad; callback usa `none` más su firma obligatoria; comunicaciones de servicio con API key privada usan `secret` cuando corresponda. `Authorization: Bearer <user JWT>` expresa identidad; `apikey: <publishable/secret key>` expresa API key. Nunca tratar `sb_publishable_*` ni `sb_secret_*` como JWT ni recrear la autenticación resuelta por el SDK. [Auth Edge](https://supabase.com/docs/guides/functions/auth).
@@ -605,18 +605,18 @@ Las verificaciones de cada fase se suman a la puerta de calidad común de §9. L
 
 Una fase solo se cierra cuando se ejecutan sus verificaciones con salida comprobada, se corrigen fallos y se documenta el resultado. Los comandos se fijarán en F1; no se han ejecutado checks de una aplicación inexistente durante esta planificación.
 
-| Ámbito | Comprobación prevista | Cuándo |
-| --- | --- | --- |
-| Dependencias | `npm ci`, `npm ls` | F1, CI y cambios de dependencias |
-| Formato | `npm run format:check` | Cada fase con archivos nuevos/modificados |
-| Tipos / lint | `npm run typecheck`, `npm run lint` | Cada fase de aplicación |
-| Lógica | `npm test` | Cada fase; pruebas significativas del comportamiento afectado |
-| Estático | `npm run build`, `npm run check:static`, `npm run check:secrets` | Cada fase con app; últimos dos scripts desde que F1/F11 los incorpore |
-| DB | `supabase db lint`, `supabase test db` | Cambios de esquema/RLS/RPC/agregaciones |
-| Reconstrucción | `supabase db reset` | F5/F6 y QA; exclusivamente instancia local de pruebas |
-| Edge | `deno check`, `deno lint`, `deno test` sobre funciones/fixtures | F9 y cambios posteriores de funciones |
-| Navegador | `npm run test:e2e`, axe y revisión visual/teclado focalizada | Cambios de UI y flujos; matriz completa en F14 |
-| Git | `git diff --check`, revisión de `git diff` y `git status --short` | Antes de todo commit |
+| Ámbito         | Comprobación prevista                                             | Cuándo                                                                |
+| -------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Dependencias   | `npm ci`, `npm ls`                                                | F1, CI y cambios de dependencias                                      |
+| Formato        | `npm run format:check`                                            | Cada fase con archivos nuevos/modificados                             |
+| Tipos / lint   | `npm run typecheck`, `npm run lint`                               | Cada fase de aplicación                                               |
+| Lógica         | `npm test`                                                        | Cada fase; pruebas significativas del comportamiento afectado         |
+| Estático       | `npm run build`, `npm run check:static`, `npm run check:secrets`  | Cada fase con app; últimos dos scripts desde que F1/F11 los incorpore |
+| DB             | `supabase db lint`, `supabase test db`                            | Cambios de esquema/RLS/RPC/agregaciones                               |
+| Reconstrucción | `supabase db reset`                                               | F5/F6 y QA; exclusivamente instancia local de pruebas                 |
+| Edge           | `deno check`, `deno lint`, `deno test` sobre funciones/fixtures   | F9 y cambios posteriores de funciones                                 |
+| Navegador      | `npm run test:e2e`, axe y revisión visual/teclado focalizada      | Cambios de UI y flujos; matriz completa en F14                        |
+| Git            | `git diff --check`, revisión de `git diff` y `git status --short` | Antes de todo commit                                                  |
 
 Las pruebas automáticas priorizan reglas que pueden fallar: autorización, publicación, persistencia, parsing/sanitización, subrutas, filtros públicos e idempotencia. No crear tests triviales que repliquen clases CSS. Los cambios visuales reversibles se verifican con contraste, navegación y capturas. Regresiones anteriores se incluyen en el conjunto común; no repetir baterías costosas sin cambio o fallo que lo justifique.
 
@@ -628,106 +628,106 @@ Tras la aprobación se trabajará en una rama de implementación, preservando `m
 
 Los archivos `.env.example` y `.env.edge.example` contendrán nombres, valores ficticios/inofensivos y comentarios; nunca credenciales reales. Los `.env` efectivos y artefactos temporales de pruebas quedan ignorados por Git. No mezclar configuración del build con secretos operativos por comodidad.
 
-| Variable | Ámbito previsto | Tratamiento |
-| --- | --- | --- |
-| `PUBLIC_SUPABASE_URL` | Browser admin / build | Pública; validar HTTPS en producción. |
-| `PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Browser admin / build | Pública; RLS sigue siendo obligatorio. |
-| `PUBLIC_SITE_URL` | Browser / build / Actions variable | URL pública completa con base; origen y pathname se derivan una sola vez. Valor inicial propuesto: `https://alarenas1988.github.io/portfolio-alonso/`. |
-| `SUPABASE_URL` | Edge | Configuración provista por runtime; no secreto por sí misma. |
-| `SUPABASE_SECRET_KEY` | Contrato privado conceptual del maestro | No se carga en Astro. Helper Edge utiliza el diccionario `SUPABASE_SECRET_KEYS` del runtime actual; fallback singular solo si el entorno lo ofrece explícitamente. |
-| `SUPABASE_SECRET_KEYS` / `SUPABASE_PUBLISHABLE_KEYS` | Edge administrado | Diccionarios inyectados por plataforma; validar presencia de la clave seleccionada. No copiar diccionarios privados al frontend. |
-| `GITHUB_FINE_GRAINED_TOKEN` | Solo secretos Edge | Dispatch y consultas de reconciliación del repo autorizado. |
-| `GITHUB_REPOSITORY_OWNER` / `GITHUB_REPOSITORY_NAME` | Configuración Edge | Fijos al repo, no aceptados desde requests; no sensibles por sí mismos. |
-| `ANALYTICS_HASH_SECRET` | Solo secretos Edge | HMAC de sesiones; rotación invalida continuidad de hashes y debe documentarse. |
-| `RATE_LIMIT_HASH_SECRET` | Solo secretos Edge | Propuesta adicional para aislar hashes efímeros de abuso. |
-| `BUILD_CALLBACK_SECRET` | Secretos Edge y Actions | Firma de callbacks; disponible solo en pasos de callback/reconciliación, no en el proceso Astro. |
-| `SUPABASE_BUILD_STATUS_URL` | Actions variable | Endpoint callback, no credencial. |
-| `EMAIL_PROVIDER_SECRET` | Solo secretos Edge, opcional | Nunca en DB pública, HTML o UI de settings. |
-| `EMAIL_FROM` / `EMAIL_TO` | Configuración privada Edge | Destinatario fijo y remitente verificado para notificaciones. |
-| `ALLOWED_ORIGINS` | Configuración Edge | Allowlist separada por entorno; la ruta base no forma parte del origin HTTP. |
-| `SUPABASE_ACCESS_TOKEN` / referencia del proyecto | Herramientas de despliegue Supabase, si se usan | Aprovisionamiento/CLI fuera del frontend y del build público; DB password solo en el gestor de secretos correspondiente. |
-| `GITHUB_TOKEN` de Actions | Runner / permisos por job | Token efímero de GitHub; no variable pública, no sustituto de la clave de Supabase. Reconciliación usa `actions:read` y acceso de lectura al estado de deployment cuando corresponda. |
+| Variable                                             | Ámbito previsto                                 | Tratamiento                                                                                                                                                                           |
+| ---------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PUBLIC_SUPABASE_URL`                                | Browser admin / build                           | Pública; validar HTTPS en producción.                                                                                                                                                 |
+| `PUBLIC_SUPABASE_PUBLISHABLE_KEY`                    | Browser admin / build                           | Pública; RLS sigue siendo obligatorio.                                                                                                                                                |
+| `PUBLIC_SITE_URL`                                    | Browser / build / Actions variable              | URL pública completa con base; origen y pathname se derivan una sola vez. Valor inicial propuesto: `https://alarenas1988.github.io/portfolio-alonso/`.                                |
+| `SUPABASE_URL`                                       | Edge                                            | Configuración provista por runtime; no secreto por sí misma.                                                                                                                          |
+| `SUPABASE_SECRET_KEY`                                | Contrato privado conceptual del maestro         | No se carga en Astro. Helper Edge utiliza el diccionario `SUPABASE_SECRET_KEYS` del runtime actual; fallback singular solo si el entorno lo ofrece explícitamente.                    |
+| `SUPABASE_SECRET_KEYS` / `SUPABASE_PUBLISHABLE_KEYS` | Edge administrado                               | Diccionarios inyectados por plataforma; validar presencia de la clave seleccionada. No copiar diccionarios privados al frontend.                                                      |
+| `GITHUB_FINE_GRAINED_TOKEN`                          | Solo secretos Edge                              | Dispatch y consultas de reconciliación del repo autorizado.                                                                                                                           |
+| `GITHUB_REPOSITORY_OWNER` / `GITHUB_REPOSITORY_NAME` | Configuración Edge                              | Fijos al repo, no aceptados desde requests; no sensibles por sí mismos.                                                                                                               |
+| `ANALYTICS_HASH_SECRET`                              | Solo secretos Edge                              | HMAC de sesiones; rotación invalida continuidad de hashes y debe documentarse.                                                                                                        |
+| `RATE_LIMIT_HASH_SECRET`                             | Solo secretos Edge                              | Propuesta adicional para aislar hashes efímeros de abuso.                                                                                                                             |
+| `BUILD_CALLBACK_SECRET`                              | Secretos Edge y Actions                         | Firma de callbacks; disponible solo en pasos de callback/reconciliación, no en el proceso Astro.                                                                                      |
+| `SUPABASE_BUILD_STATUS_URL`                          | Actions variable                                | Endpoint callback, no credencial.                                                                                                                                                     |
+| `EMAIL_PROVIDER_SECRET`                              | Solo secretos Edge, opcional                    | Nunca en DB pública, HTML o UI de settings.                                                                                                                                           |
+| `EMAIL_FROM` / `EMAIL_TO`                            | Configuración privada Edge                      | Destinatario fijo y remitente verificado para notificaciones.                                                                                                                         |
+| `ALLOWED_ORIGINS`                                    | Configuración Edge                              | Allowlist separada por entorno; la ruta base no forma parte del origin HTTP.                                                                                                          |
+| `SUPABASE_ACCESS_TOKEN` / referencia del proyecto    | Herramientas de despliegue Supabase, si se usan | Aprovisionamiento/CLI fuera del frontend y del build público; DB password solo en el gestor de secretos correspondiente.                                                              |
+| `GITHUB_TOKEN` de Actions                            | Runner / permisos por job                       | Token efímero de GitHub; no variable pública, no sustituto de la clave de Supabase. Reconciliación usa `actions:read` y acceso de lectura al estado de deployment cuando corresponda. |
 
 El build de producción consulta exclusivamente contenido accesible con publishable key y políticas públicas. No necesita service role. Las funciones privilegiadas usan secretos del backend; las acciones de owner verifican JWT y perfil antes de acceder a privilegios elevados. El aislamiento se verifica además mediante análisis de imports y escaneo de `dist` con secretos canario en pruebas, sin imprimir valores reales.
 
 ## 11. Pruebas esenciales por escenario
 
-| Área | Casos mínimos de aceptación |
-| --- | --- |
-| Publicación de datos | Proyecto público/privado/archivado; post draft/publicado/futuro; tecnologías ocultas; hijo de padre oculto; relación desde experiencia visible hacia proyecto privado. |
-| Owner | JWT válido sin perfil, owner inactivo, rol manipulado, intento de autoalta, acceso directo a tablas/RPC/Storage; todo denegado salvo owner activo autorizado. |
-| CMS | Crear, autoguardar, recargar, modificar relaciones, conflicto entre pestañas, red caída, archivar, confirmar eliminación; ni pérdida de texto ni publicación falsa. |
-| Markdown | XSS, protocolos peligrosos, imágenes externas no permitidas, headings duplicados, código con `<script>` literal, filename, copiar, TOC y preview/build equivalentes. |
-| Media | Upload inválido, objeto privado, referencias en Markdown, fallo metadata/Storage, reemplazo inmutable, borrado en uso, PDF activo, última publicación preservada. |
-| Contacto | Payload válido, honeypot, envío demasiado rápido, email inválido, gigante, rate limit concurrente, doble envío, proveedor de email caído; mensaje legítimo conserva persistencia. |
-| Analytics | HMAC estable, UUID inválido, evento no permitido, duplicados, red bloqueada, sin storage, cero tráfico, misma sesión en varios días, cambios de fecha/horario y privacidad. |
-| C2 | Push/manual/dispatch; payload con build_id incorrecto, timeout tras posible aceptación de dispatch, callback falsificado/replay, build/deploy fallido, dos runs, cancelación previa al inicio, retry y reconciliación. |
-| Rutas / SEO | Base `/` y base repo, refresh directo de editor con UUID, ruta pública por slug, 404, sitemap/RSS y meta robots en HTML; no datos admin serializados. |
-| UX | 320px, tablet, desktop, landscape, zoom, teclado, lector de pantalla, reduced motion, sin blur, JS desactivado y mensajes de error accesibles. |
+| Área                 | Casos mínimos de aceptación                                                                                                                                                                                            |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Publicación de datos | Proyecto público/privado/archivado; post draft/publicado/futuro; tecnologías ocultas; hijo de padre oculto; relación desde experiencia visible hacia proyecto privado.                                                 |
+| Owner                | JWT válido sin perfil, owner inactivo, rol manipulado, intento de autoalta, acceso directo a tablas/RPC/Storage; todo denegado salvo owner activo autorizado.                                                          |
+| CMS                  | Crear, autoguardar, recargar, modificar relaciones, conflicto entre pestañas, red caída, archivar, confirmar eliminación; ni pérdida de texto ni publicación falsa.                                                    |
+| Markdown             | XSS, protocolos peligrosos, imágenes externas no permitidas, headings duplicados, código con `<script>` literal, filename, copiar, TOC y preview/build equivalentes.                                                   |
+| Media                | Upload inválido, objeto privado, referencias en Markdown, fallo metadata/Storage, reemplazo inmutable, borrado en uso, PDF activo, última publicación preservada.                                                      |
+| Contacto             | Payload válido, honeypot, envío demasiado rápido, email inválido, gigante, rate limit concurrente, doble envío, proveedor de email caído; mensaje legítimo conserva persistencia.                                      |
+| Analytics            | HMAC estable, UUID inválido, evento no permitido, duplicados, red bloqueada, sin storage, cero tráfico, misma sesión en varios días, cambios de fecha/horario y privacidad.                                            |
+| C2                   | Push/manual/dispatch; payload con build_id incorrecto, timeout tras posible aceptación de dispatch, callback falsificado/replay, build/deploy fallido, dos runs, cancelación previa al inicio, retry y reconciliación. |
+| Rutas / SEO          | Base `/` y base repo, refresh directo de editor con UUID, ruta pública por slug, 404, sitemap/RSS y meta robots en HTML; no datos admin serializados.                                                                  |
+| UX                   | 320px, tablet, desktop, landscape, zoom, teclado, lector de pantalla, reduced motion, sin blur, JS desactivado y mensajes de error accesibles.                                                                         |
 
 Un timeout de GitHub después de enviar dispatch es resultado incierto: conservar la solicitud y reconciliar antes de volver a dispararla; un reintento HTTP con el mismo `request_id` devuelve el mismo build. Para callback o reconciliación, validar run/intento/repo y estado real de despliegue, no aceptar campos de URL como prueba de éxito.
 
 ## 12. Registro de riesgos y condiciones de cierre
 
-| Riesgo | Prioridad | Mitigación y fase responsable |
-| --- | --- | --- |
-| Escritura por usuario authenticated noowner o fuga por relaciones | Crítica | Denegar por defecto, RLS/grants y matriz adversarial F5/F6. |
-| Secretos en bundle, preview o callbacks | Crítica | Aislar módulos/entornos, sanitizar, HMAC y escanear F1/F6/F9/F11. |
-| Destruir última publicación al fallar build o borrar assets | Alta | Deployment solo de artefacto validado y assets autocontenidos F8/F11. |
-| GitHub CLI con permiso READ | Alta para despliegue | Resolver cuenta/permisos antes de F11; no bloquea trabajo local. |
-| Entorno Supabase/Docker aún no disponible | Alta para integración | Verificar e instalar/configurar en F1/F5; ejecutar primero en local. |
-| Vacíos entre funcionalidades y campos SQL | Alta | Extensiones trazadas D04/§7.2 antes de desarrollar CMS. |
-| C2 no publica instantáneamente ni aísla revisiones de contenido ya público | Media | UI Guardado/Publicado y comunicación clara de snapshot/rebuild F7/F11. |
-| Builds huérfanos por cancelación/callback perdido | Alta | Idempotencia, run/intento y reconciliación independiente F9/F11. |
-| Abuso de formularios/analytics | Alta | Límites atómicos, HMAC efímero, payload estricto y honeypot F9/F10. |
-| Métricas falsas por sumar únicos o por fixtures | Alta | Distintos por rango y contenido real aprobado F10/F14. |
-| Robots en subruta | Media / condición SEO | Resolver host/dominio o documentar limitación aceptada F12. |
-| Contraste y coste de efectos | Media | Tokens con usos accesibles, presupuestos y profiling F2/F13. |
-| TS latest incompatible con comprobador | Media | Selección TS6 documentada e instalación sin forzar peers F1. |
-| Safari real / CWV de campo sin entorno o tráfico | Media | Declarar alcance medido; WebKit y laboratorio como evidencia parcial F13/F14. |
-| Información personal y proyectos aún no suministrados | Alta para lanzamiento | Contenido/medios/métricas verificados; nunca rellenar con logros inventados F3/F4/F14. |
+| Riesgo                                                                     | Prioridad             | Mitigación y fase responsable                                                          |
+| -------------------------------------------------------------------------- | --------------------- | -------------------------------------------------------------------------------------- |
+| Escritura por usuario authenticated noowner o fuga por relaciones          | Crítica               | Denegar por defecto, RLS/grants y matriz adversarial F5/F6.                            |
+| Secretos en bundle, preview o callbacks                                    | Crítica               | Aislar módulos/entornos, sanitizar, HMAC y escanear F1/F6/F9/F11.                      |
+| Destruir última publicación al fallar build o borrar assets                | Alta                  | Deployment solo de artefacto validado y assets autocontenidos F8/F11.                  |
+| GitHub CLI con permiso READ                                                | Alta para despliegue  | Resolver cuenta/permisos antes de F11; no bloquea trabajo local.                       |
+| Entorno Supabase/Docker aún no disponible                                  | Alta para integración | Verificar e instalar/configurar en F1/F5; ejecutar primero en local.                   |
+| Vacíos entre funcionalidades y campos SQL                                  | Alta                  | Extensiones trazadas D04/§7.2 antes de desarrollar CMS.                                |
+| C2 no publica instantáneamente ni aísla revisiones de contenido ya público | Media                 | UI Guardado/Publicado y comunicación clara de snapshot/rebuild F7/F11.                 |
+| Builds huérfanos por cancelación/callback perdido                          | Alta                  | Idempotencia, run/intento y reconciliación independiente F9/F11.                       |
+| Abuso de formularios/analytics                                             | Alta                  | Límites atómicos, HMAC efímero, payload estricto y honeypot F9/F10.                    |
+| Métricas falsas por sumar únicos o por fixtures                            | Alta                  | Distintos por rango y contenido real aprobado F10/F14.                                 |
+| Robots en subruta                                                          | Media / condición SEO | Resolver host/dominio o documentar limitación aceptada F12.                            |
+| Contraste y coste de efectos                                               | Media                 | Tokens con usos accesibles, presupuestos y profiling F2/F13.                           |
+| TS latest incompatible con comprobador                                     | Media                 | Selección TS6 documentada e instalación sin forzar peers F1.                           |
+| Safari real / CWV de campo sin entorno o tráfico                           | Media                 | Declarar alcance medido; WebKit y laboratorio como evidencia parcial F13/F14.          |
+| Información personal y proyectos aún no suministrados                      | Alta para lanzamiento | Contenido/medios/métricas verificados; nunca rellenar con logros inventados F3/F4/F14. |
 
 ## 13. Trazabilidad del maestro a las fases
 
-| Sección del maestro | Cobertura en el plan |
-| --- | --- |
-| 1 Objetivo general | Resumen, restricciones, F3/F4 y aceptación F14 |
-| 2 Identidad de marca | F2/F3, SVG AL y claim |
-| 3 Arquitectura C2 | Contratos, F1/F5/F6/F9/F11 |
-| 4 Estructura del repositorio | §6, F1 |
-| 5 Rutas | D02/D06, F1/F4/F7 |
-| 6 Home | F3, datos F5 y diseño F2 |
-| 7 Casos de estudio | F4, modelo F5, editor F7 |
-| 8 Blog/Markdown/código | F4/F7/F12 |
-| 9 Sobre mí y principios | §7.2, F3/F4/F5/F7 |
-| 10 Contacto | F3/F4/F7/F9/F10 |
-| 11 Footer | F3 |
-| 12 CMS completo | F7, biblioteca F8, métricas F10, publicación F11 |
-| 13 Modelo de datos | §7 y F5/F10 |
-| 14 Seguridad y RLS | F6/F9 y matriz §11 |
-| 15 Storage | F6/F8 |
-| 16 Edge Functions | F9/F11 |
-| 17 Analítica propia | F10 y variables §10 |
-| 18 GitHub Actions | F11 |
-| 19 Design System | Tokens exactos F2 |
-| 20 Animaciones | F2/F3/F13 |
-| 21 Navbar | F3 |
-| 22 Botones | F2 |
-| 23 Responsive | F2/F3/F4/F7/F13/F14 |
-| 24 Accesibilidad | F2 y todas las fases UI, cierre F13/F14 |
-| 25 Performance | F1/F2/F8/F13 |
-| 26 Iconografía | F2/F5/F7 |
-| 27 SEO | §7.2, F4/F7/F12 |
-| 28 Slugs | F4/F5/F7/F12 |
-| 29 Borrado y estados | Restricciones, F5/F7/F8 |
-| 30 Fuera de V1 | Restricciones globales |
-| 31 Aceptación funcional | Verificaciones por fase, §11, F14 |
-| 32 Aceptación visual | F2/F3/F13/F14 |
-| 33 Orden sugerido | §5, datos y seguridad adelantados |
-| 34 Reglas de implementación | Restricciones, estructura y puerta de calidad §9 |
-| 35 Variables | §10 y F1/F9/F11 |
-| 36 Entregables | Todas las fases y documentación F14 |
-| 37 Resultado esperado | Resumen y aceptación final F14 |
+| Sección del maestro          | Cobertura en el plan                             |
+| ---------------------------- | ------------------------------------------------ |
+| 1 Objetivo general           | Resumen, restricciones, F3/F4 y aceptación F14   |
+| 2 Identidad de marca         | F2/F3, SVG AL y claim                            |
+| 3 Arquitectura C2            | Contratos, F1/F5/F6/F9/F11                       |
+| 4 Estructura del repositorio | §6, F1                                           |
+| 5 Rutas                      | D02/D06, F1/F4/F7                                |
+| 6 Home                       | F3, datos F5 y diseño F2                         |
+| 7 Casos de estudio           | F4, modelo F5, editor F7                         |
+| 8 Blog/Markdown/código       | F4/F7/F12                                        |
+| 9 Sobre mí y principios      | §7.2, F3/F4/F5/F7                                |
+| 10 Contacto                  | F3/F4/F7/F9/F10                                  |
+| 11 Footer                    | F3                                               |
+| 12 CMS completo              | F7, biblioteca F8, métricas F10, publicación F11 |
+| 13 Modelo de datos           | §7 y F5/F10                                      |
+| 14 Seguridad y RLS           | F6/F9 y matriz §11                               |
+| 15 Storage                   | F6/F8                                            |
+| 16 Edge Functions            | F9/F11                                           |
+| 17 Analítica propia          | F10 y variables §10                              |
+| 18 GitHub Actions            | F11                                              |
+| 19 Design System             | Tokens exactos F2                                |
+| 20 Animaciones               | F2/F3/F13                                        |
+| 21 Navbar                    | F3                                               |
+| 22 Botones                   | F2                                               |
+| 23 Responsive                | F2/F3/F4/F7/F13/F14                              |
+| 24 Accesibilidad             | F2 y todas las fases UI, cierre F13/F14          |
+| 25 Performance               | F1/F2/F8/F13                                     |
+| 26 Iconografía               | F2/F5/F7                                         |
+| 27 SEO                       | §7.2, F4/F7/F12                                  |
+| 28 Slugs                     | F4/F5/F7/F12                                     |
+| 29 Borrado y estados         | Restricciones, F5/F7/F8                          |
+| 30 Fuera de V1               | Restricciones globales                           |
+| 31 Aceptación funcional      | Verificaciones por fase, §11, F14                |
+| 32 Aceptación visual         | F2/F3/F13/F14                                    |
+| 33 Orden sugerido            | §5, datos y seguridad adelantados                |
+| 34 Reglas de implementación  | Restricciones, estructura y puerta de calidad §9 |
+| 35 Variables                 | §10 y F1/F9/F11                                  |
+| 36 Entregables               | Todas las fases y documentación F14              |
+| 37 Resultado esperado        | Resumen y aceptación final F14                   |
 
 ## 14. Estado de esta entrega y aprobación
 
