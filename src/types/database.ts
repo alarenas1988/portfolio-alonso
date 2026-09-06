@@ -114,7 +114,43 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      is_portfolio_admin: { Args: never; Returns: boolean };
+      read_public_contact: {
+        Args: never;
+        Returns: {
+          cta_description: string;
+          cta_title: string;
+          cv_enabled: boolean;
+          email: string;
+          email_visible: boolean;
+          form_enabled: boolean;
+          id: string;
+          whatsapp_cta_label: string;
+          whatsapp_default_message: string;
+          whatsapp_number: string;
+          whatsapp_visible: boolean;
+        }[];
+      };
+      read_public_media: {
+        Args: never;
+        Returns: {
+          alt_text: string;
+          caption: string;
+          category: string;
+          file_size: number;
+          filename: string;
+          height: number;
+          id: string;
+          mime_type: string;
+          public_url: string;
+          visibility: string;
+          width: number;
+        }[];
+      };
+      storage_path_allowed: {
+        Args: { bucket: string; object_name: string };
+        Returns: boolean;
+      };
     };
     Enums: {
       [_ in never]: never;
@@ -1666,7 +1702,119 @@ export type Database = {
       };
     };
     Views: {
-      [_ in never]: never;
+      admin_analytics_daily_dimensions: {
+        Row: {
+          article_shares: number | null;
+          contact_submits: number | null;
+          cv_downloads: number | null;
+          date: string | null;
+          demo_clicks: number | null;
+          dimension: string | null;
+          email_clicks: number | null;
+          email_copies: number | null;
+          github_clicks: number | null;
+          linkedin_clicks: number | null;
+          page_views: number | null;
+          post_views: number | null;
+          project_views: number | null;
+          unique_sessions: number | null;
+          value: string | null;
+          whatsapp_clicks: number | null;
+        };
+        Insert: {
+          article_shares?: number | null;
+          contact_submits?: number | null;
+          cv_downloads?: number | null;
+          date?: string | null;
+          demo_clicks?: number | null;
+          dimension?: string | null;
+          email_clicks?: number | null;
+          email_copies?: number | null;
+          github_clicks?: number | null;
+          linkedin_clicks?: number | null;
+          page_views?: number | null;
+          post_views?: number | null;
+          project_views?: number | null;
+          unique_sessions?: number | null;
+          value?: string | null;
+          whatsapp_clicks?: number | null;
+        };
+        Update: {
+          article_shares?: number | null;
+          contact_submits?: number | null;
+          cv_downloads?: number | null;
+          date?: string | null;
+          demo_clicks?: number | null;
+          dimension?: string | null;
+          email_clicks?: number | null;
+          email_copies?: number | null;
+          github_clicks?: number | null;
+          linkedin_clicks?: number | null;
+          page_views?: number | null;
+          post_views?: number | null;
+          project_views?: number | null;
+          unique_sessions?: number | null;
+          value?: string | null;
+          whatsapp_clicks?: number | null;
+        };
+        Relationships: [];
+      };
+      admin_analytics_daily_sessions: {
+        Row: {
+          content_id: string | null;
+          content_type: string | null;
+          date: string | null;
+          id: string | null;
+          session_hash: string | null;
+        };
+        Insert: {
+          content_id?: string | null;
+          content_type?: string | null;
+          date?: string | null;
+          id?: string | null;
+          session_hash?: string | null;
+        };
+        Update: {
+          content_id?: string | null;
+          content_type?: string | null;
+          date?: string | null;
+          id?: string | null;
+          session_hash?: string | null;
+        };
+        Relationships: [];
+      };
+      public_contact_settings: {
+        Row: {
+          cta_description: string | null;
+          cta_title: string | null;
+          cv_enabled: boolean | null;
+          email: string | null;
+          email_visible: boolean | null;
+          form_enabled: boolean | null;
+          id: string | null;
+          whatsapp_cta_label: string | null;
+          whatsapp_default_message: string | null;
+          whatsapp_number: string | null;
+          whatsapp_visible: boolean | null;
+        };
+        Relationships: [];
+      };
+      public_media_assets: {
+        Row: {
+          alt_text: string | null;
+          caption: string | null;
+          category: string | null;
+          file_size: number | null;
+          filename: string | null;
+          height: number | null;
+          id: string | null;
+          mime_type: string | null;
+          public_url: string | null;
+          visibility: string | null;
+          width: number | null;
+        };
+        Relationships: [];
+      };
     };
     Functions: {
       get_public_snapshot: { Args: never; Returns: Json };
