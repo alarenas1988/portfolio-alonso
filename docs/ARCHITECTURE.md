@@ -142,3 +142,9 @@ TypeScript usa el preset `strictest`. ESLint prohíbe `any` explícito y evita i
 El artefacto se valida por estructura, base y referencias; luego se analiza en busca de patrones privados. Unit tests ejercitan configuración, URLs, tokens y contraste. Playwright y axe prueban el artefacto a 360, 390, 768, 1024, 1440 y 1920px, incluida la 404, controles, touch, uso sin JavaScript y reduced motion.
 
 Los tokens de F2 son la fuente visual compartida por Tailwind, el frontend y el futuro administrador. El admin reduce blur, glow y movimiento para priorizar densidad y legibilidad. La portada de muestra se reemplaza en F3 y no adelanta contenido público, navegación ni funcionalidades posteriores.
+
+# F10 — Analytics first-party
+
+La instrumentación pública reutiliza los hooks F3/F4 y el intake F9. Cliente nativo sin dependencias Analytics, sesión efímera, payload finito y fallos silenciosos. La transacción de contacto sigue siendo el único origen de contact_submit.
+
+022 incorpora recomputación PostgreSQL atómica, job horario, retención 90/400 fechas, popular_rank derivado y consulta owner-only de agregados. No cambia baseline, Auth, Storage, snapshot ni policies. No hay dashboard F7 ni workflows F11. [Arquitectura, contratos y decisiones F10](ANALYTICS.md).
