@@ -113,12 +113,17 @@ insert into public.technologies(id,name,slug,category,visible) values
 insert into public.experiences(id,position,organization,start_date,visible) values
 (pg_temp.fixture_id('experience'),'Fixture','Test only','2020-01-01',true),
 (pg_temp.fixture_id('private-experience'),'PRIVATE_SENTINEL','Test only','2020-01-01',false);
-insert into public.media_assets(id,storage_bucket,storage_path,public_url,filename,mime_type,file_size,visibility)
+insert into storage.objects(bucket_id,name) values
+('portfolio-public','projects/10000000-0000-4000-8000-000000000001.png'),
+('private','temporary/10000000-0000-4000-8000-000000000002.png'),
+('portfolio-public','general/10000000-0000-4000-8000-000000000003.png'),
+('documents','cv/10000000-0000-4000-8000-000000000004.pdf');
+insert into public.media_assets(id,storage_bucket,storage_path,public_url,filename,mime_type,file_size,visibility,width,height,alt_text)
 values
-(pg_temp.fixture_id('image'),'fixture-public','test-only.png','https://example.com/test-only.png','test-only.png','image/png',100,'public'),
-(pg_temp.fixture_id('private-image'),'fixture-private','private.png','https://example.com/PRIVATE_SENTINEL.png','private.png','image/png',100,'private'),
-(pg_temp.fixture_id('unused-image'),'fixture-public','unused.png','https://example.com/unused.png','unused.png','image/png',100,'public'),
-(pg_temp.fixture_id('pdf'),'fixture-public','test-only.pdf','https://example.com/test-only.pdf','test-only.pdf','application/pdf',100,'public');
+(pg_temp.fixture_id('image'),'portfolio-public','projects/10000000-0000-4000-8000-000000000001.png','https://example.com/storage/v1/object/public/portfolio-public/projects/10000000-0000-4000-8000-000000000001.png','test-only.png','image/png',100,'public',10,10,'Fixture'),
+(pg_temp.fixture_id('private-image'),'private','temporary/10000000-0000-4000-8000-000000000002.png',null,'private.png','image/png',100,'private',10,10,'PRIVATE_SENTINEL'),
+(pg_temp.fixture_id('unused-image'),'portfolio-public','general/10000000-0000-4000-8000-000000000003.png','https://example.com/storage/v1/object/public/portfolio-public/general/10000000-0000-4000-8000-000000000003.png','unused.png','image/png',100,'public',10,10,'Fixture'),
+(pg_temp.fixture_id('pdf'),'documents','cv/10000000-0000-4000-8000-000000000004.pdf','https://example.com/storage/v1/object/public/documents/cv/10000000-0000-4000-8000-000000000004.pdf','test-only.pdf','application/pdf',100,'public',null,null,null);
 update public.projects set featured_image_asset_id=pg_temp.fixture_id('image'), cover_image_asset_id=pg_temp.fixture_id('private-image') where id=pg_temp.fixture_id('project');
 insert into public.project_images(id,project_id,asset_id,alt_text) values
 (pg_temp.fixture_id('gallery'),pg_temp.fixture_id('project'),pg_temp.fixture_id('image'),'Public fixture image'),
@@ -158,12 +163,12 @@ select throws_ok($test$delete from public.media_assets where id=pg_temp.fixture_
 select throws_ok($test$update public.media_assets set public_url='https://example.com/replaced.png' where id=pg_temp.fixture_id('image')$test$, '23514', null, 'Asset URL immutable');
 select throws_ok($test$insert into public.documents(title,asset_id,active) values ('Second CV',pg_temp.fixture_id('pdf'),true)$test$, '23505', null, 'Single active CV');
 select throws_ok($test$insert into public.documents(title,asset_id) values ('Not PDF',pg_temp.fixture_id('image'))$test$, '23514', null, 'CV requires PDF');
-select is((select featured_image_url from public.projects where id=pg_temp.fixture_id('project')), 'https://example.com/test-only.png', 'Image URL derived from FK');
+select is((select featured_image_url from public.projects where id=pg_temp.fixture_id('project')), 'https://example.com/storage/v1/object/public/portfolio-public/projects/10000000-0000-4000-8000-000000000001.png', 'Image URL derived from FK');
 update public.projects set featured_image_url='https://example.com/forged.png' where id=pg_temp.fixture_id('project');
-select is((select featured_image_url from public.projects where id=pg_temp.fixture_id('project')), 'https://example.com/test-only.png', 'Cannot override derived image URL');
-select is((select cv_url from public.site_settings), 'https://example.com/test-only.pdf', 'CV URL synchronized');
+select is((select featured_image_url from public.projects where id=pg_temp.fixture_id('project')), 'https://example.com/storage/v1/object/public/portfolio-public/projects/10000000-0000-4000-8000-000000000001.png', 'Cannot override derived image URL');
+select is((select cv_url from public.site_settings), 'https://example.com/storage/v1/object/public/documents/cv/10000000-0000-4000-8000-000000000004.pdf', 'CV URL synchronized');
 update public.site_settings set cv_url='https://example.com/forged.pdf';
-select is((select cv_url from public.site_settings), 'https://example.com/test-only.pdf', 'Cannot override derived CV');
+select is((select cv_url from public.site_settings), 'https://example.com/storage/v1/object/public/documents/cv/10000000-0000-4000-8000-000000000004.pdf', 'Cannot override derived CV');
 select ok(exists(select 1 from public.media_references where project_id=pg_temp.fixture_id('project') and asset_id=pg_temp.fixture_id('image')), 'Direct FK registered as media reference');
 select throws_ok($test$insert into public.media_references(asset_id,project_id,field) values (pg_temp.fixture_id('image'),pg_temp.fixture_id('project'),'featured_image_asset_id')$test$, '23505', null, 'Media references unique');
 select throws_ok($test$insert into public.media_references(asset_id,project_id,post_id,field) values (pg_temp.fixture_id('image'),pg_temp.fixture_id('project'),pg_temp.fixture_id('post'),'content_markdown')$test$, '23514', null, 'Media reference has exactly one parent');
@@ -222,9 +227,12 @@ select ok(public.get_public_snapshot()::text not like '%PRIVATE_SENTINEL%', 'No 
 select ok(not (public.get_public_snapshot() ?| array['contact_messages','analytics_events','site_builds','admin_activity','admin_profiles']), 'No private top-level tables');
 select ok(public.get_public_snapshot()::text not like '%created_by%' and public.get_public_snapshot()::text not like '%storage_path%', 'No administrative media fields');
 select ok((public.get_public_snapshot()#>'{projects,0,cover_image_url}') = 'null'::jsonb, 'Private image URL removed');
+insert into storage.objects(bucket_id,name) values('private','temporary/10000000-0000-4000-8000-000000000005.pdf');
+insert into public.media_assets(id,storage_bucket,storage_path,filename,mime_type,file_size) values(pg_temp.fixture_id('private-pdf'),'private','temporary/10000000-0000-4000-8000-000000000005.pdf','private.pdf','application/pdf',100);
 update public.contact_settings set cv_enabled=true;
 select is(jsonb_array_length(public.get_public_snapshot()->'documents'), 1, 'Enabled active public CV included');
-update public.media_assets set visibility='private' where id=pg_temp.fixture_id('pdf');
+select throws_ok($test$update public.media_assets set visibility='private' where id=pg_temp.fixture_id('pdf')$test$, '23514', null, 'A public bucket cannot become private through metadata');
+update public.documents set asset_id=pg_temp.fixture_id('private-pdf') where id=pg_temp.fixture_id('cv');
 select is(jsonb_array_length(public.get_public_snapshot()->'documents'), 0, 'Private CV omitted');
 select ok((public.get_public_snapshot()#>'{settings,cv_url}') = 'null'::jsonb, 'Private CV URL removed');
 update public.documents set active=false where id=pg_temp.fixture_id('cv');

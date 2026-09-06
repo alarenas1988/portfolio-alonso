@@ -14,16 +14,16 @@ const status = spawnSync(process.execPath, [cli, 'status', '--output', 'json'], 
   encoding: 'utf8',
   windowsHide: true,
 });
-if (status.status !== 0) throw new Error('Start the F6 local Supabase stack first.');
+if (status.status !== 0) throw new Error('Start the F8 local Supabase stack first.');
 const local = JSON.parse(status.stdout);
 if (
-  local.API_URL !== 'http://127.0.0.1:55421' ||
+  local.API_URL !== 'http://127.0.0.1:56421' ||
   new URL(local.DB_URL).hostname !== '127.0.0.1' ||
-  new URL(local.DB_URL).port !== '55422'
+  new URL(local.DB_URL).port !== '56422'
 ) {
-  throw new Error('Auth integration tests only permit the isolated F6 loopback stack.');
+  throw new Error('Auth integration tests only permit the isolated F8 loopback stack.');
 }
-const container = 'supabase_db_portfolio-alonso-f6-local';
+const container = 'supabase_db_portfolio-alonso-f8-local';
 function sql(statement) {
   const result = spawnSync(
     'docker',
@@ -54,7 +54,7 @@ if (
     'select (not exists(select 1 from public.admin_profiles) and not exists(select 1 from public.projects) and not exists(select 1 from public.contact_settings where email is not null))::text;',
   ) !== 'true'
 ) {
-  throw new Error('Auth tests require a clean F6 local seed. Run npm run db:reset locally first.');
+  throw new Error('Auth tests require a clean F8 local seed. Run npm run db:reset locally first.');
 }
 let checks = 0;
 function check(condition, label) {
@@ -120,8 +120,9 @@ try {
       (${uid(ids.hiddenTech)},'PRIVATE_REST_SENTINEL','f6-hidden-tech','test',false);
     insert into public.contact_messages(id,submission_id,name,email,subject,message) values
       (${uid(ids.message)},${uid(randomUUID())},'PRIVATE_REST_SENTINEL','test@example.test','Test','PRIVATE_REST_SENTINEL');
-    insert into public.media_assets(id,storage_bucket,storage_path,public_url,filename,mime_type,file_size,created_by) values
-      (${uid(ids.asset)},'private','temporary/test.png','https://example.test/PRIVATE_REST_SENTINEL.png','test.png','image/png',12,${uid(actors.owner.user.id)});
+    insert into storage.objects(bucket_id,name,owner_id) values('private','temporary/10000000-0000-4000-8000-000000000007.png',${uid(actors.owner.user.id)});
+    insert into public.media_assets(id,storage_bucket,storage_path,public_url,filename,mime_type,file_size,created_by,width,height,alt_text) values
+      (${uid(ids.asset)},'private','temporary/10000000-0000-4000-8000-000000000007.png',null,'test.png','image/png',12,${uid(actors.owner.user.id)},1,1,'PRIVATE_REST_SENTINEL');
     update public.contact_settings set email='PRIVATE_REST_SENTINEL@example.test',email_visible=false;
     commit;`);
   for (const [label, actor] of Object.entries(actors)) {
@@ -363,6 +364,8 @@ try {
     delete from public.technologies where id in (${uid(ids.tech)},${uid(ids.hiddenTech)});
     delete from public.contact_messages where id=${uid(ids.message)};
     delete from public.media_assets where id=${uid(ids.asset)};
+    select set_config('storage.allow_delete_query','true',true);
+    delete from storage.objects where bucket_id='private' and name='temporary/10000000-0000-4000-8000-000000000007.png';
     update public.contact_settings set email=null,email_visible=false where email='PRIVATE_REST_SENTINEL@example.test';
     ${users.length ? 'delete from public.admin_profiles where id in (' + users.join(',') + ');' : ''}
     commit;`);

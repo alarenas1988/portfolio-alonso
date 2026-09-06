@@ -16,12 +16,17 @@ insert into public.technologies(id,name,slug,category,visible) values
 insert into public.experiences(id,position,organization,start_date,visible) values
 (pg_temp.fixture_id('experience'),'Fixture','Test only','2020-01-01',true),
 (pg_temp.fixture_id('private-experience'),'PRIVATE_SENTINEL','Test only','2020-01-01',false);
-insert into public.media_assets(id,storage_bucket,storage_path,public_url,filename,mime_type,file_size,visibility)
+insert into storage.objects(bucket_id,name) values
+('portfolio-public','projects/10000000-0000-4000-8000-000000000001.png'),
+('private','temporary/10000000-0000-4000-8000-000000000002.png'),
+('portfolio-public','general/10000000-0000-4000-8000-000000000003.png'),
+('documents','cv/10000000-0000-4000-8000-000000000004.pdf');
+insert into public.media_assets(id,storage_bucket,storage_path,public_url,filename,mime_type,file_size,visibility,width,height,alt_text)
 values
-(pg_temp.fixture_id('image'),'fixture-public','test-only.png','https://example.com/test-only.png','test-only.png','image/png',100,'public'),
-(pg_temp.fixture_id('private-image'),'fixture-private','private.png','https://example.com/PRIVATE_SENTINEL.png','private.png','image/png',100,'private'),
-(pg_temp.fixture_id('unused-image'),'fixture-public','unused.png','https://example.com/unused.png','unused.png','image/png',100,'public'),
-(pg_temp.fixture_id('pdf'),'fixture-public','test-only.pdf','https://example.com/test-only.pdf','test-only.pdf','application/pdf',100,'public');
+(pg_temp.fixture_id('image'),'portfolio-public','projects/10000000-0000-4000-8000-000000000001.png','https://example.com/storage/v1/object/public/portfolio-public/projects/10000000-0000-4000-8000-000000000001.png','test-only.png','image/png',100,'public',10,10,'Fixture'),
+(pg_temp.fixture_id('private-image'),'private','temporary/10000000-0000-4000-8000-000000000002.png',null,'private.png','image/png',100,'private',10,10,'PRIVATE_SENTINEL'),
+(pg_temp.fixture_id('unused-image'),'portfolio-public','general/10000000-0000-4000-8000-000000000003.png','https://example.com/storage/v1/object/public/portfolio-public/general/10000000-0000-4000-8000-000000000003.png','unused.png','image/png',100,'public',10,10,'Fixture'),
+(pg_temp.fixture_id('pdf'),'documents','cv/10000000-0000-4000-8000-000000000004.pdf','https://example.com/storage/v1/object/public/documents/cv/10000000-0000-4000-8000-000000000004.pdf','test-only.pdf','application/pdf',100,'public',null,null,null);
 update public.projects set featured_image_asset_id=pg_temp.fixture_id('image'), cover_image_asset_id=pg_temp.fixture_id('private-image') where id=pg_temp.fixture_id('project');
 insert into public.project_images(id,project_id,asset_id,alt_text) values
 (pg_temp.fixture_id('gallery'),pg_temp.fixture_id('project'),pg_temp.fixture_id('image'),'Public fixture image'),
