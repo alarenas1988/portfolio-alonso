@@ -14,6 +14,10 @@ const privateNames = [
   'RATE_LIMIT_HASH_SECRET',
   'BUILD_CALLBACK_SECRET',
   'EMAIL_PROVIDER_SECRET',
+  'CONTACT_RATE_LIMIT_HMAC_SECRET',
+  'ANALYTICS_HMAC_SECRET',
+  'ANALYTICS_RATE_LIMIT_HMAC_SECRET',
+  'BUILD_CALLBACK_HMAC_SECRET',
 ];
 const canaries = privateNames
   .map((name) => process.env[name])
