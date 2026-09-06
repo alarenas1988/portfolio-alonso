@@ -4,6 +4,7 @@ import { readFileSync, writeFileSync, unlinkSync } from 'node:fs';
 import { createHash, randomBytes } from 'node:crypto';
 import { join } from 'node:path';
 import { cli, cliJson, verifyProject, verifyLink, ref, sql } from './edge-remote.mjs';
+import { verifyRemoteContactSource } from './verify-contact-source.mjs';
 if (process.argv[2] !== '--deploy-f10')
   throw new Error('Explicit --deploy-f10 required after the full local gate.');
 const git = (...args) => {
@@ -94,7 +95,8 @@ const functions = cliJson(['functions', 'list', '--project-ref', ref]).map((f) =
   verify_jwt: f.verify_jwt,
 }));
 assert.equal(functions.length, 2);
-assert.equal(functions.find((f) => f.slug === 'contact-submit').version, 2);
+assert.equal(functions.find((f) => f.slug === 'contact-submit').status, 'ACTIVE');
+verifyRemoteContactSource();
 assert.equal(functions.find((f) => f.slug === 'track-event').status, 'ACTIVE');
 assert.equal(functions.find((f) => f.slug === 'track-event').verify_jwt, false);
 const result = {

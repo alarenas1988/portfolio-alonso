@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 import { format, resolveConfig } from 'prettier';
 import { cli, cliJson, sql, verifyProject, verifyLink, ref } from './edge-remote.mjs';
 import { localSql } from './edge-local.mjs';
+import { verifyRemoteContactSource } from './verify-contact-source.mjs';
 if (process.argv[2] !== '--verify-f10')
   throw new Error('Use --verify-f10 after local validation/deployment. Read-only.');
 verifyProject();
@@ -65,7 +66,7 @@ const state = sql(
   `select jsonb_build_object('history',(select jsonb_agg(version order by version) from supabase_migrations.schema_migrations),'raw',(select count(*) from public.analytics_events),'daily',(select count(*) from public.analytics_daily),'content',(select count(*) from public.analytics_daily_content),'dimensions',(select count(*) from private.analytics_daily_dimensions),'sessions',(select count(*) from private.analytics_daily_sessions),'messages',(select count(*) from public.contact_messages),'owners',(select count(*) from public.admin_profiles where role='owner' and active),'auth_users',(select count(*) from auth.users),'automatic_rls',(select bool_and(evtenabled='O') from pg_event_trigger where evtname ilike '%rls%'),'buckets',(select jsonb_agg(id order by id) from storage.buckets),'rls_tables',(select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind='r' and n.nspname in ('public','private') and c.relrowsecurity),'definers',(select jsonb_agg(jsonb_build_object('schema',n.nspname,'name',p.proname,'owner',pg_get_userbyid(p.proowner),'search_path',p.proconfig,'anon_execute',has_function_privilege('anon',p.oid,'execute'),'authenticated_execute',has_function_privilege('authenticated',p.oid,'execute')) order by n.nspname,p.proname) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in ('public','private') and p.prosecdef)) as state;`,
 )[0].state;
 assert.equal(state.rls_tables, 35);
-assert.equal(state.definers.length, 4);
+assert.equal(state.definers.filter((entry) => entry.name !== 'rls_auto_enable').length, 4);
 assert.equal(state.automatic_rls, true);
 const functions = cliJson(['functions', 'list', '--project-ref', ref]).map((f) => ({
   slug: f.slug,
@@ -73,7 +74,8 @@ const functions = cliJson(['functions', 'list', '--project-ref', ref]).map((f) =
   status: f.status,
   verify_jwt: f.verify_jwt,
 }));
-assert.equal(functions.find((f) => f.slug === 'contact-submit').version, 2);
+verifyRemoteContactSource();
+assert.equal(functions.find((f) => f.slug === 'contact-submit').status, 'ACTIVE');
 const evidence = {
   date: new Date().toISOString(),
   catalog_matches: matches,

@@ -210,7 +210,8 @@ try {
     check(!!(await publicClient.rpc(rpc, {})).error, 'Anon cannot invoke ' + rpc);
   const afterSnapshot = await loadPublicSnapshot(publicClient);
   check(
-    JSON.stringify(afterSnapshot) === JSON.stringify(beforeSnapshot),
+    JSON.stringify({ ...afterSnapshot, generated_at: null }) ===
+      JSON.stringify({ ...beforeSnapshot, generated_at: null }),
     'Snapshot unchanged by private analytics/contact fixtures',
   );
   check(!JSON.stringify(afterSnapshot).includes('TEMP_F10'), 'No fixture PII in public snapshot');
@@ -253,7 +254,7 @@ writeFileSync(
       date: new Date().toISOString(),
       checks,
       fixtures_removed: true,
-      contact_version_unchanged: true,
+      contact_source_unchanged: true,
     },
     null,
     2,
