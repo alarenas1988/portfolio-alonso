@@ -4,7 +4,7 @@ import { createBuildSupabase } from '../supabase/build.ts';
 import { queryPublicSnapshot, type SnapshotClient } from '../supabase/queries.ts';
 import { parsePublicSnapshot } from './parse-snapshot.ts';
 
-/** Build-only entrypoint. F3 will wire this into pages after F6 grants are verified. */
+/** Build-only entrypoint consumed by the public static Home. */
 export async function loadPublicSnapshot(client?: SnapshotClient): Promise<PublicSnapshot> {
   if (!client) {
     const config = getPublicConfig().supabase;
