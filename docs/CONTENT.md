@@ -175,3 +175,7 @@ Las pruebas TypeScript cubren contrato, columnas privadas, errores HTTP, una sol
 - F8: registrar los enlaces de Markdown, validar los bytes/MIME reales, publicar/copiar archivos y controlar sus URLs. Las FK de referencias ya protegen usos registrados; F5 no analiza texto Markdown para descubrir enlaces.
 - F9/F10/F11: ejecución atómica de rate limits, HMAC/retención/agregación de eventos, tracking, notificaciones, validación externa de builds y reconciliación. F5 entrega únicamente las estructuras.
 - PostgreSQL remoto y políticas reales pendientes de verificación antes de desplegar; Automatic RLS permanece sin cambios.
+
+## Administración F7
+
+Proyectos, posts y experiencias pueden editarse con sus relaciones desde el CMS. El transporte JSON de las RPC no sustituye las tablas editoriales. Autosave guarda en Supabase; publicar cambia visibilidad editorial y solicita un rebuild separado. F11 todavía no publica el sitio: la UI conserva el estado pendiente. No hay copia privada de una revisión publicada; un próximo build puede incorporar los cambios ya guardados en registros públicos. Slugs, estados, orden y URLs tienen validación cliente y autoridad PostgreSQL. [Rutas y guía del editor](ADMIN_CMS.md).

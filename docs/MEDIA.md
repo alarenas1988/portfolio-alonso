@@ -153,3 +153,7 @@ La página tests/fixtures/media-page.astro se inyecta solo con MEDIA_TEST_FIXTUR
 - No se añadieron frameworks UI, Edge Functions, servicios externos ni buckets extra.
 - F5/F6/F8 siguen sin despliegue remoto. Revisar conjuntamente versión PostgreSQL, policies permisivas existentes, FK a Storage, Auth y Automatic RLS antes de autorizarlo.
 - No se iniciaron F3, F4, F7, F9, F10 ni F11. La validación local no certifica un proyecto remoto todavía no modificado.
+
+## Integración CMS F7
+
+/admin/media integra los servicios F8; el selector devuelve IDs de media, nunca signed URLs permanentes. Upload comienza privado, requiere alt o marca decorativa y usa la validación de F8. Los usos bloquean delete y el reemplazo exige otro asset con ruta inmutable. /admin/documents registra PDFs, publica una copia explícita, vincula con control de revisión y activa el CV mediante la RPC existente. El original privado se conserva; una vinculación fallida se informa con la copia identificada en Multimedia. La preview es efímera y no llega al build. [Guía CMS](ADMIN_CMS.md).

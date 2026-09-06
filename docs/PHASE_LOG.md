@@ -596,3 +596,7 @@ Upgrade con raw existente y reconstrucción desde volumen local vacío verificad
 Incidencia ambiental: cinco stacks Supabase anteriores acumulaban 56 contenedores. Se detuvieron 44 contenedores de cuatro stacks antiguos del portfolio preservando sus volúmenes. db reset quedó bloqueado en inicialización de esquemas administrados; se sustituyó por el procedimiento soportado stop/start desde volumen vacío. La prueba de upgrade usa copias ignoradas de migraciones/configuración/dependencias de funciones. No hubo modificación de tablas administradas para resolverlo.
 
 No se inició F7/F11/F12/F13/F14; sin PR ni merge automático.
+
+# F7 — CMS administrativo (2026-09-06, validación en curso)
+
+Base 5f0e42910983dfbf14c919769d2c057c7811625e, rama feat/f7-admin-cms, worktree nuevo desde origin/main. Rutas estáticas, Auth/PKCE, repositorios y editores, autosave con conflictos, integración F8, mensajes y Analytics F10. Migración aditiva 023 para transacciones editoriales, sin nuevas tablas ni SECURITY DEFINER. Las 15 pruebas E2E iniciales del CMS pasaron contra Auth/PostgreSQL/Storage local; revisión de 30 capturas detectó y corrigió la barra de acciones móvil. El cierre y despliegue controlado se registrarán una vez terminadas todas las verificaciones. [Guía CMS](ADMIN_CMS.md). Sin push, PR ni merge; F10B/F11/F12/F13/F14 no iniciadas.
