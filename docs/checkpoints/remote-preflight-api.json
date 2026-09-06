@@ -1,0 +1,13 @@
+{
+  "/auth/v1/settings": {
+    "status": 200,
+    "disable_signup": false,
+    "mail_autoconfirm": false,
+    "email_enabled": true,
+    "anonymous_users_enabled": false
+  },
+  "/rest/v1/rpc/get_public_snapshot": {
+    "status": 404,
+    "code": "PGRST202"
+  }
+}

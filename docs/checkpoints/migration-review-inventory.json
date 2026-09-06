@@ -1,0 +1,115 @@
+[
+  {
+    "name": "20260906000100_base.sql",
+    "sha256": "c9b1b556e4d32915a18a4020cc2fb00074a1d4bf6320938b0581c679a848a9b8",
+    "ddl_removals": [],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906000200_media_settings.sql",
+    "sha256": "1c6f131e1ce450fd69bf86e5838464ac209ac419e8dc58154ff400a3bcdadcaa",
+    "ddl_removals": [],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906000300_content.sql",
+    "sha256": "069b2e8d2686d89e325c6e0368ab657261b31f79322751160af2ee11727a79d2",
+    "ddl_removals": [],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906000400_relations.sql",
+    "sha256": "abc54b79b3c761bf0c64df1107433cafa61af10fe2cbe7c563c27aec8cf2f753",
+    "ddl_removals": [],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906000500_operations_analytics.sql",
+    "sha256": "79b4efd476c71d8df85cfecd2fe3310032ec81c6951a0f21f6320eaa656605fa",
+    "ddl_removals": [],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906000600_integrity.sql",
+    "sha256": "9ce4acdb2147e8f1a2513dbe6bd050d34468ec54d551c7b32887e1bccc51b772",
+    "ddl_removals": [],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906000700_public_snapshot.sql",
+    "sha256": "f9d208cda3567bd23ce7830085041b07617fa1f0705193f35b3fa9121959f1fb",
+    "ddl_removals": [],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906000800_owner_authorization.sql",
+    "sha256": "0a6ae4a4b1ffabc1af41fa479c7cf8cf61e3d632eb13d3d5ee8c49be4e349a53",
+    "ddl_removals": [],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906000900_content_rls.sql",
+    "sha256": "23538c3e603eb545fd45e534180f685ec9e0108b258d7f05732cb774f23db817",
+    "ddl_removals": [],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906001000_private_data_rls.sql",
+    "sha256": "ed73bf77088ccf7e1e9dea47fa3f736b6a1b6a87062dbe2c3891840d926a245a",
+    "ddl_removals": [],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906001100_public_snapshot_access.sql",
+    "sha256": "43b288a7926526e4a6faa9e1333f30892b763445e7df79d4f83a2af969603f24",
+    "ddl_removals": [],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906001200_public_media_cache.sql",
+    "sha256": "a1ff3cd4bdb7c4a9891a8dea57fbe685f90710866477a796a14b519a1f326e12",
+    "ddl_removals": [],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906001300_storage_policies.sql",
+    "sha256": "18dd5618c9c3f8885621a8c4091e44a00dfddfcff6178d825ff6ee20b4e21c6d",
+    "ddl_removals": [],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906001400_storage_buckets.sql",
+    "sha256": "e55dba37cbe47519e843aebfed9e1c4fd88f67bd3ea3961ea249985194f4fbc2",
+    "ddl_removals": ["drop policy portfolio_owner_objects_update on storage.objects;"],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906001500_media_lifecycle.sql",
+    "sha256": "1f90db1ab8dcae18af2ac393e7cccef7157c899aebef666d8564f85d27fa7b40",
+    "ddl_removals": [
+      "alter table public.media_assets drop constraint media_assets_public_url_check;",
+      "alter table public.documents drop constraint documents_type_check;",
+      "drop index public.documents_one_active_cv;",
+      "alter table public.media_references drop constraint media_references_check;"
+    ],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906001600_media_public_contract.sql",
+    "sha256": "8610c9bc25c29aef83b9e2bf8a1168c3e6430fcd390e4d434ebbabc446a52a6a",
+    "ddl_removals": [
+      "drop policy public_read on public.project_images;",
+      "drop policy public_read on public.documents;",
+      "drop policy public_read on public.media_references;",
+      "drop view public.public_media_assets;",
+      "drop function private.read_public_media();"
+    ],
+    "managed_table_alterations": []
+  },
+  {
+    "name": "20260906001700_media_api_integrity.sql",
+    "sha256": "c22ba8884cd0cb8a3ba91743e9ecfcf439f5894ff56d8f42b4e286e4b0caeb76",
+    "ddl_removals": [],
+    "managed_table_alterations": []
+  }
+]
