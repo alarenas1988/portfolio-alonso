@@ -1,5 +1,21 @@
 # Registro de fases
 
+## Checkpoint técnico backend — 2026-09-06, inspección previa
+
+**Estado:** detenido antes de db push; no es una fase funcional ni una aprobación de backend remoto.
+
+**Base:** origin/main `e8a4750097cbb6a7c85e01ce36cf91c3f38a4185`, merge previo de F8/PR #5. Main limpio, sincronizado con fast-forward y ancestros F1/F2/F5/F6/F8 comprobados. Rama/worktree nuevos: `chore/supabase-remote-readiness`, `.worktrees/supabase-remote-readiness`. No se volvió a hacer commit/PR/merge de F8.
+
+Se ejecutaron consultas de catálogo mediante transacciones READ ONLY en el dashboard del proyecto configurado y dos GET con la clave pública. Proyecto portfolio-alonso, sa-east-1, Free; PostgreSQL 17.6 (imagen 17.6.1.166), Auth 2.196.0, PostgREST 14.5. Cero tablas de aplicación, usuarios Auth, buckets y objetos; historial de migraciones de aplicación ausente. Automatic RLS activo, sin cambios. Signup activo, Site URL localhost:3000 y redirects vacíos. No hay backups restaurables incluidos en el plan.
+
+**Bloqueo:** FK de migración 014 hacia storage.objects(bucket_id,name), respaldada por índice administrado no primario. Se documentó la corrección que debe mantener integridad editorial, bloqueo de DELETE directo y concurrencia. No se modificaron migraciones ni esquema. La CLI fijada 2.116.0 tampoco está autenticada; faltan login, dump restaurable y diff generado. No se intentó sortear estos controles.
+
+Evidencia, revisión estática de las 17 migraciones, SECURITY DEFINER, drift de plataforma y plan de recuperación en [SUPABASE_REMOTE_READINESS.md](checkpoints/SUPABASE_REMOTE_READINESS.md). Los JSON guardan catálogo/configuración, no secretos ni un backup completo. Los scripts SQL nuevos son solo de inspección.
+
+**Validación de esta entrega:** npm ci (407 paquetes), npm ls y npm audit --audit-level=high correctos, cero vulnerabilidades; format:check y lint correctos; typecheck de 58 archivos sin errores/advertencias/hints; npm test 84/84; build de dos páginas; check:static correcto bajo /portfolio-alonso/; check:secrets correcto en ocho artefactos; git diff --check correcto. No hubo cambios UI que requieran E2E en esta entrega. La reconstrucción SQL completa, Auth/Storage/media con fixtures, tipos remotos y drift posterior quedan pendientes de la corrección y del despliegue. No se reutilizan resultados históricos F8 como resultados nuevos.
+
+**Remoto:** no se aplicaron migraciones, seed, cambios Auth, buckets ni fixtures. RPC get_public_snapshot respondió 404/PGRST202 porque aún no existe; no se presenta como test RLS satisfactorio. Owner no creado. Sin PR/merge automático de este checkpoint. F3/F4/F7/F9/F10/F11 no iniciadas.
+
 ## Fase 1 — Bootstrap
 
 **Estado:** completada; detenida para revisión antes de F2.

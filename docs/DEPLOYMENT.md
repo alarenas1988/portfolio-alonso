@@ -1,5 +1,11 @@
 # Entorno y despliegue — contrato F6
 
+## Checkpoint remoto del 2026-09-06
+
+F8 ya está integrada en main. El [informe de inspección remota](checkpoints/SUPABASE_REMOTE_READINESS.md) registra PostgreSQL 17.6, Automatic RLS activo y backend todavía sin desplegar. La autorización de push es condicional y su puerta permanece cerrada por la FK compuesta hacia Storage, la ausencia de un volcado restaurable y el diff pendiente. La CLI 2.116.0 requiere login administrativo; no usar las claves públicas como sustituto. El futuro push debe incluir `--skip-vault`; no incluye seed por defecto. No se aplicaron cambios remotos ni se creó PR/merge del checkpoint.
+
+La configuración Auth observada todavía permite signup, tiene Site URL `http://localhost:3000` y carece de redirects. El plan Free no incluye backups restaurables. El informe detalla corrección propuesta, preservación de Automatic RLS, recuperación y pasos pendientes antes de cualquier aplicación.
+
 F8 incorpora un stack aislado adicional, buckets locales y el pipeline de multimedia. Para puertos, reconstrucción y comandos vigentes de esa fase, consultar [MEDIA.md](MEDIA.md). Los puertos y la evidencia F6 siguientes se conservan como historial; no ejecutar pruebas F8 contra ese entorno anterior.
 
 F6 está validada solo en Supabase local. **No ejecutar db push ni modificar el proyecto remoto sin una aprobación posterior explícita.** Automatic RLS remoto permanece habilitado y se mantendrá junto a las migraciones RLS/grants/policies.

@@ -1,5 +1,11 @@
 # Storage y multimedia — F8
 
+## Bloqueo de despliegue detectado en el checkpoint
+
+F8 ya está integrada en main. La [auditoría remota del 2026-09-06](checkpoints/SUPABASE_REMOTE_READINESS.md) confirma que no hay buckets/objetos remotos y que la FK media_assets_storage_object_fk depende del índice único administrado bucketid_objname, no de la PK. Aunque ese índice existe local/remoto, no se acepta esa dependencia como estable para desplegar. La corrección debe conservar bloqueo de borrado directo, referencias Markdown y seguridad frente a concurrencia, sin alterar tablas internas. Todavía no se implementó ni desplegó la corrección. Las garantías locales descritas abajo corresponden a la implementación F8 existente.
+
+El límite global del proyecto Free es 50 MB y no están habilitadas transformaciones remotas. Los límites por bucket de 10 MiB y Sharp durante build siguen siendo el contrato previsto; aún no se aplicaron a remoto. Los backups de PostgreSQL no recuperan bytes de Storage borrados.
+
 F8 se desarrolla exclusivamente en Supabase local, desde origin/main 25c351557d060b7438cb89ae520a96681ae69828 (F1 + F2 + F5 + F6). El PR #4 de F6 está mergeado y todos sus commits están subidos. Ese PR no tenía checks automáticos configurados; su evidencia de validación es la ejecución local registrada en PHASE_LOG.md.
 
 ## Entorno reproducible

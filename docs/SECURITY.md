@@ -1,5 +1,11 @@
 # Seguridad — F6
 
+## Estado remoto inspeccionado el 2026-09-06
+
+El [checkpoint remoto](checkpoints/SUPABASE_REMOTE_READINESS.md) es una auditoría de solo lectura, sin aprobación de despliegue efectivo. Remoto aún no contiene las tablas/policies/RPC del portfolio. Automatic RLS está habilitado mediante ensure_rls y una función de evento SECURITY DEFINER de plataforma con search_path pg_catalog; se conserva. Las tres funciones SECURITY DEFINER propias siguen únicamente en local, con owner postgres y search_path vacío. El registro público remoto está habilitado y debe cerrarse antes de declarar el backend listo. No se crearon usuarios ni fixtures, ni se probaron escrituras remotas.
+
+La evidencia histórica de F6/F8 no sustituye la matriz remota ni la revalidación de la corrección Storage pendiente. La clave pública solo sirvió para dos GET de inspección; no se extrajeron secretos de la sesión del navegador.
+
 ## Ampliación vigente de F8
 
 F8 conserva la autorización owner y RLS de F6, exclusivamente local. El catálogo SECURITY_AUDIT.json se regeneró con esta fase. Las secciones siguientes describen la frontera entregada en F6; estos cambios de F8 prevalecen para multimedia:
