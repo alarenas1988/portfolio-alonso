@@ -1,0 +1,257 @@
+---
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+---
+
+<section class="media-library admin-panel" id={id} aria-labelledby={id + '-title'}>
+  <header>
+    <p class="media-eyebrow">BIBLIOTECA</p><h2 id={id + '-title'}>Archivos y recursos</h2><p>
+      Organiza tus imágenes y documentos. Cada carga comienza privada.
+    </p>
+  </header>
+  <form data-search class="media-search">
+    <label
+      >Buscar archivo<input name="search" type="search" placeholder="Nombre del archivo" /></label
+    >
+    <label
+      >Filtrar categoría<select name="filter"
+        ><option value="">Todas</option><option value="project">Proyectos</option><option
+          value="blog">Blog</option
+        ><option value="profile">Perfil</option><option value="document">Documentos</option><option
+          value="general">General</option
+        ></select
+      ></label
+    >
+    <button type="submit">Buscar</button><button type="button" data-new>Nuevo archivo</button>
+  </form>
+  <div class="media-workspace">
+    <div>
+      <div data-grid class="media-grid" aria-label="Archivos disponibles"></div><button
+        type="button"
+        data-more
+        hidden>Cargar más</button
+      >
+    </div>
+    <form data-editor class="media-editor">
+      <h3 data-selected>Nuevo archivo</h3>
+      <label
+        >Archivo<input type="file" name="file" accept=".jpg,.jpeg,.png,.webp,.avif,.pdf" /></label
+      >
+      <p class="media-hint">JPEG, PNG, WebP, AVIF o PDF · máximo 10 MiB</p>
+      <label
+        >Categoría<select name="category"
+          ><option value="general">General</option><option value="project">Proyecto</option><option
+            value="blog">Blog</option
+          ><option value="profile">Perfil</option><option value="document">Documento</option
+          ></select
+        ></label
+      >
+      <label
+        >Texto alternativo<input
+          name="alt"
+          maxlength="500"
+          placeholder="Describe la información de la imagen"
+        /></label
+      >
+      <label class="media-checkbox"
+        ><input name="decorative" type="checkbox" /> La imagen es únicamente decorativa</label
+      >
+      <label>Descripción<textarea name="caption" maxlength="2000" rows="3"></textarea></label>
+      <button type="submit" class="media-primary">Guardar archivo o metadata</button>
+      <progress max="100" hidden aria-label="Progreso de carga"></progress>
+      <div class="media-actions">
+        <button type="button" data-publish data-needs-selection disabled>Publicar copia</button>
+        <button type="button" data-usage data-needs-selection disabled>Consultar usos</button>
+        <button type="button" data-replace data-needs-selection disabled>Reemplazar usos</button>
+        <button type="button" data-show-preview data-needs-selection disabled>Vista previa</button>
+        <button type="button" data-copy data-needs-selection disabled>Copiar URL pública</button>
+        <button type="button" data-delete data-needs-selection disabled>Eliminar archivo</button>
+      </div>
+      <a data-preview hidden target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"
+        >Abrir vista previa</a
+      >
+    </form>
+  </div>
+  <p data-status class="media-status" role="status" aria-live="polite">
+    Biblioteca lista para conectar.
+  </p>
+</section>
+<style>
+  .media-library {
+    padding: clamp(1rem, 3vw, 2rem);
+    color: var(--text-primary);
+  }
+  header {
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .media-eyebrow {
+    color: var(--accent-cyan);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    margin: 0.5rem 0;
+  }
+  header > p:last-child,
+  .media-hint {
+    color: var(--text-secondary);
+  }
+  .media-search {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .media-search label:first-child {
+    flex: 1 1 14rem;
+  }
+  label {
+    display: grid;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    min-width: 0;
+  }
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+    color: inherit;
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.5rem;
+    min-height: 44px;
+    padding: 0.65rem 0.8rem;
+    background: var(--midnight-950);
+    max-width: 100%;
+  }
+  button {
+    cursor: pointer;
+    overflow-wrap: anywhere;
+  }
+  button:hover {
+    border-color: var(--accent-cyan);
+  }
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  :is(input, select, textarea, button, a):focus-visible {
+    outline: 2px solid var(--accent-cyan);
+    outline-offset: 3px;
+  }
+  .media-workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 21rem);
+    gap: 1.5rem;
+  }
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 11rem), 1fr));
+    gap: 0.75rem;
+  }
+  .media-grid :global(.media-card) {
+    display: grid;
+    text-align: left;
+    gap: 0.75rem;
+    align-content: start;
+    padding: 1rem;
+    min-height: 145px;
+    background: var(--glass-subtle);
+    overflow-wrap: anywhere;
+  }
+  .media-grid :global(.media-kind) {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--accent-cyan);
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 0.75rem;
+  }
+  .media-grid :global(.media-card span:last-child) {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+  .media-editor {
+    display: grid;
+    align-content: start;
+    gap: 0.9rem;
+    border-left: 1px solid var(--border-subtle);
+    padding-left: 1.5rem;
+    min-width: 0;
+  }
+  h3 {
+    font-size: 1rem;
+    overflow-wrap: anywhere;
+  }
+  .media-hint {
+    font-size: 0.8rem;
+    margin: 0;
+  }
+  .media-checkbox {
+    display: flex;
+    align-items: center;
+  }
+  .media-checkbox input {
+    min-height: 24px;
+    width: 24px;
+    flex-shrink: 0;
+  }
+  .media-primary {
+    background: var(--accent-cyan);
+    color: var(--midnight-950);
+    font-weight: 700;
+  }
+  .media-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .media-status {
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 1rem;
+    margin-top: 1.5rem;
+    overflow-wrap: anywhere;
+    min-height: 3rem;
+  }
+  progress {
+    width: 100%;
+    accent-color: var(--accent-cyan);
+  }
+  progress::-webkit-progress-bar {
+    background: var(--midnight-950);
+    border-radius: 0.5rem;
+  }
+  progress::-webkit-progress-value {
+    background: var(--accent-cyan);
+    border-radius: 0.5rem;
+  }
+  progress::-moz-progress-bar {
+    background: var(--accent-cyan);
+  }
+  [hidden] {
+    display: none !important;
+  }
+  @media (max-width: 760px) {
+    .media-workspace {
+      grid-template-columns: 1fr;
+    }
+    .media-editor {
+      border-left: 0;
+      border-top: 1px solid var(--border-subtle);
+      padding-left: 0;
+      padding-top: 1.5rem;
+    }
+    .media-search > * {
+      width: 100%;
+    }
+    .media-grid {
+      min-height: 2rem;
+    }
+  }
+</style>

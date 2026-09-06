@@ -286,3 +286,113 @@ El cierre documental usa `docs: record phase six security validation`; el histor
 - No se cambió Supabase remoto, Automatic RLS, Auth remoto ni owner remoto. No hubo db push, secrets remotos, Edge Functions ni pruebas contra producción.
 
 Inventario F6: seis migraciones anteriores; `supabase/config.toml`; `supabase/tests/{schema,rls,storage}.test.sql`; `supabase/tests/fixtures/content.psql`; `src/lib/auth/{session,owner,redirects}.ts`; `src/types/database.ts`; `tests/unit/auth.test.ts`; `scripts/{check-local-snapshot,test-local-auth,audit-local-security}.mjs`; `package.json`; `docs/{SECURITY,ARCHITECTURE,DEPLOYMENT,CONTENT,PHASE_LOG}.md`; `docs/SECURITY_AUDIT.json`.
+
+## Fase 8 — Supabase Storage y multimedia
+
+**Estado:** completada exclusivamente en Supabase local; detenida para revisión. No se iniciaron F3, F4, F7, F9, F10, F11 ni otras fases.
+
+**Fecha:** 2026-09-06, America/Santiago.
+
+**Rama/worktree:** feat/f8-storage-media en .worktrees/f8-storage-media.
+
+### Cierre de F6 y base verificada
+
+Se consultó GitHub: PR #4 MERGED, head e5698e1, merge 25c351557d060b7438cb89ae520a96681ae69828. Todos los commits de F6 estaban en origin/feat/f6-auth-rls y eran ancestros de origin/main. El PR no tenía checks automáticos; su evidencia es la validación local documentada de F6. No fue necesario repetir el merge.
+
+Con el checkout principal limpio se ejecutaron fetch y pull --ff-only. Se verificaron ancestros de F1, F2, F5 y F6 y se creó la nueva rama exclusivamente desde origin/main 25c3515. No se reutilizó el worktree F6, no hubo force-push ni reescritura de historial. Main permanece en esa base; F8 solo crea commits locales para revisión.
+
+### Entorno y migraciones
+
+Docker Desktop 4.89.0/motor 29.7.2 y WSL 2 operativos. CLI Supabase 2.116.0 fijada, PostgreSQL 17.6 (imagen 17.6.1.165), Node 24.20.0 y npm 11.19.0. El stack portfolio-alonso-f8-local usa API 56421 y DB 56422, aislado de F5/F6. .env.local permanece ignorado; ninguna prueba usa el proyecto remoto que pueda figurar en sus variables públicas.
+
+Cuatro migraciones aditivas, sin modificar las 13 de F5/F6:
+
+| Migración                                | Entrega                                                                                                  |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| 20260906001400_storage_buckets.sql       | Cuatro buckets, MIME/10 MiB, rutas UUID, objetos inmutables y FK que protege bytes registrados           |
+| 20260906001500_media_lifecycle.sql       | decorative, constraints, logos de tecnologías, referencias Markdown, reemplazo transaccional y CV activo |
+| 20260906001600_media_public_contract.sql | Proyección pública tipada con decorative/logos y documentos generales independientes del CV              |
+| 20260906001700_media_api_integrity.sql   | Trigger CV compatible con pg-safeupdate de PostgREST y protección adicional del Markdown al eliminar     |
+
+Las 35 tablas de aplicación siguen con RLS; Storage también. El catálogo final tiene cuatro buckets, cuatro vistas y 138 policies, incluidas las cuatro finales de Storage. Las tres funciones propias SECURITY DEFINER siguen siendo las justificadas de F6; las dos RPC nuevas son SECURITY INVOKER y verifican owner explícitamente.
+
+### Infraestructura entregada
+
+- Buckets: portfolio-public (projects/technologies/profile/general), blog (posts), documents (cv/general) y private (temporary/drafts/processing).
+- JPEG/PNG/WebP/AVIF y PDF según bucket, máximo 10 MiB. SVG/HTML/JS/ejecutables no admitidos como uploads genéricos.
+- Upload inicial privado, publicación explícita mediante copia nueva, UUID independiente de filename y signed previews privados de 60 segundos.
+- Metadata editorial completa, decorative explícito y alt informativo obligatorio. FK al objeto Storage; no se guardan bytes en PostgreSQL.
+- Referencias automáticas de proyectos, artículos, galerías, perfil/settings, documentos, tecnologías y tokens Markdown.
+- Reemplazo atómico con revisión obligatoria (también se rechaza NULL), FK y tokens actualizados; el archivo anterior queda retenido.
+- Borrado bloqueado en uso, incluida llamada directa a Storage y manipulación manual de media_references. No hay borrado de bytes por cascade editorial.
+- Compensación tras fallo de INSERT, reconciliación de respuesta perdida, cleanup explícito si fallan bytes y reporte de huérfanos sin eliminación automática.
+- CV: registro inactivo y activación atómica de un único PDF público; documentos generales publicados no dependen de cv_enabled.
+- Pipeline desde snapshot/Storage reales: origen permitido, redirects denegados, timeout, límite de streaming, decodificación, AVIF/WebP/PNG responsive y PDF local.
+- Asset map por UUID con nombres SHA-256, dimensiones y rutas bajo la base de Astro; MediaImage.astro no conoce Storage.
+- Biblioteca aislada con búsqueda/filtros, upload, metadata, publicación, usos, reemplazo, borrado y preview. Sus estados/errores conservan datos del usuario.
+- Fixture UI fuera de src/pages, inyectado solo en Playwright. No se creó navegación CMS ni /admin/media productivo.
+
+### Validaciones finales
+
+| Verificación                                 | Resultado                                                                    |
+| -------------------------------------------- | ---------------------------------------------------------------------------- |
+| npm ci                                       | 407 paquetes instalados; 0 vulnerabilidades                                  |
+| npm ls --depth=0                             | Dependencias completas y versiones fijadas                                   |
+| npm run format:check                         | Correcto                                                                     |
+| npm run lint                                 | Correcto                                                                     |
+| npm run typecheck                            | 58 archivos; 0 errores, warnings o hints                                     |
+| npm test                                     | 84 pruebas aprobadas                                                         |
+| npm run test:e2e                             | 45 aprobadas; 3 omisiones touch previstas de F2 en desktop; seis breakpoints |
+| npm run build                                | 2 páginas estáticas; fixture multimedia excluido del build normal            |
+| npm run check:static                         | Base /portfolio-alonso/ y referencias correctas                              |
+| npm run check:secrets                        | 8 artefactos; sin secretos detectados                                        |
+| git diff --check / git diff --cached --check | Correctos                                                                    |
+| npm run db:reset                             | Reconstrucción final desde cero con 17 migraciones y seed                    |
+| npm run db:lint                              | Sin errores ni warnings                                                      |
+| npm run db:test                              | 605 aserciones SQL aprobadas                                                 |
+| npm run db:types:check                       | Tipos generados reproduciblemente; sin drift                                 |
+| npm run db:snapshot:check                    | Snapshot PostgreSQL real válido; seed idempotente                            |
+| npm run test:auth:local                      | 106 comprobaciones Auth/REST reales aprobadas                                |
+| npm run test:media:local                     | 55 comprobaciones Storage/media reales aprobadas                             |
+| npm run db:audit                             | Catálogo actualizado en SECURITY_AUDIT.json                                  |
+
+Las pruebas cubren anon/noowner/inactive/owner, upload/list/download/sign/update/upsert/delete, bytes públicos/privados y ausencia de autorización administrativa por JWT solamente. Los tests de archivo incluyen formatos válidos, corrupción, MIME falso, extensión incorrecta, >10 MiB, PDF corrupto/activo, SVG, HTML disfrazado, Unicode y filenames repetidos.
+
+Las pruebas de uso incluyen proyecto/post/tecnología, referencias repetidas, Markdown inválido, reemplazo con revisión obsoleta o nula, eliminación bloqueada, desvinculación y protección frente a borrar media_references manualmente. Se probaron fallos parciales y respuesta perdida con Auth/Storage reales.
+
+El pipeline se prueba con origen/URL privados o no permitidos, timeout, tamaños excesivos, corruptos y ausentes, referencias requeridas faltantes, varias imágenes, PDF, formatos y anchos, hashes estables y conservación del manifest anterior ante fallo. El build normal no contiene rutas de pruebas ni sus bundles.
+
+La biblioteca pasó axe, responsive y reintento con metadata conservada en seis tamaños. Se inspeccionaron capturas móviles y desktop. Las pruebas UI usan un adaptador sintético; la seguridad y los servicios se verifican directamente en PostgreSQL y HTTP real, sin guards de UI.
+
+La última reconstrucción se ejecutó después de terminar migraciones y pruebas, seguida de toda la batería SQL/Auth/Storage. El estado final tiene 0 usuarios Auth, 0 media_assets y 0 storage.objects de testing; solo permanecen los cuatro buckets migrados y el seed autorizado.
+
+### Dependencias y decisiones
+
+sharp 0.35.4 pasa a dependencia directa, reutilizando la versión que ya traía Astro. Se añade pdf-lib 1.17.1 con carga dinámica en validación PDF. No se añaden frameworks UI ni un servicio de procesamiento.
+
+La FK a storage.objects depende de su clave única bucket/name administrada por Supabase: deberá comprobarse en actualizaciones y antes del despliegue remoto. Las ACL de Storage administradas por la plataforma quedan inventariadas, sin cambiar propietarios ni conceder SQL arbitrario a clientes.
+
+La policy UPDATE de objetos se retira deliberadamente: la administración conserva upload y metadata editorial, y reemplaza mediante nuevos UUID. No se permite upsert permanente. Se amplían las carpetas general/drafts/processing y el tipo document conforme a la autorización F8 del usuario.
+
+RLS y MIME no decodifican los bytes en el servidor. Los servicios y el build sí los validan; un owner que evite los servicios puede subir contenido inválido con MIME permitido, cuyo uso obligatorio falla en el build. No se implementó antivirus ni una Edge Function de validación.
+
+El reporte distingue ausencia de objeto de errores 500 del backend; estos últimos dejan complete=false y requieren revisión. La comprobación de bytes implica descargas de mantenimiento, no una tarea automática.
+
+La biblioteca y el pipeline quedan preparados para integración con F3/F4/F7. La portada F2 no se conecta todavía a contenido Supabase, y no se construyó renderer Markdown, CMS ni despliegue C2. El contrato y los comandos completos están en MEDIA.md.
+
+### Commits de implementación
+
+- f4af3ab — feat: add isolated portfolio storage buckets
+- 1a14654 — feat: add transactional media references and lifecycle
+- 1026140 — feat: add secure media upload and maintenance services
+- 41242c1 — feat: add static media build pipeline
+- 36d339b — feat: add isolated reusable media library
+- ef67a67 — test: verify portfolio media and storage security
+
+El cierre documental usa docs: record phase eight media validation. El historial completo se consulta con git log origin/main..feat/f8-storage-media --oneline.
+
+### Inventario y límites
+
+47 archivos creados/modificados: astro.config.mjs; eslint.config.mjs; package.json/package-lock.json; playwright.config.ts; cuatro migraciones F8; supabase/config.toml; supabase/tests/{schema,rls,storage,media}.test.sql y fixtures/content.psql; src/types/{database,content}.ts; src/lib/content/snapshot-contract.ts; src/lib/media/{types,paths,validation,validation-build,repository,upload,usage,lifecycle,orphans,build-assets,library,library-controller}.ts; src/components/admin/MediaPicker.astro; src/components/shared/MediaImage.astro; scripts/{audit-local-security,check-local-snapshot,test-local-auth,test-local-media}.mjs; tests/unit/{snapshot,media}.test.ts; tests/e2e/media.spec.ts; tests/fixtures/media-page.astro; docs/{ARCHITECTURE,CONTENT,DEPLOYMENT,SECURITY,MEDIA,PHASE_LOG}.md; docs/SECURITY_AUDIT.json.
+
+No se modificó Supabase remoto ni Automatic RLS. No hubo db push, buckets/uploads remotos, cambios Auth remotos, secrets ni Edge Functions. F5/F6/F8 requieren revisión conjunta antes del primer despliegue autorizado. F3/F4/F7/F9/F10/F11 no se iniciaron.

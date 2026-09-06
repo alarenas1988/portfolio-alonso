@@ -18,7 +18,7 @@
     {
       "name": "public_media_assets",
       "options": ["security_invoker=true", "security_barrier=true"],
-      "definition": " SELECT id,\n    public_url,\n    filename,\n    mime_type,\n    file_size,\n    width,\n    height,\n    alt_text,\n    caption,\n    category,\n    visibility\n   FROM private.read_public_media() read_public_media(id, public_url, filename, mime_type, file_size, width, height, alt_text, caption, category, visibility);"
+      "definition": " SELECT id,\n    public_url,\n    filename,\n    mime_type,\n    file_size,\n    width,\n    height,\n    alt_text,\n    caption,\n    category,\n    visibility,\n    decorative\n   FROM private.read_public_media() read_public_media(id, public_url, filename, mime_type, file_size, width, height, alt_text, caption, category, visibility, decorative);"
     }
   ],
   "grants": [
@@ -2089,7 +2089,7 @@
     },
     {
       "cmd": "SELECT",
-      "qual": "(active AND (EXISTS ( SELECT 1\n   FROM public_contact_settings c\n  WHERE c.cv_enabled)) AND (EXISTS ( SELECT 1\n   FROM public_media_assets m\n  WHERE (m.id = documents.asset_id))))",
+      "qual": "(active AND ((type <> 'cv'::text) OR (EXISTS ( SELECT 1\n   FROM public_contact_settings c\n  WHERE c.cv_enabled))) AND (EXISTS ( SELECT 1\n   FROM public_media_assets m\n  WHERE (m.id = documents.asset_id))))",
       "roles": ["anon", "authenticated"],
       "tablename": "documents",
       "permissive": "PERMISSIVE",
@@ -2429,7 +2429,7 @@
     },
     {
       "cmd": "SELECT",
-      "qual": "((EXISTS ( SELECT 1\n   FROM public_media_assets m\n  WHERE (m.id = media_references.asset_id))) AND ((EXISTS ( SELECT 1\n   FROM projects p\n  WHERE ((p.id = media_references.project_id) AND p.published AND (p.status <> 'archived'::text) AND (p.published_at <= now())))) OR (EXISTS ( SELECT 1\n   FROM posts p\n  WHERE ((p.id = media_references.post_id) AND (p.status = 'published'::text) AND (p.published_at <= now())))) OR (EXISTS ( SELECT 1\n   FROM site_settings s\n  WHERE (s.id = media_references.settings_id))) OR (EXISTS ( SELECT 1\n   FROM (project_images i\n     JOIN projects p ON ((p.id = i.project_id)))\n  WHERE ((i.id = media_references.project_image_id) AND p.published AND (p.status <> 'archived'::text) AND (p.published_at <= now())))) OR (EXISTS ( SELECT 1\n   FROM documents d\n  WHERE ((d.id = media_references.document_id) AND d.active AND (EXISTS ( SELECT 1\n           FROM public_contact_settings c\n          WHERE c.cv_enabled)))))))",
+      "qual": "((EXISTS ( SELECT 1\n   FROM public_media_assets m\n  WHERE (m.id = media_references.asset_id))) AND ((EXISTS ( SELECT 1\n   FROM projects p\n  WHERE ((p.id = media_references.project_id) AND p.published AND (p.status <> 'archived'::text) AND (p.published_at <= now())))) OR (EXISTS ( SELECT 1\n   FROM posts p\n  WHERE ((p.id = media_references.post_id) AND (p.status = 'published'::text) AND (p.published_at <= now())))) OR (EXISTS ( SELECT 1\n   FROM site_settings s\n  WHERE (s.id = media_references.settings_id))) OR (EXISTS ( SELECT 1\n   FROM technologies t\n  WHERE ((t.id = media_references.technology_id) AND t.visible))) OR (EXISTS ( SELECT 1\n   FROM (project_images i\n     JOIN projects p ON ((p.id = i.project_id)))\n  WHERE ((i.id = media_references.project_image_id) AND p.published AND (p.status <> 'archived'::text) AND (p.published_at <= now())))) OR (EXISTS ( SELECT 1\n   FROM documents d\n  WHERE ((d.id = media_references.document_id) AND d.active AND ((d.type <> 'cv'::text) OR (EXISTS ( SELECT 1\n           FROM public_contact_settings c\n          WHERE c.cv_enabled))))))))",
       "roles": ["anon", "authenticated"],
       "tablename": "media_references",
       "permissive": "PERMISSIVE",
@@ -3278,16 +3278,6 @@
       "with_check": null
     },
     {
-      "cmd": "UPDATE",
-      "qual": "(( SELECT private.is_portfolio_admin() AS is_portfolio_admin) AND (owner_id = (( SELECT auth.uid() AS uid))::text) AND private.storage_path_allowed(bucket_id, name))",
-      "roles": ["authenticated"],
-      "tablename": "objects",
-      "permissive": "PERMISSIVE",
-      "policyname": "portfolio_owner_objects_update",
-      "schemaname": "storage",
-      "with_check": "(( SELECT private.is_portfolio_admin() AS is_portfolio_admin) AND (owner_id = (( SELECT auth.uid() AS uid))::text) AND private.storage_path_allowed(bucket_id, name))"
-    },
-    {
       "cmd": "SELECT",
       "qual": "((bucket_id = ANY (ARRAY['portfolio-public'::text, 'blog'::text, 'documents'::text])) AND private.storage_path_allowed(bucket_id, name))",
       "roles": ["anon", "authenticated"],
@@ -3331,6 +3321,16 @@
     },
     {
       "name": "protect_asset_location",
+      "owner": "postgres",
+      "schema": "private",
+      "settings": ["search_path=\"\""],
+      "arguments": "",
+      "anon_execute": false,
+      "security_definer": false,
+      "authenticated_execute": false
+    },
+    {
+      "name": "protect_markdown_asset_delete",
       "owner": "postgres",
       "schema": "private",
       "settings": ["search_path=\"\""],
@@ -3420,12 +3420,42 @@
       "authenticated_execute": false
     },
     {
+      "name": "sync_markdown_media",
+      "owner": "postgres",
+      "schema": "private",
+      "settings": ["search_path=\"\""],
+      "arguments": "",
+      "anon_execute": false,
+      "security_definer": false,
+      "authenticated_execute": false
+    },
+    {
+      "name": "activate_cv",
+      "owner": "postgres",
+      "schema": "public",
+      "settings": ["search_path=\"\""],
+      "arguments": "document_id uuid",
+      "anon_execute": false,
+      "security_definer": false,
+      "authenticated_execute": true
+    },
+    {
       "name": "get_public_snapshot",
       "owner": "postgres",
       "schema": "public",
       "settings": ["search_path=\"\""],
       "arguments": "",
       "anon_execute": true,
+      "security_definer": false,
+      "authenticated_execute": true
+    },
+    {
+      "name": "replace_media_asset",
+      "owner": "postgres",
+      "schema": "public",
+      "settings": ["search_path=\"\""],
+      "arguments": "previous_id uuid, replacement_id uuid, expected_updated_at timestamp with time zone",
+      "anon_execute": false,
       "security_definer": false,
       "authenticated_execute": true
     }
@@ -3639,6 +3669,24 @@
     {
       "grantee": "authenticated",
       "table_name": "media_assets",
+      "column_name": "decorative",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "media_assets",
+      "column_name": "decorative",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "media_assets",
+      "column_name": "decorative",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "media_assets",
       "column_name": "file_size",
       "privilege_type": "INSERT"
     },
@@ -3647,12 +3695,6 @@
       "table_name": "media_assets",
       "column_name": "file_size",
       "privilege_type": "SELECT"
-    },
-    {
-      "grantee": "authenticated",
-      "table_name": "media_assets",
-      "column_name": "file_size",
-      "privilege_type": "UPDATE"
     },
     {
       "grantee": "authenticated",
@@ -3683,12 +3725,6 @@
       "table_name": "media_assets",
       "column_name": "height",
       "privilege_type": "SELECT"
-    },
-    {
-      "grantee": "authenticated",
-      "table_name": "media_assets",
-      "column_name": "height",
-      "privilege_type": "UPDATE"
     },
     {
       "grantee": "authenticated",
@@ -3777,12 +3813,6 @@
     {
       "grantee": "authenticated",
       "table_name": "media_assets",
-      "column_name": "visibility",
-      "privilege_type": "UPDATE"
-    },
-    {
-      "grantee": "authenticated",
-      "table_name": "media_assets",
       "column_name": "width",
       "privilege_type": "INSERT"
     },
@@ -3791,12 +3821,6 @@
       "table_name": "media_assets",
       "column_name": "width",
       "privilege_type": "SELECT"
-    },
-    {
-      "grantee": "authenticated",
-      "table_name": "media_assets",
-      "column_name": "width",
-      "privilege_type": "UPDATE"
     }
   ],
   "storage_grants": [
@@ -3869,7 +3893,7 @@
     { "rls": true, "table": "technologies", "schema": "public", "force_rls": false },
     { "rls": true, "table": "work_principles", "schema": "public", "force_rls": false }
   ],
-  "application_buckets": [],
+  "application_buckets": ["blog", "documents", "portfolio-public", "private"],
   "managed_definer_functions": [
     { "name": "get_auth", "owner": "supabase_admin", "schema": "pgbouncer" },
     { "name": "http_request", "owner": "supabase_functions_admin", "schema": "supabase_functions" },

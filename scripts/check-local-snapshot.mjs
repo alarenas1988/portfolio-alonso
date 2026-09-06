@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { parsePublicSnapshot } from '../src/lib/content/parse-snapshot.ts';
 
 // Fixed local Docker container. Never reads .env.local or contacts the remote project.
-const container = 'supabase_db_portfolio-alonso-f6-local';
+const container = 'supabase_db_portfolio-alonso-f8-local';
 const result = spawnSync(
   'docker',
   [

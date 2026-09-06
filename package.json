@@ -28,13 +28,16 @@
     "db:types:check": "node scripts/generate-database-types.mjs --check",
     "db:snapshot:check": "node scripts/check-local-snapshot.mjs",
     "test:auth:local": "node scripts/test-local-auth.mjs",
-    "db:audit": "node scripts/audit-local-security.mjs"
+    "db:audit": "node scripts/audit-local-security.mjs",
+    "test:media:local": "node scripts/test-local-media.mjs"
   },
   "dependencies": {
     "@lucide/astro": "1.41.0",
     "@supabase/supabase-js": "2.115.0",
     "@tailwindcss/vite": "4.3.3",
     "astro": "7.3.1",
+    "pdf-lib": "1.17.1",
+    "sharp": "0.35.4",
     "tailwindcss": "4.3.3"
   },
   "devDependencies": {

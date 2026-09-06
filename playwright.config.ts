@@ -29,6 +29,7 @@ export default defineConfig({
     env: {
       PUBLIC_SITE_URL: 'https://example.com/portfolio-alonso/',
       ASTRO_TELEMETRY_DISABLED: '1',
+      MEDIA_TEST_FIXTURE: '1',
       ASTRO_PREVIEW_BACKGROUND: '0',
     },
   },

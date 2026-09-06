@@ -74,6 +74,7 @@ it('rejects administrative fields on media, wrong scalar types and unsafe intege
     caption: null,
     category: 'general',
     visibility: 'public',
+    decorative: false,
   };
   assert.equal(
     parsePublicSnapshot({ ...emptySnapshot(), media_assets: [media] }).media_assets.length,

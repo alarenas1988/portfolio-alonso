@@ -205,6 +205,8 @@ export const snapshotRowRules = {
     category: 'text',
     description: 'text?',
     icon: 'text?',
+    icon_url: 'text?',
+    icon_asset_id: 'uuid?',
     official_url: 'text?',
     featured: 'boolean',
     visible: 'boolean',
@@ -247,6 +249,7 @@ export const snapshotRowRules = {
     caption: 'text?',
     category: 'text',
     visibility: 'text',
+    decorative: 'boolean',
   },
   media_references: {
     asset_id: 'uuid',

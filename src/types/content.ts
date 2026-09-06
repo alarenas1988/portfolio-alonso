@@ -173,6 +173,8 @@ export interface PublicSnapshotRows {
     | 'category'
     | 'description'
     | 'icon'
+    | 'icon_url'
+    | 'icon_asset_id'
     | 'official_url'
     | 'featured'
     | 'visible'
@@ -203,6 +205,7 @@ export interface PublicSnapshotRows {
     | 'caption'
     | 'category'
     | 'visibility'
+    | 'decorative'
   >;
   media_references: Pick<
     Database['public']['Tables']['media_references']['Row'],

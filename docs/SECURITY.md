@@ -1,5 +1,20 @@
 # Seguridad — F6
 
+## Ampliación vigente de F8
+
+F8 conserva la autorización owner y RLS de F6, exclusivamente local. El catálogo SECURITY_AUDIT.json se regeneró con esta fase. Las secciones siguientes describen la frontera entregada en F6; estos cambios de F8 prevalecen para multimedia:
+
+- Se crean portfolio-public, blog, documents y private, con 10 MiB y MIME explícitos.
+- Storage conserva cuatro policies: lectura pública y SELECT/INSERT/DELETE owner. Se elimina UPDATE para denegar sobrescritura/upsert/move incluso al owner; el reemplazo crea una ruta UUID nueva.
+- media_assets incluye decorative; solo imágenes marcadas decorativas admiten alt vacío. El navegador no modifica dimensiones, tamaño ni visibility. La FK al objeto impide borrar bytes registrados mediante la API de Storage.
+- Los triggers registran FK y tokens Markdown, también logos de tecnologías. Borrar manualmente una referencia no permite saltarse la comprobación del Markdown original al eliminar un asset.
+- replace_media_asset y activate_cv son RPC adicionales SECURITY INVOKER, con EXECUTE authenticated y comprobación owner explícita. No se agregan funciones SECURITY DEFINER; siguen siendo las tres justificadas de F6.
+- Los PDF generales publicados no dependen de cv_enabled; el CV mantiene su visibilidad y unicidad propias.
+- Un archivo privado permanece en private, sin URL pública persistente. Preview usa URL firmada de 60 segundos. El build no admite URLs firmadas, destinos arbitrarios ni fallback ante archivos requeridos inválidos.
+- La validación de bytes ocurre en servicios/build. RLS y MIME de bucket no equivalen a decodificación del archivo en el servidor; un owner que evite los servicios puede cargar bytes inválidos, cuyo uso en build falla.
+
+Matriz, compensación, SSRF, validación y riesgos de actualización del catálogo administrado: [MEDIA.md](MEDIA.md). No se modificaron Supabase remoto, Auth remoto ni Automatic RLS.
+
 F6 implementa y verifica la autorización exclusivamente en Supabase local. El proyecto remoto y Automatic RLS no se han modificado. La aprobación de esta fase es previa a cualquier despliegue remoto.
 
 ## Arquitectura y límites de confianza

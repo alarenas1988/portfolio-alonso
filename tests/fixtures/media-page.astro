@@ -1,0 +1,84 @@
+---
+import PublicLayout from '../../src/layouts/PublicLayout.astro';
+import MediaPicker from '../../src/components/admin/MediaPicker.astro';
+import '../../src/styles/admin.css';
+---
+
+<PublicLayout
+  title="Prueba aislada de multimedia"
+  description="Fixture local para verificar el componente de multimedia."
+>
+  <div class="admin-shell admin-container">
+    <h1>Prueba del módulo multimedia</h1>
+    <MediaPicker id="fixture-media" />
+  </div>
+</PublicLayout>
+<script>
+  import { mountMediaLibrary } from '../../src/lib/media/library-controller.ts';
+  import { validateBrowserFile } from '../../src/lib/media/validation.ts';
+  import type { MediaAsset } from '../../src/lib/media/types.ts';
+  import type { MediaLibrary } from '../../src/lib/media/library.ts';
+  const rows: MediaAsset[] = [];
+  let simulatedNetworkFailure = true;
+  const api: MediaLibrary = {
+    list: async ({ search, category, offset }) =>
+      rows
+        .filter((row) => row.filename.includes(search) && (!category || row.category === category))
+        .slice(offset, offset + 50),
+    upload: async (file, metadata, progress) => {
+      progress({ state: 'waiting', percent: 0 });
+      const validated = await validateBrowserFile(file, metadata);
+      progress({ state: 'uploading', percent: null });
+      if (simulatedNetworkFailure) {
+        simulatedNetworkFailure = false;
+        progress({ state: 'failed', percent: null });
+        throw new Error('Fallo de red de prueba. Puedes reintentar.');
+      }
+      progress({ state: 'processing', percent: null });
+      const row: MediaAsset = {
+        id: crypto.randomUUID(),
+        storage_bucket: 'private',
+        storage_path: 'temporary/' + crypto.randomUUID() + '.' + validated.extension,
+        public_url: null,
+        filename: file.name,
+        mime_type: file.type,
+        file_size: file.size,
+        width: validated.width,
+        height: validated.height,
+        alt_text: metadata.altText,
+        decorative: metadata.decorative,
+        caption: metadata.caption,
+        category: metadata.category,
+        visibility: 'private',
+        created_by: null,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+      rows.push(row);
+      progress({ state: 'complete', percent: 100 });
+      return row;
+    },
+    update: async (asset, metadata) =>
+      Object.assign(asset, {
+        alt_text: metadata.altText,
+        decorative: metadata.decorative,
+        caption: metadata.caption,
+        category: metadata.category,
+      }),
+    usage: async () => ['proyecto de prueba / imagen principal'],
+    publish: async () => {
+      throw new Error('Publicación no conectada en este fixture.');
+    },
+    remove: async () => {
+      throw new Error('No se debe eliminar un archivo utilizado.');
+    },
+    replace: async () => {
+      throw new Error('Reemplazo no conectado en este fixture.');
+    },
+    preview: async () => {
+      throw new Error('Vista previa no conectada en este fixture.');
+    },
+  };
+  const root = document.getElementById('fixture-media');
+  if (root) mountMediaLibrary(root, api);
+</script>
