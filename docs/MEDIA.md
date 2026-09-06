@@ -1,5 +1,11 @@
 # Storage y multimedia — F8
 
+## Estado remoto tras instalar 019 — 2026-09-06
+
+portfolio-public, blog y documents existen como buckets públicos; private es privado. Configuración MIME y límite 10 MiB, cuatro policies SELECT/INSERT/DELETE y FK UUID RESTRICT coinciden con el esquema local aprobado. No hay policy UPDATE/upsert/move. Anon no puede subir un PNG válido ni obtener datos del listado privado. No existen archivos ni metadata remota; [auditoría y estado](checkpoints/INITIAL_DEPLOY.md).
+
+El smoke test remoto completo de publicación, referencias, reemplazo, signed URL y borrado queda pendiente del owner que creará el usuario. Esos ciclos sí pasaron otra vez en local, antes y después del deploy. No se subieron CV ni capturas reales. El respaldo lógico no incluye bytes; el ensayo de restauración excluye las dos tablas vacías administradas de Storage Vector según el procedimiento oficial, conservando también el dump completo.
+
 ## Instalación inicial sin dependencia transitoria
 
 La instalación nueva utiliza la baseline 019 y referencia exclusivamente la PK UUID de Storage. El historial 001–018 se conserva sin cambios en `supabase/legacy-migrations/`; una base F8 existente usa la transición 018 y adopta el historial nuevo solo después de verificar equivalencia. No cambia upload, replace, delete, media_references ni el pipeline. [Instalación y pruebas](checkpoints/INITIAL_BASELINE.md).

@@ -1,5 +1,11 @@
 # Arquitectura del portfolio
 
+## Primer backend remoto — 2026-09-06
+
+El baseline 019 está aplicado en portfolio-alonso, sa-east-1, PostgreSQL 17.6. Las 32 tablas public, 3 private, vistas, funciones, grants/RLS y buckets coinciden con una nueva reconstrucción local. Supabase contiene únicamente los 21 registros base autorizados; loadPublicSnapshot funciona contra remoto. La única diferencia de tipos generados es la anotación del servicio PostgREST 14.5; los schemas tipados no cambian.
+
+Auth remoto impide signup y permite redirects exactos bajo /portfolio-alonso/. Se detiene antes del bootstrap owner hasta que el usuario cree su Auth mediante el canal seguro. Ninguna fase funcional posterior está iniciada. La [operación independiente](checkpoints/INITIAL_DEPLOY.md) parte de main d3b5d0f en chore/supabase-initial-deploy; no hay cambios de código de aplicación, migraciones ni pipeline.
+
 ## Instalación inicial vigente
 
 La rama `chore/supabase-initial-baseline` parte de main `c89ed9c` y prepara una instalación inicial atómica mediante `20260906001900_initial_portfolio.sql`. Las 18 migraciones originales se conservan sin cambios en `supabase/legacy-migrations/`; 018 sigue siendo la transición para bases F8 existentes. Un generador con hashes produce la baseline sin crear en ningún momento la FK compuesta hacia Storage. Las futuras migraciones irán después de 019 en el directorio activo. [Decisión, equivalencia y adopción](checkpoints/INITIAL_BASELINE.md).

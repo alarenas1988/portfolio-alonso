@@ -1,5 +1,11 @@
 # Seguridad — F6
 
+## Backend remoto desplegado — 2026-09-06
+
+019 ya está aplicada en portfolio-alonso. Auditoría real: 32 tablas public y 3 private con RLS, 138 policies, tres funciones SECURITY DEFINER propias con owner postgres/search_path vacío, cuatro vistas y Automatic RLS conservado. El catálogo remoto coincide con la reconstrucción local. [Evidencia completa](checkpoints/INITIAL_DEPLOY.md).
+
+28 comprobaciones API anónimas correctas; sin escritura editorial, lectura privada, RPC privada ni upload. Signup deshabilitado y rechazo signup_disabled comprobado; URLs exactas de Auth configuradas. Owner todavía no creado: se detiene para que el usuario defina su cuenta en el canal administrativo seguro. No se confunden resultados locales con pruebas remotas de sesiones owner/noowner pendientes. Bootstrap posterior fuera de migraciones, sin credenciales ni UUID versionados.
+
 ## Instalación inicial y Automatic RLS
 
 La baseline 019 instala esquema, grants y RLS en una transacción, sin crear la FK compuesta de 014. Su guard bloquea bases con aplicación/datos previos; un observador DDL local demostró que ni siquiera aparece una FK no-PK transitoria. Las 18 migraciones anteriores se conservan como fuentes inmutables, no como camino de instalación nuevo. [Pruebas de equivalencia y recuperación](checkpoints/INITIAL_BASELINE.md).

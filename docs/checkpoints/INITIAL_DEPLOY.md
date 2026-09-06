@@ -37,4 +37,49 @@ Evidencia: [validaciones](initial-deploy/local-validations.json), [revisión for
 
 ## Estado de ejecución
 
-La aplicación efectiva se registra aquí después de comprobar nuevamente el proyecto y el estado remoto. Seed, configuración Auth, owner y pruebas posteriores se documentarán con sus resultados reales. No hay PR ni merge automático de esta rama.
+**Baseline desplegado; checkpoint detenido en el alta manual del owner.** La puerta previa quedó registrada en `253533e` y las pruebas/evidencia posterior en `374b6ed`. Inmediatamente antes del cambio se volvieron a verificar proyecto, enlace, catálogo remoto, PostgreSQL e historial ausente.
+
+`supabase db push --linked --skip-vault --yes` terminó con exit code 0 el 2026-09-06 a las 15:09:35 UTC. Aplicó únicamente 019. El historial real registra 20260906001900, nombre initial_portfolio y 527 sentencias; no aparecen pendientes las fuentes archivadas. No se ejecutó migration repair. [Push](initial-deploy/push.json), [historial inmediatamente posterior](initial-deploy/post-history.json).
+
+La auditoría posterior comprobó 32 tablas public y 3 private, 4 vistas, 256 constraints, 99 índices y 138 policies. Las 14 secciones del catálogo coinciden estructuralmente con local; una comparación inicial por texto JSON detectó diferencias de orden de claves, resueltas usando igualdad estructural sin eliminar campos, valores ni orden de arrays. No hubo cambios SQL. [Catálogo remoto](initial-deploy/post-catalog.json), [drift](initial-deploy/drift.json), [permisos](initial-deploy/security.json).
+
+Las 35 tablas propias tienen RLS. Automatic RLS conserva función, owner, ACL y event trigger. Funciones SECURITY DEFINER propias: private.is_portfolio_admin, private.read_public_contact y private.read_public_media; owner postgres y search_path vacío en las tres. La primera permite EXECUTE a authenticated, no a anon; las proyecciones públicas permiten ejecución a los roles de lectura previstos, sin exponer private como schema API. No se añadieron funciones definer.
+
+Buckets reales: portfolio-public, blog y documents públicos; private privado. Límite 10 MiB en todos. Los dos buckets de imágenes admiten JPEG/PNG/WebP/AVIF, documents PDF, private imágenes y PDF. Policies Storage: portfolio_public_objects SELECT; portfolio_owner_objects_read SELECT; portfolio_owner_objects_insert INSERT; portfolio_owner_objects_delete DELETE. No existe policy UPDATE/upsert/move para el owner. La FK RESTRICT hacia objects.id protege objetos registrados; no se modificó la estructura administrada de Storage.
+
+## Seed y pruebas anónimas
+
+El push no ejecutó seed. Después de informar el alcance se aplicó supabase/seed.sql versionado dentro de una transacción mediante CLI: **21 registros**, un site_settings, un contact_settings vacío, nueve categorías, seis especialidades y cuatro principios. Sin Auth, owner, proyectos, posts, experiencias, métricas ni archivos. Idempotencia verificada localmente. [Seed y hash](initial-deploy/seed.json).
+
+`node scripts/check-remote-anon.mjs --initial-deploy-checkpoint` ejecutó **28 comprobaciones API remotas** con publishable key y sin sesión administrativa. loadPublicSnapshot validó la respuesta real con el DTO existente. Settings/categorías/especialidades/principios/contacto públicos accesibles; INSERT/UPDATE/DELETE editorial y creación de admin_profile denegados por 42501; lecturas privadas denegadas; helper privado no expuesto como RPC ni schema; listado privado sin datos y upload PNG válido rechazado. No persistieron objetos ni filas de prueba. [Resultados](initial-deploy/anon.json).
+
+Una consulta vacía de borradores no sustituye una prueba con borradores reales: la matriz remota con fixtures draft/futuro/hijos/media privada y usuarios reales queda pendiente del owner. Las pruebas adversariales completas sí pasaron nuevamente en local.
+
+## Tipos y reconstrucción posterior
+
+La CLI regeneró tipos desde remoto. La única diferencia textual es Database.__InternalSupabase.PostgrestVersion = '14.5', anotación del servicio que el generador local no emite. SupabaseClient trata esa propiedad como opción de versión del cliente, separada de los schemas. Excluyendo únicamente ese bloque exacto y sus dos comentarios, coinciden los tipos de tablas, relaciones y funciones. Se conserva database.ts generado desde PostgreSQL local; no se cambió código de aplicación ni SQL por una diferencia ambiental. [Comparación y hashes](initial-deploy/types.json).
+
+Después del deploy se reconstruyó localmente desde vacío, restauró el respaldo previo e instaló 019/seed. Se repitieron 613 pruebas SQL, 107 Auth/RLS, 66 Storage/media y 9 PK; lint SQL, tipos y snapshot correctos. Catálogo final idéntico a remoto, fixtures limpios. [Reconstrucción final](initial-deploy/local-post-deploy.json), [validaciones previas](initial-deploy/local-validations-pre-push.json), [últimas validaciones](initial-deploy/local-validations.json).
+
+## Auth y punto de parada
+
+Se modificaron únicamente controles soportados de Auth en el dashboard del proyecto verificado. Signup deshabilitado; el endpoint real devuelve HTTP 422 / signup_disabled sin crear usuario. Email/password permanece habilitado, confirmación de email activa, sign-in anónimo y linking manual deshabilitados.
+
+Site URL: `https://alarenas1988.github.io/portfolio-alonso/`.
+
+Redirect URLs exactas, sin comodines:
+
+- `https://alarenas1988.github.io/portfolio-alonso/admin/`
+- `https://alarenas1988.github.io/portfolio-alonso/admin/reset-password/`
+- `http://localhost:4321/portfolio-alonso/admin/`
+- `http://localhost:4321/portfolio-alonso/admin/reset-password/`
+
+Actualizar estas URLs al configurar dominio propio. Las pantallas finales de login/recovery todavía no están implementadas; la allowlist no crea esas páginas. [Configuración y prueba signup](initial-deploy/auth.json).
+
+**Intervención del usuario:** portfolio-alonso → Authentication → Users → Add user → Create new user. Introducir personalmente el correo definitivo y una contraseña segura; conservar Auto confirm user? para su cuenta propia y crear el usuario. No compartir contraseña ni tokens. El formulario quedó abierto sin valores; el agente no pulsó Create user.
+
+Después de su confirmación, obtener el UUID de forma segura desde el proyecto, comprobar la cuenta y ejecutar el bootstrap administrativo documentado de admin_profiles con role owner y active true. No versionar UUID ni crear una migración de identidad. Después probar sesiones noowner/inactivo/owner, CRUD temporal y ciclo Storage/media completo con limpieza.
+
+La última inspección previa al alta manual confirmó cero Auth/admin_profiles, objetos/media/proyectos y 21 filas de seed; esquema e historial sin cambios inesperados. [Estado y pendientes](initial-deploy/final-state.json). No se declara verificado el acceso de un owner remoto aún inexistente.
+
+No se inició F3/F4/F7/F9/F10/F11/F12/F13/F14. No hay PR ni merge de esta rama. Sin CV, capturas ni contenido final; migraciones, estructura administrada Storage y Automatic RLS conservados.

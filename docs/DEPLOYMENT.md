@@ -1,5 +1,13 @@
 # Entorno y despliegue — contrato F6
 
+## Primer despliegue real — 2026-09-06
+
+Baseline 019 aplicado a portfolio-alonso, sa-east-1, PostgreSQL 17.6; CLI 2.116.0. Rama `chore/supabase-initial-deploy`, base main `d3b5d0f671aa783c09d59760a68b466aded5662f`. Historial remoto, esquema, RLS, buckets, snapshot y reconstrucción local posterior verificados. [Informe vigente](checkpoints/INITIAL_DEPLOY.md).
+
+Seed: 21 filas base autorizadas. Signup deshabilitado; Site URL GitHub Pages y cuatro redirects exactos de admin/recovery en producción y localhost configurados. Owner Auth y admin_profiles pendientes del alta segura por el usuario; después se completarán la matriz de sesiones remotas y el smoke test de media. No recrear baseline ni aplicar las fuentes archivadas.
+
+Los apartados siguientes son historial. Las prohibiciones previas de despliegue quedaron sustituidas únicamente por la autorización explícita de este checkpoint. El respaldo nuevo se restauró realmente en local y permanece fuera de Git; el proyecto Free no dispone aquí de restauración gestionada.
+
 ## Instalación inicial preparada para revisión
 
 El directorio activo contiene ahora únicamente `20260906001900_initial_portfolio.sql`, generada a partir del historial archivado sin la dependencia Storage no-PK. El dry-run remoto lista solo esa migración; no aplicó SQL, seed, roles ni Vault. La puerta de aplicación sigue requiriendo aprobación del usuario y una nueva comprobación de que el remoto no cambió. [Informe vigente](checkpoints/INITIAL_BASELINE.md).
