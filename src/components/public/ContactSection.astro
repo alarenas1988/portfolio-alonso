@@ -4,8 +4,9 @@ import ContactCard from './ContactCard.astro';
 import Icon from '../shared/Icon.astro';
 interface Props {
   home: HomeModel;
+  directory?: boolean;
 }
-const { home } = Astro.props;
+const { home, directory = false } = Astro.props;
 const hasChannels =
   home.contact.email || home.contact.whatsapp || home.contact.cv || home.socialLinks.length;
 ---
@@ -16,13 +17,13 @@ const hasChannels =
   aria-labelledby="contact-title"
   data-section="contact"
 >
-  <div class="contact-cta" data-glass="strong">
+  <div class:list={['contact-cta', { 'contact-cta--directory': directory }]} data-glass="strong">
     <div class="contact-cta__heading">
       <div>
         <p class="technical-label"><span>08 /</span> Contacto</p><h2 id="contact-title">
-          {home.contact.title || '¿Construimos algo?'}
+          {directory ? 'Canales de contacto' : home.contact.title || '¿Construimos algo?'}
         </h2>{
-          home.contact.description && (
+          !directory && home.contact.description && (
             <p class="contact-cta__description">{home.contact.description}</p>
           )
         }
@@ -88,6 +89,10 @@ const hasChannels =
   import '../../scripts/contact.ts';
 </script>
 <style>
+  .contact-cta--directory h2 {
+    font-size: clamp(2rem, 3vw, 3rem);
+    max-width: none;
+  }
   .contact-cta {
     padding: var(--space-32) var(--space-24);
     border: 1px solid var(--border-hover);

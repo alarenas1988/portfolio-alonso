@@ -1,0 +1,31 @@
+---
+import { fileURLToPath } from 'node:url';
+import { outDir } from 'astro:config/server';
+import { getPublicConfig } from '../lib/config/public.ts';
+import { loadPublicPages } from '../lib/content/public-build.ts';
+import { pageSeo } from '../lib/content/pages.ts';
+import InternalLayout from '../layouts/InternalLayout.astro';
+import PageHero from '../components/public/PageHero.astro';
+import ContactSection from '../components/public/ContactSection.astro';
+import ContactForm from '../components/public/ContactForm.astro';
+const content = await loadPublicPages(getPublicConfig(), fileURLToPath(outDir));
+---
+
+<InternalLayout
+  content={content}
+  active="contact"
+  seo={pageSeo(
+    content,
+    '/contacto/',
+    'Contacto',
+    content.contact.description ?? 'Conversemos sobre tu próximo proyecto.',
+  )}
+>
+  <PageHero
+    eyebrow="Contacto / Hablemos"
+    title={content.contact.title ?? '¿Construimos algo?'}
+    description={content.contact.description}
+  />
+  <ContactSection home={content} directory />
+  <ContactForm enabled={content.snapshot.contact?.form_enabled ?? false} />
+</InternalLayout>

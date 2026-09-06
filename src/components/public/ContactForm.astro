@@ -1,0 +1,203 @@
+---
+interface Props {
+  enabled: boolean;
+}
+const { enabled } = Astro.props;
+const fields = [
+  {
+    name: 'name',
+    label: 'Nombre',
+    type: 'text',
+    autocomplete: 'name',
+    help: 'Cómo prefieres que te llame.',
+    max: 100,
+  },
+  {
+    name: 'email',
+    label: 'Email',
+    type: 'email',
+    autocomplete: 'email',
+    help: 'Un correo en el que pueda responderte.',
+    max: 254,
+  },
+  {
+    name: 'subject',
+    label: 'Asunto',
+    type: 'text',
+    autocomplete: 'off',
+    help: 'Una idea breve del tema que quieres conversar.',
+    max: 160,
+  },
+] as const;
+---
+
+<section class="container page-section" aria-labelledby="form-title">
+  <div class="contact-form-layout">
+    <div>
+      <p class="technical-label">El primer paso</p><h2 id="form-title">Cuéntame tu idea.</h2><p
+        id="form-availability"
+      >
+        El formulario estará disponible próximamente. Por ahora, utiliza los canales de contacto
+        publicados.
+      </p>
+    </div>
+    <!-- method=dialog outside a dialog prevents native navigation even without JavaScript. -->
+    <form
+      class="contact-form"
+      method="dialog"
+      data-contact-form
+      aria-describedby="form-availability"
+      novalidate
+    >
+      <fieldset disabled={!enabled}>
+        <legend class="sr-only">Datos del mensaje</legend>
+        {
+          fields.map((field) => (
+            <div class="form-field">
+              <>
+                <label for={`contact-${field.name}`}>
+                  {field.label} <span aria-hidden="true">*</span>
+                </label>
+                <input
+                  id={`contact-${field.name}`}
+                  name={field.name}
+                  type={field.type}
+                  autocomplete={field.autocomplete}
+                  maxlength={field.max}
+                  required
+                  aria-describedby={`help-${field.name} error-${field.name}`}
+                />
+                <small id={`help-${field.name}`}>{field.help}</small>
+                <span class="field-error" id={`error-${field.name}`} data-error={field.name} />
+              </>
+            </div>
+          ))
+        }
+        <div class="form-field">
+          <label for="contact-message">Mensaje <span aria-hidden="true">*</span></label><textarea
+            id="contact-message"
+            name="message"
+            rows="7"
+            maxlength="5000"
+            required
+            aria-describedby="help-message message-count error-message"></textarea><small
+            id="help-message">Describe el problema o la idea. Entre 20 y 5000 caracteres.</small
+          ><small id="message-count" data-message-count>0 / 5000</small><span
+            class="field-error"
+            id="error-message"
+            data-error="message"></span>
+        </div>
+        <div hidden>
+          <label for="contact-website">Sitio web</label><input
+            id="contact-website"
+            name="website"
+            type="text"
+            autocomplete="off"
+            tabindex="-1"
+          />
+        </div>
+        <button type="button" data-review-message disabled>Revisar mensaje</button>
+      </fieldset>
+      <button type="submit" disabled aria-describedby="form-availability"
+        >Enviar mensaje — próximamente</button
+      >
+      <p data-form-status role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+<script>
+  import '../../scripts/contact-form.ts';
+</script>
+<style>
+  .contact-form-layout {
+    display: grid;
+    gap: var(--space-48);
+  }
+  .contact-form-layout > div > p {
+    color: var(--text-muted);
+    max-width: 36ch;
+  }
+  h2 {
+    font-size: clamp(2rem, 3vw, 3rem);
+    margin-block: var(--space-24);
+  }
+  .contact-form {
+    min-width: 0;
+  }
+  fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-24);
+    min-width: 0;
+  }
+  .form-field {
+    display: grid;
+    gap: var(--space-8);
+    min-width: 0;
+  }
+  label {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  label span {
+    color: var(--accent-cyan);
+  }
+  input,
+  textarea {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    border: 1px solid var(--border-hover);
+    border-radius: var(--radius-sm);
+    background: var(--midnight-900);
+    padding: var(--space-12) var(--space-16);
+    color: var(--text-primary);
+    font: inherit;
+  }
+  textarea {
+    resize: vertical;
+  }
+  small {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .field-error {
+    color: var(--text-primary);
+    font-size: 0.8125rem;
+  }
+  [aria-invalid='true'] {
+    border-color: var(--accent-magenta);
+  }
+  button {
+    min-height: 48px;
+    width: fit-content;
+    max-width: 100%;
+    padding: var(--space-12) var(--space-24);
+    border: 1px solid var(--border-hover);
+    border-radius: var(--radius-sm);
+    background: var(--glass-standard);
+    color: var(--text-primary);
+    font: inherit;
+    cursor: pointer;
+  }
+  button:disabled {
+    color: var(--text-muted);
+    cursor: not-allowed;
+  }
+  button[type='submit'] {
+    margin-top: var(--space-24);
+  }
+  [data-form-status] {
+    margin-top: var(--space-16);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+  @media (min-width: 48rem) {
+    .contact-form-layout {
+      grid-template-columns: 1fr 1.5fr;
+      gap: var(--space-64);
+    }
+  }
+</style>

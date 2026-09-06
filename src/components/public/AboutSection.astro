@@ -2,13 +2,10 @@
 import type { HomeModel } from '../../lib/content/home.ts';
 import MediaImage from '../shared/MediaImage.astro';
 import Icon from '../shared/Icon.astro';
-import { createUrlHelpers } from '../../lib/utils/urls.ts';
-import { getPublicConfig } from '../../lib/config/public.ts';
 interface Props {
   home: HomeModel;
 }
 const { home } = Astro.props;
-const { withBase } = createUrlHelpers(getPublicConfig().siteUrl);
 ---
 
 <section
@@ -26,7 +23,7 @@ const { withBase } = createUrlHelpers(getPublicConfig().siteUrl);
       )
     }{home.about.method && <p>{home.about.method}</p>}{
       home.principles.length > 0 && (
-        <a class="text-link" href={withBase('/#principios')}>
+        <a class="text-link" href={home.links.about}>
           Mi forma de trabajar
           <Icon name="arrow-right" size={18} />
         </a>
