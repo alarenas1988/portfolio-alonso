@@ -78,7 +78,7 @@ begin
   if jsonb_typeof(p_relations->'technologies')<>'array' or jsonb_array_length(p_relations->'technologies')>200 then raise invalid_parameter_value using message='Invalid relation collection'; end if;
   for item in select value from jsonb_array_elements(p_relations->'technologies') loop
    if jsonb_typeof(item)<>'object' or exists(select 1 from jsonb_object_keys(item) k where not(k=any(array['technology_id','sort_order']::text[]))) then raise invalid_parameter_value using message='Invalid relation fields'; end if;
-   
+
   end loop;
   delete from public.project_technologies where project_id=p_id;
   for item in select value from jsonb_array_elements(p_relations->'technologies') loop
@@ -116,7 +116,7 @@ begin
   if jsonb_typeof(p_relations->'categories')<>'array' or jsonb_array_length(p_relations->'categories')>200 then raise invalid_parameter_value using message='Invalid relation collection'; end if;
   for item in select value from jsonb_array_elements(p_relations->'categories') loop
    if jsonb_typeof(item)<>'object' or exists(select 1 from jsonb_object_keys(item) k where not(k=any(array['category_id']::text[]))) then raise invalid_parameter_value using message='Invalid relation fields'; end if;
-   
+
   end loop;
   delete from public.post_category_relations where post_id=p_id;
   for item in select value from jsonb_array_elements(p_relations->'categories') loop
@@ -129,7 +129,7 @@ begin
   if jsonb_typeof(p_relations->'tags')<>'array' or jsonb_array_length(p_relations->'tags')>200 then raise invalid_parameter_value using message='Invalid relation collection'; end if;
   for item in select value from jsonb_array_elements(p_relations->'tags') loop
    if jsonb_typeof(item)<>'object' or exists(select 1 from jsonb_object_keys(item) k where not(k=any(array['tag_id']::text[]))) then raise invalid_parameter_value using message='Invalid relation fields'; end if;
-   
+
   end loop;
   delete from public.post_tags where post_id=p_id;
   for item in select value from jsonb_array_elements(p_relations->'tags') loop
@@ -180,7 +180,7 @@ begin
   if jsonb_typeof(p_relations->'projects')<>'array' or jsonb_array_length(p_relations->'projects')>200 then raise invalid_parameter_value using message='Invalid relation collection'; end if;
   for item in select value from jsonb_array_elements(p_relations->'projects') loop
    if jsonb_typeof(item)<>'object' or exists(select 1 from jsonb_object_keys(item) k where not(k=any(array['project_id']::text[]))) then raise invalid_parameter_value using message='Invalid relation fields'; end if;
-   
+
   end loop;
   delete from public.experience_projects where experience_id=p_id;
   for item in select value from jsonb_array_elements(p_relations->'projects') loop
@@ -193,7 +193,7 @@ begin
   if jsonb_typeof(p_relations->'technologies')<>'array' or jsonb_array_length(p_relations->'technologies')>200 then raise invalid_parameter_value using message='Invalid relation collection'; end if;
   for item in select value from jsonb_array_elements(p_relations->'technologies') loop
    if jsonb_typeof(item)<>'object' or exists(select 1 from jsonb_object_keys(item) k where not(k=any(array['technology_id']::text[]))) then raise invalid_parameter_value using message='Invalid relation fields'; end if;
-   
+
   end loop;
   delete from public.experience_technologies where experience_id=p_id;
   for item in select value from jsonb_array_elements(p_relations->'technologies') loop
