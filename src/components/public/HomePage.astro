@@ -1,0 +1,30 @@
+---
+import type { HomeModel } from '../../lib/content/home.ts';
+import PublicLayout from '../../layouts/PublicLayout.astro';
+import Navbar from './Navbar.astro';
+import Hero from './Hero.astro';
+import FeaturedProjects from './FeaturedProjects.astro';
+import AboutSection from './AboutSection.astro';
+import SpecialtiesSection from './SpecialtiesSection.astro';
+import StackSection from './StackSection.astro';
+import ExperienceTimeline from './ExperienceTimeline.astro';
+import ImpactSection from './ImpactSection.astro';
+import BlogSection from './BlogSection.astro';
+import ContactSection from './ContactSection.astro';
+import Footer from './Footer.astro';
+import '../../styles/home.css';
+interface Props {
+  home: HomeModel;
+}
+const { home } = Astro.props;
+---
+
+<PublicLayout {...home.seo}>
+  <Navbar home={home} slot="navigation" />
+  <Hero home={home} /><FeaturedProjects home={home} /><AboutSection
+    home={home}
+  /><SpecialtiesSection home={home} /><StackSection home={home} /><ExperienceTimeline
+    home={home}
+  /><ImpactSection home={home} /><BlogSection home={home} /><ContactSection home={home} />
+  <Footer home={home} slot="footer" />
+</PublicLayout>

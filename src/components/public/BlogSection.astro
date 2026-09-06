@@ -1,0 +1,50 @@
+---
+import type { HomeModel } from '../../lib/content/home.ts';
+import SectionIntro from './SectionIntro.astro';
+import BlogCard from './BlogCard.astro';
+import EmptyState from './EmptyState.astro';
+interface Props {
+  home: HomeModel;
+}
+const { home } = Astro.props;
+---
+
+<section
+  id="blog"
+  class:list={['home-section container', { 'home-section--empty': !home.posts.length }]}
+  aria-labelledby="blog-title"
+  data-section="blog"
+>
+  <SectionIntro
+    eyebrow="Blog / Insights"
+    number="07"
+    title="Ideas, aprendizajes y lo que viene."
+    id="blog-title"
+  />{
+    home.posts.length ? (
+      <div class="blog-grid">
+        {home.posts.map((post) => (
+          <BlogCard post={post} assets={home.assets} />
+        ))}
+      </div>
+    ) : (
+      <EmptyState message="Las próximas notas y aprendizajes aparecerán aquí." />
+    )
+  }
+</section>
+<style>
+  .blog-grid {
+    display: grid;
+    gap: var(--space-32);
+  }
+  @media (min-width: 40rem) {
+    .blog-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 64rem) {
+    .blog-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

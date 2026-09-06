@@ -1,0 +1,13 @@
+---
+import HomePage from '../../src/components/public/HomePage.astro';
+import { createHomeModel } from '../../src/lib/content/home.ts';
+import { getPublicConfig } from '../../src/lib/config/public.ts';
+import { emptyHomeSnapshot } from './home-snapshot.ts';
+const home = createHomeModel(
+  emptyHomeSnapshot(),
+  { version: 1, assets: {} },
+  getPublicConfig().siteUrl,
+);
+---
+
+<HomePage home={home} />

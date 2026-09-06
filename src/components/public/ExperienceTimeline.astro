@@ -1,0 +1,150 @@
+---
+import type { HomeModel } from '../../lib/content/home.ts';
+import SectionIntro from './SectionIntro.astro';
+import TechnologyBadge from './TechnologyBadge.astro';
+import EmptyState from './EmptyState.astro';
+import { safeExternalUrl } from '../../lib/content/presentation.ts';
+interface Props {
+  home: HomeModel;
+}
+const { home } = Astro.props;
+---
+
+<section
+  id="experiencia"
+  class:list={['home-section container', { 'home-section--empty': !home.experiences.length }]}
+  aria-labelledby="experience-title"
+  data-section="experience"
+>
+  <SectionIntro
+    eyebrow="Experiencia"
+    number="05"
+    title="Aprender. Construir. Evolucionar."
+    id="experience-title"
+  />{
+    home.experiences.length ? (
+      <ol class="experience-timeline">
+        {home.experiences.map((experience) => (
+          <li data-reveal>
+            <div class="experience-timeline__period">
+              <span class="experience-timeline__dot" aria-hidden="true" />
+              {experience.period && <span>{experience.period}</span>}
+            </div>
+            <article>
+              <h3>{experience.row.position}</h3>
+              <p class="experience-timeline__organization">
+                {safeExternalUrl(experience.row.organization_url) ? (
+                  <a
+                    href={safeExternalUrl(experience.row.organization_url)!}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {experience.row.organization}
+                  </a>
+                ) : (
+                  experience.row.organization
+                )}
+              </p>
+              {experience.row.summary && <p>{experience.row.summary}</p>}
+              {experience.technologies.length > 0 && (
+                <div class="experience-timeline__technologies">
+                  {experience.technologies.map((technology) => (
+                    <TechnologyBadge technology={technology} assets={home.assets} compact />
+                  ))}
+                </div>
+              )}
+              {experience.projects.length > 0 && (
+                <div class="experience-timeline__projects">
+                  <span>Proyectos relacionados</span>
+                  {experience.projects.map((project) => (
+                    <p>{project.row.title}</p>
+                  ))}
+                </div>
+              )}
+            </article>
+          </li>
+        ))}
+      </ol>
+    ) : (
+      <EmptyState message="La trayectoria y sus proyectos se incorporarán aquí." />
+    )
+  }
+</section>
+<style>
+  .experience-timeline {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .experience-timeline > li {
+    position: relative;
+    display: grid;
+    gap: var(--space-24);
+    padding: var(--space-32) 0 var(--space-48) var(--space-32);
+    border-left: 1px solid var(--border-subtle);
+  }
+  .experience-timeline__period {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.02em;
+    color: var(--text-muted);
+  }
+  .experience-timeline__dot {
+    position: absolute;
+    left: -5px;
+    top: 37px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 0 6px var(--midnight-900);
+  }
+  .experience-timeline article {
+    display: grid;
+    gap: var(--space-16);
+  }
+  .experience-timeline h3 {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    line-height: 1.25;
+  }
+  .experience-timeline article > p {
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    max-width: 66ch;
+  }
+  .experience-timeline .experience-timeline__organization {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+  }
+  .experience-timeline__organization a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .experience-timeline__technologies {
+    display: flex;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+  }
+  .experience-timeline__projects {
+    padding-top: var(--space-16);
+    font-size: 0.8125rem;
+  }
+  .experience-timeline__projects > span {
+    font-size: 0.625rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .experience-timeline__projects p {
+    margin-top: var(--space-8);
+  }
+  @media (min-width: 48rem) {
+    .experience-timeline > li {
+      grid-template-columns: 200px 1fr;
+      gap: var(--space-48);
+      padding-left: var(--space-48);
+    }
+  }
+</style>

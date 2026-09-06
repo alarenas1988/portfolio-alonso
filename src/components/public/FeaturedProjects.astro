@@ -1,0 +1,50 @@
+---
+import type { HomeModel } from '../../lib/content/home.ts';
+import SectionIntro from './SectionIntro.astro';
+import ProjectCard from './ProjectCard.astro';
+import EmptyState from './EmptyState.astro';
+interface Props {
+  home: HomeModel;
+}
+const { home } = Astro.props;
+---
+
+<section
+  id="proyectos"
+  class:list={['home-section container', { 'home-section--empty': !home.projects.length }]}
+  aria-labelledby="projects-title"
+  data-section="projects"
+>
+  <SectionIntro
+    eyebrow="Proyectos destacados"
+    number="01"
+    title="Del problema a la solución."
+    id="projects-title"
+  />
+  {
+    home.projects.length ? (
+      <div class="projects-grid">
+        {home.projects.map((project, index) => (
+          <ProjectCard project={project} assets={home.assets} index={index} />
+        ))}
+      </div>
+    ) : (
+      <EmptyState message="Los próximos proyectos publicados tendrán su espacio aquí." />
+    )
+  }
+</section>
+<style>
+  .projects-grid {
+    display: grid;
+    gap: var(--space-24);
+  }
+  @media (min-width: 48rem) {
+    .projects-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+    }
+    .projects-grid:has(> :only-child) {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
