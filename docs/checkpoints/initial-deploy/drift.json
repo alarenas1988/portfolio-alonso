@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-06T15:11:46.726Z",
+  "comparison": "Deep structural equality; object key serialization order is irrelevant, array order and values are preserved",
+  "compared_sections": [
+    "views",
+    "buckets",
+    "columns",
+    "indexes",
+    "schemas",
+    "defaults",
+    "policies",
+    "triggers",
+    "functions",
+    "relations",
+    "constraints",
+    "automatic_rls",
+    "storage_grants",
+    "managed_storage"
+  ],
+  "differences": [],
+  "automatic_rls_preserved": true,
+  "matches_local": true
+}

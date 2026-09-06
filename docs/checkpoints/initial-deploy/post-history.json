@@ -1,0 +1,16 @@
+{
+  "admin_profiles": 0,
+  "auth_users": 0,
+  "history": [
+    {
+      "name": "initial_portfolio",
+      "statement_count": 527,
+      "version": "20260906001900"
+    }
+  ],
+  "private_tables": 3,
+  "public_tables": 32,
+  "seed_categories": 0,
+  "seed_settings": 0,
+  "storage_objects": 0
+}

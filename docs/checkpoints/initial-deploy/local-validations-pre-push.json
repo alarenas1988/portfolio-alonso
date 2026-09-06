@@ -1,0 +1,101 @@
+[
+  {
+    "command": "npm run lint",
+    "at": "2026-09-06T15:04:16.247Z",
+    "exit_code": 0,
+    "evidence": []
+  },
+  {
+    "command": "npm run db:snapshot:check",
+    "at": "2026-09-06T15:05:27.185Z",
+    "exit_code": 0,
+    "evidence": []
+  },
+  {
+    "command": "npm run test:auth:local",
+    "at": "2026-09-06T15:05:35.002Z",
+    "exit_code": 0,
+    "evidence": ["Real local Auth + REST integration passed: 107 checks."]
+  },
+  {
+    "command": "npm run typecheck",
+    "at": "2026-09-06T15:05:46.779Z",
+    "exit_code": 0,
+    "evidence": []
+  },
+  {
+    "command": "npm run test",
+    "at": "2026-09-06T15:05:49.282Z",
+    "exit_code": 0,
+    "evidence": [
+      "✔ large images generate responsive widths without upscaling and invalid identities fail (320.8147ms)",
+      "ℹ tests 87",
+      "ℹ pass 87",
+      "ℹ fail 0"
+    ]
+  },
+  {
+    "command": "npm run test:media:local",
+    "at": "2026-09-06T15:05:53.564Z",
+    "exit_code": 0,
+    "evidence": ["Real local Storage/media integration passed: 66 checks."]
+  },
+  {
+    "command": "npm run build",
+    "at": "2026-09-06T15:05:54.205Z",
+    "exit_code": 0,
+    "evidence": []
+  },
+  {
+    "command": "npm run check:static",
+    "at": "2026-09-06T15:05:54.814Z",
+    "exit_code": 0,
+    "evidence": ["Static output passed: 2 HTML documents; base /portfolio-alonso/."]
+  },
+  {
+    "command": "npm run check:secrets",
+    "at": "2026-09-06T15:05:55.338Z",
+    "exit_code": 0,
+    "evidence": ["Secret scan passed: 8 build artifacts."]
+  },
+  {
+    "command": "npm run test:storage:identity:local",
+    "at": "2026-09-06T15:05:59.208Z",
+    "exit_code": 0,
+    "evidence": ["Storage primary-key compatibility probe passed: 9 checks."]
+  },
+  {
+    "command": "npm run db:audit",
+    "at": "2026-09-06T15:06:00.002Z",
+    "exit_code": 0,
+    "evidence": ["Exported local catalog: 35 RLS tables, grants, policies, views and functions."]
+  },
+  {
+    "command": "npm run db:baseline:check",
+    "at": "2026-09-06T15:16:49.505Z",
+    "exit_code": 0,
+    "evidence": []
+  },
+  {
+    "command": "npm run db:lint",
+    "at": "2026-09-06T15:16:51.591Z",
+    "exit_code": 0,
+    "evidence": ["No schema errors found"]
+  },
+  {
+    "command": "npm run db:test",
+    "at": "2026-09-06T15:16:58.891Z",
+    "exit_code": 0,
+    "evidence": [
+      "All tests successful.",
+      "Files=5, Tests=613,  4 wallclock secs ( 0.15 usr  0.04 sys +  0.09 cusr  0.12 csys =  0.40 CPU)",
+      "Result: PASS"
+    ]
+  },
+  {
+    "command": "npm run db:types:check",
+    "at": "2026-09-06T15:17:04.669Z",
+    "exit_code": 0,
+    "evidence": ["Generated database types match local PostgreSQL."]
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-06T15:12:50.422Z",
+  "source": "supabase/seed.sql",
+  "source_sha256": "c960050f61f73a8875f6a73498b86b57dd61264b043a37345e78e900bf523bca",
+  "transactional": true,
+  "idempotency_verified_locally": true,
+  "counts": {
+    "admin_profiles": 0,
+    "auth_users": 0,
+    "contact_settings": 1,
+    "experiences": 0,
+    "impact_metrics": 0,
+    "post_categories": 9,
+    "posts": 0,
+    "projects": 0,
+    "site_settings": 1,
+    "specialties": 6,
+    "work_principles": 4
+  }
+}

@@ -1,0 +1,303 @@
+{
+  "automatic_rls": {
+    "enabled": "O",
+    "function": "rls_auto_enable()",
+    "tags": ["CREATE TABLE", "CREATE TABLE AS", "SELECT INTO"]
+  },
+  "buckets": null,
+  "columns": null,
+  "constraints": null,
+  "defaults": [
+    {
+      "acl": "{postgres=rwU/postgres}",
+      "kind": "S",
+      "role": "postgres",
+      "schema": "public"
+    },
+    {
+      "acl": "{postgres=X/postgres}",
+      "kind": "f",
+      "role": "postgres",
+      "schema": "public"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,anon=Dxtm/postgres,authenticated=Dxtm/postgres,service_role=Dxtm/postgres}",
+      "kind": "r",
+      "role": "postgres",
+      "schema": "public"
+    },
+    {
+      "acl": "{postgres=rwU/supabase_admin,anon=rwU/supabase_admin,authenticated=rwU/supabase_admin,service_role=rwU/supabase_admin}",
+      "kind": "S",
+      "role": "supabase_admin",
+      "schema": "public"
+    },
+    {
+      "acl": "{postgres=X/supabase_admin,anon=X/supabase_admin,authenticated=X/supabase_admin,service_role=X/supabase_admin}",
+      "kind": "f",
+      "role": "supabase_admin",
+      "schema": "public"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/supabase_admin,anon=arwdDxtm/supabase_admin,authenticated=arwdDxtm/supabase_admin,service_role=arwdDxtm/supabase_admin}",
+      "kind": "r",
+      "role": "supabase_admin",
+      "schema": "public"
+    }
+  ],
+  "functions": [
+    {
+      "acl": null,
+      "args": "",
+      "definition": "CREATE OR REPLACE FUNCTION public.rls_auto_enable()\n RETURNS event_trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog'\nAS $function$\nDECLARE\n  cmd record;\nBEGIN\n  FOR cmd IN\n    SELECT *\n    FROM pg_event_trigger_ddl_commands()\n    WHERE command_tag IN ('CREATE TABLE', 'CREATE TABLE AS', 'SELECT INTO')\n      AND object_type IN ('table','partitioned table')\n  LOOP\n     IF cmd.schema_name IS NOT NULL AND cmd.schema_name IN ('public') AND cmd.schema_name NOT IN ('pg_catalog','information_schema') AND cmd.schema_name NOT LIKE 'pg_toast%' AND cmd.schema_name NOT LIKE 'pg_temp%' THEN\n      BEGIN\n        EXECUTE format('alter table if exists %s enable row level security', cmd.object_identity);\n        RAISE LOG 'rls_auto_enable: enabled RLS on %', cmd.object_identity;\n      EXCEPTION\n        WHEN OTHERS THEN\n          RAISE LOG 'rls_auto_enable: failed to enable RLS on %', cmd.object_identity;\n      END;\n     ELSE\n        RAISE LOG 'rls_auto_enable: skip % (either system schema or not in enforced list: %.)', cmd.object_identity, cmd.schema_name;\n     END IF;\n  END LOOP;\nEND;\n$function$\n",
+      "name": "rls_auto_enable",
+      "owner": "postgres",
+      "schema": "public"
+    }
+  ],
+  "indexes": null,
+  "managed_storage": {
+    "columns": [
+      {
+        "name": "id",
+        "not_null": true,
+        "type": "uuid"
+      },
+      {
+        "name": "bucket_id",
+        "not_null": false,
+        "type": "text"
+      },
+      {
+        "name": "name",
+        "not_null": false,
+        "type": "text"
+      },
+      {
+        "name": "owner",
+        "not_null": false,
+        "type": "uuid"
+      },
+      {
+        "name": "created_at",
+        "not_null": false,
+        "type": "timestamp with time zone"
+      },
+      {
+        "name": "updated_at",
+        "not_null": false,
+        "type": "timestamp with time zone"
+      },
+      {
+        "name": "last_accessed_at",
+        "not_null": false,
+        "type": "timestamp with time zone"
+      },
+      {
+        "name": "metadata",
+        "not_null": false,
+        "type": "jsonb"
+      },
+      {
+        "name": "path_tokens",
+        "not_null": false,
+        "type": "text[]"
+      },
+      {
+        "name": "version",
+        "not_null": false,
+        "type": "text"
+      },
+      {
+        "name": "owner_id",
+        "not_null": false,
+        "type": "text"
+      },
+      {
+        "name": "user_metadata",
+        "not_null": false,
+        "type": "jsonb"
+      },
+      {
+        "name": "archived_at",
+        "not_null": false,
+        "type": "timestamp with time zone"
+      },
+      {
+        "name": "is_delete_marker",
+        "not_null": true,
+        "type": "boolean"
+      },
+      {
+        "name": "is_versioned",
+        "not_null": true,
+        "type": "boolean"
+      }
+    ],
+    "constraints": ["FOREIGN KEY (bucket_id) REFERENCES storage.buckets(id)", "PRIMARY KEY (id)"],
+    "indexes": [
+      "CREATE UNIQUE INDEX bucketid_objname ON storage.objects USING btree (bucket_id, name)",
+      "CREATE INDEX idx_objects_bucket_id_name ON storage.objects USING btree (bucket_id, name COLLATE \"C\")",
+      "CREATE INDEX idx_objects_bucket_id_name_lower ON storage.objects USING btree (bucket_id, lower(name) COLLATE \"C\")",
+      "CREATE INDEX name_prefix_search ON storage.objects USING btree (name text_pattern_ops)",
+      "CREATE UNIQUE INDEX objects_pkey ON storage.objects USING btree (id)"
+    ],
+    "triggers": [
+      "CREATE TRIGGER protect_objects_delete BEFORE DELETE ON storage.objects FOR EACH STATEMENT EXECUTE FUNCTION storage.protect_delete()",
+      "CREATE TRIGGER update_objects_updated_at BEFORE UPDATE ON storage.objects FOR EACH ROW EXECUTE FUNCTION storage.update_updated_at_column()"
+    ]
+  },
+  "policies": null,
+  "relations": null,
+  "schemas": [
+    {
+      "acl": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner}",
+      "name": "public",
+      "owner": "pg_database_owner"
+    }
+  ],
+  "storage_grants": [
+    {
+      "grantee": "anon",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "UPDATE"
+    }
+  ],
+  "triggers": null,
+  "views": null
+}

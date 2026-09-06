@@ -1,0 +1,14 @@
+{
+  "started_at": "2026-09-06T15:08:56.117Z",
+  "finished_at": "2026-09-06T15:09:35.307Z",
+  "project": "portfolio-alonso",
+  "region": "sa-east-1",
+  "cli": "2.116.0",
+  "command": "supabase db push --linked --skip-vault --yes",
+  "exit_code": 0,
+  "applied_sql_files": ["20260906001900_initial_portfolio.sql"],
+  "seed_requested": false,
+  "roles_requested": false,
+  "vault_skipped": true,
+  "full_log": ".tools/initial-deploy/effective-push.log (ignored, private diagnostics)"
+}

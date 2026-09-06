@@ -1,5 +1,29 @@
 # Registro de fases
 
+## Checkpoint técnico backend — 2026-09-06, primer despliegue real
+
+**Estado:** checkpoint completado, baseline y owner remoto verificados. Rama/worktree nuevos `chore/supabase-initial-deploy` / `.worktrees/supabase-initial-deploy`, desde origin/main `d3b5d0f671aa783c09d59760a68b466aded5662f`, con F1/F2/F5/F6/F8 y baseline corregido. Main limpio, sincronizado y sin reescritura de historial.
+
+CLI 2.116.0 autenticada y enlazada a portfolio-alonso, sa-east-1, PostgreSQL 17.6. Inspección previa sin drift: cero tablas propias/buckets/objetos/usuarios y sin historial de aplicación; Automatic RLS activo. Respaldo lógico nuevo fuera de Git, ACL restringida y recuperación ensayada. El dump completo encontró permiso denegado en una tabla Storage Vector; se conservó y se generó/restauró la variante con las dos exclusiones oficiales, ambas tablas vacías. Sin cambios de permisos administrados.
+
+Puerta local: reconstrucción vacía, baseline/seed, 613 SQL, 107 Auth/RLS, 66 Storage/media, 9 PK y 87 unitarias correctas; tipos/snapshot, npm ci/ls/audit, formato, lint, typecheck, build, salida estática y secretos correctos. Dry-run solo 019; SQL exacto aprobado. Evidencia previa en `253533e`.
+
+**Push real:** 2026-09-06 15:09:35 UTC, exit code 0, únicamente 019. Historial real con 527 sentencias, sin migraciones archivadas pendientes. Catálogo estructural idéntico a local: 32 public + 3 private con RLS, 4 vistas, 256 constraints, 99 índices, 138 policies; tres definer propias seguras y Automatic RLS preservado. Cuatro buckets reales, MIME/límites correctos, sin policy UPDATE/upsert/move.
+
+Seed separado, versionado y transaccional: 21 filas base autorizadas. 28 comprobaciones anónimas API reales y loadPublicSnapshot correctos, sin fixtures persistentes. Generación de tipos remotos: única diferencia explicada __InternalSupabase.PostgrestVersion 14.5, sin diferencias de schema; database.ts permanece reproducible desde local. Comparación de catálogo usa igualdad estructural, sin confundir orden JSON con drift.
+
+Después del deploy se reconstruyó otra vez localmente desde vacío y se repitieron 613 SQL, 107 Auth/RLS, 66 media y 9 PK, tipos, lint y snapshot. Catálogo igual a remoto; fixtures limpios. Signup remoto deshabilitado, rechazo real HTTP 422/signup_disabled comprobado, email/password conservado. Site URL GitHub Pages y cuatro redirects exactos admin/recovery de producción/localhost guardados.
+
+**Parada respetada y continuación:** `18f4bf9` documentó la espera del alta segura; el usuario confirmó «owner creado». Se verificó una única cuenta Auth confirmada y se ejecutó el bootstrap administrativo transaccional sin identidad hardcodeada. Resultado: private.is_portfolio_admin()=true, un perfil owner activo y contraseña intacta.
+
+**Pruebas remotas completadas:** 139 comprobaciones adicionales, 91 de Auth/RLS/snapshot y 48 de Storage/media, con JWT reales del owner definitivo y fixtures noowner/inactivo. Se demostraron escalación denegada, borradores/hijos/futuros ocultos, lectura privada solo owner, CRUD permitido al owner, snapshot equivalente para cuatro roles, UUID Storage, signed preview, publicación, referencias múltiples/Markdown, bloqueo de delete, reemplazo, desvinculación y reporte de huérfanos. La credencial administrativa no fue usada para las aserciones de permisos.
+
+Limpieza confirmada: solo un Auth user y un perfil owner activo; cero proyectos/posts/tecnologías/mensajes/media/referencias/objetos de testing. Las cuentas temporales fueron eliminadas y se cerró solo la sesión de prueba del owner. Auditoría final: 14 secciones de catálogo idénticas a local, 35 tablas RLS, tres definer propias, Automatic RLS preservado e historial solo 019. [Informe completo](checkpoints/INITIAL_DEPLOY.md), [139 pruebas](checkpoints/initial-deploy/owner-smoke.json), [estado final](checkpoints/initial-deploy/final-state.json).
+
+Bootstrap en `f977ca6`; smoke test y evidencia en `543a0c2`. Formato/lint/typecheck/secretos/diff se verificaron nuevamente sobre scripts y documentación finales; no cambió el baseline ni la aplicación desde la reconstrucción completa posterior al push. [Validación de continuación](checkpoints/initial-deploy/owner-validations.json). Cierre documental: `docs: close controlled Supabase deployment checkpoint`.
+
+Sin PR ni merge automático de esta rama. No se modificaron migraciones ni código de aplicación, ni se inició F3/F4/F7/F9/F10/F11/F12/F13/F14.
+
 ## Checkpoint técnico backend — 2026-09-06, instalación inicial atómica
 
 **Estado:** implementación local y revisión previa terminadas; despliegue remoto pendiente de revisión. Rama/worktree nuevos `chore/supabase-initial-baseline` / `.worktrees/supabase-initial-baseline`, desde `origin/main` `c89ed9c0220cfbb088b55138279e4ba14eb54e29`. PR #6 del checkpoint anterior ya integrado; main estaba limpio y sincronizado. No se repite su PR ni merge.

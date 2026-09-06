@@ -1,0 +1,14 @@
+{
+  "at": "2026-09-06T15:11:46.728Z",
+  "method": "supabase gen types --linked --lang typescript --schema public,private",
+  "byte_equal": false,
+  "schema_types_equal": true,
+  "only_difference": {
+    "path": "Database.__InternalSupabase.PostgrestVersion",
+    "remote": "14.5",
+    "local": "Not emitted by local CLI generator"
+  },
+  "decision": "Keep reproducible local database.ts; remote schema types exactly match after excluding only the verified service-version annotation. No SQL, relationship, function or DTO differences.",
+  "remote_sha256": "40279342721a0c7b923b900290afc63a6500f524917b29b14e550060b0252a7c",
+  "local_sha256": "d4d53965f5c1de7cbc8442498fec72490d38ddbe4eeff729c86d676b141c99e9"
+}

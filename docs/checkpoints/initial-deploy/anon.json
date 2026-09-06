@@ -1,0 +1,167 @@
+{
+  "at": "2026-09-06T15:15:07.436Z",
+  "role": "anon",
+  "public_key_only": true,
+  "checks": [
+    {
+      "name": "typed loadPublicSnapshot and public settings",
+      "passed": true
+    },
+    {
+      "name": "nine public categories",
+      "passed": true
+    },
+    {
+      "name": "six public specialties",
+      "passed": true
+    },
+    {
+      "name": "four public principles",
+      "passed": true
+    },
+    {
+      "name": "no invented editorial content",
+      "passed": true
+    },
+    {
+      "name": "no private media in initial public snapshot",
+      "passed": true
+    },
+    {
+      "name": "public read: site_settings",
+      "passed": true
+    },
+    {
+      "name": "public read: post_categories",
+      "passed": true
+    },
+    {
+      "name": "public read: specialties",
+      "passed": true
+    },
+    {
+      "name": "public read: work_principles",
+      "passed": true
+    },
+    {
+      "name": "public read: public_contact_settings",
+      "passed": true
+    },
+    {
+      "name": "private table denied: admin_profiles",
+      "passed": true,
+      "evidence": {
+        "code": "42501"
+      }
+    },
+    {
+      "name": "private table denied: contact_messages",
+      "passed": true,
+      "evidence": {
+        "code": "42501"
+      }
+    },
+    {
+      "name": "private table denied: analytics_events",
+      "passed": true,
+      "evidence": {
+        "code": "42501"
+      }
+    },
+    {
+      "name": "private table denied: analytics_daily",
+      "passed": true,
+      "evidence": {
+        "code": "42501"
+      }
+    },
+    {
+      "name": "private table denied: analytics_daily_content",
+      "passed": true,
+      "evidence": {
+        "code": "42501"
+      }
+    },
+    {
+      "name": "private table denied: site_builds",
+      "passed": true,
+      "evidence": {
+        "code": "42501"
+      }
+    },
+    {
+      "name": "private table denied: admin_activity",
+      "passed": true,
+      "evidence": {
+        "code": "42501"
+      }
+    },
+    {
+      "name": "private table denied: media_assets",
+      "passed": true,
+      "evidence": {
+        "code": "42501"
+      }
+    },
+    {
+      "name": "INSERT published project denied by privilege",
+      "passed": true,
+      "evidence": {
+        "code": "42501"
+      }
+    },
+    {
+      "name": "UPDATE project denied by privilege",
+      "passed": true,
+      "evidence": {
+        "code": "42501"
+      }
+    },
+    {
+      "name": "DELETE project denied by privilege",
+      "passed": true,
+      "evidence": {
+        "code": "42501"
+      }
+    },
+    {
+      "name": "INSERT admin profile denied by privilege",
+      "passed": true,
+      "evidence": {
+        "code": "42501"
+      }
+    },
+    {
+      "name": "draft query returns no rows (remote draft fixtures pending)",
+      "passed": true
+    },
+    {
+      "name": "private RPC unavailable through public",
+      "passed": true,
+      "evidence": {
+        "status": 404
+      }
+    },
+    {
+      "name": "private RPC unavailable through private",
+      "passed": true,
+      "evidence": {
+        "status": 406
+      }
+    },
+    {
+      "name": "private listing discloses no objects",
+      "passed": true
+    },
+    {
+      "name": "anonymous valid PNG upload denied",
+      "passed": true,
+      "evidence": {
+        "status": "403"
+      }
+    }
+  ],
+  "total": 28,
+  "private_editorial_fixtures_created": false,
+  "limitations": "Draft/future/child visibility with real remote fixtures and Storage lifecycle require the owner stage; current empty queries are not that proof."
+}

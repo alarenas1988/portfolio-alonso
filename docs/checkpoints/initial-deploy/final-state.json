@@ -1,0 +1,75 @@
+{
+  "at": "2026-09-06T15:48:47.333Z",
+  "checkpoint_complete": true,
+  "schema_unchanged_after_owner_smoke": true,
+  "automatic_rls_preserved": true,
+  "catalog_sections_checked": [
+    "views",
+    "buckets",
+    "columns",
+    "indexes",
+    "schemas",
+    "defaults",
+    "policies",
+    "triggers",
+    "functions",
+    "relations",
+    "constraints",
+    "automatic_rls",
+    "storage_grants",
+    "managed_storage"
+  ],
+  "differences": [],
+  "rls_tables": 35,
+  "own_security_definers": [
+    {
+      "name": "private.is_portfolio_admin",
+      "owner": "postgres",
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "name": "private.read_public_contact",
+      "owner": "postgres",
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "name": "private.read_public_media",
+      "owner": "postgres",
+      "settings": ["search_path=\"\""]
+    }
+  ],
+  "history": ["20260906001900"],
+  "state": {
+    "active_owners": 1,
+    "media": 0,
+    "messages": 0,
+    "objects": 0,
+    "posts": 0,
+    "profiles": 1,
+    "projects": 0,
+    "references": 0,
+    "technologies": 0,
+    "users": 1
+  },
+  "seed_rows": 21,
+  "owner_smoke_checks": 139,
+  "owner_bootstrap_complete": true,
+  "fixture_cleanup_complete": true,
+  "final_snapshot": {
+    "typed_contract_valid": true,
+    "categories": 9,
+    "specialties": 6,
+    "principles": 4,
+    "projects": 0,
+    "posts": 0,
+    "media_assets": 0
+  },
+  "auth_configuration": "See auth.json captured before manual owner creation; URLs and signup settings unchanged",
+  "pending": [],
+  "limitations": [
+    "No login/recovery UI yet",
+    "Free plan has no managed restore available here; logical backup restore tested on compatible local Supabase",
+    "Storage bytes require their own future backup"
+  ],
+  "phases_started": []
+}

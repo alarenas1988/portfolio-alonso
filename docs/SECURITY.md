@@ -1,5 +1,13 @@
 # Seguridad — F6
 
+## Backend remoto desplegado — 2026-09-06
+
+019 ya está aplicada en portfolio-alonso. Auditoría real: 32 tablas public y 3 private con RLS, 138 policies, tres funciones SECURITY DEFINER propias con owner postgres/search_path vacío, cuatro vistas y Automatic RLS conservado. El catálogo remoto coincide con la reconstrucción local. [Evidencia completa](checkpoints/INITIAL_DEPLOY.md).
+
+28 comprobaciones API anónimas iniciales y 139 comprobaciones posteriores con sesiones reales correctas. Signup deshabilitado y rechazo signup_disabled comprobado; URLs exactas de Auth configuradas. El usuario creó su Auth definitivo; bootstrap administrativo fuera de migraciones produjo un único owner activo. Se comprobó private.is_portfolio_admin y CRUD con su JWT real, sin leer ni cambiar contraseña ni versionar UUID.
+
+Anon, noowner e inactivo no pudieron obtener drafts/hijos/futuros/privados, hacer CRUD, escalar mediante user_metadata/UUID/role/active ni administrar Storage. El snapshot público fue equivalente para los cuatro roles. El owner tampoco puede crear otro owner o modificar atributos de autorización desde API. Las credenciales administrativas se usaron solo en preparación/limpieza; las aserciones de permisos usaron publishable key y JWT Auth reales. Dos cuentas temporales y todos sus fixtures quedaron eliminados. La sesión temporal del owner se cerró con scope local; no se revocaron otras sesiones. Ver [evidencia remota](checkpoints/initial-deploy/owner-smoke.json) y [estado final sin drift](checkpoints/initial-deploy/final-state.json).
+
 ## Instalación inicial y Automatic RLS
 
 La baseline 019 instala esquema, grants y RLS en una transacción, sin crear la FK compuesta de 014. Su guard bloquea bases con aplicación/datos previos; un observador DDL local demostró que ni siquiera aparece una FK no-PK transitoria. Las 18 migraciones anteriores se conservan como fuentes inmutables, no como camino de instalación nuevo. [Pruebas de equivalencia y recuperación](checkpoints/INITIAL_BASELINE.md).

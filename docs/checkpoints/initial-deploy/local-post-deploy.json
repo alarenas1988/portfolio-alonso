@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-06T15:20:00.491Z",
+  "reconstructed_from_empty_after_remote_push": true,
+  "backup_restored": true,
+  "baseline": "20260906001900",
+  "schema_matches_remote": true,
+  "critical_sql": 613,
+  "auth_checks": 107,
+  "storage_media_checks": 66,
+  "storage_identity_checks": 9,
+  "types_match": true,
+  "fixture_counts": {
+    "media": 0,
+    "users": 0,
+    "objects": 0,
+    "projects": 0,
+    "migrations": ["20260906001900"]
+  }
+}

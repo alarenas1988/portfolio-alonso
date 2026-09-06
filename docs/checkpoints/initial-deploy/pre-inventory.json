@@ -1,0 +1,836 @@
+{
+  "buckets": null,
+  "event_triggers": [
+    {
+      "enabled": "O",
+      "event": "ddl_command_end",
+      "function": "rls_auto_enable()",
+      "name": "ensure_rls",
+      "tags": ["CREATE TABLE", "CREATE TABLE AS", "SELECT INTO"]
+    },
+    {
+      "enabled": "O",
+      "event": "sql_drop",
+      "function": "set_graphql_placeholder()",
+      "name": "issue_graphql_placeholder",
+      "tags": ["DROP EXTENSION"]
+    },
+    {
+      "enabled": "O",
+      "event": "ddl_command_end",
+      "function": "grant_pg_cron_access()",
+      "name": "issue_pg_cron_access",
+      "tags": ["CREATE EXTENSION"]
+    },
+    {
+      "enabled": "O",
+      "event": "ddl_command_end",
+      "function": "grant_pg_graphql_access()",
+      "name": "issue_pg_graphql_access",
+      "tags": ["CREATE EXTENSION"]
+    },
+    {
+      "enabled": "O",
+      "event": "ddl_command_end",
+      "function": "grant_pg_net_access()",
+      "name": "issue_pg_net_access",
+      "tags": ["CREATE EXTENSION"]
+    },
+    {
+      "enabled": "O",
+      "event": "ddl_command_end",
+      "function": "pgrst_ddl_watch()",
+      "name": "pgrst_ddl_watch",
+      "tags": null
+    },
+    {
+      "enabled": "O",
+      "event": "sql_drop",
+      "function": "pgrst_drop_watch()",
+      "name": "pgrst_drop_watch",
+      "tags": null
+    }
+  ],
+  "extensions": [
+    {
+      "available": "3.3.7",
+      "installed": null,
+      "name": "address_standardizer"
+    },
+    {
+      "available": "3.3.7",
+      "installed": null,
+      "name": "address_standardizer_data_us"
+    },
+    {
+      "available": "1.4",
+      "installed": null,
+      "name": "amcheck"
+    },
+    {
+      "available": "1.0",
+      "installed": null,
+      "name": "autoinc"
+    },
+    {
+      "available": "1.0",
+      "installed": null,
+      "name": "bloom"
+    },
+    {
+      "available": "1.3",
+      "installed": null,
+      "name": "btree_gin"
+    },
+    {
+      "available": "1.7",
+      "installed": null,
+      "name": "btree_gist"
+    },
+    {
+      "available": "1.6",
+      "installed": null,
+      "name": "citext"
+    },
+    {
+      "available": "1.5",
+      "installed": null,
+      "name": "cube"
+    },
+    {
+      "available": "1.2",
+      "installed": null,
+      "name": "dblink"
+    },
+    {
+      "available": "1.0",
+      "installed": null,
+      "name": "dict_int"
+    },
+    {
+      "available": "1.0",
+      "installed": null,
+      "name": "dict_xsyn"
+    },
+    {
+      "available": "1.2",
+      "installed": null,
+      "name": "earthdistance"
+    },
+    {
+      "available": "1.0",
+      "installed": null,
+      "name": "file_fdw"
+    },
+    {
+      "available": "1.2",
+      "installed": null,
+      "name": "fuzzystrmatch"
+    },
+    {
+      "available": "1.8",
+      "installed": null,
+      "name": "hstore"
+    },
+    {
+      "available": "1.6",
+      "installed": null,
+      "name": "http"
+    },
+    {
+      "available": "1.4.1",
+      "installed": null,
+      "name": "hypopg"
+    },
+    {
+      "available": "0.2.0",
+      "installed": null,
+      "name": "index_advisor"
+    },
+    {
+      "available": "1.0",
+      "installed": null,
+      "name": "insert_username"
+    },
+    {
+      "available": "1.1",
+      "installed": null,
+      "name": "intagg"
+    },
+    {
+      "available": "1.5",
+      "installed": null,
+      "name": "intarray"
+    },
+    {
+      "available": "1.2",
+      "installed": null,
+      "name": "isn"
+    },
+    {
+      "available": "1.1",
+      "installed": null,
+      "name": "lo"
+    },
+    {
+      "available": "1.3",
+      "installed": null,
+      "name": "ltree"
+    },
+    {
+      "available": "1.0",
+      "installed": null,
+      "name": "moddatetime"
+    },
+    {
+      "available": "1.12",
+      "installed": null,
+      "name": "pageinspect"
+    },
+    {
+      "available": "1.5",
+      "installed": null,
+      "name": "pg_buffercache"
+    },
+    {
+      "available": "1.6.4",
+      "installed": null,
+      "name": "pg_cron"
+    },
+    {
+      "available": "1.2",
+      "installed": null,
+      "name": "pg_freespacemap"
+    },
+    {
+      "available": "1.6.1",
+      "installed": null,
+      "name": "pg_graphql"
+    },
+    {
+      "available": "1.3.0-cd0e1b31d52b394a0df64079406a14a4f7387cd6",
+      "installed": null,
+      "name": "pg_hashids"
+    },
+    {
+      "available": "0.3.3",
+      "installed": null,
+      "name": "pg_jsonschema"
+    },
+    {
+      "available": "0.20.4",
+      "installed": null,
+      "name": "pg_net"
+    },
+    {
+      "available": "5.3.1",
+      "installed": null,
+      "name": "pg_partman"
+    },
+    {
+      "available": "1.2",
+      "installed": null,
+      "name": "pg_prewarm"
+    },
+    {
+      "available": "1.5.2",
+      "installed": null,
+      "name": "pg_repack"
+    },
+    {
+      "available": "2.1",
+      "installed": null,
+      "name": "pg_stat_monitor"
+    },
+    {
+      "available": "1.11",
+      "installed": "1.11",
+      "name": "pg_stat_statements"
+    },
+    {
+      "available": "1.0",
+      "installed": null,
+      "name": "pg_surgery"
+    },
+    {
+      "available": "1.4.0",
+      "installed": null,
+      "name": "pg_tle"
+    },
+    {
+      "available": "1.6",
+      "installed": null,
+      "name": "pg_trgm"
+    },
+    {
+      "available": "1.2",
+      "installed": null,
+      "name": "pg_visibility"
+    },
+    {
+      "available": "1.1",
+      "installed": null,
+      "name": "pg_walinspect"
+    },
+    {
+      "available": "17.1",
+      "installed": null,
+      "name": "pgaudit"
+    },
+    {
+      "available": "1.3",
+      "installed": "1.3",
+      "name": "pgcrypto"
+    },
+    {
+      "available": "0.2.0",
+      "installed": null,
+      "name": "pgjwt"
+    },
+    {
+      "available": "1.5.1",
+      "installed": null,
+      "name": "pgmq"
+    },
+    {
+      "available": "3.2.5",
+      "installed": null,
+      "name": "pgroonga"
+    },
+    {
+      "available": "3.2.5",
+      "installed": null,
+      "name": "pgroonga_database"
+    },
+    {
+      "available": "3.4.1",
+      "installed": null,
+      "name": "pgrouting"
+    },
+    {
+      "available": "1.2",
+      "installed": null,
+      "name": "pgrowlocks"
+    },
+    {
+      "available": "3.1.8",
+      "installed": null,
+      "name": "pgsodium"
+    },
+    {
+      "available": "1.5",
+      "installed": null,
+      "name": "pgstattuple"
+    },
+    {
+      "available": "1.3.3",
+      "installed": null,
+      "name": "pgtap"
+    },
+    {
+      "available": "1.0",
+      "installed": "1.0",
+      "name": "plpgsql"
+    },
+    {
+      "available": "2.8",
+      "installed": null,
+      "name": "plpgsql_check"
+    },
+    {
+      "available": "3.3.7",
+      "installed": null,
+      "name": "postgis"
+    },
+    {
+      "available": "3.3.7",
+      "installed": null,
+      "name": "postgis_raster"
+    },
+    {
+      "available": "3.3.7",
+      "installed": null,
+      "name": "postgis_sfcgal"
+    },
+    {
+      "available": "3.3.7",
+      "installed": null,
+      "name": "postgis_tiger_geocoder"
+    },
+    {
+      "available": "3.3.7",
+      "installed": null,
+      "name": "postgis_topology"
+    },
+    {
+      "available": "1.1",
+      "installed": null,
+      "name": "postgres_fdw"
+    },
+    {
+      "available": "1.0",
+      "installed": null,
+      "name": "refint"
+    },
+    {
+      "available": "1.3",
+      "installed": null,
+      "name": "rum"
+    },
+    {
+      "available": "1.4",
+      "installed": null,
+      "name": "seg"
+    },
+    {
+      "available": "1.2",
+      "installed": null,
+      "name": "sslinfo"
+    },
+    {
+      "available": "0.3.1",
+      "installed": "0.3.1",
+      "name": "supabase_vault"
+    },
+    {
+      "available": "1.0",
+      "installed": null,
+      "name": "tablefunc"
+    },
+    {
+      "available": "1.0",
+      "installed": null,
+      "name": "tcn"
+    },
+    {
+      "available": "1.0",
+      "installed": null,
+      "name": "tsm_system_rows"
+    },
+    {
+      "available": "1.0",
+      "installed": null,
+      "name": "tsm_system_time"
+    },
+    {
+      "available": "1.1",
+      "installed": null,
+      "name": "unaccent"
+    },
+    {
+      "available": "1.1",
+      "installed": "1.1",
+      "name": "uuid-ossp"
+    },
+    {
+      "available": "0.8.2",
+      "installed": null,
+      "name": "vector"
+    },
+    {
+      "available": "2.6",
+      "installed": null,
+      "name": "wal2json"
+    },
+    {
+      "available": "0.6.2",
+      "installed": null,
+      "name": "wrappers"
+    },
+    {
+      "available": "1.1",
+      "installed": null,
+      "name": "xml2"
+    }
+  ],
+  "functions": [
+    {
+      "arguments": "",
+      "config": null,
+      "name": "email",
+      "owner": "supabase_auth_admin",
+      "schema": "auth",
+      "security_definer": false
+    },
+    {
+      "arguments": "",
+      "config": null,
+      "name": "jwt",
+      "owner": "supabase_auth_admin",
+      "schema": "auth",
+      "security_definer": false
+    },
+    {
+      "arguments": "",
+      "config": null,
+      "name": "role",
+      "owner": "supabase_auth_admin",
+      "schema": "auth",
+      "security_definer": false
+    },
+    {
+      "arguments": "",
+      "config": null,
+      "name": "uid",
+      "owner": "supabase_auth_admin",
+      "schema": "auth",
+      "security_definer": false
+    },
+    {
+      "arguments": "",
+      "config": ["search_path=pg_catalog"],
+      "name": "rls_auto_enable",
+      "owner": "postgres",
+      "schema": "public",
+      "security_definer": true
+    },
+    {
+      "arguments": "expected_operations text[]",
+      "config": null,
+      "name": "allow_any_operation",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "expected_operation text",
+      "config": null,
+      "name": "allow_only_operation",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "bucketid text, name text, owner uuid, metadata jsonb",
+      "config": null,
+      "name": "can_insert_object",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "",
+      "config": null,
+      "name": "enforce_bucket_name_length",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "name text",
+      "config": null,
+      "name": "extension",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "name text",
+      "config": null,
+      "name": "filename",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "name text",
+      "config": null,
+      "name": "foldername",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "p_key text, p_prefix text, p_delimiter text",
+      "config": null,
+      "name": "get_common_prefix",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "",
+      "config": null,
+      "name": "get_size_by_bucket",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "bucket_id text, prefix_param text, delimiter_param text, max_keys integer, next_key_token text, next_upload_token text",
+      "config": null,
+      "name": "list_multipart_uploads_with_delimiter",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "_bucket_id text, prefix_param text, delimiter_param text, max_keys integer, start_after text, next_token text, sort_order text",
+      "config": null,
+      "name": "list_objects_with_delimiter",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "",
+      "config": null,
+      "name": "operation",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "",
+      "config": null,
+      "name": "protect_delete",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "prefix text, bucketname text, limits integer, levels integer, offsets integer, search text, sortcolumn text, sortorder text",
+      "config": null,
+      "name": "search",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "p_prefix text, p_bucket_id text, p_limit integer, p_level integer, p_start_after text, p_sort_order text, p_sort_column text, p_sort_column_after text",
+      "config": null,
+      "name": "search_by_timestamp",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "prefix text, bucket_name text, limits integer, levels integer, start_after text, sort_order text, sort_column text, sort_column_after text",
+      "config": null,
+      "name": "search_v2",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    },
+    {
+      "arguments": "",
+      "config": null,
+      "name": "update_updated_at_column",
+      "owner": "supabase_storage_admin",
+      "schema": "storage",
+      "security_definer": false
+    }
+  ],
+  "inspection_role": "postgres",
+  "migration_history_exists": false,
+  "policies": null,
+  "schemas": [
+    "auth",
+    "extensions",
+    "graphql",
+    "graphql_public",
+    "information_schema",
+    "public",
+    "realtime",
+    "storage",
+    "vault"
+  ],
+  "server_version": "17.6",
+  "storage_indexes": [
+    "CREATE UNIQUE INDEX bucketid_objname ON storage.objects USING btree (bucket_id, name)",
+    "CREATE INDEX idx_objects_bucket_id_name ON storage.objects USING btree (bucket_id, name COLLATE \"C\")",
+    "CREATE INDEX idx_objects_bucket_id_name_lower ON storage.objects USING btree (bucket_id, lower(name) COLLATE \"C\")",
+    "CREATE INDEX name_prefix_search ON storage.objects USING btree (name text_pattern_ops)",
+    "CREATE UNIQUE INDEX objects_pkey ON storage.objects USING btree (id)"
+  ],
+  "storage_object_count": 0,
+  "tables": [
+    {
+      "name": "audit_log_entries",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "custom_oauth_providers",
+      "owner": "supabase_auth_admin",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "name": "flow_state",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "identities",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "instances",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "mfa_amr_claims",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "mfa_challenges",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "mfa_factors",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "oauth_authorizations",
+      "owner": "supabase_auth_admin",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "name": "oauth_client_states",
+      "owner": "supabase_auth_admin",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "name": "oauth_clients",
+      "owner": "supabase_auth_admin",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "name": "oauth_consents",
+      "owner": "supabase_auth_admin",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "name": "one_time_tokens",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "refresh_tokens",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "saml_providers",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "saml_relay_states",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "schema_migrations",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "sessions",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "sso_domains",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "sso_providers",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "users",
+      "owner": "supabase_auth_admin",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "name": "webauthn_challenges",
+      "owner": "supabase_auth_admin",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "name": "webauthn_credentials",
+      "owner": "supabase_auth_admin",
+      "rls": false,
+      "schema": "auth"
+    },
+    {
+      "name": "buckets",
+      "owner": "supabase_storage_admin",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "name": "buckets_analytics",
+      "owner": "supabase_storage_admin",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "name": "buckets_vectors",
+      "owner": "supabase_storage_admin",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "name": "migrations",
+      "owner": "supabase_storage_admin",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "name": "objects",
+      "owner": "supabase_storage_admin",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "name": "s3_multipart_uploads",
+      "owner": "supabase_storage_admin",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "name": "s3_multipart_uploads_parts",
+      "owner": "supabase_storage_admin",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "name": "vector_indexes",
+      "owner": "supabase_storage_admin",
+      "rls": true,
+      "schema": "storage"
+    }
+  ],
+  "views": null
+}
