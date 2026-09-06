@@ -36,7 +36,11 @@ export default [
   },
   {
     files: ['src/**/*.ts'],
-    ignores: ['src/lib/config/build.ts', 'src/lib/supabase/build.ts'],
+    ignores: [
+      'src/lib/config/build.ts',
+      'src/lib/supabase/build.ts',
+      'src/lib/content/snapshot.ts',
+    ],
     rules: {
       'no-restricted-imports': [
         'error',
@@ -49,6 +53,8 @@ export default [
                 '**/config/build.ts',
                 '**/supabase/build',
                 '**/supabase/build.ts',
+                '**/content/snapshot',
+                '**/content/snapshot.ts',
               ],
               message: 'Build-only modules must not enter browser code.',
             },
