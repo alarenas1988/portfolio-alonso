@@ -92,7 +92,7 @@ export function trackEvent(
           ),
           p_origin_hash: await hmac(
             config.analyticsRateSecret,
-            daily(now, 'analytics-origin', clientSignal(request)),
+            daily(now, 'analytics-origin', clientSignal(request, config.networkMode)),
           ),
           p_global_hash: await hmac(
             config.analyticsRateSecret,

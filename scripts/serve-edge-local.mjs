@@ -20,11 +20,9 @@ function record(chunk) {
   text = text.replace(/eyJ[\w-]+\.[\w-]+\.[\w-]+/g, '[redacted-jwt]');
   appendFileSync(log, text);
 }
-let configured = false;
 function runtimeOutput(chunk) {
   record(chunk);
-  if (!configured && String(chunk).includes('Serving functions')) {
-    configured = true;
+  if (String(chunk).includes('Serving functions')) {
     try {
       configureLocalEdgeCors();
       console.log('Local functions gateway uses the explicit CORS allowlist.');

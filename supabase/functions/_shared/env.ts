@@ -1,5 +1,6 @@
 import { EdgeError } from './errors.ts';
 export interface EdgeConfig {
+  networkMode: 'cloudflare' | 'local-proxy';
   origins: string[];
   siteUrl: string;
   contactSecret: string;
@@ -40,6 +41,9 @@ export function config(get: (key: string) => string | undefined): EdgeConfig {
   if (!Number.isInteger(limit) || limit < 1 || limit > 1000)
     throw new EdgeError(503, 'not_configured');
   return {
+    networkMode: /^https:\/\/[a-z]{20}\.supabase\.co\/?$/.test(get('SUPABASE_URL') || '')
+      ? 'cloudflare'
+      : 'local-proxy',
     origins,
     siteUrl,
     contactGlobalLimit: limit,

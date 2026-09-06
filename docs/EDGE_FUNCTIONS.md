@@ -31,7 +31,7 @@ Logs propios: request id, función, status, duración y categoría de error. Nun
 
 Supabase CLI 2.116.0 instala CORS de Kong con wildcard e intercepta OPTIONS antes de Edge. Las comprobaciones HTTP detectaron 200/wildcard aunque el handler aplicaba correctamente su allowlist. `configure-edge-local-cors.mjs` ajusta exclusivamente el plugin CORS del servicio local `functions-v1` mediante la API declarativa DB-less `/config`, con `preflight_continue=true`. Conserva Auth/REST/Storage y mantiene el documento completo, que contiene claves, solo en memoria. Requiere el stack loopback validado. No altera RLS ni configuración remota.
 
-`edge:serve` aplica este ajuste cuando arranca el runtime. Reiniciar/recrear el stack puede regenerar el gateway: volver a ejecutar el wrapper. La configuración es reversible al reconstruir el stack; no se editan archivos administrados de PostgreSQL. Referencias: [CORS de Kong](https://developer.konghq.com/plugins/cors/), [configuración declarativa DB-less](https://developer.konghq.com/gateway/db-less-mode/).
+`edge:serve` aplica este ajuste al arrancar y en cada recarga del runtime, porque CLI regenera Kong también durante hot reload. Las pruebas HTTP lo verifican/configuran al comenzar. La configuración es reversible al reconstruir el stack; no se editan archivos administrados de PostgreSQL. Referencias: [CORS de Kong](https://developer.konghq.com/plugins/cors/), [configuración declarativa DB-less](https://developer.konghq.com/gateway/db-less-mode/).
 
 ## Contacto y formulario
 
@@ -49,7 +49,7 @@ El formulario F4 conserva su diseño y utiliza fetch con URL/publicable pública
 
 Se reutiliza `private.rate_limit_buckets`; no hay tabla duplicada ni Redis. Upsert atómico por hash/acción/ventana; contador saturado evita overflow. Contacto: 5/15 min por señal de origen + techo global configurable (100/h inicial, máximo configurado 1000). Tracking: 60/min por sesión, 120/min por origen y techo global 10000/h. Publicación: una activa y cooldown 30 s.
 
-Los HMAC incluyen namespace y día UTC. Hashes de abuso separados de sesión analítica; TTL de counters máximo 1 h, limpieza oportunista y cron cada 15 minutos incluso sin tráfico. La caducidad lógica se respeta aunque el scheduler se retrase. La señal de red es el último valor de X-Forwarded-For normalizado; es **no confiable**, no identidad. Señales inválidas comparten un bucket conservador. El techo global limita abuso incluso si la señal se falsifica/rota. No IP completa ni UA persistidos; solo dispositivo y familia de navegador gruesos.
+Los HMAC incluyen namespace y día UTC. Hashes de abuso separados de sesión analítica; TTL de counters máximo 1 h, limpieza oportunista y cron cada 15 minutos incluso sin tráfico. La caducidad lógica se respeta aunque el scheduler se retrase. En el host Supabase configurado se usa exclusivamente CF-Connecting-IP normalizado, provisto por su ingreso Cloudflare; cabecera ausente/inválida produce 503 sin persistir. No se acepta fallback a XFF enviado por el cliente. En CLI local se usa el último salto del único Kong conocido y se ignora CF-Connecting-IP del caller. El modo se determina desde SUPABASE_URL del runtime, nunca del request. Es una señal antispam, **no identidad ni autorización**. El techo global limita abuso distribuido; no IP completa ni UA persistidos. [Cabecera de cliente y cadena de proxies de Cloudflare](https://developers.cloudflare.com/fundamentals/reference/http-headers/#cf-connecting-ip).
 
 La retención de eventos/agregados de 90/400 días pertenece a F10. Por eso `track-event` permanece local y no se activa un receptor productivo de eventos antes de esa fase. No se añadió dashboard, agregación, popularidad ni tracking global. Los counters caducados se eliminan mediante el job `portfolio-rate-limit-retention` de pg_cron 1.6.4.
 
@@ -112,6 +112,8 @@ Respaldo de roles/schema/datos fuera de Git en `%LOCALAPPDATA%/portfolio-alonso/
 
 Corrección: deno.json y lock propios en cada función, con versiones idénticas a las probadas. `edge:check` verifica esos mapas y `edge:bundle:local` empaqueta las cuatro funciones con el runtime real. Se añadió una regresión sobre la presencia de configuración/lock de despliegue. [Configuración de dependencias recomendada por Supabase](https://supabase.com/docs/guides/functions/dependencies). La reanudación `resume-contact-edge.mjs --deploy-function-only-f9` comprueba historial/configuración y no repite push ni genera secretos. No se modificó lógica de autorización, RLS ni SQL para corregir el empaquetado.
 
-**Estado actual:** validación de la corrección de empaquetado. El cierre de F9 registrará el resultado remoto efectivo.
+La versión 1 quedó ACTIVE el 2026-09-06 a las 19:43 UTC. El primer smoke remoto recibió mensajes y verificó idempotencia, pero falló el límite por origen: seis inserciones se repartieron entre tres hashes (hits 1/2/3) al utilizar el último intermediario XFF. Se restauró form_enabled=false y se eliminaron mensajes/conversiones. No se reiniciaron contadores productivos. La corrección usa el contrato Cloudflare anterior y añade pruebas de intermediarios variables, cabecera ausente y headers manipulados. No requiere nueva migración, cambio RLS ni secreto.
+
+**Estado actual:** revalidación de la señal de origen antes de reemplazar únicamente la función. El cierre de F9 registrará el resultado remoto efectivo.
 
 Sin cambios Auth, owner, buckets, políticas ni contenido final. No se han iniciado F10/F7/F11/F12/F13/F14. No hay PR ni merge automático.

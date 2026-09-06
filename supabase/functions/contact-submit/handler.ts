@@ -40,7 +40,7 @@ export function contactSubmit(
           p_message: draft.message,
           p_origin_hash: await hmac(
             config.contactSecret,
-            daily(now, 'contact-origin', clientSignal(request)),
+            daily(now, 'contact-origin', clientSignal(request, config.networkMode)),
           ),
           p_global_hash: await hmac(config.contactSecret, daily(now, 'contact-global', 'site')),
           p_session_hash: await hmac(

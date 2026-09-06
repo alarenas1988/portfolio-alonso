@@ -1,7 +1,21 @@
-/** Untrusted proxy metadata is only an abuse signal, never identity or authorization. */
-export function clientSignal(request: Request): string {
-  const raw = (request.headers.get('x-forwarded-for') || '').split(',').at(-1)?.trim() || '';
-  if (raw.length > 64) return 'unknown';
+import { EdgeError } from './errors.ts';
+/** Gateway metadata is only an abuse signal, never identity or authorization.
+ * Hosted Supabase is behind Cloudflare; XFF's last hop is a rotating intermediary.
+ * CLI local has one known Kong hop and must ignore caller-supplied CF headers.
+ */
+export function clientSignal(
+  request: Request,
+  mode: 'cloudflare' | 'local-proxy' = 'local-proxy',
+): string {
+  const raw =
+    mode === 'cloudflare'
+      ? (request.headers.get('cf-connecting-ip') || '').trim()
+      : (request.headers.get('x-forwarded-for') || '').split(',').at(-1)?.trim() || '';
+  const missing = () => {
+    if (mode === 'cloudflare') throw new EdgeError(503, 'not_configured');
+    return 'unknown';
+  };
+  if (!raw || raw.length > 64) return missing();
   try {
     if (raw.includes(':')) return new URL(`http://[${raw}]/`).hostname.toLowerCase();
     const octets = raw.split('.');
@@ -10,7 +24,7 @@ export function clientSignal(request: Request): string {
   } catch {
     /* Invalid signals share the conservative unknown bucket. */
   }
-  return 'unknown';
+  return missing();
 }
 export function userAgent(request: Request) {
   const ua = (request.headers.get('user-agent') || '').slice(0, 1024);

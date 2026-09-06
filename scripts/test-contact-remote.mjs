@@ -207,14 +207,29 @@ try {
     (await invoke({ ...draft, message: draft.message + ' Changed.' }, { id })).status === 409,
     'Same UUID with changed content is rejected',
   );
-  for (let i = 0; i < 3; i++) {
-    const result = await invoke(draft);
+  // Browser and Node can have distinct IPv4/IPv6 egress. Bound each real origin,
+  // not an assumed shared network identity. Spoofed headers must not evade the gateway.
+  let accepted = 2;
+  let limited = false;
+  for (let i = 0; i < 5; i++) {
+    const result = await invoke(draft, {
+      headers: {
+        'x-forwarded-for': `192.0.2.${i + 10}`,
+        'cf-connecting-ip': `198.51.100.${i + 10}`,
+      },
+    });
     saveCleanup();
-    check(result.status === 200, 'Hosted accepted within source limit ' + (i + 3));
+    if (result.status === 429) {
+      limited = true;
+      break;
+    }
+    check(result.status === 200, 'Hosted bounded receipt ' + i);
+    accepted++;
   }
-  const limited = await invoke(draft);
-  saveCleanup();
-  check(limited.status === 429, 'Hosted sixth message is rate limited');
+  check(
+    limited,
+    'Hosted Node origin cannot accept more than five messages despite spoofed proxy headers',
+  );
   const snapshot = await loadPublicSnapshot(publicClient);
   check(
     snapshot.contact?.form_enabled === true,
@@ -226,8 +241,8 @@ try {
     `select jsonb_build_object('messages',(select count(*) from public.contact_messages where submission_id in (${values}) and status='new' and notification_status='disabled'),'conversions',(select count(*) from public.analytics_events where event_id in (${values}) and event_type='contact_submit')) as state;`,
   )[0].state;
   check(
-    state.messages === 5 && state.conversions === 5,
-    'Five persisted messages and server conversions; notification disabled',
+    state.messages === accepted && state.conversions === accepted && accepted <= 6,
+    'Every accepted receipt has one persisted message/conversion; notification disabled',
   );
   for (const table of [
     'contact_messages',

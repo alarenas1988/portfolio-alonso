@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { cli, cliJson, verifyProject, verifyLink, ref, sql } from './edge-remote.mjs';
-if (process.argv[2] !== '--deploy-function-only-f9')
+const replace = process.argv[2] === '--replace-contact-f9';
+if (process.argv[2] !== '--deploy-function-only-f9' && !replace)
   throw new Error('Explicit function-only F9 resume required. Does not push DB or set secrets.');
 verifyProject();
 verifyLink();
@@ -21,7 +22,13 @@ const history = sql(
 ).map((row) => row.version);
 assert.deepEqual(history, ['20260906001900', '20260906002000', '20260906002100']);
 assert.equal(sql('select form_enabled from public.contact_settings;')[0].form_enabled, false);
-assert.deepEqual(cliJson(['functions', 'list', '--project-ref', ref]), []);
+const previousFunctions = cliJson(['functions', 'list', '--project-ref', ref]);
+if (replace) {
+  assert.equal(previousFunctions.length, 1);
+  assert.equal(previousFunctions[0].slug, 'contact-submit');
+  assert.equal(previousFunctions[0].status, 'ACTIVE');
+  assert.equal(previousFunctions[0].version, 1);
+} else assert.deepEqual(previousFunctions, []);
 const names = cliJson(['secrets', 'list', '--project-ref', ref])
   .map((s) => s.name)
   .sort();

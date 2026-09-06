@@ -4,8 +4,10 @@ import { writeFileSync } from 'node:fs';
 import { createClient } from '@supabase/supabase-js';
 import { createAdminClient } from '@supabase/server/core';
 import { localStatus, localSql, prepareEdgeEnvironment } from './edge-local.mjs';
+import { configureLocalEdgeCors } from './configure-edge-local-cors.mjs';
 const status = localStatus(),
   env = prepareEdgeEnvironment();
+configureLocalEdgeCors();
 const admin = createAdminClient({
   env: {
     url: status.API_URL,

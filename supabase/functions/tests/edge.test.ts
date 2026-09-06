@@ -28,6 +28,7 @@ const now = Date.now();
 const id = crypto.randomUUID();
 const owner = crypto.randomUUID();
 const settings: EdgeConfig = {
+  networkMode: 'local-proxy',
   origins: ['https://alarenas1988.github.io', 'http://localhost:4321'],
   siteUrl: 'https://alarenas1988.github.io/portfolio-alonso/',
   contactSecret: randomSecret(),
@@ -615,6 +616,35 @@ test('error responses/logs expose no API key, token, secret or request body', as
   ])
     assert(!serialized.includes(hidden));
   assert.equal(response.headers.get('cache-control'), 'no-store');
+});
+test('hosted signal uses the Cloudflare client, not rotating XFF intermediaries', () => {
+  const a = request(contact, {
+    'cf-connecting-ip': '192.0.2.8',
+    'x-forwarded-for': 'forged,198.51.100.2',
+  });
+  const b = request(contact, {
+    'cf-connecting-ip': '192.0.2.8',
+    'x-forwarded-for': 'other,198.51.100.3',
+  });
+  assert.equal(clientSignal(a, 'cloudflare'), '192.0.2.8');
+  assert.equal(clientSignal(a, 'cloudflare'), clientSignal(b, 'cloudflare'));
+  assert.equal(clientSignal(a, 'local-proxy'), '198.51.100.2');
+  assert.equal(
+    readConfig((key) =>
+      key === 'SUPABASE_URL' ? 'https://' + 'a'.repeat(20) + '.supabase.co' : undefined,
+    ).networkMode,
+    'cloudflare',
+  );
+});
+test('missing or malformed hosted gateway signal fails closed before insertion', async () => {
+  for (const raw of ['', 'not-an-ip', '192.0.2.1,192.0.2.2']) {
+    const s = setup({}, { ...settings, networkMode: 'cloudflare' });
+    const response = await s.contact(
+      request(contact, { 'cf-connecting-ip': raw, 'x-forwarded-for': '192.0.2.20' }),
+    );
+    assert.equal(response.status, 503);
+    assert.equal(s.calls.contact.length, 0);
+  }
 });
 test('environment rejects wildcard origins and overbroad limits', () => {
   assert.throws(() => readConfig((key) => (key === 'PORTFOLIO_ALLOWED_ORIGINS' ? '*' : undefined)));
