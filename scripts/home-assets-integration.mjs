@@ -19,8 +19,10 @@ export function homeAssetsIntegration() {
       'astro:server:setup': ({ server }) => {
         server.middlewares.use(async (request, response, next) => {
           const pathname = new URL(request.url, 'http://localhost/').pathname;
-          if (!pathname.startsWith(prefix)) return next();
-          const filename = pathname.slice(prefix.length);
+          // Vite can strip its configured base before reaching this middleware.
+          const assetPrefix = pathname.startsWith(prefix) ? prefix : '/assets/media/';
+          if (!pathname.startsWith(assetPrefix)) return next();
+          const filename = pathname.slice(assetPrefix.length);
           if (!/^[a-f0-9]{64}\.(?:png|avif|webp|pdf)$/.test(filename)) return next();
           const path = join(directory, 'assets', 'media', filename);
           try {
