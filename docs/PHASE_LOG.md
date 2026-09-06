@@ -44,7 +44,7 @@
 - `npm run format:check`: correcto.
 - `npm run lint`: correcto, sin mensajes.
 - `npm run typecheck`: 20 archivos, 0 errores, 0 advertencias, 0 hints.
-- `npm test`: 33 pruebas aprobadas.
+- `npm test`: 36 pruebas aprobadas.
 - `npm run build`: 2 páginas estáticas generadas.
 - `npm run check:static`: 2 documentos HTML y base `/portfolio-alonso/` válidos.
 - `npm run check:secrets`: 3 artefactos revisados, sin material privado detectado.
@@ -56,6 +56,6 @@
 
 - `3ee008c docs: incorporate approved phase one scope and clarifications`
 - `5413cd5 chore: bootstrap astro portfolio`
-- Commit de documentación y evidencia: el commit que contiene esta sección.
+- `7ca668b docs: document phase one architecture and validation`
 
 Los fallos RED de TDD y los fallos de entorno investigados no se presentan como checks finales: las pruebas fallaron primero por módulos/scripts ausentes; Playwright falló inicialmente porque Astro creó un preview en background; el audit detectó Vite vulnerable antes de subirlo a 8.2.2. La evidencia anterior procede de ejecuciones frescas posteriores a las correcciones.

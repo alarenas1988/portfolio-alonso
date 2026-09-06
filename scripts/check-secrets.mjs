@@ -5,7 +5,9 @@ import { listFiles } from './files.mjs';
 const directory = resolve(process.argv[2] || 'dist');
 const privateNames = [
   'SUPABASE_SECRET_KEY',
+  'SUPABASE_SECRET_KEYS',
   'SUPABASE_SERVICE_ROLE_KEY',
+  'SUPABASE_ACCESS_TOKEN',
   'GITHUB_FINE_GRAINED_TOKEN',
   'GITHUB_TOKEN',
   'ANALYTICS_HASH_SECRET',
@@ -18,6 +20,7 @@ const canaries = privateNames
   .filter((value) => value && value.length >= 8);
 const patterns = [
   /sb_secret_[A-Za-z0-9_-]+/,
+  /\bsbp_[A-Za-z0-9_-]{20,}\b/,
   /\bgh[pousr]_[A-Za-z0-9]{20,}/,
   /github_pat_[A-Za-z0-9_]+/,
   /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,

@@ -38,7 +38,7 @@ PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 
 Una clave publicable se envía como API key. No representa una sesión y no debe tratarse como JWT. Los JWT de usuario corresponden a `Authorization: Bearer <user JWT>`; las API keys corresponden al header `apikey`. Ninguna clave `sb_secret_*`, service role, token de GitHub o secreto Edge puede entrar en variables `PUBLIC_*`.
 
-Las variables privadas de fases posteriores se enumeran, sin valores, en `.env.edge.example`. Supabase Edge Functions priorizarán `@supabase/server` y sus modos `user`, `publishable`, `secret` y `none` según el endpoint.
+Las variables privadas configuradas manualmente para Edge en fases posteriores se enumeran, sin valores, en `.env.edge.example`. El mismo archivo documenta cuáles entrega el runtime de Supabase y separa el access token reservado para herramientas de despliegue. Supabase Edge Functions priorizarán `@supabase/server` y sus modos `user`, `publishable`, `secret` y `none` según el endpoint.
 
 ## Desarrollo
 

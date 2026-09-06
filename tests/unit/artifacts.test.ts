@@ -41,6 +41,40 @@ it('accepts public configuration but rejects an arbitrary supplied private canar
   }
 });
 
+for (const [name, value] of [
+  ['SUPABASE_ACCESS_TOKEN', 'private-supabase-access-canary'],
+  ['SUPABASE_SECRET_KEYS', '{"default":"private-supabase-dictionary-canary"}'],
+] as const) {
+  it(`rejects the ${name} canary without logging its value`, async () => {
+    const directory = await mkdtemp(join(tmpdir(), 'portfolio-private-env-test-'));
+    try {
+      await writeFile(join(directory, 'index.html'), `<p>${value}</p>`);
+      const result = spawnSync(process.execPath, ['scripts/check-secrets.mjs', directory], {
+        encoding: 'utf8',
+        env: { ...process.env, [name]: value },
+      });
+      assert.equal(result.status, 1);
+      assert.equal(result.stderr.includes(value), false);
+    } finally {
+      await rm(directory, { recursive: true, force: true });
+    }
+  });
+}
+
+it('rejects a Supabase personal access token pattern', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'portfolio-supabase-pat-test-'));
+  try {
+    await writeFile(join(directory, 'index.html'), '<p>sbp_1234567890abcdefghijklmnop</p>');
+    const result = spawnSync(process.execPath, ['scripts/check-secrets.mjs', directory], {
+      encoding: 'utf8',
+    });
+    assert.equal(result.status, 1);
+    assert.equal(result.stderr.includes('sbp_1234567890abcdefghijklmnop'), false);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
 it('fails static validation when a referenced stylesheet is missing', async () => {
   const directory = await mkdtemp(join(tmpdir(), 'portfolio-static-test-'));
   try {

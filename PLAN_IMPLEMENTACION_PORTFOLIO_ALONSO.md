@@ -737,7 +737,7 @@ Un timeout de GitHub después de enviar dispatch es resultado incierto: conserva
 - [x] Plan con 14 fases, orden, dependencias, entregables, verificaciones, riesgos y aceptación.
 - [x] Trazabilidad de las 37 secciones y decisiones que completan vacíos.
 - [x] Aprobación de Alonso para iniciar únicamente F1 conforme a este plan y sus precisiones.
-- [ ] Inicio de F1 y registro de resultados reales de cada fase.
+- [x] Inicio y cierre de F1 con resultados reales registrados; detenida para revisión antes de F2.
 
 La autorización vigente comprende **F1 — Bootstrap**: maestro versionado, configuración reproducible, controles y documentación. Al finalizar F1 se entrega evidencia y se detiene el trabajo para revisión, sin avanzar a F2.
 
