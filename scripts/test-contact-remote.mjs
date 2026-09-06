@@ -99,6 +99,15 @@ try {
     (await invoke({ ...draft, honeypot: 'filled' })).status === 200,
     'Hosted honeypot returns generic receipt',
   );
+  check(
+    (
+      await invoke(
+        { ...draft, honeypot: 'filled' },
+        { headers: { 'cf-connecting-ip': '198.51.100.22' } },
+      )
+    ).status === 403,
+    'Managed gateway rejects a caller-supplied Cloudflare client header',
+  );
   const publicClient = createClient(env.PUBLIC_SUPABASE_URL, env.PUBLIC_SUPABASE_PUBLISHABLE_KEY, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
@@ -208,14 +217,14 @@ try {
     'Same UUID with changed content is rejected',
   );
   // Browser and Node can have distinct IPv4/IPv6 egress. Bound each real origin,
-  // not an assumed shared network identity. Spoofed headers must not evade the gateway.
+  // not an assumed shared network identity. CF header forgery is denied above;
+  // changing the untrusted XFF header must not split the actual origin's counter.
   let accepted = 2;
   let limited = false;
   for (let i = 0; i < 5; i++) {
     const result = await invoke(draft, {
       headers: {
         'x-forwarded-for': `192.0.2.${i + 10}`,
-        'cf-connecting-ip': `198.51.100.${i + 10}`,
       },
     });
     saveCleanup();
@@ -226,10 +235,7 @@ try {
     check(result.status === 200, 'Hosted bounded receipt ' + i);
     accepted++;
   }
-  check(
-    limited,
-    'Hosted Node origin cannot accept more than five messages despite spoofed proxy headers',
-  );
+  check(limited, 'Hosted Node origin cannot accept more than five messages despite spoofed XFF');
   const snapshot = await loadPublicSnapshot(publicClient);
   check(
     snapshot.contact?.form_enabled === true,
