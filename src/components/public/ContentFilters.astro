@@ -1,0 +1,28 @@
+---
+interface Props {
+  label: string;
+  options: { value: string; label: string }[];
+  target: string;
+}
+const { label, options, target } = Astro.props;
+---
+
+{
+  options.length >= 2 && (
+    <div class="content-filters" data-content-filters data-target={target} hidden>
+      <label>
+        {label}
+        <select>
+          <option value="">Todos</option>
+          {options.map((option) => (
+            <option value={option.value}>{option.label}</option>
+          ))}
+        </select>
+      </label>
+      <p role="status" aria-live="polite" data-filter-status />
+    </div>
+  )
+}
+<script>
+  import '../../scripts/content-filters.ts';
+</script>

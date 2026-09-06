@@ -3,8 +3,9 @@ import Icon from '../shared/Icon.astro';
 import type { HomeModel } from '../../lib/content/home.ts';
 interface Props {
   home: HomeModel;
+  activeHref?: string;
 }
-const { home } = Astro.props;
+const { home, activeHref } = Astro.props;
 const items = [
   ['Inicio', home.links.home],
   ['Proyectos', home.links.projects],
@@ -30,7 +31,7 @@ const items = [
         {
           items.map(([label, href], i) => (
             <li>
-              <a href={href}>
+              <a href={href} aria-current={href === activeHref ? 'page' : undefined}>
                 <span class="mobile-navigation__number" aria-hidden="true">
                   0{i + 1}
                 </span>
@@ -59,6 +60,9 @@ const items = [
   </div>
 </details>
 <style>
+  .mobile-navigation__panel nav a[aria-current='page'] {
+    color: var(--accent-cyan);
+  }
   .mobile-navigation summary {
     display: flex;
     align-items: center;

@@ -3,7 +3,10 @@ if (navbar) {
   navbar.dataset.enhanced = '';
   let scheduled = false;
   const update = () => {
-    navbar.toggleAttribute('data-scrolled', window.scrollY > 40);
+    navbar.toggleAttribute(
+      'data-scrolled',
+      navbar.hasAttribute('data-internal') || window.scrollY > 40,
+    );
     scheduled = false;
   };
   window.addEventListener(

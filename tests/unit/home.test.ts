@@ -125,15 +125,15 @@ it('resolves only built public images and refuses broken references', () => {
     ),
   );
 });
-it('creates base-aware Home anchors for subpath and root installations', () => {
+it('creates base-aware public page links for subpath and root installations', () => {
   assert.equal(
     createHomeModel(emptyHomeSnapshot(), { version: 1, assets: {} }, site).links.about,
-    '/portfolio-alonso/#sobre-mi',
+    '/portfolio-alonso/sobre-mi/',
   );
   assert.equal(
     createHomeModel(emptyHomeSnapshot(), { version: 1, assets: {} }, 'https://example.com/').links
       .projects,
-    '/#proyectos',
+    '/proyectos/',
   );
 });
 it('honors contact visibility even if a fixture contains hidden channel values', () => {

@@ -4,11 +4,17 @@ import MobileNavigation from './MobileNavigation.astro';
 import type { HomeModel } from '../../lib/content/home.ts';
 interface Props {
   home: HomeModel;
+  active?: 'projects' | 'blog' | 'about' | 'contact';
 }
-const { home } = Astro.props;
+const { home, active } = Astro.props;
 ---
 
-<header class="navbar" data-navbar>
+<header
+  class="navbar"
+  data-navbar
+  data-internal={active ? '' : undefined}
+  data-scrolled={active ? '' : undefined}
+>
   <div class="navbar__inner container">
     <a
       class="navbar__brand"
@@ -17,19 +23,28 @@ const { home } = Astro.props;
       ><BrandMark size={34} /><span aria-hidden="true">{home.settings.site_name}</span></a
     >
     <nav class="navbar__desktop" aria-label="Navegación principal">
-      <a href={home.links.projects}>Proyectos</a><a href={home.links.blog}>Blog</a><a
-        href={home.links.about}>Sobre mí</a
-      ><a class="navbar__contact" href={home.links.contact}
+      <a href={home.links.projects} aria-current={active === 'projects' ? 'page' : undefined}
+        >Proyectos</a
+      ><a href={home.links.blog} aria-current={active === 'blog' ? 'page' : undefined}>Blog</a><a
+        href={home.links.about}
+        aria-current={active === 'about' ? 'page' : undefined}>Sobre mí</a
+      ><a
+        class="navbar__contact"
+        href={home.links.contact}
+        aria-current={active === 'contact' ? 'page' : undefined}
         >Contacto<span aria-hidden="true">↗</span></a
       >
     </nav>
-    <MobileNavigation home={home} />
+    <MobileNavigation home={home} activeHref={active ? home.links[active] : home.links.home} />
   </div>
 </header>
 <script>
   import '../../scripts/navigation.ts';
 </script>
 <style>
+  .navbar__desktop a[aria-current='page'] {
+    color: var(--accent-cyan);
+  }
   .navbar {
     position: absolute;
     inset: 0 0 auto;
