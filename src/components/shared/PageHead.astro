@@ -7,8 +7,11 @@ import { createUrlHelpers } from '../../lib/utils/urls.ts';
 interface Props {
   title: string;
   description: string;
+  canonical?: string;
+  robots?: string;
+  image?: string | null;
 }
-const { title, description } = Astro.props;
+const { title, description, canonical, robots = 'noindex,nofollow', image } = Astro.props;
 const { withBase } = createUrlHelpers(getPublicConfig().siteUrl);
 ---
 
@@ -20,4 +23,11 @@ const { withBase } = createUrlHelpers(getPublicConfig().siteUrl);
 <link rel="preload" href={spaceGroteskFont} as="font" type="font/woff2" crossorigin="anonymous" />
 <title>{title}</title>
 <meta name="description" content={description} />
-<meta name="robots" content="noindex,nofollow" />
+<meta name="robots" content={robots} />
+{canonical && <link rel="canonical" href={canonical} />}
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="es_CL" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+{canonical && <meta property="og:url" content={canonical} />}
+{image && <meta property="og:image" content={image} />}

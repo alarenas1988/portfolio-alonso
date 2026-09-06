@@ -3,16 +3,20 @@ import PageHead from '../components/shared/PageHead.astro';
 interface Props {
   title: string;
   description: string;
+  canonical?: string;
+  robots?: string;
+  image?: string | null;
 }
-const { title, description } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="es">
-  <head><PageHead title={title} description={description} /></head>
+  <head><PageHead {...Astro.props} /></head>
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <slot name="navigation" />
     <main id="contenido" tabindex="-1"><slot /></main>
+    <slot name="footer" />
     <script>
       import '../scripts/motion';
     </script>
