@@ -597,6 +597,12 @@ Incidencia ambiental: cinco stacks Supabase anteriores acumulaban 56 contenedore
 
 No se inició F7/F11/F12/F13/F14; sin PR ni merge automático.
 
-# F7 — CMS administrativo (2026-09-06, validación en curso)
+# F7 — CMS administrativo (2026-09-06, completada)
 
-Base 5f0e42910983dfbf14c919769d2c057c7811625e, rama feat/f7-admin-cms, worktree nuevo desde origin/main. Rutas estáticas, Auth/PKCE, repositorios y editores, autosave con conflictos, integración F8, mensajes y Analytics F10. Migración aditiva 023 para transacciones editoriales, sin nuevas tablas ni SECURITY DEFINER. Las 15 pruebas E2E iniciales del CMS pasaron contra Auth/PostgreSQL/Storage local; revisión de 30 capturas detectó y corrigió la barra de acciones móvil. El cierre y despliegue controlado se registrarán una vez terminadas todas las verificaciones. [Guía CMS](ADMIN_CMS.md). Sin push, PR ni merge; F10B/F11/F12/F13/F14 no iniciadas.
+Base 5f0e42910983dfbf14c919769d2c057c7811625e, rama feat/f7-admin-cms, worktree nuevo desde origin/main. 25 rutas estáticas, Auth/PKCE, repositorios y editores, autosave con conflictos, integración F8, mensajes y Analytics F10. Migración aditiva 023 para tres transacciones editoriales y revisión del padre ante cambios en hijos; sin nuevas tablas, policies ni SECURITY DEFINER.
+
+Upgrade con contenido existente y reconstrucción limpia 019→023+seed aprobados. 745 SQL, 182 unitarias npm, 99 Edge, 107 Auth/RLS HTTP, 66 Storage/media, 79 Edge HTTP, 49 Analytics HTTP y nueve comprobaciones del formulario real local. E2E: 15 CMS y 197 públicos aprobados; 136 omisiones públicas previstas por breakpoint. Revisión real de 30 capturas a 390/768/1440; se corrigió la barra móvil que cubría campos y se repitieron capturas, accesibilidad y control de overflow a 360/390/768/1024/1440/1920.
+
+023 aplicada al proyecto portfolio-alonso a las 23:22 UTC tras 36 controles locales, backup lógico privado y dry-run limitado a esa migración. Catálogo/tipos propios iguales entre local/remoto, dry-run posterior vacío, 35 tablas RLS y Automatic RLS activo. 34 comprobaciones CMS remotas aprobadas, incluida edición desde navegador con JWT del owner existente; sin solicitar ni modificar su contraseña. Todos los fixtures eliminados; solo permanece el owner original. No se cambiaron Auth, buckets, secrets, funciones Edge ni Analytics. Build público remoto posterior: 31 páginas (seis públicas y 25 shells Admin); static, privacidad y secrets aprobados.
+
+[Guía CMS](ADMIN_CMS.md) y [entrega completa/evidencia](checkpoints/F7_ADMIN_CMS.md). Publicación automática sigue pendiente de F11; guardar contenido público no implica un deploy estático. Sin push, PR ni merge; F10B/F11/F12/F13/F14 no iniciadas.

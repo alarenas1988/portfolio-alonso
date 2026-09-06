@@ -1,0 +1,9 @@
+{
+  "date": "2026-09-06T22:58:07.481Z",
+  "source": "019/020/021/022 + existing editorial parent and child",
+  "destination": "023",
+  "editorial_data_preserved": true,
+  "child_advances_parent_revision": true,
+  "fixtures_removed": true,
+  "subsequent_clean_rebuild": true
+}

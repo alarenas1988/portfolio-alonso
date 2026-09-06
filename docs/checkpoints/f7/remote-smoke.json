@@ -1,0 +1,145 @@
+{
+  "date": "2026-09-06T23:24:20.497Z",
+  "checks": [
+    {
+      "name": "Real definitive owner Auth session and RLS profile",
+      "passed": true
+    },
+    {
+      "name": "Anonymous guard",
+      "passed": true
+    },
+    {
+      "name": "Forged metadata cannot authorize noowner",
+      "passed": true
+    },
+    {
+      "name": "Owner private signed preview",
+      "passed": true
+    },
+    {
+      "name": "Public copy uses a new immutable object UUID",
+      "passed": true
+    },
+    {
+      "name": "Project parent and relation persisted atomically",
+      "passed": true
+    },
+    {
+      "name": "Stale revision returns immediate HTTP 409",
+      "passed": true
+    },
+    {
+      "name": "Direct noowner RPC cannot publish or alter another UUID",
+      "passed": true
+    },
+    {
+      "name": "Referenced media reports actual editorial usage",
+      "passed": true
+    },
+    {
+      "name": "Deletion of media in use is blocked",
+      "passed": true
+    },
+    {
+      "name": "Replacement updates references while keeping old object",
+      "passed": true
+    },
+    {
+      "name": "Draft post and tag relation",
+      "passed": true
+    },
+    {
+      "name": "Experience and three relation types",
+      "passed": true
+    },
+    {
+      "name": "Unauthorized direct draft lookup exposes no row",
+      "passed": true
+    },
+    {
+      "name": "Private contact_messages remains inaccessible",
+      "passed": true
+    },
+    {
+      "name": "Private analytics_daily remains inaccessible",
+      "passed": true
+    },
+    {
+      "name": "Private admin_profiles remains inaccessible",
+      "passed": true
+    },
+    {
+      "name": "Private site_builds remains inaccessible",
+      "passed": true
+    },
+    {
+      "name": "Private admin_activity remains inaccessible",
+      "passed": true
+    },
+    {
+      "name": "Unauthorized direct draft lookup exposes no row",
+      "passed": true
+    },
+    {
+      "name": "Private contact_messages remains inaccessible",
+      "passed": true
+    },
+    {
+      "name": "Private analytics_daily remains inaccessible",
+      "passed": true
+    },
+    {
+      "name": "Private admin_profiles remains inaccessible",
+      "passed": true
+    },
+    {
+      "name": "Private site_builds remains inaccessible",
+      "passed": true
+    },
+    {
+      "name": "Private admin_activity remains inaccessible",
+      "passed": true
+    },
+    {
+      "name": "Typed paginated repository returns owner draft",
+      "passed": true
+    },
+    {
+      "name": "Existing owner-only Analytics DTO",
+      "passed": true
+    },
+    {
+      "name": "Read-only bounded site builds",
+      "passed": true
+    },
+    {
+      "name": "Temporary private editorial content does not enter public snapshot",
+      "passed": true
+    },
+    {
+      "name": "Real remote private identities and fixtures absent from static build",
+      "passed": true
+    },
+    {
+      "name": "Browser Admin loads real remote owner draft",
+      "passed": true
+    },
+    {
+      "name": "Browser CMS save persists remotely with owner JWT",
+      "passed": true
+    },
+    {
+      "name": "Browser Analytics consumes real remote owner-only report",
+      "passed": true
+    },
+    {
+      "name": "Definitive owner profile unchanged; no second owner",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "fixtures_removed": true,
+  "owner_auth": "Existing owner, administrative one-time link exchanged in memory; no email sent or password changed",
+  "remote_writes": "Only explicitly identified temporary fixtures; no Auth configuration, tracking, seed, bucket or policy change"
+}

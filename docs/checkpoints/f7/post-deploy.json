@@ -1,0 +1,114 @@
+{
+  "date": "2026-09-06T23:23:32.491Z",
+  "catalog_matches": {
+    "jobs": true,
+    "views": true,
+    "columns": true,
+    "indexes": true,
+    "policies": true,
+    "triggers": true,
+    "functions": true,
+    "relations": true,
+    "constraints": true,
+    "column_grants": true
+  },
+  "catalog_counts": {
+    "jobs": 2,
+    "views": 4,
+    "columns": 405,
+    "indexes": 101,
+    "policies": 138,
+    "triggers": 55,
+    "functions": 32,
+    "relations": 39,
+    "constraints": 257,
+    "column_grants": 1807
+  },
+  "types_equal": true,
+  "types_sha256": "c0babc62c0aecd4de2b48f01488a2c466591e332a84cd5e85005798a43bcced8",
+  "types_normalization": "Generator comments and platform PostgrestVersion annotation only, if present",
+  "dry_run": {
+    "upToDate": true,
+    "dryRun": true,
+    "migrations": [],
+    "seeds": [],
+    "roles": [],
+    "message": "Remote database is up to date."
+  },
+  "state": {
+    "auth_users": 1,
+    "automatic_rls": true,
+    "buckets": ["blog", "documents", "portfolio-public", "private"],
+    "content": 0,
+    "daily": 0,
+    "definers": [
+      {
+        "anon_execute": false,
+        "authenticated_execute": true,
+        "name": "is_portfolio_admin",
+        "owner": "postgres",
+        "schema": "private",
+        "search_path": ["search_path=\"\""]
+      },
+      {
+        "anon_execute": true,
+        "authenticated_execute": true,
+        "name": "read_public_contact",
+        "owner": "postgres",
+        "schema": "private",
+        "search_path": ["search_path=\"\""]
+      },
+      {
+        "anon_execute": true,
+        "authenticated_execute": true,
+        "name": "read_public_media",
+        "owner": "postgres",
+        "schema": "private",
+        "search_path": ["search_path=\"\""]
+      },
+      {
+        "anon_execute": false,
+        "authenticated_execute": false,
+        "name": "update_analytics_popularity",
+        "owner": "postgres",
+        "schema": "private",
+        "search_path": ["search_path=\"\""]
+      },
+      {
+        "anon_execute": true,
+        "authenticated_execute": true,
+        "name": "rls_auto_enable",
+        "owner": "postgres",
+        "schema": "public",
+        "search_path": ["search_path=pg_catalog"]
+      }
+    ],
+    "dimensions": 0,
+    "history": [
+      "20260906001900",
+      "20260906002000",
+      "20260906002100",
+      "20260906002200",
+      "20260906002300"
+    ],
+    "messages": 0,
+    "owners": 1,
+    "raw": 0,
+    "rls_tables": 35,
+    "sessions": 0
+  },
+  "functions": [
+    {
+      "slug": "contact-submit",
+      "version": 3,
+      "status": "ACTIVE",
+      "verify_jwt": false
+    },
+    {
+      "slug": "track-event",
+      "version": 1,
+      "status": "ACTIVE",
+      "verify_jwt": false
+    }
+  ]
+}

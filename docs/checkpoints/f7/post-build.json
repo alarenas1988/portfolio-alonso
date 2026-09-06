@@ -1,0 +1,25 @@
+{
+  "date": "2026-09-06T23:25:18.171Z",
+  "checks": [
+    {
+      "name": "build",
+      "passed": true,
+      "log": ".tools/f7/post-build.log"
+    },
+    {
+      "name": "check:static",
+      "passed": true,
+      "log": ".tools/f7/post-check-static.log"
+    },
+    {
+      "name": "check:admin:static",
+      "passed": true,
+      "log": ".tools/f7/post-check-admin-static.log"
+    },
+    {
+      "name": "check:secrets",
+      "passed": true,
+      "log": ".tools/f7/post-check-secrets.log"
+    }
+  ]
+}

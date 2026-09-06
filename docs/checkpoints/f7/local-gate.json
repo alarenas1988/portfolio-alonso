@@ -1,0 +1,207 @@
+{
+  "date": "2026-09-06T23:22:28.553Z",
+  "commit": "9940f7de5459f5b1365e06e71f7b59529063b416",
+  "checks": [
+    {
+      "name": "ci",
+      "passed": true,
+      "milliseconds": 27389,
+      "log": ".tools/f7/ci.log"
+    },
+    {
+      "name": "ls --depth=0",
+      "passed": true,
+      "milliseconds": 1033,
+      "log": ".tools/f7/ls---depth=0.log"
+    },
+    {
+      "name": "audit --audit-level=high",
+      "passed": true,
+      "milliseconds": 1000,
+      "log": ".tools/f7/audit---audit-level=high.log"
+    },
+    {
+      "name": "run format:check",
+      "passed": true,
+      "milliseconds": 10846,
+      "log": ".tools/f7/run-format-check.log"
+    },
+    {
+      "name": "run lint",
+      "passed": true,
+      "milliseconds": 6565,
+      "log": ".tools/f7/run-lint.log"
+    },
+    {
+      "name": "run typecheck",
+      "passed": true,
+      "milliseconds": 95814,
+      "log": ".tools/f7/run-typecheck.log"
+    },
+    {
+      "name": "run test",
+      "passed": true,
+      "milliseconds": 7943,
+      "log": ".tools/f7/run-test.log"
+    },
+    {
+      "name": "run build",
+      "passed": true,
+      "milliseconds": 12968,
+      "log": ".tools/f7/run-build.log"
+    },
+    {
+      "name": "run check:static",
+      "passed": true,
+      "milliseconds": 660,
+      "log": ".tools/f7/run-check-static.log"
+    },
+    {
+      "name": "run check:secrets",
+      "passed": true,
+      "milliseconds": 945,
+      "log": ".tools/f7/run-check-secrets.log"
+    },
+    {
+      "name": "run test:e2e",
+      "passed": true,
+      "milliseconds": 250493,
+      "log": ".tools/f7/run-test-e2e.log"
+    },
+    {
+      "name": "run db:lint",
+      "passed": true,
+      "milliseconds": 1952,
+      "log": ".tools/f7/run-db-lint.log"
+    },
+    {
+      "name": "run db:test",
+      "passed": true,
+      "milliseconds": 7681,
+      "log": ".tools/f7/run-db-test.log"
+    },
+    {
+      "name": "run db:types:check",
+      "passed": true,
+      "milliseconds": 4677,
+      "log": ".tools/f7/run-db-types-check.log"
+    },
+    {
+      "name": "run db:snapshot:check",
+      "passed": true,
+      "milliseconds": 784,
+      "log": ".tools/f7/run-db-snapshot-check.log"
+    },
+    {
+      "name": "run test:auth:local",
+      "passed": true,
+      "milliseconds": 7458,
+      "log": ".tools/f7/run-test-auth-local.log"
+    },
+    {
+      "name": "run test:media:local",
+      "passed": true,
+      "milliseconds": 15099,
+      "log": ".tools/f7/run-test-media-local.log"
+    },
+    {
+      "name": "run edge:check",
+      "passed": true,
+      "milliseconds": 11722,
+      "log": ".tools/f7/run-edge-check.log"
+    },
+    {
+      "name": "run test:edge",
+      "passed": true,
+      "milliseconds": 3108,
+      "log": ".tools/f7/run-test-edge.log"
+    },
+    {
+      "name": "run test:edge:http",
+      "passed": true,
+      "milliseconds": 41143,
+      "log": ".tools/f7/run-test-edge-http.log"
+    },
+    {
+      "name": "run test:analytics:local",
+      "passed": true,
+      "proof": ".tools/f10/http-analytics.json",
+      "checks": 49
+    },
+    {
+      "name": "run test:contact:local",
+      "passed": true,
+      "proof": ".tools/contact-local-results.json",
+      "checks": 9
+    },
+    {
+      "name": "Clean reconstruction 019 through 023 and seed",
+      "log": ".tools/f7/reset-final.log",
+      "passed": true
+    },
+    {
+      "name": "Final SQL 745 passed",
+      "log": ".tools/f7/sql-final.log",
+      "passed": true
+    },
+    {
+      "name": "Final DB lint",
+      "log": ".tools/f7/db-lint-final.log",
+      "passed": true
+    },
+    {
+      "name": "Final generated types",
+      "log": ".tools/f7/types-final.log",
+      "passed": true
+    },
+    {
+      "name": "Upgrade with existing editorial data",
+      "log": ".tools/f7/upgrade.json",
+      "passed": true
+    },
+    {
+      "name": "Admin E2E 15 passed",
+      "log": ".tools/f7/admin-e2e-final.log",
+      "passed": true
+    },
+    {
+      "name": "Final visual review and accessibility",
+      "log": ".tools/f7/admin-visual-final.log",
+      "passed": true
+    },
+    {
+      "name": "Final typecheck",
+      "log": ".tools/f7/typecheck-final.log",
+      "passed": true
+    },
+    {
+      "name": "Final lint",
+      "log": ".tools/f7/lint-final.log",
+      "passed": true
+    },
+    {
+      "name": "Final format",
+      "log": ".tools/f7/format-final.log",
+      "passed": true
+    },
+    {
+      "name": "Real public snapshot build",
+      "log": ".tools/f7/build-final.log",
+      "passed": true
+    },
+    {
+      "name": "Admin static privacy scan",
+      "log": ".tools/f7/admin-static-final.log",
+      "passed": true
+    },
+    {
+      "name": "Final secret scan",
+      "log": ".tools/f7/secrets-final.log",
+      "passed": true
+    },
+    {
+      "name": "git diff --check",
+      "passed": true
+    }
+  ]
+}

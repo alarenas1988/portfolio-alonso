@@ -1,0 +1,31 @@
+{
+  "date": "2026-09-06T23:24:56.289Z",
+  "remote": {
+    "auth_users": 1,
+    "builds": 0,
+    "experiences": 0,
+    "media": 0,
+    "messages": 0,
+    "objects": 0,
+    "owners": 1,
+    "posts": 0,
+    "projects": 0,
+    "raw_analytics": 0,
+    "technologies": 0
+  },
+  "local": {
+    "media": 0,
+    "posts": 0,
+    "builds": 0,
+    "owners": 0,
+    "objects": 0,
+    "messages": 0,
+    "projects": 0,
+    "auth_users": 0,
+    "experiences": 0,
+    "technologies": 0,
+    "raw_analytics": 0
+  },
+  "fixtures_removed": true,
+  "public_content": "Authorized base seed only; no testing projects/posts/experience/media persisted"
+}

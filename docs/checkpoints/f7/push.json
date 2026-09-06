@@ -1,0 +1,11 @@
+{
+  "date": "2026-09-06T23:22:46.679Z",
+  "result": {
+    "upToDate": false,
+    "dryRun": false,
+    "migrations": ["20260906002300_admin_editorial_transactions.sql"],
+    "seeds": [],
+    "roles": [],
+    "message": "Finished supabase db push."
+  }
+}
