@@ -1,0 +1,46 @@
+-- Synthetic rows for local rollback tests only; never production seed.
+insert into public.projects (id,title,slug,status,published,published_at)
+values
+(pg_temp.fixture_id('project') , 'Public fixture','test-only-public-project','production',true,now()-interval '1 day'),
+(pg_temp.fixture_id('private-project'), 'PRIVATE_SENTINEL','test-only-private-project','concept',false,null),
+(pg_temp.fixture_id('archived-project'), 'PRIVATE_SENTINEL','test-only-archived-project','archived',true,now()),
+(pg_temp.fixture_id('future-project'), 'PRIVATE_SENTINEL','test-only-future-project','completed',true,now()+interval '1 day');
+insert into public.posts(id,title,slug,status,published_at,content_markdown) values
+(pg_temp.fixture_id('post'),'Public fixture','test-only-public-post','published',now()-interval '1 day','Public fixture body'),
+(pg_temp.fixture_id('private-post'),'PRIVATE_SENTINEL','test-only-private-post','draft',null,'PRIVATE_SENTINEL'),
+(pg_temp.fixture_id('future-post'),'PRIVATE_SENTINEL','test-only-future-post','published',now()+interval '1 day','PRIVATE_SENTINEL'),
+(pg_temp.fixture_id('archived-post'),'PRIVATE_SENTINEL','test-only-archived-post','archived',now(),'PRIVATE_SENTINEL');
+insert into public.technologies(id,name,slug,category,visible) values
+(pg_temp.fixture_id('technology'),'Fixture visible','test-only-tech','testing',true),
+(pg_temp.fixture_id('private-technology'),'PRIVATE_SENTINEL','test-only-private-tech','testing',false);
+insert into public.experiences(id,position,organization,start_date,visible) values
+(pg_temp.fixture_id('experience'),'Fixture','Test only','2020-01-01',true),
+(pg_temp.fixture_id('private-experience'),'PRIVATE_SENTINEL','Test only','2020-01-01',false);
+insert into public.media_assets(id,storage_bucket,storage_path,public_url,filename,mime_type,file_size,visibility)
+values
+(pg_temp.fixture_id('image'),'fixture-public','test-only.png','https://example.com/test-only.png','test-only.png','image/png',100,'public'),
+(pg_temp.fixture_id('private-image'),'fixture-private','private.png','https://example.com/PRIVATE_SENTINEL.png','private.png','image/png',100,'private'),
+(pg_temp.fixture_id('unused-image'),'fixture-public','unused.png','https://example.com/unused.png','unused.png','image/png',100,'public'),
+(pg_temp.fixture_id('pdf'),'fixture-public','test-only.pdf','https://example.com/test-only.pdf','test-only.pdf','application/pdf',100,'public');
+update public.projects set featured_image_asset_id=pg_temp.fixture_id('image'), cover_image_asset_id=pg_temp.fixture_id('private-image') where id=pg_temp.fixture_id('project');
+insert into public.project_images(id,project_id,asset_id,alt_text) values
+(pg_temp.fixture_id('gallery'),pg_temp.fixture_id('project'),pg_temp.fixture_id('image'),'Public fixture image'),
+(pg_temp.fixture_id('private-gallery'),pg_temp.fixture_id('project'),pg_temp.fixture_id('private-image'),'PRIVATE_SENTINEL');
+insert into public.documents(id,title,asset_id,active) values (pg_temp.fixture_id('cv'),'Fixture CV',pg_temp.fixture_id('pdf'),true);
+update public.contact_settings set email='PRIVATE_SENTINEL@example.com', whatsapp_number='+56912345678', whatsapp_default_message='PRIVATE_SENTINEL', whatsapp_cta_label='PRIVATE_SENTINEL';
+insert into public.social_links(platform,label,url,visible) values ('test','Fixture','https://example.com',true), ('hidden','PRIVATE_SENTINEL','https://example.com',false);
+insert into public.project_features(id,project_id,title) values (pg_temp.fixture_id('feature'),pg_temp.fixture_id('project'),'Fixture'),(pg_temp.fixture_id('hidden-feature'),pg_temp.fixture_id('private-project'),'PRIVATE_SENTINEL');
+insert into public.project_challenges(project_id,title) values (pg_temp.fixture_id('project'),'Fixture'),(pg_temp.fixture_id('private-project'),'PRIVATE_SENTINEL');
+insert into public.project_metrics(project_id,value,label,visible) values (pg_temp.fixture_id('project'),'-70%','Fixture',true),(pg_temp.fixture_id('project'),'PRIVATE_SENTINEL','Hidden',false);
+insert into public.project_technologies(project_id,technology_id) values (pg_temp.fixture_id('project'),pg_temp.fixture_id('technology')),(pg_temp.fixture_id('project'),pg_temp.fixture_id('private-technology')),(pg_temp.fixture_id('private-project'),pg_temp.fixture_id('technology'));
+insert into public.tags(id,name,slug) values (pg_temp.fixture_id('tag'),'Fixture','test-only-tag'),(pg_temp.fixture_id('private-tag'),'PRIVATE_SENTINEL','test-only-private-tag');
+insert into public.post_tags(post_id,tag_id) values (pg_temp.fixture_id('post'),pg_temp.fixture_id('tag')),(pg_temp.fixture_id('private-post'),pg_temp.fixture_id('private-tag'));
+insert into public.post_categories(id,name,slug,visible) values (pg_temp.fixture_id('private-category'),'PRIVATE_SENTINEL','test-only-hidden',false);
+insert into public.post_category_relations(post_id,category_id) values (pg_temp.fixture_id('post'),(select id from public.post_categories where slug='datos')),(pg_temp.fixture_id('post'),pg_temp.fixture_id('private-category'));
+insert into public.experience_highlights(experience_id,title) values (pg_temp.fixture_id('experience'),'Fixture'),(pg_temp.fixture_id('private-experience'),'PRIVATE_SENTINEL');
+insert into public.experience_projects(experience_id,project_id) values (pg_temp.fixture_id('experience'),pg_temp.fixture_id('project')),(pg_temp.fixture_id('experience'),pg_temp.fixture_id('private-project')),(pg_temp.fixture_id('private-experience'),pg_temp.fixture_id('project'));
+insert into public.experience_technologies(experience_id,technology_id) values (pg_temp.fixture_id('experience'),pg_temp.fixture_id('technology')),(pg_temp.fixture_id('experience'),pg_temp.fixture_id('private-technology'));
+insert into public.contact_messages(submission_id,name,email,subject,message) values (pg_temp.fixture_id('submission'),'PRIVATE_SENTINEL','private@example.com','Private subject','PRIVATE_SENTINEL');
+insert into public.analytics_events(event_id,session_hash,event_type,pathname,project_id) values (pg_temp.fixture_id('event'),repeat('a',64),'project_view','/test-only/',pg_temp.fixture_id('project'));
+insert into public.site_builds(id,request_id,trigger_type) values (pg_temp.fixture_id('build'),pg_temp.fixture_id('request'),'manual');
+insert into public.admin_activity(action,entity_type,entity_id,metadata) values ('test','project',pg_temp.fixture_id('project'),'{"note":"PRIVATE_SENTINEL"}');
