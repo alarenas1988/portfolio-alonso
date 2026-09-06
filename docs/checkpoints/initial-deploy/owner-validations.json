@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-06T15:54:23.331Z",
+  "scope": "Owner continuation; no application schema or dependency changes",
+  "remote_owner_checks": 139,
+  "remote_auth_rls_snapshot_checks": 91,
+  "remote_storage_media_checks": 48,
+  "cleanup_complete": true,
+  "catalog_sections_equal": 14,
+  "format_check": "passed",
+  "lint": "passed",
+  "typecheck": {
+    "files": 59,
+    "errors": 0,
+    "warnings": 0,
+    "hints": 0
+  },
+  "secret_scan": {
+    "build_artifacts": 8,
+    "passed": true,
+    "identity_and_existing_credentials_absent_from_repository_and_build_files": 200
+  },
+  "git_diff_check": "passed",
+  "previous_full_local_validation": "local-validations.json and local-post-deploy.json; same baseline and application code",
+  "new_ui": false,
+  "e2e": "Not rerun; no UI changes"
+}

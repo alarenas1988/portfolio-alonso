@@ -37,7 +37,7 @@ Evidencia: [validaciones](initial-deploy/local-validations.json), [revisión for
 
 ## Estado de ejecución
 
-**Baseline desplegado; checkpoint detenido en el alta manual del owner.** La puerta previa quedó registrada en `253533e` y las pruebas/evidencia posterior en `374b6ed`. Inmediatamente antes del cambio se volvieron a verificar proyecto, enlace, catálogo remoto, PostgreSQL e historial ausente.
+**Checkpoint completado; baseline y owner remoto verificados.** La puerta previa quedó registrada en `253533e`, las pruebas/evidencia posterior en `374b6ed` y la parada para alta manual en `18f4bf9`. El usuario confirmó después la creación del owner. Inmediatamente antes del despliegue se volvieron a verificar proyecto, enlace, catálogo remoto, PostgreSQL e historial ausente.
 
 `supabase db push --linked --skip-vault --yes` terminó con exit code 0 el 2026-09-06 a las 15:09:35 UTC. Aplicó únicamente 019. El historial real registra 20260906001900, nombre initial_portfolio y 527 sentencias; no aparecen pendientes las fuentes archivadas. No se ejecutó migration repair. [Push](initial-deploy/push.json), [historial inmediatamente posterior](initial-deploy/post-history.json).
 
@@ -53,7 +53,7 @@ El push no ejecutó seed. Después de informar el alcance se aplicó supabase/se
 
 `node scripts/check-remote-anon.mjs --initial-deploy-checkpoint` ejecutó **28 comprobaciones API remotas** con publishable key y sin sesión administrativa. loadPublicSnapshot validó la respuesta real con el DTO existente. Settings/categorías/especialidades/principios/contacto públicos accesibles; INSERT/UPDATE/DELETE editorial y creación de admin_profile denegados por 42501; lecturas privadas denegadas; helper privado no expuesto como RPC ni schema; listado privado sin datos y upload PNG válido rechazado. No persistieron objetos ni filas de prueba. [Resultados](initial-deploy/anon.json).
 
-Una consulta vacía de borradores no sustituye una prueba con borradores reales: la matriz remota con fixtures draft/futuro/hijos/media privada y usuarios reales queda pendiente del owner. Las pruebas adversariales completas sí pasaron nuevamente en local.
+Las 28 comprobaciones iniciales no pretendían demostrar filtros sobre borradores inexistentes. Esa limitación quedó resuelta en la etapa posterior: las sesiones reales consultaron proyectos publicados/draft, hijos de ambos, posts publicado/draft/futuro y tecnologías visibles/ocultas creados expresamente para la prueba. Todos los fixtures se eliminaron.
 
 ## Tipos y reconstrucción posterior
 
@@ -61,7 +61,7 @@ La CLI regeneró tipos desde remoto. La única diferencia textual es Database.__
 
 Después del deploy se reconstruyó localmente desde vacío, restauró el respaldo previo e instaló 019/seed. Se repitieron 613 pruebas SQL, 107 Auth/RLS, 66 Storage/media y 9 PK; lint SQL, tipos y snapshot correctos. Catálogo final idéntico a remoto, fixtures limpios. [Reconstrucción final](initial-deploy/local-post-deploy.json), [validaciones previas](initial-deploy/local-validations-pre-push.json), [últimas validaciones](initial-deploy/local-validations.json).
 
-## Auth y punto de parada
+## Auth y alta segura del owner
 
 Se modificaron únicamente controles soportados de Auth en el dashboard del proyecto verificado. Signup deshabilitado; el endpoint real devuelve HTTP 422 / signup_disabled sin crear usuario. Email/password permanece habilitado, confirmación de email activa, sign-in anónimo y linking manual deshabilitados.
 
@@ -76,10 +76,45 @@ Redirect URLs exactas, sin comodines:
 
 Actualizar estas URLs al configurar dominio propio. Las pantallas finales de login/recovery todavía no están implementadas; la allowlist no crea esas páginas. [Configuración y prueba signup](initial-deploy/auth.json).
 
-**Intervención del usuario:** portfolio-alonso → Authentication → Users → Add user → Create new user. Introducir personalmente el correo definitivo y una contraseña segura; conservar Auto confirm user? para su cuenta propia y crear el usuario. No compartir contraseña ni tokens. El formulario quedó abierto sin valores; el agente no pulsó Create user.
+**Intervención completada por el usuario:** creó personalmente su cuenta en portfolio-alonso → Authentication → Users → Add user → Create new user y confirmó «owner creado». Se comprobó una única cuenta Auth con email confirmado y cero admin_profiles. No se leyó ni cambió su contraseña; no se registra correo, UUID ni credenciales en la evidencia.
 
-Después de su confirmación, obtener el UUID de forma segura desde el proyecto, comprobar la cuenta y ejecutar el bootstrap administrativo documentado de admin_profiles con role owner y active true. No versionar UUID ni crear una migración de identidad. Después probar sesiones noowner/inactivo/owner, CRUD temporal y ciclo Storage/media completo con limpieza.
+Se ejecutó una sola vez [bootstrap-remote-owner.sql](../../scripts/bootstrap-remote-owner.sql), mediante CLI administrativa enlazada. La transacción bloquea admin_profiles, exige exactamente una cuenta Auth confirmada y ningún perfil, selecciona su identidad dentro de PostgreSQL e inserta role='owner', active=true y nombre aprobado. Con claims de esa identidad y rol authenticated, private.is_portfolio_admin() devolvió true y se leyó exactamente un owner activo. El script no es una migración ni se vuelve a ejecutar sobre un owner existente. [Bootstrap sin identidad expuesta](initial-deploy/owner-bootstrap.json).
 
-La última inspección previa al alta manual confirmó cero Auth/admin_profiles, objetos/media/proyectos y 21 filas de seed; esquema e historial sin cambios inesperados. [Estado y pendientes](initial-deploy/final-state.json). No se declara verificado el acceso de un owner remoto aún inexistente.
+## Sesiones reales y pruebas remotas finales
+
+`node scripts/check-remote-owner.mjs --initial-deploy-checkpoint` requiere invocación operacional explícita, enlace correcto, historial exclusivamente 019, un único owner y ausencia de contenido editorial previo. No forma parte de npm test ni de un deploy automático. Sus guardas impiden reutilizarlo sobre un portfolio con contenido. No se cambiaron los wrappers que restringen las suites existentes a localhost.
+
+La credencial administrativa existente se obtuvo por CLI autenticada, exclusivamente en memoria. Se usó solo para preparar Auth/fixtures y limpieza, nunca como credencial de las operaciones cuya autorización se probó. Para el owner definitivo se generó un enlace administrativo de sesión, se verificó su token en memoria y se usó el JWT real emitido por Auth. generateLink no envía correo por sí mismo; no se utilizó recovery ni se pidió contraseña. Los dos usuarios temporales noowner/inactivo se crearon por Auth Admin con contraseñas aleatorias en memoria y sesiones email/password reales. [Generación administrativa](https://supabase.com/docs/reference/javascript/auth-admin-generatelink), [verificación OTP](https://supabase.com/docs/reference/javascript/auth-verifyotp).
+
+**139 comprobaciones correctas: 91 Auth/RLS/snapshot y 48 Storage/media.** [Resultados detallados](initial-deploy/owner-smoke.json).
+
+| Actor                 | Lectura pública | Draft/futuro/hijo privado | CRUD editorial                   | Datos privados                                    | Administración Storage                                 |
+| --------------------- | --------------- | ------------------------- | -------------------------------- | ------------------------------------------------- | ------------------------------------------------------ |
+| anon                  | Permitida       | Sin filas                 | Denegado                         | Denegado                                          | Denegada                                               |
+| authenticated noowner | Permitida       | Sin filas                 | Sin filas afectadas / 42501      | Sin filas                                         | Denegada                                               |
+| owner inactivo        | Permitida       | Sin filas                 | Sin filas afectadas / 42501      | Sin filas                                         | Denegada                                               |
+| owner activo          | Permitida       | Lectura administrativa    | CREATE/UPDATE/DELETE comprobados | Lectura permitida, incluido mensaje temporal real | Upload/list/metadata/publicación/replace/delete seguro |
+
+Las pruebas negativas incluyen UUID conocido, reasignación de FK, manipulación de user_metadata seguida de refresh real, creación de otro owner, cambio de role/active/id, lectura mediante vista y llamada directa a schema/RPC privado. Incluso el owner no puede cambiar sus atributos de autorización ni crear otro owner desde el navegador. Ningún resultado depende de guards de UI.
+
+loadPublicSnapshot validó el DTO para los cuatro roles. Cada snapshot incluyó exactamente un proyecto público, un post publicado en el pasado y una tecnología visible; ninguno incluyó los sentinels privados, draft/futuro, mensaje ni tecnología oculta. Las respuestas fueron estructuralmente iguales tras excluir únicamente generated_at. La lectura administrativa privada se comprobó por separado.
+
+Storage real recibió PNG sintéticos de 8×6 píxeles. Se probaron upload privado, UUID de Storage registrado en metadata, signed preview de 60 segundos, ausencia de descarga pública privada, publicación explícita con otro UUID y bytes públicos correctos. Anon/noowner/inactivo no pudieron listar, descargar, firmar, subir, actualizar, hacer upsert, mover ni eliminar objetos protegidos. También se rechazaron upsert/move del owner.
+
+Un asset tuvo tres referencias: imagen de proyecto y Markdown de proyecto/post. deleteMedia informó uso activo; la llamada directa a Storage API también falló por la FK UUID RESTRICT y el objeto permaneció. replaceMedia trasladó las tres referencias a un UUID nuevo conservando el anterior hasta retirarlo. Después de desvincular, el borrado controlado retiró metadata y bytes correctamente. Metadata con un UUID Storage inexistente falló por 23503; un objeto sin metadata apareció en el reporte de huérfanos y se eliminó explícitamente. Snapshot media devolvió solo el asset público referenciado, sin signed URLs.
+
+La limpieza dirigida eliminó proyectos/posts/tecnologías/mensaje/referencias/media/objetos y las dos cuentas Auth temporales. Se cerró solamente la sesión de prueba del owner usando scope='local', preservando sus otras sesiones. El refresh token se revoca; un JWT ya emitido expira según su plazo normal. Ningún token o signed URL se persistió. El manifiesto de recuperación local ignorado contiene solo identidades de fixtures y rutas, sin identidad del owner ni credenciales. [Semántica de signout](https://supabase.com/docs/guides/auth/signout).
+
+## Estado final y límites
+
+El [estado final](initial-deploy/final-state.json) confirma un Auth user definitivo, un admin_profile owner activo, 21 filas base y cero fixtures editoriales, mensajes, referencias, metadata u objetos Storage. Las 14 secciones de catálogo siguen coincidiendo con local, 35 tablas con RLS, tres definer propias seguras, Automatic RLS intacto e historial exclusivamente 019. El [estado anterior a la intervención](initial-deploy/owner-handoff.json) y auth.json se conservan como evidencia histórica; su conteo anterior de cero owners ya no representa el estado final.
+
+No hay migraciones correctivas, cambios de código de aplicación, dependencias nuevas ni una segunda ejecución del push. La reconstrucción completa posterior al despliegue y sus suites locales siguen siendo válidas: el bootstrap y los fixtures no modificaron el esquema. Los scripts y documentos finales se verifican con formato, lint, typecheck, tests, build y controles estáticos/secretos. No se añade UI en este checkpoint; E2E no requiere nueva ejecución por estos cambios operacionales.
+
+En la continuación se repitieron format:check, lint, typecheck (59 archivos, cero diagnósticos), check:secrets (ocho artefactos) y git diff --check. Una comprobación adicional confirmó que las credenciales existentes y la identidad del owner no aparecen en 200 archivos del repositorio/build. Las suites completas anteriores corresponden al mismo baseline y código de aplicación; no se presentan como nuevas ejecuciones después del bootstrap. [Validación de esta continuación](initial-deploy/owner-validations.json).
+
+Commits de operación: `253533e` puerta previa; `374b6ed` verificación posterior y anon; `18f4bf9` alta manual pendiente; `f977ca6` bootstrap seguro; `543a0c2` matriz remota y media. El cierre documental se registra con `docs: close controlled Supabase deployment checkpoint`. [Inventario de archivos de toda la rama](initial-deploy/files.json). Ningún archivo de aplicación ni migración se modificó.
+
+Quedan como límites conocidos las pantallas futuras de login/recovery, actualizar URLs cuando exista dominio propio y gestionar backups de bytes además del respaldo lógico. No se dispone aquí de restauración gestionada del plan Free. Estas limitaciones no se sustituyen por nuevas funcionalidades.
 
 No se inició F3/F4/F7/F9/F10/F11/F12/F13/F14. No hay PR ni merge de esta rama. Sin CV, capturas ni contenido final; migraciones, estructura administrada Storage y Automatic RLS conservados.

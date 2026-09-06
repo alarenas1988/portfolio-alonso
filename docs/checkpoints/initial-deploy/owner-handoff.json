@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-06T15:22:49.248Z",
+  "schema_unchanged_after_seed_and_auth": true,
+  "automatic_rls_preserved": true,
+  "state": {
+    "admin_profiles": 0,
+    "auth_users": 0,
+    "history": ["20260906001900"],
+    "media_assets": 0,
+    "objects": 0,
+    "projects": 0,
+    "seed_rows": 21
+  },
+  "stop_reason": "User must create the definitive Auth owner through the secure dashboard; no credentials invented.",
+  "pending": [
+    "owner Auth creation",
+    "admin_profiles bootstrap",
+    "real remote authenticated/noowner/inactive/owner role matrix",
+    "owner CRUD and Storage/media lifecycle fixtures"
+  ]
+}

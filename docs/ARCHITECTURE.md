@@ -2,9 +2,9 @@
 
 ## Primer backend remoto — 2026-09-06
 
-El baseline 019 está aplicado en portfolio-alonso, sa-east-1, PostgreSQL 17.6. Las 32 tablas public, 3 private, vistas, funciones, grants/RLS y buckets coinciden con una nueva reconstrucción local. Supabase contiene únicamente los 21 registros base autorizados; loadPublicSnapshot funciona contra remoto. La única diferencia de tipos generados es la anotación del servicio PostgREST 14.5; los schemas tipados no cambian.
+El baseline 019 está aplicado en portfolio-alonso, sa-east-1, PostgreSQL 17.6. Las 32 tablas public, 3 private, vistas, funciones, grants/RLS y buckets coinciden con una nueva reconstrucción local. Supabase contiene los 21 registros base autorizados y la cuenta Auth/perfil del owner definitivo; no quedan fixtures. loadPublicSnapshot funciona contra remoto. La única diferencia de tipos generados es la anotación del servicio PostgREST 14.5; los schemas tipados no cambian.
 
-Auth remoto impide signup y permite redirects exactos bajo /portfolio-alonso/. Se detiene antes del bootstrap owner hasta que el usuario cree su Auth mediante el canal seguro. Ninguna fase funcional posterior está iniciada. La [operación independiente](checkpoints/INITIAL_DEPLOY.md) parte de main d3b5d0f en chore/supabase-initial-deploy; no hay cambios de código de aplicación, migraciones ni pipeline.
+Auth remoto impide signup y permite redirects exactos bajo /portfolio-alonso/. El usuario creó su cuenta y el bootstrap administrativo la vinculó como único owner activo. La matriz anon/noowner/inactivo/owner, snapshot y ciclo Storage real pasaron 139 comprobaciones; catálogo y Automatic RLS permanecen sin drift. Ninguna fase funcional posterior está iniciada. La [operación independiente](checkpoints/INITIAL_DEPLOY.md) parte de main d3b5d0f en chore/supabase-initial-deploy; no hay cambios de código de aplicación, migraciones ni pipeline.
 
 ## Instalación inicial vigente
 
