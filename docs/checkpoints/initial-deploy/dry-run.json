@@ -1,0 +1,14 @@
+{
+  "at": "2026-09-06T15:02:15.621Z",
+  "cli": "2.116.0",
+  "pending": ["20260906001900_initial_portfolio.sql"],
+  "exit_code": 0,
+  "sql_sha256": "e9de91bbee5851c12d898269584c25782846d2a9f2fb949d5ded4fc72b78e0c9",
+  "matches_approved_sql": true,
+  "managed_table_alters": false,
+  "fragile_fk": false,
+  "seed": false,
+  "roles": false,
+  "vault": false,
+  "effective_push": false
+}

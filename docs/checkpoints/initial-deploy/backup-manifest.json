@@ -1,0 +1,54 @@
+{
+  "created_at": "2026-09-06T14:59:00.239Z",
+  "base": "d3b5d0f671aa783c09d59760a68b466aded5662f",
+  "project": "portfolio-alonso",
+  "region": "sa-east-1",
+  "directory": "%LOCALAPPDATA%/portfolio-alonso/backups/20260906-initial-deploy",
+  "acl": "Current Windows user, SYSTEM, Administrators only",
+  "files": [
+    {
+      "file": "roles.sql",
+      "bytes": 370,
+      "sha256": "168a95a9c745af5ed4679751f90419ac9dc434240a213b03e32a06d5664c2308",
+      "identical_to_previously_restored_backup": true
+    },
+    {
+      "file": "schema.sql",
+      "bytes": 3076,
+      "sha256": "862613c1072315c8c500084b9835ead6e45979c4e9e6abdff6be4b7174df3422",
+      "identical_to_previously_restored_backup": true
+    },
+    {
+      "file": "data.sql",
+      "bytes": 9643,
+      "sha256": "b18fc928bee69a48d1adf0348d38d99a48305973b6a5994781078e24d13044ac",
+      "identical_to_previously_restored_backup": false
+    },
+    {
+      "file": "automatic-rls-event.sql",
+      "bytes": 400,
+      "sha256": "450b37cb240810749ca0c48cd0410aef43f01eeea3c25c10137002e377e56cb5",
+      "identical_to_previously_restored_backup": true
+    },
+    {
+      "file": "data-restorable.sql",
+      "bytes": 9161,
+      "sha256": "32c824541832b52ce6822540400e6cb94d16aa5cb0927bcc67b0043695907c9f"
+    }
+  ],
+  "managed_restore_available": false,
+  "storage_bytes_included": false,
+  "auth_configuration_separate": true,
+  "restore_tested": true,
+  "excluded_from_restore": ["storage.buckets_vectors (empty)", "storage.vector_indexes (empty)"],
+  "full_data_dump_retained": true,
+  "first_restore_failure": "permission denied for table buckets_vectors; entire local transaction rolled back",
+  "reference": "https://supabase.com/docs/guides/platform/migrating-within-supabase/backup-restore",
+  "restore_target": "isolated local Supabase PostgreSQL 17.6",
+  "restore_catalog_matches_remote": true,
+  "data_dump_difference": "Includes empty buckets_vectors and vector_indexes COPY blocks omitted by the earlier backup; both managed tables existed in the previous remote inventory. No new remote drift.",
+  "restore_adaptations": [
+    "Assert existing platform log_min_messages SET privilege instead of regranting it",
+    "Align local template sequence default ACL with the audited remote prestate"
+  ]
+}
