@@ -1,0 +1,11 @@
+{
+  "date": "2026-09-06T19:35:23.731Z",
+  "result": {
+    "upToDate": false,
+    "dryRun": false,
+    "migrations": ["20260906002000_edge_intake.sql", "20260906002100_edge_build_contracts.sql"],
+    "seeds": [],
+    "roles": [],
+    "message": "Finished supabase db push."
+  }
+}

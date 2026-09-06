@@ -1,6 +1,12 @@
 # Arquitectura del portfolio
 
+## Edge Functions F9 — 2026-09-06
+
+La capa Edge comparte validación HTTP/CORS, SDK oficial de contexto, errores, HMAC, privacidad y repositorio de RPC fijas. Contacto y eventos se persisten mediante transacciones service-only; publicación exige JWT y owner activo. Callback autenticado con HMAC. Se reutilizan rate_limit_buckets y las identidades de F5; 020/021 amplían contratos sin editar 019 ni debilitar RLS. El formulario F4 utiliza únicamente URL y publicable, conserva texto ante fallo y confirma entrega real. [Arquitectura, contratos y evidencia F9](EDGE_FUNCTIONS.md). Las secciones siguientes son historia de las fases aprobadas.
+
 ## Páginas públicas F4 — 2026-09-06
+
+Estado posterior: F9 conectó el transporte del formulario mediante Edge; los contratos y resultados vigentes están en [el cierre F9](checkpoints/F9_EDGE_FUNCTIONS.md). El resto de esta sección describe la entrega original F4.
 
 Los índices proyectos/blog/perfil/contacto y los detalles SSG comparten `loadPublicPages()`: una RPC pública validada y un build de assets F8 por ejecución. Los getStaticPaths reciben únicamente contenido público con fecha cumplida. No hay SSR, cliente Supabase en el navegador ni rutas de drafts. La Home conserva sus límites de preview y enlaza ahora a las páginas internas.
 

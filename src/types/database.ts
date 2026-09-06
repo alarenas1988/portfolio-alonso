@@ -114,6 +114,15 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      consume_edge_limit: {
+        Args: {
+          p_action: string;
+          p_hash: string;
+          p_limit: number;
+          p_seconds: number;
+        };
+        Returns: boolean;
+      };
       is_portfolio_admin: { Args: never; Returns: boolean };
       read_public_contact: {
         Args: never;
@@ -1850,6 +1859,67 @@ export type Database = {
     };
     Functions: {
       activate_cv: { Args: { document_id: string }; Returns: undefined };
+      edge_dispatch_failed: {
+        Args: { p_build_id: string; p_reason: string };
+        Returns: undefined;
+      };
+      edge_record_contact: {
+        Args: {
+          p_email: string;
+          p_global_hash: string;
+          p_global_limit?: number;
+          p_message: string;
+          p_name: string;
+          p_notify?: boolean;
+          p_origin_hash: string;
+          p_session_hash: string;
+          p_subject: string;
+          p_submission_id: string;
+        };
+        Returns: Json;
+      };
+      edge_record_event: {
+        Args: {
+          p_browser?: string;
+          p_device?: string;
+          p_event_id: string;
+          p_event_type: string;
+          p_global_hash: string;
+          p_origin_hash: string;
+          p_pathname: string;
+          p_post_id?: string;
+          p_project_id?: string;
+          p_referrer?: string;
+          p_session_hash: string;
+        };
+        Returns: Json;
+      };
+      edge_request_build: {
+        Args: {
+          p_actor: string;
+          p_entity_id?: string;
+          p_entity_type?: string;
+          p_request_id: string;
+          p_retry_of?: string;
+          p_trigger: string;
+        };
+        Returns: Json;
+      };
+      edge_update_build_status: {
+        Args: {
+          p_build_id: string;
+          p_commit_sha: string;
+          p_completed_at?: string;
+          p_deployment_id?: string;
+          p_failure_reason?: string;
+          p_run_attempt: number;
+          p_run_id: number;
+          p_run_url: string;
+          p_started_at: string;
+          p_status: string;
+        };
+        Returns: Json;
+      };
       get_public_snapshot: { Args: never; Returns: Json };
       replace_media_asset: {
         Args: {

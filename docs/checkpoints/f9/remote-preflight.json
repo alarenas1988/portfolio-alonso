@@ -1,0 +1,71 @@
+{
+  "date": "2026-09-06T19:20:04.847Z",
+  "project": {
+    "name": "portfolio-alonso",
+    "region": "sa-east-1",
+    "status": "ACTIVE_HEALTHY"
+  },
+  "cli": "2.116.0",
+  "state": {
+    "analytics_count": 0,
+    "automatic_rls": [
+      {
+        "enabled": "O",
+        "function": "rls_auto_enable()",
+        "name": "ensure_rls"
+      }
+    ],
+    "buckets": [
+      {
+        "limit": 10485760,
+        "mime": ["image/jpeg", "image/png", "image/webp", "image/avif"],
+        "name": "blog",
+        "public": true
+      },
+      {
+        "limit": 10485760,
+        "mime": ["application/pdf"],
+        "name": "documents",
+        "public": true
+      },
+      {
+        "limit": 10485760,
+        "mime": ["image/jpeg", "image/png", "image/webp", "image/avif"],
+        "name": "portfolio-public",
+        "public": true
+      },
+      {
+        "limit": 10485760,
+        "mime": ["image/jpeg", "image/png", "image/webp", "image/avif", "application/pdf"],
+        "name": "private",
+        "public": false
+      }
+    ],
+    "contact_count": 0,
+    "cron": {
+      "available": "1.6.4",
+      "installed": null
+    },
+    "f9_conflicts": 0,
+    "form_enabled": false,
+    "history": ["20260906001900"],
+    "owners": 1,
+    "postgres": "17.6",
+    "public_tables": 32,
+    "rate_count": 0,
+    "rls_tables": 35
+  },
+  "functions": [],
+  "secret_names": [],
+  "migrations": [
+    {
+      "name": "20260906002000_edge_intake.sql",
+      "sha256": "0b325e3f5d392f5b12223aad4b460a62e61272ba1c6861d19e69b58dc013005b"
+    },
+    {
+      "name": "20260906002100_edge_build_contracts.sql",
+      "sha256": "004fd5359e557e52e4632b0698f49781d0f13b3acd3f0df27091d0dc909a9dc9"
+    }
+  ],
+  "dry_run": "{\"upToDate\":false,\"dryRun\":true,\"migrations\":[\"20260906002000_edge_intake.sql\",\"20260906002100_edge_build_contracts.sql\"],\"seeds\":[],\"roles\":[],\"message\":\"Finished supabase db push.\"}\n"
+}

@@ -1,0 +1,6 @@
+{
+  "equal": true,
+  "platform_only": "PostgrestVersion 14.5 annotation; same accepted normalization as initial deploy",
+  "remote_sha256": "03f2ffd612f5a7882f9e3d961ef33dfe536f4b70bbfabe522a921f6e6cdd4782",
+  "normalized_sha256": "3320452af02c2fe94411edad174f779bdebc96df16a02a451c94b09f5bfe7583"
+}

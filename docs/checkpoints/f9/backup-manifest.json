@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-06T19:22:13.748Z",
+  "location": "%LOCALAPPDATA%/portfolio-alonso/backups/20260906-f9-edge",
+  "files": [
+    {
+      "name": "roles.sql",
+      "bytes": 370,
+      "sha256": "168a95a9c745af5ed4679751f90419ac9dc434240a213b03e32a06d5664c2308"
+    },
+    {
+      "name": "schema.sql",
+      "bytes": 146843,
+      "sha256": "b41022a1ca0ca2a19b729085a49d865d7901f45acebf672270fc92786e0b70b3"
+    },
+    {
+      "name": "data.sql",
+      "bytes": 23743,
+      "sha256": "f4bf0ce55a352e3f210be957d93832423e6c6e906cf15c3cf10bf8ac9bc7941a"
+    }
+  ],
+  "scope": "Logical database roles/schema/data; managed vector tables excluded as in the approved initial checkpoint. Platform settings/catalog separately inventoried. No Storage bytes backup needed: no objects.",
+  "limitation": "Free plan has no managed restore available here. New dump has not been independently restored; use the tested initial-checkpoint recovery procedure in a compatible Supabase target."
+}

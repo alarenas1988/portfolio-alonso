@@ -1,8 +1,10 @@
 ---
+import { getPublicConfig } from '../../lib/config/public.ts';
 interface Props {
   enabled: boolean;
 }
 const { enabled } = Astro.props;
+const transport = getPublicConfig().supabase;
 const fields = [
   {
     name: 'name',
@@ -10,7 +12,7 @@ const fields = [
     type: 'text',
     autocomplete: 'name',
     help: 'Cómo prefieres que te llame.',
-    max: 100,
+    max: 120,
   },
   {
     name: 'email',
@@ -26,7 +28,7 @@ const fields = [
     type: 'text',
     autocomplete: 'off',
     help: 'Una idea breve del tema que quieres conversar.',
-    max: 160,
+    max: 200,
   },
 ] as const;
 ---
@@ -37,8 +39,11 @@ const fields = [
       <p class="technical-label">El primer paso</p><h2 id="form-title">Cuéntame tu idea.</h2><p
         id="form-availability"
       >
-        El formulario estará disponible próximamente. Por ahora, utiliza los canales de contacto
-        publicados.
+        {
+          enabled
+            ? 'Cuéntame qué necesitas resolver. Los campos marcados son obligatorios.'
+            : 'El formulario estará disponible próximamente. Por ahora, utiliza los canales de contacto publicados.'
+        }
       </p>
     </div>
     <!-- method=dialog outside a dialog prevents native navigation even without JavaScript. -->
@@ -46,6 +51,9 @@ const fields = [
       class="contact-form"
       method="dialog"
       data-contact-form
+      data-url={enabled ? transport?.url : undefined}
+      data-key={enabled ? transport?.publishableKey : undefined}
+      data-state="idle"
       aria-describedby="form-availability"
       novalidate
     >
@@ -96,12 +104,17 @@ const fields = [
             tabindex="-1"
           />
         </div>
-        <button type="button" data-review-message disabled>Revisar mensaje</button>
       </fieldset>
-      <button type="submit" disabled aria-describedby="form-availability"
-        >Enviar mensaje — próximamente</button
+      <button type="submit" data-send-message disabled aria-describedby="form-availability"
+        >{enabled ? 'Enviar mensaje' : 'Enviar mensaje — próximamente'}</button
       >
-      <p data-form-status role="status" aria-live="polite"></p>
+      <noscript
+        ><p>
+          Para enviar el formulario necesitas JavaScript. Puedes utilizar el email o WhatsApp cuando
+          aparezcan entre los canales de contacto de esta página.
+        </p></noscript
+      >
+      <p data-form-status role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
     </form>
   </div>
 </section>

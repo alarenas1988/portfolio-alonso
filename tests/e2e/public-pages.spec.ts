@@ -142,18 +142,18 @@ test('minimum case and short article omit absent sections and TOC', async ({ pag
   }
 });
 
-test('contact validates without sending keeps draft and copies email', async ({ page }, info) => {
+test('contact validates, preserves a draft on failure and copies email', async ({ page }, info) => {
   test.skip(!['mobile-390', 'desktop-1440'].includes(info.project.name));
   await page.addInitScript(() =>
     Object.defineProperty(navigator, 'clipboard', { value: { writeText: async () => undefined } }),
   );
   await page.goto('contacto/');
+  await page.route('**/functions/v1/contact-submit', (route) => route.abort('failed'));
   const mutations: string[] = [];
   page.on('request', (request) => {
     if (request.method() !== 'GET') mutations.push(request.url());
   });
-  await expect(page.getByRole('button', { name: 'Enviar mensaje — próximamente' })).toBeDisabled();
-  await page.getByRole('button', { name: 'Revisar mensaje' }).click();
+  await page.getByRole('button', { name: 'Enviar mensaje', exact: true }).click();
   await expect(page.getByLabel('Nombre', { exact: false }).first()).toBeFocused();
   await expect(page.locator('#error-email')).toContainText('correo válido');
   await page.locator('#contact-name').fill('Test Person');
@@ -162,14 +162,15 @@ test('contact validates without sending keeps draft and copies email', async ({ 
   await page
     .locator('#contact-message')
     .fill('Este es un mensaje sintético con suficiente contexto.');
-  await page.getByRole('button', { name: 'Revisar mensaje' }).click();
-  await expect(page.locator('[data-form-status]')).toContainText('El envío aún no está disponible');
+  expect(mutations).toEqual([]);
+  await page.getByRole('button', { name: 'Enviar mensaje', exact: true }).click();
+  await expect(page.locator('[data-form-status]')).toContainText('Conservamos tu mensaje');
   await expect(page.locator('#contact-message')).toHaveValue(
     'Este es un mensaje sintético con suficiente contexto.',
   );
   await page.getByRole('button', { name: 'Copiar correo' }).click();
   await expect(page.locator('#email-copy-feedback')).toContainText('Correo copiado');
-  expect(mutations).toEqual([]);
+  expect(mutations.every((url) => url.endsWith('/functions/v1/contact-submit'))).toBe(true);
 });
 
 test('all internal routes remain complete without JavaScript and mobile menu stays usable', async ({
@@ -199,6 +200,9 @@ test('all internal routes remain complete without JavaScript and mobile menu sta
   await expect(page.locator('#post-list .blog-card')).toHaveCount(4);
   await expect(page.locator('[data-content-filters]')).toBeHidden();
   await page.goto('http://127.0.0.1:4322/portfolio-alonso/contacto/');
+  await expect(page.getByRole('button', { name: 'Enviar mensaje', exact: true })).toBeDisabled();
+  await expect(page.locator('noscript p')).toBeVisible();
+  await expect(page.locator('noscript p')).toContainText('necesitas JavaScript');
   await page.locator('#contact-name').fill('No JS');
   await page.locator('#contact-name').press('Enter');
   await expect(page).toHaveURL(/\/contacto\/$/);
