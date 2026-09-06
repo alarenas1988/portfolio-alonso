@@ -1,0 +1,34 @@
+{
+  "directory": "%LOCALAPPDATA%/portfolio-alonso/backups/20260906-predeploy",
+  "acl": "current Windows user, SYSTEM, Administrators only",
+  "files": [
+    {
+      "file": "roles-retry.sql",
+      "bytes": 370,
+      "sha256": "168a95a9c745af5ed4679751f90419ac9dc434240a213b03e32a06d5664c2308"
+    },
+    {
+      "file": "schema.sql",
+      "bytes": 3076,
+      "sha256": "862613c1072315c8c500084b9835ead6e45979c4e9e6abdff6be4b7174df3422"
+    },
+    {
+      "file": "data.sql",
+      "bytes": 9161,
+      "sha256": "79da03e56c3b6f4145d2fd6573f8d9f7371bef009ef589660d05dabf89bd2576"
+    },
+    {
+      "file": "automatic-rls-event.sql",
+      "bytes": 400,
+      "sha256": "450b37cb240810749ca0c48cd0410aef43f01eeea3c25c10137002e377e56cb5"
+    }
+  ],
+  "restore_tested": false,
+  "failed_empty_file": "roles.sql is not part of the backup",
+  "limitations": [
+    "Logical dump excludes managed schema definitions; requires a compatible Supabase target.",
+    "Automatic RLS event trigger is a separate explicit supplement; default CLI schema dump omitted it.",
+    "Auth settings and Storage bytes are not restored by SQL dump.",
+    "Restore has not been rehearsed; deployment gate remains closed."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "compared_catalog_fields": [
+    "buckets",
+    "event_triggers",
+    "extensions",
+    "functions",
+    "inspection_role",
+    "migration_history_exists",
+    "policies",
+    "schemas",
+    "server_version",
+    "storage_indexes",
+    "storage_object_count",
+    "tables",
+    "views"
+  ],
+  "changed_fields": [],
+  "application_tables": 0,
+  "buckets": [],
+  "storage_objects": 0,
+  "migration_history_exists": false,
+  "automatic_rls": true
+}

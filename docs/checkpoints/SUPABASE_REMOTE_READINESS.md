@@ -10,7 +10,7 @@ F8 ya estaba integrada mediante PR #5. Se verificaron los ancestros F1/F2/F5/F6/
 
 **Actualización local del 2026-09-06:** el blocker de identidad Storage se corrigió mediante la migración 018, después de reproducir la FK a columnas no-PK y demostrar la alternativa con Storage API. La solución usa `media_assets.storage_object_id` hacia `storage.objects.id`, con RESTRICT; no modifica la estructura administrada. Ver [decisión y pruebas](STORAGE_OBJECT_IDENTITY.md), [sondeo API](local-storage-identity-probe.json) y [actualización F8 con referencias existentes](local-storage-upgrade.json).
 
-El remoto NO se modificó. La orden vigente prohíbe db push. Faltan autenticación CLI, punto de recuperación restaurable, diff y revisión posterior de la puerta. No se modifican Auth remoto ni owner. Los resultados finales locales se registran en [PHASE_LOG.md](../PHASE_LOG.md).
+**Actualización posterior al login:** CLI autenticada y proyecto enlazado. La auditoría READ ONLY coincide con el estado previo; se obtuvo respaldo lógico fuera de Git y una simulación sin aplicación listó 18 migraciones. El orden 014 → 018 introduciría temporalmente la FK rechazada, por lo que la puerta continúa cerrada. También faltan ensayo de recuperación y revisión del diff en dirección de despliegue. [Resultado CLI y punto de parada](CLI_REMOTE_PREFLIGHT.md). No se aplicaron migraciones, seed ni cambios Auth/owner. Los resultados finales locales se registran en [PHASE_LOG.md](../PHASE_LOG.md).
 
 ## Auditoría histórica anterior a la corrección 018
 

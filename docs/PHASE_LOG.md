@@ -1,5 +1,15 @@
 # Registro de fases
 
+## Checkpoint técnico backend — 2026-09-06, CLI autenticada
+
+El usuario completó login con npx.cmd. CLI 2.116.0 verificó y enlazó portfolio-alonso en sa-east-1. Auditoría READ ONLY nueva: PostgreSQL 17.6, Automatic RLS activo, sin tablas propias/buckets/objetos/usuarios Auth ni historial de aplicación. No se modificaron Auth remoto ni owner.
+
+Se obtuvo backup lógico de roles/esquema/datos fuera de Git, con ACL restringida y hashes. Incluye suplemento del event trigger Automatic RLS omitido por el dump estándar; la restauración no está ensayada. El diff explícito hacia migraciones falló por timeout en conexión directa; migra en dirección inversa terminó y se conserva únicamente como evidencia, nunca como SQL para aplicar.
+
+La simulación autorizada `db push --linked --dry-run --skip-vault` listó 18 migraciones sin seed ni actualización Vault. **Parada:** el primer push ejecutaría 014 antes de 018 e introduciría temporalmente la FK no-PK rechazada. Se necesita acordar la estrategia de instalación inicial; no se modifica silenciosamente el historial mergeado. [Evidencia y límites](checkpoints/CLI_REMOTE_PREFLIGHT.md).
+
+Sin despliegue efectivo, PR, merge ni fases posteriores. Esta actualización modifica documentación/evidencia y excluye de Prettier el cache `supabase/.temp/` creado por CLI, ya ignorado por Git. format:check, check:secrets, revisión de tokens en JSON y git diff --check correctos. No se repiten ni se atribuyen a remoto las validaciones funcionales locales ya aprobadas.
+
 ## Checkpoint técnico backend — 2026-09-06, corrección local Storage
 
 **Estado:** dependencia no-PK corregida y verificada en local. db push prohibido; remoto sin cambios. Continúa exclusivamente en `chore/supabase-remote-readiness`, desde la base `e8a4750097cbb6a7c85e01ce36cf91c3f38a4185`. No hay PR ni merge de este checkpoint.
