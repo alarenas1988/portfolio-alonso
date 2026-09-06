@@ -1942,6 +1942,33 @@ export type Database = {
         };
         Returns: undefined;
       };
+      save_experience: {
+        Args: {
+          p_expected: string;
+          p_id: string;
+          p_record: Json;
+          p_relations?: Json;
+        };
+        Returns: Json;
+      };
+      save_post: {
+        Args: {
+          p_expected: string;
+          p_id: string;
+          p_record: Json;
+          p_relations?: Json;
+        };
+        Returns: Json;
+      };
+      save_project: {
+        Args: {
+          p_expected: string;
+          p_id: string;
+          p_record: Json;
+          p_relations?: Json;
+        };
+        Returns: Json;
+      };
     };
     Enums: {
       [_ in never]: never;
