@@ -161,6 +161,7 @@ export type Database = {
         Args: { bucket: string; object_name: string };
         Returns: boolean;
       };
+      update_analytics_popularity: { Args: never; Returns: undefined };
     };
     Enums: {
       [_ in never]: never;
@@ -295,6 +296,7 @@ export type Database = {
           content_id: string;
           content_type: string;
           date: string;
+          interactions: number;
           unique_sessions: number;
           views: number;
         };
@@ -302,6 +304,7 @@ export type Database = {
           content_id: string;
           content_type: string;
           date: string;
+          interactions?: number;
           unique_sessions?: number;
           views?: number;
         };
@@ -309,6 +312,7 @@ export type Database = {
           content_id?: string;
           content_type?: string;
           date?: string;
+          interactions?: number;
           unique_sessions?: number;
           views?: number;
         };
@@ -1920,7 +1924,16 @@ export type Database = {
         };
         Returns: Json;
       };
+      get_analytics_report: {
+        Args: { p_from: string; p_to: string };
+        Returns: Json;
+      };
       get_public_snapshot: { Args: never; Returns: Json };
+      maintain_analytics: { Args: never; Returns: undefined };
+      refresh_analytics: {
+        Args: { p_from?: string; p_to?: string };
+        Returns: undefined;
+      };
       replace_media_asset: {
         Args: {
           expected_updated_at: string;

@@ -251,6 +251,13 @@
       "grantor": "postgres",
       "table_name": "analytics_daily",
       "table_schema": "public",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "analytics_daily",
+      "table_schema": "public",
       "privilege_type": "INSERT"
     },
     {
@@ -294,6 +301,13 @@
       "table_name": "analytics_daily_content",
       "table_schema": "public",
       "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "analytics_daily_content",
+      "table_schema": "public",
+      "privilege_type": "DELETE"
     },
     {
       "grantee": "service_role",
@@ -343,6 +357,13 @@
       "table_name": "analytics_events",
       "table_schema": "public",
       "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "analytics_events",
+      "table_schema": "public",
+      "privilege_type": "DELETE"
     },
     {
       "grantee": "service_role",
@@ -3454,6 +3475,16 @@
       "authenticated_execute": false
     },
     {
+      "name": "update_analytics_popularity",
+      "owner": "postgres",
+      "schema": "private",
+      "settings": ["search_path=\"\""],
+      "arguments": "",
+      "anon_execute": false,
+      "security_definer": true,
+      "authenticated_execute": false
+    },
+    {
       "name": "validate_storage_object_identity",
       "owner": "postgres",
       "schema": "private",
@@ -3524,6 +3555,16 @@
       "authenticated_execute": false
     },
     {
+      "name": "get_analytics_report",
+      "owner": "postgres",
+      "schema": "public",
+      "settings": ["search_path=\"\""],
+      "arguments": "p_from date, p_to date",
+      "anon_execute": false,
+      "security_definer": false,
+      "authenticated_execute": true
+    },
+    {
       "name": "get_public_snapshot",
       "owner": "postgres",
       "schema": "public",
@@ -3532,6 +3573,26 @@
       "anon_execute": true,
       "security_definer": false,
       "authenticated_execute": true
+    },
+    {
+      "name": "maintain_analytics",
+      "owner": "postgres",
+      "schema": "public",
+      "settings": ["search_path=\"\""],
+      "arguments": "",
+      "anon_execute": false,
+      "security_definer": false,
+      "authenticated_execute": false
+    },
+    {
+      "name": "refresh_analytics",
+      "owner": "postgres",
+      "schema": "public",
+      "settings": ["search_path=\"\""],
+      "arguments": "p_from date, p_to date",
+      "anon_execute": false,
+      "security_definer": false,
+      "authenticated_execute": false
     },
     {
       "name": "replace_media_asset",
