@@ -19,7 +19,9 @@ export async function deleteMedia(
   if (references.length) throw new AssetInUseError(references);
   if (!isMediaPath(asset.storage_bucket, asset.storage_path))
     throw new Error('Ubicación no autorizada.');
-  // FK constraints are the final authority, including references added concurrently.
+  // RESTRICT protects the registered Storage UUID. Remove unreferenced metadata
+  // first, then bytes through the API; a byte failure is an explicit orphan report.
+  // Editorial FKs remain the authority for references added concurrently.
   const deleted = await client
     .from('media_assets')
     .delete()

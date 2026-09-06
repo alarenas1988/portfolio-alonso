@@ -693,6 +693,7 @@ export type Database = {
           mime_type: string;
           public_url: string | null;
           storage_bucket: string;
+          storage_object_id: string;
           storage_path: string;
           updated_at: string;
           visibility: string;
@@ -712,6 +713,7 @@ export type Database = {
           mime_type: string;
           public_url?: string | null;
           storage_bucket: string;
+          storage_object_id: string;
           storage_path: string;
           updated_at?: string;
           visibility?: string;
@@ -731,6 +733,7 @@ export type Database = {
           mime_type?: string;
           public_url?: string | null;
           storage_bucket?: string;
+          storage_object_id?: string;
           storage_path?: string;
           updated_at?: string;
           visibility?: string;
