@@ -3430,6 +3430,16 @@
       "authenticated_execute": false
     },
     {
+      "name": "validate_storage_object_identity",
+      "owner": "postgres",
+      "schema": "private",
+      "settings": ["search_path=\"\""],
+      "arguments": "",
+      "anon_execute": false,
+      "security_definer": false,
+      "authenticated_execute": false
+    },
+    {
       "name": "activate_cv",
       "owner": "postgres",
       "schema": "public",
@@ -3772,6 +3782,18 @@
       "grantee": "authenticated",
       "table_name": "media_assets",
       "column_name": "storage_bucket",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "media_assets",
+      "column_name": "storage_object_id",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "media_assets",
+      "column_name": "storage_object_id",
       "privilege_type": "SELECT"
     },
     {

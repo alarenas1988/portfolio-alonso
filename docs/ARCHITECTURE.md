@@ -2,7 +2,7 @@
 
 ## Checkpoint backend previo a F3
 
-El [checkpoint de compatibilidad remota](checkpoints/SUPABASE_REMOTE_READINESS.md), iniciado desde origin/main e8a4750097cbb6a7c85e01ce36cf91c3f38a4185, inspeccionó el proyecto real sin desplegar. PostgreSQL local/remoto coincide en 17.6. Automatic RLS es una configuración administrada preexistente que se conservará además de RLS explícito. La dependencia de media_assets hacia un índice no primario de storage.objects mantiene cerrada la puerta de despliegue hasta una corrección probada. No hay backend remoto validado ni nuevas funcionalidades; F3 y las demás fases siguen pendientes.
+El [checkpoint de compatibilidad remota](checkpoints/SUPABASE_REMOTE_READINESS.md), iniciado desde origin/main e8a4750097cbb6a7c85e01ce36cf91c3f38a4185, inspeccionó el proyecto real sin desplegar. PostgreSQL local/remoto coincide en 17.6. Automatic RLS es una configuración administrada preexistente que se conservará además de RLS explícito. La migración correctiva 018 sustituye localmente la dependencia del índice no primario por una FK a `storage.objects.id` (PK UUID), con RESTRICT y sin alterar Storage. Conserva bucket/path e impide cambiar identidad; los servicios registran el UUID devuelto por la API. La actualización de F8 con referencias existentes y la carrera registro/borrado están probadas. La puerta remota sigue cerrada: faltan login CLI, backup/diff y revisión posterior. [Evidencia y ciclo de vida](checkpoints/STORAGE_OBJECT_IDENTITY.md). No hay backend remoto validado ni nuevas funcionalidades; F3 y las demás fases siguen pendientes.
 
 ## Modelo C2
 

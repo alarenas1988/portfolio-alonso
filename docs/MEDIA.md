@@ -1,8 +1,10 @@
 # Storage y multimedia — F8
 
-## Bloqueo de despliegue detectado en el checkpoint
+## Corrección local de identidad Storage — 2026-09-06
 
-F8 ya está integrada en main. La [auditoría remota del 2026-09-06](checkpoints/SUPABASE_REMOTE_READINESS.md) confirma que no hay buckets/objetos remotos y que la FK media_assets_storage_object_fk depende del índice único administrado bucketid_objname, no de la PK. Aunque ese índice existe local/remoto, no se acepta esa dependencia como estable para desplegar. La corrección debe conservar bloqueo de borrado directo, referencias Markdown y seguridad frente a concurrencia, sin alterar tablas internas. Todavía no se implementó ni desplegó la corrección. Las garantías locales descritas abajo corresponden a la implementación F8 existente.
+F8 ya está integrada en main. El checkpoint corrige localmente la dependencia del índice administrado no primario: la migración 018 agrega `media_assets.storage_object_id uuid NOT NULL UNIQUE`, con FK RESTRICT hacia `storage.objects.id`. Bucket y path siguen siendo información de aplicación, comprobada al registrar e inmutable. Upload, copia/publicación y reemplazo conservan el UUID devuelto por Storage API; copiar o reemplazar crea otra identidad. No se altera ninguna tabla ni índice administrado. [Decisión, catálogo y pruebas](checkpoints/STORAGE_OBJECT_IDENTITY.md).
+
+El borrado directo de un objeto registrado devuelve error y conserva sus bytes. El servicio bloquea assets en uso; después de desvincular referencias, retira la metadata y llama a Storage API. Si esta última falla, devuelve una tarea de limpieza y el reporte de huérfanos identifica el objeto restante. La auditoría compara UUID además de bucket/path y distingue ausencia, indisponibilidad e identidad diferente; nunca elimina automáticamente. La FK protege catálogo, no sustituye un backup de los bytes. Remoto sigue sin cambios y db push no está autorizado.
 
 El límite global del proyecto Free es 50 MB y no están habilitadas transformaciones remotas. Los límites por bucket de 10 MiB y Sharp durante build siguen siendo el contrato previsto; aún no se aplicaron a remoto. Los backups de PostgreSQL no recuperan bytes de Storage borrados.
 
@@ -10,16 +12,16 @@ F8 se desarrolla exclusivamente en Supabase local, desde origin/main 25c351557d0
 
 ## Entorno reproducible
 
-- Worktree: .worktrees/f8-storage-media; rama: feat/f8-storage-media.
+- Worktree vigente: .worktrees/supabase-remote-readiness; rama: chore/supabase-remote-readiness. El worktree de F8 se conserva como historial.
 - Docker Desktop 4.89.0, Engine 29.7.2, WSL 2.
 - Supabase CLI 2.116.0 fijada; PostgreSQL 17.6, imagen 17.6.1.165.
-- Stack portfolio-alonso-f8-local: API 56421, DB 56422, shadow 56420, Studio 56423, Mailpit 56424, analytics 56427 e inspector 8283.
+- Stack portfolio-alonso-readiness-local: API 57421, DB 57422, shadow 57420, Studio 57423, Mailpit 57424, analytics 57427 e inspector 8383.
 - Node 24.20.0 y npm 11.19.0. .env.local está ignorado y no se imprimen credenciales.
 - Las pruebas Auth/media verifican el endpoint local exacto antes de crear fixtures. Nunca utilizan el proyecto remoto de las variables públicas.
 
 ```powershell
 $env:Path = 'C:/laragon/www/portfolio/.tools/node-v24.20.0-win-x64;' + $env:Path
-Set-Location C:/laragon/www/portfolio/.worktrees/f8-storage-media
+Set-Location C:/laragon/www/portfolio/.worktrees/supabase-remote-readiness
 npm ci
 npm ls --depth=0
 npm run db:start
@@ -33,7 +35,7 @@ npm run test:media:local
 npm run db:audit
 ```
 
-Los wrappers de DB fijan --local y rechazan argumentos extra. La reconstrucción aplica las 17 migraciones y el seed original, que no contiene usuarios ni archivos reales. Las pruebas SQL se revierten; las pruebas HTTP crean identidades/bytes sintéticos y eliminan sus fixtures al finalizar. No ejecutar estas pruebas simultáneamente sobre el mismo stack.
+Los wrappers de DB fijan --local y rechazan argumentos extra. La reconstrucción aplica las 18 migraciones y el seed original, que no contiene usuarios ni archivos reales. Las pruebas SQL se revierten; las pruebas HTTP crean identidades/bytes sintéticos y eliminan sus fixtures al finalizar. No ejecutar estas pruebas simultáneamente sobre el mismo stack.
 
 ## Buckets y formatos
 
@@ -70,7 +72,7 @@ Storage no decodifica imágenes por RLS ni valida el contenido real de un PDF. U
 
 ## Metadata, referencias y operaciones
 
-media_assets conserva bucket/path/URL, nombre, MIME, tamaño, dimensiones, alt, decorative, caption, categoría, visibilidad, autor y timestamps. La ubicación y el MIME son inmutables; el navegador solo edita metadata editorial. Una FK (storage_bucket,storage_path) apunta a storage.objects(bucket_id,name): no puede registrarse un objeto inexistente ni eliminarse un objeto registrado mediante Storage. Esta dependencia del catálogo administrado debe verificarse al actualizar Supabase.
+media_assets conserva bucket/path/URL, nombre, MIME, tamaño, dimensiones, alt, decorative, caption, categoría, visibilidad, autor y timestamps. La ubicación y el MIME son inmutables; el navegador solo edita metadata editorial. La migración 018 añade storage_object_id UUID, único y obligatorio, con FK a la PK storage.objects(id): no puede registrarse un objeto inexistente ni eliminarse un objeto registrado mediante Storage. Un trigger propio comprueba que UUID y bucket/path corresponden al mismo objeto. La dependencia previa del índice compuesto se retira; la integración API debe volver a probarse al actualizar Supabase.
 
 media_references usa FK reales para proyectos, posts, imágenes de galería, settings/perfil, documentos y tecnologías. F8 añade technologies.icon_asset_id/icon_url para logos administrables. Los iconos versionados existentes siguen usando icon.
 
@@ -97,6 +99,7 @@ reportMediaOrphans produce un reporte, sin eliminar:
 
 - objectsWithoutMetadata: objetos sin registro editorial;
 - metadataWithoutObjects: registros cuyo objeto no aparece o devuelve ausencia;
+- identityMismatches: misma ubicación con UUID diferente al registrado; complete=false, requiere revisión;
 - unavailableObjects: bytes que no se pudieron verificar por otro error; complete=false.
 
 El stack local puede responder 500 cuando falta el archivo físico aunque exista la fila de Storage. Se registra como no verificable, no como prueba concluyente de eliminación. El reporte revisa listas paginadas y descarga archivos de forma secuencial; es mantenimiento explícito y puede consumir hasta 10 MiB por asset. Ante fallos del inventario se aborta, sin ejecutar limpieza. Toda retirada requiere revisar el reporte.

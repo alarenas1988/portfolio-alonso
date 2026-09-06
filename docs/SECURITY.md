@@ -4,7 +4,13 @@
 
 El [checkpoint remoto](checkpoints/SUPABASE_REMOTE_READINESS.md) es una auditoría de solo lectura, sin aprobación de despliegue efectivo. Remoto aún no contiene las tablas/policies/RPC del portfolio. Automatic RLS está habilitado mediante ensure_rls y una función de evento SECURITY DEFINER de plataforma con search_path pg_catalog; se conserva. Las tres funciones SECURITY DEFINER propias siguen únicamente en local, con owner postgres y search_path vacío. El registro público remoto está habilitado y debe cerrarse antes de declarar el backend listo. No se crearon usuarios ni fixtures, ni se probaron escrituras remotas.
 
-La evidencia histórica de F6/F8 no sustituye la matriz remota ni la revalidación de la corrección Storage pendiente. La clave pública solo sirvió para dos GET de inspección; no se extrajeron secretos de la sesión del navegador.
+La evidencia histórica de F6/F8 no sustituye la matriz remota. La corrección Storage 018 ya se valida en un stack local aislado; no autoriza por sí sola el despliegue. La clave pública solo sirvió para dos GET de inspección; no se extrajeron secretos de la sesión del navegador.
+
+## Corrección de Storage 018
+
+La única FK propia hacia Storage referencia ahora su PK UUID, con ON DELETE/UPDATE RESTRICT. El trigger propio `private.validate_storage_object_identity()` es SECURITY INVOKER, search_path vacío, sin EXECUTE de clientes. Verifica identidad/localización y autor owner; no amplía grants ni policies ni agrega SECURITY DEFINER. El bloqueo de integridad lo realiza PostgreSQL al validar la FK, sin exigir UPDATE de Storage al caller. Las tres funciones definer de F6 permanecen sin cambios.
+
+API DELETE de un objeto registrado falla sin retirar sus bytes. No se habilitan upsert, overwrite ni move; reemplazar exige otro objeto. Tras desvincular usos, se elimina metadata y luego bytes mediante API, con compensación y reporte ante fallo. Las pruebas Auth/media crean y limpian objetos exclusivamente mediante Storage API; los tests SQL de catálogo usan fixtures transaccionales que se revierten. [Evidencia completa](checkpoints/STORAGE_OBJECT_IDENTITY.md).
 
 ## Ampliación vigente de F8
 

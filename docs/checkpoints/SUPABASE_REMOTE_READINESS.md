@@ -8,9 +8,13 @@ F8 ya estaba integrada mediante PR #5. Se verificaron los ancestros F1/F2/F5/F6/
 
 **NO APTO PARA PUSH TODAVÍA. No se modificó Supabase remoto.**
 
-La versión PostgreSQL coincide, pero la revisión de Storage mantiene una dependencia bloqueante: `media_assets_storage_object_fk` referencia un índice único administrado que no es la PK. Además faltan autenticación de CLI, volcado restaurable, diff generado y validación final de la corrección. No se considera aprobada la compatibilidad completa por coincidir las versiones.
+**Actualización local del 2026-09-06:** el blocker de identidad Storage se corrigió mediante la migración 018, después de reproducir la FK a columnas no-PK y demostrar la alternativa con Storage API. La solución usa `media_assets.storage_object_id` hacia `storage.objects.id`, con RESTRICT; no modifica la estructura administrada. Ver [decisión y pruebas](STORAGE_OBJECT_IDENTITY.md), [sondeo API](local-storage-identity-probe.json) y [actualización F8 con referencias existentes](local-storage-upgrade.json).
 
-Se detuvo la aplicación conforme a las condiciones de parada del checkpoint. No se alteró la FK existente en local ni se aplicó una migración correctiva sin validarla. La propuesta siguiente es diseño pendiente, no una garantía ya implementada.
+El remoto NO se modificó. La orden vigente prohíbe db push. Faltan autenticación CLI, punto de recuperación restaurable, diff y revisión posterior de la puerta. No se modifican Auth remoto ni owner. Los resultados finales locales se registran en [PHASE_LOG.md](../PHASE_LOG.md).
+
+## Auditoría histórica anterior a la corrección 018
+
+Las secciones siguientes y sus JSON conservan la inspección previa de las 17 migraciones y el motivo de parada. Las propuestas marcadas pendientes describen ese estado histórico; la decisión vigente es la FK a la PK UUID documentada arriba. No son resultados nuevos contra remoto.
 
 ## Proyecto y evidencia previa
 

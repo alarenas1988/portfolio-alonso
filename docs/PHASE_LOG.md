@@ -1,5 +1,27 @@
 # Registro de fases
 
+## Checkpoint técnico backend — 2026-09-06, corrección local Storage
+
+**Estado:** dependencia no-PK corregida y verificada en local. db push prohibido; remoto sin cambios. Continúa exclusivamente en `chore/supabase-remote-readiness`, desde la base `e8a4750097cbb6a7c85e01ce36cf91c3f38a4185`. No hay PR ni merge de este checkpoint.
+
+**Test primero:** la prueba de arquitectura falló sobre F8 al encontrar una FK a columnas Storage no-PK. La inspección confirmó `objects_pkey(id)`, UUID con default gen_random_uuid(). Antes de crear la corrección, nueve comprobaciones API demostraron upload, copia, nueva identidad al reemplazar/recrear y DELETE protegido conservando fila y bytes. El error del servicio es `ResourceReferenced`.
+
+**Corrección:** migración `20260906001800_storage_object_identity.sql`, sin editar las 17 anteriores. Backfill transaccional de `media_assets.storage_object_id`, NOT NULL, UNIQUE y FK a la PK con RESTRICT; después retira únicamente nuestra FK compuesta. Trigger INVOKER propio de consistencia UUID/localización, sin nuevos SECURITY DEFINER ni permisos Storage UPDATE. Los servicios conservan upload.data.id; la reconciliación y el reporte de huérfanos comprueban UUID. El DTO público permanece sin cambios. No se alteraron columnas, índices ni constraints de Storage.
+
+**Actualización con datos:** ensayo separado sobre F8/17 con objeto real API, metadata legacy y dos referencias editoriales; aplicación local de 018 conservó datos y protección de borrado. 13 comprobaciones correctas. Evidencia en [local-storage-upgrade.json](checkpoints/local-storage-upgrade.json).
+
+**Reconstrucción final:** se verificó ausencia de usuarios/objetos/metadata de testing y se eliminó el stack aislado `portfolio-alonso-readiness-local` con `supabase stop --no-backup`. `db:start` recreó PostgreSQL 17.6, aplicó las **18 migraciones y seed desde cero**. Los stacks de fases anteriores no se modificaron. API 57421, DB 57422; CLI fijada 2.116.0.
+
+**Validación DB/API final:** db lint sin errores; **612 pruebas SQL** en cinco archivos; tipos regenerados y comparación exacta; snapshot real y seed idempotente correctos; **107 comprobaciones Auth/RLS**, **66 Storage/media** y **9 del sondeo PK**. Incluyen referencias múltiples/Markdown, reemplazo, borrado bloqueado y permitido, tres carreras registro/borrado, huérfanos por ausencia/UUID incorrecto, fallos de transporte, validación de archivos y pipeline. Auditoría: 35 tablas propias con RLS, 138 policies y las tres funciones definer originales con search_path vacío. Al terminar: cero usuarios Auth, objetos Storage, media_assets y media_references de testing; cuatro buckets locales y 18 migraciones registradas.
+
+**Eliminación:** usos editoriales bloquean retirar metadata; después de desvincular, el servicio elimina metadata no usada y finalmente bytes vía API. RESTRICT impide el orden inverso. Un fallo final devuelve limpieza pendiente; el reporte no borra automáticamente. La FK no sustituye backups de bytes ni evita cambios privilegiados de plataforma.
+
+**Validación npm:** npm ci (407 paquetes), npm ls --depth=0 y npm audit --audit-level=high correctos, cero vulnerabilidades. format:check y lint correctos; typecheck de 58 archivos con cero errores/advertencias/hints; **84/84 unit tests**, incluyendo archivos y build-assets; build estático de dos páginas; check:static correcto con base /portfolio-alonso/ y check:secrets correcto en ocho artefactos. git diff --check correcto. Sin dependencias nuevas ni cambios de comportamiento UI; no se requiere otra ejecución E2E para esta corrección.
+
+**Autenticación CLI:** comprobada después de validar localmente; CLI 2.116.0 devuelve login requerido. Se detiene antes de link/inspección remota adicional/diff: el usuario debe ejecutar `npx supabase login` y confirmar. No se solicita ni versiona access token. No se ejecutó db push.
+
+La [decisión completa](checkpoints/STORAGE_OBJECT_IDENTITY.md) registra catálogo, evidencia API, evolución de servicios/tipos y límites. El [informe remoto](checkpoints/SUPABASE_REMOTE_READINESS.md) distingue la auditoría histórica del resultado local actual. Auth remoto, owner, Automatic RLS y todos los datos remotos siguen sin modificaciones. F3/F4/F7/F9/F10/F11 no iniciadas.
+
 ## Checkpoint técnico backend — 2026-09-06, inspección previa
 
 **Estado:** detenido antes de db push; no es una fase funcional ni una aprobación de backend remoto.
