@@ -1,6 +1,6 @@
 # Contenido y esquema F5
 
-Estado: implementación local de F5; acceso de clientes cerrado hasta F6. PostgreSQL es la fuente única de verdad. No se han aplicado migraciones al proyecto remoto ni cambiado Automatic RLS.
+Este documento conserva el modelo y la evidencia de entrega de F5. F6 habilita ahora el acceso local mediante grants/RLS y proyecciones públicas: consultar [SECURITY.md](SECURITY.md) para permisos vigentes y [DEPLOYMENT.md](DEPLOYMENT.md) para los puertos y comandos del entorno F6. Las referencias posteriores al acceso cerrado y al entorno F5 describen ese punto histórico. PostgreSQL es la fuente única de verdad. No se han aplicado migraciones al proyecto remoto ni cambiado Automatic RLS.
 
 ## Entorno y reconstrucción
 

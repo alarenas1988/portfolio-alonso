@@ -12,11 +12,12 @@ Supabase ──lectura pública/RLS──> Astro build ──artefacto──> Gi
 
 Un solo repositorio contiene el sitio público y el shell administrativo. No existe un servidor Astro en producción ni routing dinámico del lado servidor. Las páginas administrativas editables serán físicas, por ejemplo `/admin/projects/edit/?id=UUID`.
 
-## Límites de F1, F2 y F5
+## Límites de F1, F2, F5 y F6
 
 F1 entrega configuración, rutas, clientes Supabase separados, pruebas y documentación. F2 añade tokens visuales, fuentes locales, componentes compartidos, motion progresivo y estilos base del administrador. La pantalla visible es un fixture temporal sin contenido administrable. Estas responsabilidades permanecen para fases autorizadas posteriores:
 
-- F6: grants, policies, Auth owner y Storage policies sobre el esquema cerrado de F5; Automatic RLS se conserva.
+- F6 ya entrega grants, policies, Auth owner local y contrato de seguridad de Storage sobre F5; Automatic RLS remoto se conserva sin modificaciones.
+- F8: creación de buckets y gestión de archivos; F6 no crea buckets persistentes ni biblioteca multimedia.
 - F3/F4: contenido público y rutas internas alimentadas desde Supabase.
 - F9: Edge Functions.
 - F7: CMS `/admin`.
@@ -64,13 +65,23 @@ docs/
 
 Las carpetas se crean cuando su fase las necesita. Las páginas coordinan; consultas, autorización, Markdown y publicación viven en módulos enfocados. F5 reemplaza el placeholder de DB por tipos generados reproduciblemente desde PostgreSQL local.
 
-## Esquema y frontera de F5
+## Esquema y frontera de F5/F6
 
-Siete migraciones y un seed idempotente reconstruyen 32 tablas de public y tres de private. Todas nacen con RLS, permisos de cliente revocados y sin policies; la RPC de lectura también queda sin EXECUTE para anon/authenticated. No se ha aplicado el esquema remoto ni iniciado F6.
+Las siete migraciones de F5 y el seed idempotente reconstruyen 32 tablas de public y tres de private, inicialmente con RLS y denegación por defecto. F6 agrega seis migraciones de autorización sin modificar las originales. Todas las tablas conservan RLS; los grants expresan operaciones y las policies autorizan filas. El esquema completo sigue exclusivamente local, pendiente de revisión antes de cualquier aplicación remota.
 
-El contrato de build es `loadPublicSnapshot(): Promise<PublicSnapshot>`, implementado en `src/lib/content/snapshot.ts`. Una RPC SQL STABLE y SECURITY INVOKER devuelve una lectura consistente, con proyección explícita y filtrado de publicación, fechas, relaciones y media. El parser valida el contrato antes de presentar datos; una consulta fallida aborta sin fallback privilegiado. Las páginas de F2 conservan su fixture hasta F3 y las políticas de F6.
+El contrato de build es `loadPublicSnapshot(): Promise<PublicSnapshot>`, implementado en `src/lib/content/snapshot.ts`. Una RPC SQL STABLE y SECURITY INVOKER devuelve una lectura consistente, con proyección explícita y filtrado de publicación, fechas, relaciones y media. F6 habilita EXECUTE a anon/authenticated y comprueba que también el owner recibe exclusivamente el snapshot público. El parser valida el contrato antes de presentar datos; una consulta fallida aborta sin fallback privilegiado. Las páginas de F2 conservan su fixture hasta F3.
 
 El catálogo completo, estados, cascades, sincronización de URLs/CV, referencias editoriales, pruebas y comandos de reconstrucción están en [CONTENT.md](CONTENT.md). Los tipos DB incluyen public/private, pero los DTO públicos derivan únicamente campos permitidos. Importar el loader está reservado al build; los módulos generales conservan la prohibición de importar código de build.
+
+## Autorización de F6
+
+Supabase valida el JWT; `private.is_portfolio_admin()` resuelve auth.uid() contra un perfil owner activo. La función privada no recibe UUID ni confía en metadata. authenticated sin ese perfil y owner inactivo tienen únicamente lectura pública. Los perfiles no se crean ni cambian de role/active/id desde la API, tampoco por el owner.
+
+Cada relación pública verifica la visibilidad del padre y de los recursos relacionados. Contacto y media usan proyecciones fijas para excluir campos ocultos e internos; sus tablas originales son administrativas. Tres funciones privadas SECURITY DEFINER, con propietario controlado y search_path vacío, resuelven exclusivamente la comprobación owner y esas dos proyecciones. Las cuatro vistas son SECURITY INVOKER. Los caches de URLs se invalidan al privatizar media o desactivar el CV.
+
+Los datos operacionales permiten lectura owner y escrituras de servicio delimitadas. El navegador solo cambia status de mensajes; no puede falsificar builds ni editar auditoría. Storage tiene cinco policies sobre los cuatro buckets previstos, aún sin crearlos. Sus ACL administradas por Supabase se inventarían expresamente; la autorización de operaciones de su API se prueba mediante RLS.
+
+Auth local desactiva signup global y conserva el proveedor email/password. Los helpers de sesión y owner son auxiliares de UX; la seguridad se prueba directamente en SQL y REST. Recovery define callbacks estáticos con la base de Astro, cuya UI corresponde a F7. La matriz por tabla, grants, funciones y límites de Storage están en [SECURITY.md](SECURITY.md) y [SECURITY_AUDIT.json](SECURITY_AUDIT.json); reconstrucción, bootstrap owner y configuración futura se documentan en [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ## Calidad
 
