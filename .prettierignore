@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.tools/
+.superpowers/
+test-results/
+playwright-report/
+coverage/
+package-lock.json
+.env*
+# Preserve the supplied specification byte for byte.
+PORTFOLIO_ALONSO_LARENAS_CODEX_MASTER.md

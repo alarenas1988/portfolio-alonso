@@ -1,0 +1,61 @@
+@import 'tailwindcss';
+
+/* F1 only: accessible base using existing master colors. Design System is F2. */
+:root {
+  color-scheme: dark;
+  font-family: system-ui, sans-serif;
+  background: #050816;
+  color: #f8fafc;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+}
+main {
+  width: min(100% - 40px, 780px);
+  margin-inline: auto;
+  padding-block: 72px;
+}
+h1 {
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+p {
+  color: #cbd5e1;
+  line-height: 1.75;
+}
+a {
+  color: #22d3ee;
+  text-underline-offset: 0.25em;
+}
+a:focus-visible {
+  outline: 3px solid #22d3ee;
+  outline-offset: 4px;
+}
+.navigation-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 12px;
+}
+.skip-link {
+  position: absolute;
+  left: 20px;
+  top: 8px;
+  padding: 12px;
+  background: #050816;
+  transform: translateY(-150%);
+}
+.skip-link:focus {
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}

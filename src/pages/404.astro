@@ -1,0 +1,15 @@
+---
+import PublicLayout from '../layouts/PublicLayout.astro';
+import { getPublicConfig } from '../lib/config/public.ts';
+import { createUrlHelpers } from '../lib/utils/urls.ts';
+const { withBase } = createUrlHelpers(getPublicConfig().siteUrl);
+---
+
+<PublicLayout
+  title="Página no encontrada — Alonso Larenas"
+  description="La página solicitada no existe."
+>
+  <h1>Página no encontrada</h1>
+  <p>Revisa la dirección o vuelve al inicio.</p>
+  <a class="navigation-link" href={withBase('/')}>Volver al inicio</a>
+</PublicLayout>
