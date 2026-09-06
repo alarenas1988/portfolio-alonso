@@ -1,0 +1,22 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import type { AdminRoute } from '../../lib/admin/routes.ts';
+interface Props {
+  title: string;
+  route: AdminRoute;
+}
+const { title, route } = Astro.props;
+---
+
+<AdminLayout title={title} route={route}>
+  <section data-admin-gate class="cms-gate" aria-live="polite">
+    <p>Comprobando tu sesión…</p><div class="cms-skeleton" aria-hidden="true"></div>
+  </section>
+  <section data-admin-module hidden aria-label={title}><slot /></section>
+  <noscript
+    ><p class="cms-notice">
+      La administración requiere JavaScript para iniciar sesión. El sitio público continúa
+      disponible.
+    </p></noscript
+  >
+</AdminLayout>
