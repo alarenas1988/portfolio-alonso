@@ -1,0 +1,4185 @@
+{
+  "application_buckets": ["blog", "documents", "portfolio-public", "private"],
+  "application_tables": [
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "private",
+      "table": "analytics_daily_dimensions"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "private",
+      "table": "analytics_daily_sessions"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "private",
+      "table": "rate_limit_buckets"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "admin_activity"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "admin_profiles"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "analytics_daily"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "analytics_daily_content"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "analytics_events"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "contact_messages"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "contact_settings"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "documents"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "experience_highlights"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "experience_projects"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "experience_technologies"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "experiences"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "impact_metrics"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "media_assets"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "media_references"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "post_categories"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "post_category_relations"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "post_tags"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "posts"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "project_challenges"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "project_features"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "project_images"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "project_metrics"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "project_technologies"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "projects"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "site_builds"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "site_settings"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "social_links"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "specialties"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "tags"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "technologies"
+    },
+    {
+      "force_rls": false,
+      "rls": true,
+      "schema": "public",
+      "table": "work_principles"
+    }
+  ],
+  "column_grants": [
+    {
+      "column_name": "active",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "admin_profiles"
+    },
+    {
+      "column_name": "avatar_url",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "admin_profiles"
+    },
+    {
+      "column_name": "avatar_url",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "admin_profiles"
+    },
+    {
+      "column_name": "created_at",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "admin_profiles"
+    },
+    {
+      "column_name": "display_name",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "admin_profiles"
+    },
+    {
+      "column_name": "display_name",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "admin_profiles"
+    },
+    {
+      "column_name": "id",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "admin_profiles"
+    },
+    {
+      "column_name": "role",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "admin_profiles"
+    },
+    {
+      "column_name": "updated_at",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "admin_profiles"
+    },
+    {
+      "column_name": "created_at",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "contact_messages"
+    },
+    {
+      "column_name": "email",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "contact_messages"
+    },
+    {
+      "column_name": "id",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "contact_messages"
+    },
+    {
+      "column_name": "message",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "contact_messages"
+    },
+    {
+      "column_name": "name",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "contact_messages"
+    },
+    {
+      "column_name": "notification_status",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "contact_messages"
+    },
+    {
+      "column_name": "status",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "contact_messages"
+    },
+    {
+      "column_name": "status",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "contact_messages"
+    },
+    {
+      "column_name": "subject",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "contact_messages"
+    },
+    {
+      "column_name": "submission_id",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "contact_messages"
+    },
+    {
+      "column_name": "updated_at",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "contact_messages"
+    },
+    {
+      "column_name": "user_agent_summary",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "contact_messages"
+    },
+    {
+      "column_name": "alt_text",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "alt_text",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "alt_text",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "caption",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "caption",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "caption",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "category",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "category",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "category",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "created_at",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "created_at",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "created_by",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "created_by",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "decorative",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "decorative",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "decorative",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "file_size",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "file_size",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "filename",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "filename",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "filename",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "height",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "height",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "id",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "id",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "mime_type",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "mime_type",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "public_url",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "public_url",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "storage_bucket",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "storage_bucket",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "storage_object_id",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "storage_object_id",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "storage_path",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "storage_path",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "updated_at",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "updated_at",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "visibility",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "visibility",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "width",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets"
+    },
+    {
+      "column_name": "width",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets"
+    }
+  ],
+  "functions": [
+    {
+      "anon_execute": false,
+      "arguments": "",
+      "authenticated_execute": false,
+      "name": "check_timezone",
+      "owner": "postgres",
+      "schema": "private",
+      "security_definer": false,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": false,
+      "arguments": "",
+      "authenticated_execute": false,
+      "name": "derive_cv_url",
+      "owner": "postgres",
+      "schema": "private",
+      "security_definer": false,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": false,
+      "arguments": "",
+      "authenticated_execute": true,
+      "name": "is_portfolio_admin",
+      "owner": "postgres",
+      "schema": "private",
+      "security_definer": true,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": false,
+      "arguments": "",
+      "authenticated_execute": false,
+      "name": "protect_asset_location",
+      "owner": "postgres",
+      "schema": "private",
+      "security_definer": false,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": false,
+      "arguments": "",
+      "authenticated_execute": false,
+      "name": "protect_markdown_asset_delete",
+      "owner": "postgres",
+      "schema": "private",
+      "security_definer": false,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": true,
+      "arguments": "",
+      "authenticated_execute": true,
+      "name": "read_public_contact",
+      "owner": "postgres",
+      "schema": "private",
+      "security_definer": true,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": true,
+      "arguments": "",
+      "authenticated_execute": true,
+      "name": "read_public_media",
+      "owner": "postgres",
+      "schema": "private",
+      "security_definer": true,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": false,
+      "arguments": "",
+      "authenticated_execute": false,
+      "name": "refresh_cv_url",
+      "owner": "postgres",
+      "schema": "private",
+      "security_definer": false,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": false,
+      "arguments": "",
+      "authenticated_execute": false,
+      "name": "refresh_media_visibility",
+      "owner": "postgres",
+      "schema": "private",
+      "security_definer": false,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": false,
+      "arguments": "",
+      "authenticated_execute": false,
+      "name": "set_updated_at",
+      "owner": "postgres",
+      "schema": "private",
+      "security_definer": false,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": true,
+      "arguments": "bucket text, object_name text",
+      "authenticated_execute": true,
+      "name": "storage_path_allowed",
+      "owner": "postgres",
+      "schema": "private",
+      "security_definer": false,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": false,
+      "arguments": "",
+      "authenticated_execute": false,
+      "name": "sync_asset_columns",
+      "owner": "postgres",
+      "schema": "private",
+      "security_definer": false,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": false,
+      "arguments": "",
+      "authenticated_execute": false,
+      "name": "sync_asset_references",
+      "owner": "postgres",
+      "schema": "private",
+      "security_definer": false,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": false,
+      "arguments": "",
+      "authenticated_execute": false,
+      "name": "sync_markdown_media",
+      "owner": "postgres",
+      "schema": "private",
+      "security_definer": false,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": false,
+      "arguments": "",
+      "authenticated_execute": false,
+      "name": "validate_storage_object_identity",
+      "owner": "postgres",
+      "schema": "private",
+      "security_definer": false,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": false,
+      "arguments": "document_id uuid",
+      "authenticated_execute": true,
+      "name": "activate_cv",
+      "owner": "postgres",
+      "schema": "public",
+      "security_definer": false,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": true,
+      "arguments": "",
+      "authenticated_execute": true,
+      "name": "get_public_snapshot",
+      "owner": "postgres",
+      "schema": "public",
+      "security_definer": false,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": false,
+      "arguments": "previous_id uuid, replacement_id uuid, expected_updated_at timestamp with time zone",
+      "authenticated_execute": true,
+      "name": "replace_media_asset",
+      "owner": "postgres",
+      "schema": "public",
+      "security_definer": false,
+      "settings": ["search_path=\"\""]
+    },
+    {
+      "anon_execute": true,
+      "arguments": "",
+      "authenticated_execute": true,
+      "name": "rls_auto_enable",
+      "owner": "postgres",
+      "schema": "public",
+      "security_definer": true,
+      "settings": ["search_path=pg_catalog"]
+    }
+  ],
+  "grants": [
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "analytics_daily_dimensions",
+      "table_schema": "private"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "analytics_daily_dimensions",
+      "table_schema": "private"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "analytics_daily_dimensions",
+      "table_schema": "private"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "analytics_daily_dimensions",
+      "table_schema": "private"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "analytics_daily_dimensions",
+      "table_schema": "private"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "analytics_daily_sessions",
+      "table_schema": "private"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "analytics_daily_sessions",
+      "table_schema": "private"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "analytics_daily_sessions",
+      "table_schema": "private"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "analytics_daily_sessions",
+      "table_schema": "private"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "analytics_daily_sessions",
+      "table_schema": "private"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "rate_limit_buckets",
+      "table_schema": "private"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "rate_limit_buckets",
+      "table_schema": "private"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "rate_limit_buckets",
+      "table_schema": "private"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "rate_limit_buckets",
+      "table_schema": "private"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "admin_activity",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "admin_activity",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "admin_activity",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "admin_activity",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "admin_activity",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "admin_analytics_daily_dimensions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "admin_analytics_daily_dimensions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "admin_analytics_daily_dimensions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "admin_analytics_daily_dimensions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "admin_analytics_daily_sessions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "admin_analytics_daily_sessions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "admin_analytics_daily_sessions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "admin_analytics_daily_sessions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "admin_profiles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "admin_profiles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "admin_profiles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "admin_profiles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "analytics_daily",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "analytics_daily",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "analytics_daily",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "analytics_daily",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "analytics_daily",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "analytics_daily",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "analytics_daily",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "analytics_daily_content",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "analytics_daily_content",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "analytics_daily_content",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "analytics_daily_content",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "analytics_daily_content",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "analytics_daily_content",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "analytics_daily_content",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "analytics_events",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "analytics_events",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "analytics_events",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "analytics_events",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "analytics_events",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "contact_messages",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "contact_messages",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "contact_messages",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "contact_messages",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "contact_messages",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "contact_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "contact_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "contact_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "contact_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "contact_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "contact_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "contact_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "documents",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "documents",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "documents",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "documents",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "documents",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "documents",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "documents",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "documents",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "experience_highlights",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "experience_highlights",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "experience_highlights",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "experience_highlights",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "experience_highlights",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "experience_highlights",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "experience_highlights",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "experience_highlights",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "experience_projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "experience_projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "experience_projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "experience_projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "experience_projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "experience_projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "experience_projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "experience_projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "experience_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "experience_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "experience_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "experience_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "experience_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "experience_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "experience_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "experience_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "experiences",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "experiences",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "experiences",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "experiences",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "experiences",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "experiences",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "experiences",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "experiences",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "impact_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "impact_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "impact_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "impact_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "impact_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "impact_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "impact_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "impact_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "media_assets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "media_assets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "media_assets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "media_assets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "media_assets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "media_assets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "media_references",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "media_references",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "media_references",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "media_references",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "media_references",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "media_references",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "media_references",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "media_references",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "post_categories",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "post_categories",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "post_categories",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "post_categories",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "post_categories",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "post_categories",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "post_categories",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "post_categories",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "post_category_relations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "post_category_relations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "post_category_relations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "post_category_relations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "post_category_relations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "post_category_relations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "post_category_relations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "post_category_relations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "post_tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "post_tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "post_tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "post_tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "post_tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "post_tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "post_tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "post_tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "posts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "posts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "posts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "posts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "posts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "posts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "posts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "posts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "project_challenges",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "project_challenges",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "project_challenges",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "project_challenges",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "project_challenges",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "project_challenges",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "project_challenges",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "project_challenges",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "project_features",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "project_features",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "project_features",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "project_features",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "project_features",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "project_features",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "project_features",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "project_features",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "project_images",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "project_images",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "project_images",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "project_images",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "project_images",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "project_images",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "project_images",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "project_images",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "project_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "project_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "project_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "project_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "project_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "project_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "project_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "project_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "project_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "project_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "project_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "project_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "project_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "project_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "project_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "project_technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "projects",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "public_contact_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "public_contact_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "public_contact_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "public_contact_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "public_contact_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "public_media_assets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "public_media_assets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "public_media_assets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "public_media_assets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "public_media_assets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "site_builds",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "site_builds",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "site_builds",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "site_builds",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "site_builds",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "site_builds",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "site_builds",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "site_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "site_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "site_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "site_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "site_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "site_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "site_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "site_settings",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "social_links",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "social_links",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "social_links",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "social_links",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "social_links",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "social_links",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "social_links",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "social_links",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "specialties",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "specialties",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "specialties",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "specialties",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "specialties",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "specialties",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "specialties",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "specialties",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "tags",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "technologies",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "work_principles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "work_principles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "work_principles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "work_principles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "work_principles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "work_principles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "work_principles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "work_principles",
+      "table_schema": "public"
+    }
+  ],
+  "managed_definer_functions": [
+    {
+      "name": "get_auth",
+      "owner": "supabase_admin",
+      "schema": "pgbouncer"
+    },
+    {
+      "name": "create_secret",
+      "owner": "supabase_admin",
+      "schema": "vault"
+    },
+    {
+      "name": "update_secret",
+      "owner": "supabase_admin",
+      "schema": "vault"
+    }
+  ],
+  "policies": [
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "private",
+      "tablename": "analytics_daily_dimensions",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "private",
+      "tablename": "analytics_daily_sessions",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "admin_activity",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_profile_edit",
+      "qual": "((id = ( SELECT auth.uid() AS uid)) AND ( SELECT private.is_portfolio_admin() AS is_portfolio_admin))",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "admin_profiles",
+      "with_check": "((id = ( SELECT auth.uid() AS uid)) AND ( SELECT private.is_portfolio_admin() AS is_portfolio_admin))"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_profile_read",
+      "qual": "((id = ( SELECT auth.uid() AS uid)) AND ( SELECT private.is_portfolio_admin() AS is_portfolio_admin))",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "admin_profiles",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "analytics_daily",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "analytics_daily_content",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "analytics_events",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_message_status",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "contact_messages",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "contact_messages",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "contact_settings",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "contact_settings",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "contact_settings",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "contact_settings",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "documents",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "documents",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "documents",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "documents",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "(active AND ((type <> 'cv'::text) OR (EXISTS ( SELECT 1\n   FROM public_contact_settings c\n  WHERE c.cv_enabled))) AND (EXISTS ( SELECT 1\n   FROM public_media_assets m\n  WHERE (m.id = documents.asset_id))))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "documents",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experience_highlights",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experience_highlights",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experience_highlights",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experience_highlights",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "(EXISTS ( SELECT 1\n   FROM experiences e\n  WHERE ((e.id = experience_highlights.experience_id) AND e.visible)))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "experience_highlights",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experience_projects",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experience_projects",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experience_projects",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experience_projects",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "((EXISTS ( SELECT 1\n   FROM experiences e\n  WHERE ((e.id = experience_projects.experience_id) AND e.visible))) AND (EXISTS ( SELECT 1\n   FROM projects p\n  WHERE ((p.id = experience_projects.project_id) AND p.published AND (p.status <> 'archived'::text) AND (p.published_at <= now())))))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "experience_projects",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experience_technologies",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experience_technologies",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experience_technologies",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experience_technologies",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "((EXISTS ( SELECT 1\n   FROM experiences e\n  WHERE ((e.id = experience_technologies.experience_id) AND e.visible))) AND (EXISTS ( SELECT 1\n   FROM technologies t\n  WHERE ((t.id = experience_technologies.technology_id) AND t.visible))))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "experience_technologies",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experiences",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experiences",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experiences",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "experiences",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "visible",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "experiences",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "impact_metrics",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "impact_metrics",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "impact_metrics",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "impact_metrics",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "visible",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "impact_metrics",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "media_assets",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "media_assets",
+      "with_check": "(( SELECT private.is_portfolio_admin() AS is_portfolio_admin) AND (created_by = ( SELECT auth.uid() AS uid)))"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "media_assets",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "media_assets",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "media_references",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "media_references",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "media_references",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "media_references",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "((EXISTS ( SELECT 1\n   FROM public_media_assets m\n  WHERE (m.id = media_references.asset_id))) AND ((EXISTS ( SELECT 1\n   FROM projects p\n  WHERE ((p.id = media_references.project_id) AND p.published AND (p.status <> 'archived'::text) AND (p.published_at <= now())))) OR (EXISTS ( SELECT 1\n   FROM posts p\n  WHERE ((p.id = media_references.post_id) AND (p.status = 'published'::text) AND (p.published_at <= now())))) OR (EXISTS ( SELECT 1\n   FROM site_settings s\n  WHERE (s.id = media_references.settings_id))) OR (EXISTS ( SELECT 1\n   FROM technologies t\n  WHERE ((t.id = media_references.technology_id) AND t.visible))) OR (EXISTS ( SELECT 1\n   FROM (project_images i\n     JOIN projects p ON ((p.id = i.project_id)))\n  WHERE ((i.id = media_references.project_image_id) AND p.published AND (p.status <> 'archived'::text) AND (p.published_at <= now())))) OR (EXISTS ( SELECT 1\n   FROM documents d\n  WHERE ((d.id = media_references.document_id) AND d.active AND ((d.type <> 'cv'::text) OR (EXISTS ( SELECT 1\n           FROM public_contact_settings c\n          WHERE c.cv_enabled))))))))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "media_references",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "post_categories",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "post_categories",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "post_categories",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "post_categories",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "visible",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "post_categories",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "post_category_relations",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "post_category_relations",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "post_category_relations",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "post_category_relations",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "((EXISTS ( SELECT 1\n   FROM posts p\n  WHERE ((p.id = post_category_relations.post_id) AND (p.status = 'published'::text) AND (p.published_at <= now())))) AND (EXISTS ( SELECT 1\n   FROM post_categories c\n  WHERE ((c.id = post_category_relations.category_id) AND c.visible))))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "post_category_relations",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "post_tags",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "post_tags",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "post_tags",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "post_tags",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "(EXISTS ( SELECT 1\n   FROM posts p\n  WHERE ((p.id = post_tags.post_id) AND (p.status = 'published'::text) AND (p.published_at <= now()))))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "post_tags",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "posts",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "posts",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "posts",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "posts",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "((status = 'published'::text) AND (published_at <= now()))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "posts",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_challenges",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_challenges",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_challenges",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_challenges",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "(EXISTS ( SELECT 1\n   FROM projects p\n  WHERE ((p.id = project_challenges.project_id) AND p.published AND (p.status <> 'archived'::text) AND (p.published_at <= now()))))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "project_challenges",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_features",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_features",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_features",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_features",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "(EXISTS ( SELECT 1\n   FROM projects p\n  WHERE ((p.id = project_features.project_id) AND p.published AND (p.status <> 'archived'::text) AND (p.published_at <= now()))))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "project_features",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_images",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_images",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_images",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_images",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "((EXISTS ( SELECT 1\n   FROM projects p\n  WHERE ((p.id = project_images.project_id) AND p.published AND (p.status <> 'archived'::text) AND (p.published_at <= now())))) AND (EXISTS ( SELECT 1\n   FROM public_media_assets m\n  WHERE (m.id = project_images.asset_id))))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "project_images",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_metrics",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_metrics",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_metrics",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_metrics",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "(visible AND (EXISTS ( SELECT 1\n   FROM projects p\n  WHERE ((p.id = project_metrics.project_id) AND p.published AND (p.status <> 'archived'::text) AND (p.published_at <= now())))))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "project_metrics",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_technologies",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_technologies",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_technologies",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "project_technologies",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "((EXISTS ( SELECT 1\n   FROM projects p\n  WHERE ((p.id = project_technologies.project_id) AND p.published AND (p.status <> 'archived'::text) AND (p.published_at <= now())))) AND (EXISTS ( SELECT 1\n   FROM technologies t\n  WHERE ((t.id = project_technologies.technology_id) AND t.visible))))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "project_technologies",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "projects",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "projects",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "projects",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "projects",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "(published AND (status <> 'archived'::text) AND (published_at <= now()))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "projects",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "site_builds",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "site_settings",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "site_settings",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "site_settings",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "site_settings",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "true",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "site_settings",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "social_links",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "social_links",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "social_links",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "social_links",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "visible",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "social_links",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "specialties",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "specialties",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "specialties",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "specialties",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "visible",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "specialties",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "tags",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "tags",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "tags",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "tags",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "(EXISTS ( SELECT 1\n   FROM (post_tags pt\n     JOIN posts p ON ((p.id = pt.post_id)))\n  WHERE ((pt.tag_id = tags.id) AND (p.status = 'published'::text) AND (p.published_at <= now()))))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "tags",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "technologies",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "technologies",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "technologies",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "technologies",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "visible",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "technologies",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_delete",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "work_principles",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "work_principles",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_read",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "work_principles",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "permissive": "PERMISSIVE",
+      "policyname": "owner_update",
+      "qual": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)",
+      "roles": ["authenticated"],
+      "schemaname": "public",
+      "tablename": "work_principles",
+      "with_check": "( SELECT private.is_portfolio_admin() AS is_portfolio_admin)"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "public_read",
+      "qual": "visible",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "public",
+      "tablename": "work_principles",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "permissive": "PERMISSIVE",
+      "policyname": "portfolio_owner_objects_delete",
+      "qual": "(( SELECT private.is_portfolio_admin() AS is_portfolio_admin) AND (owner_id = (( SELECT auth.uid() AS uid))::text) AND private.storage_path_allowed(bucket_id, name))",
+      "roles": ["authenticated"],
+      "schemaname": "storage",
+      "tablename": "objects",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "permissive": "PERMISSIVE",
+      "policyname": "portfolio_owner_objects_insert",
+      "qual": null,
+      "roles": ["authenticated"],
+      "schemaname": "storage",
+      "tablename": "objects",
+      "with_check": "(( SELECT private.is_portfolio_admin() AS is_portfolio_admin) AND (owner_id = (( SELECT auth.uid() AS uid))::text) AND private.storage_path_allowed(bucket_id, name))"
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "portfolio_owner_objects_read",
+      "qual": "(( SELECT private.is_portfolio_admin() AS is_portfolio_admin) AND (owner_id = (( SELECT auth.uid() AS uid))::text) AND private.storage_path_allowed(bucket_id, name))",
+      "roles": ["authenticated"],
+      "schemaname": "storage",
+      "tablename": "objects",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "permissive": "PERMISSIVE",
+      "policyname": "portfolio_public_objects",
+      "qual": "((bucket_id = ANY (ARRAY['portfolio-public'::text, 'blog'::text, 'documents'::text])) AND private.storage_path_allowed(bucket_id, name))",
+      "roles": ["anon", "authenticated"],
+      "schemaname": "storage",
+      "tablename": "objects",
+      "with_check": null
+    }
+  ],
+  "storage_grants": [
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "supabase_storage_admin",
+      "privilege_type": "UPDATE"
+    }
+  ],
+  "storage_rls": true,
+  "views": [
+    {
+      "definition": " SELECT date,\n    dimension,\n    value,\n    page_views,\n    unique_sessions,\n    project_views,\n    post_views,\n    whatsapp_clicks,\n    email_clicks,\n    email_copies,\n    github_clicks,\n    linkedin_clicks,\n    demo_clicks,\n    cv_downloads,\n    contact_submits,\n    article_shares\n   FROM private.analytics_daily_dimensions;",
+      "name": "admin_analytics_daily_dimensions",
+      "options": ["security_invoker=true", "security_barrier=true"]
+    },
+    {
+      "definition": " SELECT id,\n    date,\n    session_hash,\n    content_type,\n    content_id\n   FROM private.analytics_daily_sessions;",
+      "name": "admin_analytics_daily_sessions",
+      "options": ["security_invoker=true", "security_barrier=true"]
+    },
+    {
+      "definition": " SELECT id,\n    email,\n    whatsapp_number,\n    whatsapp_default_message,\n    cta_title,\n    cta_description,\n    form_enabled,\n    cv_enabled,\n    email_visible,\n    whatsapp_visible,\n    whatsapp_cta_label\n   FROM private.read_public_contact() read_public_contact(id, email, whatsapp_number, whatsapp_default_message, cta_title, cta_description, form_enabled, cv_enabled, email_visible, whatsapp_visible, whatsapp_cta_label);",
+      "name": "public_contact_settings",
+      "options": ["security_invoker=true", "security_barrier=true"]
+    },
+    {
+      "definition": " SELECT id,\n    public_url,\n    filename,\n    mime_type,\n    file_size,\n    width,\n    height,\n    alt_text,\n    caption,\n    category,\n    visibility,\n    decorative\n   FROM private.read_public_media() read_public_media(id, public_url, filename, mime_type, file_size, width, height, alt_text, caption, category, visibility, decorative);",
+      "name": "public_media_assets",
+      "options": ["security_invoker=true", "security_barrier=true"]
+    }
+  ]
+}

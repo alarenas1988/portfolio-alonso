@@ -6,6 +6,18 @@
     "evidence": []
   },
   {
+    "command": "npm run db:snapshot:check",
+    "at": "2026-09-06T15:05:27.185Z",
+    "exit_code": 0,
+    "evidence": []
+  },
+  {
+    "command": "npm run test:auth:local",
+    "at": "2026-09-06T15:05:35.002Z",
+    "exit_code": 0,
+    "evidence": ["Real local Auth + REST integration passed: 107 checks."]
+  },
+  {
     "command": "npm run typecheck",
     "at": "2026-09-06T15:05:46.779Z",
     "exit_code": 0,
@@ -21,6 +33,12 @@
       "ℹ pass 87",
       "ℹ fail 0"
     ]
+  },
+  {
+    "command": "npm run test:media:local",
+    "at": "2026-09-06T15:05:53.564Z",
+    "exit_code": 0,
+    "evidence": ["Real local Storage/media integration passed: 66 checks."]
   },
   {
     "command": "npm run build",
@@ -39,6 +57,18 @@
     "at": "2026-09-06T15:05:55.338Z",
     "exit_code": 0,
     "evidence": ["Secret scan passed: 8 build artifacts."]
+  },
+  {
+    "command": "npm run test:storage:identity:local",
+    "at": "2026-09-06T15:05:59.208Z",
+    "exit_code": 0,
+    "evidence": ["Storage primary-key compatibility probe passed: 9 checks."]
+  },
+  {
+    "command": "npm run db:audit",
+    "at": "2026-09-06T15:06:00.002Z",
+    "exit_code": 0,
+    "evidence": ["Exported local catalog: 35 RLS tables, grants, policies, views and functions."]
   },
   {
     "command": "npm run db:baseline:check",
@@ -67,35 +97,5 @@
     "at": "2026-09-06T15:17:04.669Z",
     "exit_code": 0,
     "evidence": ["Generated database types match local PostgreSQL."]
-  },
-  {
-    "command": "npm run db:snapshot:check",
-    "at": "2026-09-06T15:17:06.195Z",
-    "exit_code": 0,
-    "evidence": []
-  },
-  {
-    "command": "npm run test:auth:local",
-    "at": "2026-09-06T15:17:13.773Z",
-    "exit_code": 0,
-    "evidence": ["Real local Auth + REST integration passed: 107 checks."]
-  },
-  {
-    "command": "npm run test:media:local",
-    "at": "2026-09-06T15:17:27.305Z",
-    "exit_code": 0,
-    "evidence": ["Real local Storage/media integration passed: 66 checks."]
-  },
-  {
-    "command": "npm run test:storage:identity:local",
-    "at": "2026-09-06T15:17:33.783Z",
-    "exit_code": 0,
-    "evidence": ["Storage primary-key compatibility probe passed: 9 checks."]
-  },
-  {
-    "command": "npm run db:audit",
-    "at": "2026-09-06T15:17:34.547Z",
-    "exit_code": 0,
-    "evidence": ["Exported local catalog: 35 RLS tables, grants, policies, views and functions."]
   }
 ]
