@@ -21,7 +21,7 @@ test('uses the approved hierarchy, local fonts, and responsive composition', asy
   await page.locator('#componentes').scrollIntoViewIfNeeded();
   for (const card of ['.feature-card', '.form-card', '.state-card']) {
     const box = await page.locator(card).boundingBox();
-    expect(box?.width).toBeGreaterThanOrEqual(264);
+    expect(box?.width).toBeGreaterThanOrEqual(280);
   }
   const smallMark = page.getByRole('img', { name: 'Isotipo AL monocromo a 16 píxeles' });
   const regularMark = page.getByRole('img', { name: 'Isotipo AL a 32 píxeles' });
