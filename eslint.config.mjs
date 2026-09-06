@@ -40,6 +40,8 @@ export default [
       'src/lib/config/build.ts',
       'src/lib/supabase/build.ts',
       'src/lib/content/snapshot.ts',
+      'src/lib/media/build-assets.ts',
+      'src/lib/media/validation-build.ts',
     ],
     rules: {
       'no-restricted-imports': [
@@ -49,6 +51,9 @@ export default [
             {
               group: [
                 'node:*',
+                'sharp',
+                '**/media/build-assets*',
+                '**/media/validation-build*',
                 '**/config/build',
                 '**/config/build.ts',
                 '**/supabase/build',
