@@ -1,6 +1,7 @@
 import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
 const bundle = process.argv.includes('--bundle-local');
 for (const name of ['contact-submit', 'publish-site', 'build-status', 'track-event']) {
   const folder = 'supabase/functions/' + name;
@@ -26,7 +27,9 @@ for (const name of ['contact-submit', 'publish-site', 'build-status', 'track-eve
         'edge-runtime',
         'bundle',
         '--entrypoint',
-        '/laragon/www/portfolio/.worktrees/f9-edge-functions/' + folder + '/index.ts',
+        resolve(folder, 'index.ts')
+          .replace(/^[A-Za-z]:/, '')
+          .replaceAll('\\', '/'),
         '--output',
         '/tmp/f9-' + name + '.eszip',
         '--timeout',

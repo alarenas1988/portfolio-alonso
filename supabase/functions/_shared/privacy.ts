@@ -1,4 +1,5 @@
 import { EdgeError } from './errors.ts';
+export { referrer } from './referrer.ts';
 /** Gateway metadata is only an abuse signal, never identity or authorization.
  * Hosted Supabase is behind Cloudflare; XFF's last hop is a rotating intermediary.
  * CLI local has one known Kong hop and must ignore caller-supplied CF headers.
@@ -48,17 +49,4 @@ export function userAgent(request: Request) {
               ? 'Safari'
               : 'other',
   };
-}
-export function referrer(value: string | null): string | null {
-  if (!value) return null;
-  const allowed = [
-    'google.com',
-    'google.cl',
-    'bing.com',
-    'duckduckgo.com',
-    'github.com',
-    'linkedin.com',
-  ];
-  const host = value.toLowerCase().replace(/^www\./, '');
-  return allowed.includes(host) ? host : 'other';
 }
