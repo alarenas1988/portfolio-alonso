@@ -1,5 +1,7 @@
 # Entorno y despliegue — contrato F6
 
+F8 incorpora un stack aislado adicional, buckets locales y el pipeline de multimedia. Para puertos, reconstrucción y comandos vigentes de esa fase, consultar [MEDIA.md](MEDIA.md). Los puertos y la evidencia F6 siguientes se conservan como historial; no ejecutar pruebas F8 contra ese entorno anterior.
+
 F6 está validada solo en Supabase local. **No ejecutar db push ni modificar el proyecto remoto sin una aprobación posterior explícita.** Automatic RLS remoto permanece habilitado y se mantendrá junto a las migraciones RLS/grants/policies.
 
 ## Aislamiento local

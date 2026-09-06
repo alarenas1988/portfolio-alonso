@@ -12,12 +12,12 @@ Supabase ──lectura pública/RLS──> Astro build ──artefacto──> Gi
 
 Un solo repositorio contiene el sitio público y el shell administrativo. No existe un servidor Astro en producción ni routing dinámico del lado servidor. Las páginas administrativas editables serán físicas, por ejemplo `/admin/projects/edit/?id=UUID`.
 
-## Límites de F1, F2, F5 y F6
+## Límites de F1, F2, F5, F6 y F8
 
 F1 entrega configuración, rutas, clientes Supabase separados, pruebas y documentación. F2 añade tokens visuales, fuentes locales, componentes compartidos, motion progresivo y estilos base del administrador. La pantalla visible es un fixture temporal sin contenido administrable. Estas responsabilidades permanecen para fases autorizadas posteriores:
 
 - F6 ya entrega grants, policies, Auth owner local y contrato de seguridad de Storage sobre F5; Automatic RLS remoto se conserva sin modificaciones.
-- F8: creación de buckets y gestión de archivos; F6 no crea buckets persistentes ni biblioteca multimedia.
+- F8 ya entrega buckets locales, servicios y biblioteca multimedia aislada, referencias y pipeline de assets estáticos; su incorporación a páginas/CMS corresponde a F3/F4/F7.
 - F3/F4: contenido público y rutas internas alimentadas desde Supabase.
 - F9: Edge Functions.
 - F7: CMS `/admin`.
@@ -82,6 +82,16 @@ Cada relación pública verifica la visibilidad del padre y de los recursos rela
 Los datos operacionales permiten lectura owner y escrituras de servicio delimitadas. El navegador solo cambia status de mensajes; no puede falsificar builds ni editar auditoría. Storage tiene cinco policies sobre los cuatro buckets previstos, aún sin crearlos. Sus ACL administradas por Supabase se inventarían expresamente; la autorización de operaciones de su API se prueba mediante RLS.
 
 Auth local desactiva signup global y conserva el proveedor email/password. Los helpers de sesión y owner son auxiliares de UX; la seguridad se prueba directamente en SQL y REST. Recovery define callbacks estáticos con la base de Astro, cuya UI corresponde a F7. La matriz por tabla, grants, funciones y límites de Storage están en [SECURITY.md](SECURITY.md) y [SECURITY_AUDIT.json](SECURITY_AUDIT.json); reconstrucción, bootstrap owner y configuración futura se documentan en [DEPLOYMENT.md](DEPLOYMENT.md).
+
+## Multimedia de F8
+
+Cuatro migraciones aditivas crean los cuatro buckets aprobados y completan el ciclo editorial. media_assets tiene decorative explícito y una FK a storage.objects que protege contra borrados directos de objetos registrados. media_references registra FK y tokens Markdown; technologies admite icon_asset_id/icon_url. Las RPC invoker replace_media_asset y activate_cv verifican owner y conservan la integridad transaccional.
+
+La carga siempre comienza en private. Publicar crea una copia validada con UUID nuevo; reemplazar referencias conserva el archivo anterior. Las cuatro policies finales de Storage deniegan UPDATE/upsert/move de objetos para preservar la inmutabilidad. La metadata editorial sí permite edición owner. Las operaciones parciales devuelven trabajo de limpieza y reportMediaOrphans no elimina automáticamente.
+
+buildSnapshotAssets transforma referencias públicas en un mapa de archivos con hash, dimensiones y variantes AVIF/WebP/PNG, y copia PDF al mismo artefacto. El downloader restringe origen, endpoint, tamaño, timeout y redirects; un asset requerido inválido aborta. MediaImage.astro consume el mapa sin conocer Storage. Esta base está probada con bytes locales reales; la portada de F2 conserva su fixture hasta F3.
+
+MediaPicker.astro y su controlador son reutilizables y reciben un adaptador autenticado. La página de QA vive fuera de src/pages y se inyecta únicamente en Playwright. No se implementó navegación CMS ni publicación C2. El contrato completo y las dependencias del catálogo administrado están en [MEDIA.md](MEDIA.md).
 
 ## Calidad
 
