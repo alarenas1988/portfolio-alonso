@@ -4,7 +4,7 @@ Portfolio personal premium de Alonso Larenas. El proyecto usa una arquitectura C
 
 ## Estado
 
-Fases 1 y 2 completadas: bootstrap técnico y Design System. La pantalla actual es un fixture visual temporal, sin datos profesionales ficticios; F3 la reemplazará por la Home definitiva. El contenido público, PostgreSQL, RLS, Storage, Edge Functions y el CMS corresponden a fases posteriores del [plan de implementación](./PLAN_IMPLEMENTACION_PORTFOLIO_ALONSO.md).
+F1/F2/F5/F6/F8 y el despliegue inicial del backend están integrados. F3 implementa la Home estática con contenido público de Supabase, conservando el Design System aprobado. El CMS, las páginas internas, Edge Functions, tracking y la publicación C2 siguen pendientes de sus fases. [Contrato y validación de la Home](./docs/HOME.md).
 
 ## Stack actual
 
@@ -28,7 +28,7 @@ La interacción usa CSS, IntersectionObserver y `requestAnimationFrame`. Tilt y 
 - Node.js `24.20.0`.
 - npm `11.19.0`.
 - Para este equipo con Laragon, activar Node 24 o agregar su carpeta al `PATH`. F1 descargó una copia temporal verificada en `.tools/`, ignorada por Git; no forma parte del repositorio.
-- Las fases con Supabase local requerirán Supabase CLI y Docker. Se configurarán y verificarán en F5.
+- Los comandos de backend local requieren Docker y Supabase CLI (versionada en package.json). Las pruebas frontend usan fixtures HTTP locales y no necesitan Docker ni Supabase remoto.
 
 En PowerShell, si `npm` intenta ejecutar `npm.ps1` y la política lo impide, usar `npm.cmd` con los mismos argumentos.
 
@@ -42,7 +42,7 @@ PUBLIC_SUPABASE_URL=
 PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 ```
 
-`.env.local` está ignorado por Git. Durante F1, ambas variables Supabase pueden quedar vacías; deben configurarse juntas cuando se conecte el contenido. `PUBLIC_SUPABASE_PUBLISHABLE_KEY` acepta solo el formato `sb_publishable_*`.
+`.env.local` está ignorado por Git. La Home requiere ambas variables Supabase; `PUBLIC_SUPABASE_PUBLISHABLE_KEY` acepta solo el formato `sb_publishable_*`. El build se detiene si falta configuración o falla la lectura pública.
 
 Una clave publicable se envía como API key. No representa una sesión y no debe tratarse como JWT. Los JWT de usuario corresponden a `Authorization: Bearer <user JWT>`; las API keys corresponden al header `apikey`. Ninguna clave `sb_secret_*`, service role, token de GitHub o secreto Edge puede entrar en variables `PUBLIC_*`.
 
@@ -68,6 +68,7 @@ npm.cmd run build
 npm.cmd run check:static
 npm.cmd run check:secrets
 npm.cmd run test:e2e
+npm.cmd run test:home:build
 ```
 
 La primera ejecución E2E requiere instalar Chromium:
@@ -76,7 +77,11 @@ La primera ejecución E2E requiere instalar Chromium:
 npm.cmd exec playwright install chromium
 ```
 
-Las pruebas unitarias comprueban rutas con y sin subruta, configuración pública, separación de credenciales, tokens, contraste y validadores del artefacto. Las pruebas E2E verifican 360, 390, 768, 1024, 1440 y 1920px, navegación básica, controles, 404, accesibilidad automatizada, reduced motion, touch, overflow y funcionamiento sin JavaScript.
+Las pruebas unitarias comprueban contratos, visibilidad, rutas, contacto, fechas, media, configuración y tokens. Playwright verifica 320, 360, 390, 640, 768, 1024, 1280, 1440 y 1920px, Home completa/vacía, navegación, foco, 404, axe, reduced motion y no-JS. Conserva los fixtures aislados de F2/F8. Su servidor compila con datos y archivos sintéticos locales y apaga la API antes de abrir el navegador.
+
+`test:home:build` prueba builds completos/vacíos y fallos de lectura, contrato y media obligatoria. Los fixtures viven en tests; no se insertan en Supabase ni en el seed. El comando normal `build` siempre consume el proyecto público configurado.
+
+`node scripts/test-home-dev.mjs` verifica el servicio de assets generados en desarrollo. `node scripts/capture-home.mjs dist remote` guarda capturas locales reproducibles de seis tamaños en `.tools/f3-visual/`.
 
 ## Build
 
@@ -87,7 +92,7 @@ npm.cmd run preview
 
 Astro genera `dist/` con HTML estático. `check:static` valida estructura y referencias internas bajo la base configurada; `check:secrets` busca material privado conocido y valores canario de las variables privadas disponibles durante el check.
 
-El build de producción consumirá contenido público de Supabase con la publishable key y RLS. No necesita service role. La página de F2 indica explícitamente que la infraestructura visual está lista; todavía no consulta contenido.
+El build consume `loadPublicSnapshot()` con publishable key y RLS. F8 descarga los assets públicos referenciados, genera AVIF/WebP/PNG y copia PDF dentro de `dist/assets/media/`. La Home publicada no consulta Supabase desde el navegador. No necesita una sesión owner ni service role. Un fallo de snapshot o de asset requerido aborta la compilación.
 
 ## Despliegue
 
@@ -100,7 +105,7 @@ El flujo final será:
        → GitHub Actions → Astro build → GitHub Pages
 ```
 
-Los workflows y la publicación se implementarán en F11. La credencial GitHub CLI observada tiene permiso de lectura; esto no bloquea el desarrollo local y debe resolverse antes de F11.
+Los workflows y la publicación se implementarán en F11.
 
 ## Documentación
 
@@ -110,4 +115,4 @@ Los workflows y la publicación se implementarán en F11. La credencial GitHub C
 - [Decisiones de diseño](./docs/DECISIONS.md)
 - [Registro de fases](./docs/PHASE_LOG.md)
 
-No ejecutar todavía migraciones o tablas manuales. Desde F5, `supabase/migrations/` será la fuente reproducible del esquema; Automatic RLS permanece habilitado y se complementará con RLS, grants y policies explícitos en migraciones.
+`supabase/migrations/` es la fuente reproducible del backend desplegado. Automatic RLS coexiste con RLS, grants y policies explícitos. F3 consume el contrato existente sin modificar el backend remoto.

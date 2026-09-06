@@ -1,5 +1,53 @@
 # Registro de fases
 
+## F3 — Frontend público / Home — 2026-09-06
+
+**Estado:** implementada y validada, pendiente de revisión del usuario. Base origin/main `ac2045a85e9d8d10ffc9675b3dc82c8a300a9ccf`, que contiene F1/F2/F5/F6/F8, baseline 019 y primer despliegue remoto. Main se verificó limpio, se sincronizó sin reescribir historial y permaneció intacto. Trabajo aislado en `feat/f3-public-home` / `.worktrees/f3-public-home`.
+
+Se reemplaza la portada fixture por Home Astro estática con Navbar, Hero, destacados, About, especialidades, stack, experiencia, impacto, preview Blog, contacto y Footer, en ese orden. Veinte componentes públicos separados reutilizan F2 y MediaImage de F8. La portada F2 se conserva exclusivamente como fixture de regresión fuera de src/pages.
+
+`loadPublicSnapshot()` → pipeline F8 → DTO Home → HTML. Configuración pública y publishable key, sin JWT owner ni credenciales privilegiadas. Los builds fallan si falla la RPC, el contrato o un asset obligatorio. El snapshot real muestra identidad/claim/resumen, seis especialidades y cuatro principios; respeta las colecciones vacías y los canales de contacto/CV aún no visibles. No se insertó contenido ficticio.
+
+Navbar compacta con scroll; menú details/summary sin JS y dialog con JS, Escape, ciclo/retorno de foco y scroll lock. Hero con terminal conceptual y nodos SVG, sin WebGL ni typing infinito. Contacto con wa.me seguro, mailto, copia con aria-live, redes y CV condicionales. Hook no-op tipado para futuras interacciones, sin tracking. Metadata básica desde settings; no SEO avanzado.
+
+### Verificaciones
+
+- npm ci y npm ls --depth=0 correctos; npm audit --audit-level=high: **0 vulnerabilidades**, sin dependencias nuevas.
+- format:check, lint y typecheck correctos; **0 errores, warnings o hints**, 89 archivos examinados.
+- **104/104 pruebas unitarias**, incluidas 17 nuevas de Home; siguen pasando contratos de F1/F2/F5/F6/F8.
+- **114 E2E aprobadas, 21 omitidas por dispositivo/matriz, 0 fallos**. Nueve tamaños: 320/360/390/640/768/1024/1280/1440/1920. Se conserva el umbral original de ancho de tarjetas F2, reconfirmado específicamente a 320px.
+- Axe WCAG A/AA para Home completa/vacía y menú abierto; targets de 44px, teclado, foco, Escape, touch, reduced motion, no-JS y navegación sin rutas rotas.
+- **Cinco escenarios de build aislado**: completo y vacío correctos; lectura 503, contrato incompatible y asset requerido faltante fallan de forma exigida. Tres assets sintéticos, imágenes AVIF/WebP/PNG y PDF mediante F8. La API fixture se apaga antes de las pruebas de navegador.
+- **Astro dev** verificado con snapshot anónimo y tres assets sintéticos. El middleware respeta la base incluso cuando Vite la retira antes de resolver la petición. Usa outDir y proceso aislados.
+- **Build remoto público real correcto**, dos páginas (Home y 404), seguido de check:static y check:secrets correctos. Nueve archivos en dist; HTML sin URL/key de Supabase ni contenido de fixtures. Asset map vacío acorde al contenido remoto real.
+- Capturas completas y de Hero de **360/390/768/1024/1440/1920**, tanto con snapshot real como con fixture completo, inspeccionadas. Se revisaron tarjetas, About/principios, timeline, blog, contacto, footer y menú. Cero overflow o imágenes rotas en las capturas.
+- git diff --check correcto. El árbol se deja limpio tras el commit documental, sin PR, push ni merge de F3.
+
+La inspección visual corrigió un espacio perdido en el Hero y la altura del terminal que se superponía a 768px; una prueba geométrica protege ahora esa composición. El menú tiene semántica de botón y un ciclo de foco explícito. La matriz ampliada detectó un file input F8 demasiado ancho a 320px: se limita con width/min-width sin modificar servicios ni backend.
+
+HTML real: 35.901 bytes; tres scripts inline suman 4.141 bytes (1.689 gzip como referencia). CSS: 53.442 bytes (10.362 gzip). Son tamaños del artefacto, no una certificación de LCP/CLS/INP; F13 sigue pendiente.
+
+### Commits
+
+- `15f6037` — feat: map public snapshot to typed home presentation
+- `aed053d` — feat: add public navigation and hero
+- `1dfc073` — feat: compose public home sections with static media
+- `d6de84b` — fix: keep media input within narrow viewports
+- `4e99a69` — fix: serve generated home assets during development
+- `b028ea0` — test: verify offline responsive public home
+
+El ajuste final conserva el umbral de regresión F2 mediante `test: preserve approved design system width checks`; el cierre documental usa `docs: record phase three public home validation`. El historial completo se obtiene con `git log ac2045a..feat/f3-public-home --oneline`.
+
+### Inventario, decisiones y límites
+
+54 archivos creados/modificados: README.md; astro.config.mjs; eslint.config.mjs; package.json; playwright.config.ts; docs/{ARCHITECTURE,HOME,PHASE_LOG}.md; scripts/{capture-home,home-assets-integration,serve-home-tests,test-home-build,test-home-dev}.mjs; veinte componentes en src/components/public; src/components/shared/{Icon,PageHead}.astro; src/components/admin/MediaPicker.astro (solo ancho); src/layouts/PublicLayout.astro; src/pages/index.astro; src/styles/home.css; src/scripts/{navigation,contact}.ts; src/lib/content/{home,home-build,presentation,interactions,snapshot}.ts; tests/e2e/{bootstrap,design-system,home}.spec.ts; tests/fixtures/{design-system-page,empty-home-page}.astro; tests/fixtures/{home-server,home-snapshot}.ts; tests/unit/home.test.ts.
+
+La skill superpowers solicitada no estaba disponible; desarrollo secuencial con frontend-design y el sistema F2 aprobado. No se añadieron librerías, tipos DB, migraciones ni un pipeline alternativo de imágenes.
+
+**Desviación delimitada:** mientras F4 no exista, navegación principal mediante anclas de Home y About hacia principios. El enlace a /sobre-mi/, los artículos y «Ver todos los insights» se habilitarán con sus rutas F4. Se consultó la preferencia y se adoptaron anclas al no recibir respuesta; el validador estático no se debilitó para tolerar 404. Contacto/CV y colecciones reales pendientes son contenido editorial, no fixtures a sembrar.
+
+**Supabase remoto no fue modificado en F3.** No hubo cambios de esquema/RLS/Auth/owner/buckets/policies ni escrituras de contenido. No se inició F4/F7/F9/F10/F11/F12/F13/F14 ni otra fase. La revisión del usuario es el siguiente paso. [Contrato, comandos y evidencia detallada](HOME.md).
+
 ## Checkpoint técnico backend — 2026-09-06, primer despliegue real
 
 **Estado:** checkpoint completado, baseline y owner remoto verificados. Rama/worktree nuevos `chore/supabase-initial-deploy` / `.worktrees/supabase-initial-deploy`, desde origin/main `d3b5d0f671aa783c09d59760a68b466aded5662f`, con F1/F2/F5/F6/F8 y baseline corregido. Main limpio, sincronizado y sin reescritura de historial.
