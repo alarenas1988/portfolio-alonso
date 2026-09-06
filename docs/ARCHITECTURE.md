@@ -1,5 +1,11 @@
 # Arquitectura del portfolio
 
+## Instalación inicial vigente
+
+La rama `chore/supabase-initial-baseline` parte de main `c89ed9c` y prepara una instalación inicial atómica mediante `20260906001900_initial_portfolio.sql`. Las 18 migraciones originales se conservan sin cambios en `supabase/legacy-migrations/`; 018 sigue siendo la transición para bases F8 existentes. Un generador con hashes produce la baseline sin crear en ningún momento la FK compuesta hacia Storage. Las futuras migraciones irán después de 019 en el directorio activo. [Decisión, equivalencia y adopción](checkpoints/INITIAL_BASELINE.md).
+
+No cambia el modelo público ni sus DTO. Se comparan catálogo, grants, RLS, funciones, referencias y Storage de ambos caminos; el ensayo incluye restauración del estado remoto previo y conservación de Automatic RLS. No se ejecuta despliegue remoto ni se inicia F3.
+
 ## Checkpoint backend previo a F3
 
 El [checkpoint de compatibilidad remota](checkpoints/SUPABASE_REMOTE_READINESS.md), iniciado desde origin/main e8a4750097cbb6a7c85e01ce36cf91c3f38a4185, inspeccionó el proyecto real sin desplegar. PostgreSQL local/remoto coincide en 17.6. Automatic RLS es una configuración administrada preexistente que se conservará además de RLS explícito. La migración correctiva 018 sustituye localmente la dependencia del índice no primario por una FK a `storage.objects.id` (PK UUID), con RESTRICT y sin alterar Storage. Conserva bucket/path e impide cambiar identidad; los servicios registran el UUID devuelto por la API. La actualización de F8 con referencias existentes y la carrera registro/borrado están probadas. La puerta remota sigue cerrada: faltan login CLI, backup/diff y revisión posterior. [Evidencia y ciclo de vida](checkpoints/STORAGE_OBJECT_IDENTITY.md). No hay backend remoto validado ni nuevas funcionalidades; F3 y las demás fases siguen pendientes.

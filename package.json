@@ -30,7 +30,11 @@
     "test:auth:local": "node scripts/test-local-auth.mjs",
     "db:audit": "node scripts/audit-local-security.mjs",
     "test:media:local": "node scripts/test-local-media.mjs",
-    "test:storage:identity:local": "node scripts/probe-local-storage-identity.mjs"
+    "test:storage:identity:local": "node scripts/probe-local-storage-identity.mjs",
+    "db:baseline:generate": "node scripts/generate-baseline.mjs",
+    "db:baseline:check": "node scripts/generate-baseline.mjs --check",
+    "test:baseline:local": "node scripts/test-local-baseline.mjs",
+    "db:baseline:review": "node scripts/review-initial-diff.mjs"
   },
   "dependencies": {
     "@lucide/astro": "1.41.0",

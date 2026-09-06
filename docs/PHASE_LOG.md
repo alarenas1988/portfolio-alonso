@@ -1,5 +1,23 @@
 # Registro de fases
 
+## Checkpoint técnico backend — 2026-09-06, instalación inicial atómica
+
+**Estado:** implementación local y revisión previa terminadas; despliegue remoto pendiente de revisión. Rama/worktree nuevos `chore/supabase-initial-baseline` / `.worktrees/supabase-initial-baseline`, desde `origin/main` `c89ed9c0220cfbb088b55138279e4ba14eb54e29`. PR #6 del checkpoint anterior ya integrado; main estaba limpio y sincronizado. No se repite su PR ni merge.
+
+**Causa y decisión:** el primer push de la secuencia histórica creaba temporalmente la FK compuesta de 014 antes de corregirla con 018. La instalación inicial pasa a `20260906001900_initial_portfolio.sql`, generada determinísticamente en una única transacción y restringida a aplicación vacía. Nunca crea esa FK; conserva únicamente la referencia UUID RESTRICT hacia `storage.objects.id`. Las 18 fuentes se archivan sin modificar contenido, con manifiesto de hashes. La 018 sigue disponible para bases F8 existentes; no se reescriben commits.
+
+**Prueba de ambos caminos:** test de arquitectura inicialmente rojo; observador DDL local bloquea incluso una dependencia transitoria no-PK y observa 596 eventos durante 019. Se demuestra rollback completo ante fallo final, rechazo sin cambios sobre aplicación ocupada, actualización F8 con datos reales mediante API y 13 comprobaciones, y equivalencia exacta en 14 secciones de catálogo más equivalencia semántica del seed. La adopción del historial mediante migration repair se ensaya exclusivamente en local después de demostrar equivalencia, conservando contenido y respaldo del registro anterior. Nueve grupos de pruebas correctos; reconstrucción final vacía por 019 y seed.
+
+**Recuperación:** respaldo remoto previo restaurado en el stack aislado `portfolio-alonso-baseline-local`, PostgreSQL 17.6, API 58421 / DB 58422. Se verifican hashes y coincidencia del catálogo con el origen real. Dos adaptaciones locales explícitas: comprobar un permiso de plataforma ya existente en lugar de reotorgarlo sin privilegios, y alinear defaults de secuencias del template local con el origen. Se preservan función y event trigger de Automatic RLS. No se alteran los archivos originales del respaldo ni otros stacks.
+
+**Revisión remota:** CLI autenticada 2.116.0 y link del mismo proyecto portfolio-alonso, sa-east-1. Comparación forward del catálogo remoto con el SQL exacto y su ejecución local sobre el respaldo restaurado: ningún objeto preexistente eliminado, estructura administrada Storage intacta, Automatic RLS idéntico. El timeout histórico del motor de diff directo no se presenta como resuelto. Dry-run remoto lista únicamente 019, sin seed ni roles y con Vault omitido. Auditoría final de solo lectura confirma remoto sin cambios: cero tablas propias y buckets. No hay db push efectivo, cambios Auth ni owner.
+
+**Validación local final:** db lint correcto; **613 pruebas SQL**, **107 comprobaciones Auth/RLS**, **66 Storage/media**, **9 del sondeo PK** y **87 unit tests** correctos. Tipos regenerados sin diferencias; snapshot y seed idempotente correctos. Auditoría: 35 tablas propias con RLS, 138 policies, tres funciones SECURITY DEFINER propias y la función de plataforma Automatic RLS comprobada por separado. Fixtures limpiados: cero usuarios Auth, objetos Storage, metadata y proyectos de testing; historial local únicamente 019.
+
+**Validación del proyecto:** npm ci, npm ls --depth=0 y npm audit --audit-level=high correctos, cero vulnerabilidades; format:check, lint, typecheck, build, check:static, check:secrets y git diff --check correctos. Sin dependencias nuevas, cambios de DTO ni UI; no aplica una nueva suite E2E por este checkpoint.
+
+La [decisión y procedimiento](checkpoints/INITIAL_BASELINE.md) incluye archivo histórico, adopción, recuperación, límites y evidencias reproducibles. Implementación en `88716ef` y pruebas/evidencia en `5432c04`. El respaldo ensayado corresponde al proyecto vacío actual; archivos futuros y configuración Auth requieren respaldo propio. Quedan pendientes aprobación de instalación, auditoría actualizada inmediatamente antes del despliegue y validaciones posteriores con owner. No se hace PR ni merge automático de esta rama; F3/F4/F7/F9/F10/F11 no iniciadas.
+
 ## Checkpoint técnico backend — 2026-09-06, CLI autenticada
 
 El usuario completó login con npx.cmd. CLI 2.116.0 verificó y enlazó portfolio-alonso en sa-east-1. Auditoría READ ONLY nueva: PostgreSQL 17.6, Automatic RLS activo, sin tablas propias/buckets/objetos/usuarios Auth ni historial de aplicación. No se modificaron Auth remoto ni owner.

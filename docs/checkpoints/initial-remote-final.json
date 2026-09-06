@@ -1,0 +1,9 @@
+{
+  "unchanged": true,
+  "catalog_sha256": "23f4a9cd582990cdfed030c99f6669de221a81bbc33a530b2b556f1b3c202f4f",
+  "application_tables": 0,
+  "buckets": 0,
+  "automatic_rls": true,
+  "migrations_applied": false,
+  "auth_configuration_modified": false
+}

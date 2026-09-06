@@ -3468,6 +3468,16 @@
       "anon_execute": false,
       "security_definer": false,
       "authenticated_execute": true
+    },
+    {
+      "name": "rls_auto_enable",
+      "owner": "postgres",
+      "schema": "public",
+      "settings": ["search_path=pg_catalog"],
+      "arguments": "",
+      "anon_execute": true,
+      "security_definer": true,
+      "authenticated_execute": true
     }
   ],
   "storage_rls": true,

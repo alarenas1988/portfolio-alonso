@@ -7,6 +7,7 @@ import { writeFile } from 'node:fs/promises';
 import sharp from 'sharp';
 import { createClient } from '@supabase/supabase-js';
 import { supabaseFetch } from '../src/lib/supabase/transport.ts';
+import { stageLegacy } from './baseline-local.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const upgrade = process.argv[2] === '--upgrade-f8';
@@ -23,9 +24,9 @@ const status = spawnSync(
 if (status.status !== 0) throw new Error('Start the local readiness stack.');
 const local = JSON.parse(status.stdout);
 if (
-  local.API_URL !== 'http://127.0.0.1:57421' ||
+  local.API_URL !== 'http://127.0.0.1:58421' ||
   new URL(local.DB_URL).hostname !== '127.0.0.1' ||
-  new URL(local.DB_URL).port !== '57422'
+  new URL(local.DB_URL).port !== '58422'
 )
   throw new Error('Only the isolated readiness loopback stack is permitted.');
 function sql(input) {
@@ -34,7 +35,7 @@ function sql(input) {
     [
       'exec',
       '-i',
-      'supabase_db_portfolio-alonso-readiness-local',
+      'supabase_db_portfolio-alonso-baseline-local',
       'psql',
       '-U',
       'postgres',
@@ -173,7 +174,14 @@ try {
       insert into public.posts(id,title,slug,featured_image_asset_id) values('${legacyPost}','Upgrade fixture','upgrade-${legacyPost}','${legacyAsset.id}');`);
     const applied = spawnSync(
       process.execPath,
-      ['node_modules/supabase/dist/supabase.js', 'migration', 'up', '--local'],
+      [
+        'node_modules/supabase/dist/supabase.js',
+        'migration',
+        'up',
+        '--local',
+        '--workdir',
+        stageLegacy(),
+      ],
       {
         cwd: root,
         encoding: 'utf8',
