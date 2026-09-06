@@ -12,11 +12,11 @@ Supabase ──lectura pública/RLS──> Astro build ──artefacto──> Gi
 
 Un solo repositorio contiene el sitio público y el shell administrativo. No existe un servidor Astro en producción ni routing dinámico del lado servidor. Las páginas administrativas editables serán físicas, por ejemplo `/admin/projects/edit/?id=UUID`.
 
-## Límites de F1 y F2
+## Límites de F1, F2 y F5
 
 F1 entrega configuración, rutas, clientes Supabase separados, pruebas y documentación. F2 añade tokens visuales, fuentes locales, componentes compartidos, motion progresivo y estilos base del administrador. La pantalla visible es un fixture temporal sin contenido administrable. Estas responsabilidades permanecen para fases autorizadas posteriores:
 
-- F5/F6: esquema, tipos generados, Automatic RLS más declaraciones explícitas, grants, policies, Auth owner y Storage policies.
+- F6: grants, policies, Auth owner y Storage policies sobre el esquema cerrado de F5; Automatic RLS se conserva.
 - F3/F4: contenido público y rutas internas alimentadas desde Supabase.
 - F9: Edge Functions.
 - F7: CMS `/admin`.
@@ -62,7 +62,15 @@ scripts/
 docs/
 ```
 
-Las carpetas se crean cuando su fase las necesita. Las páginas coordinan; consultas, autorización, Markdown y publicación viven en módulos enfocados. Los tipos temporales de DB de F1 se reemplazan por tipos generados desde migraciones en F5.
+Las carpetas se crean cuando su fase las necesita. Las páginas coordinan; consultas, autorización, Markdown y publicación viven en módulos enfocados. F5 reemplaza el placeholder de DB por tipos generados reproduciblemente desde PostgreSQL local.
+
+## Esquema y frontera de F5
+
+Siete migraciones y un seed idempotente reconstruyen 32 tablas de public y tres de private. Todas nacen con RLS, permisos de cliente revocados y sin policies; la RPC de lectura también queda sin EXECUTE para anon/authenticated. No se ha aplicado el esquema remoto ni iniciado F6.
+
+El contrato de build es `loadPublicSnapshot(): Promise<PublicSnapshot>`, implementado en `src/lib/content/snapshot.ts`. Una RPC SQL STABLE y SECURITY INVOKER devuelve una lectura consistente, con proyección explícita y filtrado de publicación, fechas, relaciones y media. El parser valida el contrato antes de presentar datos; una consulta fallida aborta sin fallback privilegiado. Las páginas de F2 conservan su fixture hasta F3 y las políticas de F6.
+
+El catálogo completo, estados, cascades, sincronización de URLs/CV, referencias editoriales, pruebas y comandos de reconstrucción están en [CONTENT.md](CONTENT.md). Los tipos DB incluyen public/private, pero los DTO públicos derivan únicamente campos permitidos. Importar el loader está reservado al build; los módulos generales conservan la prohibición de importar código de build.
 
 ## Calidad
 
