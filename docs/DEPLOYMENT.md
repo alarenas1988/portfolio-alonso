@@ -134,3 +134,9 @@ Esta lista describe trabajo futuro, no autorización para ejecutarlo:
 # Operación Edge F9 — 2026-09-06
 
 El procedimiento vigente de Edge, configuración ignorada y contratos de secretos está en [EDGE_FUNCTIONS.md](EDGE_FUNCTIONS.md). CLI 2.116.0; migraciones 020/021 aplicadas después del baseline 019 intacto. Contact-submit versión 2 ACTIVE; formulario habilitado después de 27 comprobaciones remotas y limpieza de fixtures. Publicación/callback/tracking siguen locales hasta sus consumidores F11/F10. No utilizar --prune ni desplegar todas las funciones por omisión. No introducir PAT ni credenciales en frontend. [Respaldo, incidencias, auditoría y estado final](checkpoints/F9_EDGE_FUNCTIONS.md). Los apartados históricos anteriores describen el estado de cada fase en su fecha.
+
+# Operación Analytics F10 — 2026-09-06
+
+Estado vigente: historial 019/020/021/022 y `track-event` v1 ACTIVE. Solo se ejecutó deploy de tracking. El nuevo secreto ANALYTICS_RATE_LIMIT_HMAC_SECRET provocó una actualización de versión de plataforma para contacto (v2 → v3), sin diferencias en sus 14 archivos de código frente a F9. No repetir push ni recrear secretos para reproducir esa comprobación.
+
+Respaldo lógico privado, puerta local de 25 controles, dry-run exclusivo 022 y comparación posterior de tipos/catálogo documentados en [cierre F10](checkpoints/F10_ANALYTICS.md). No seed, Auth, buckets, owner, RLS ni workflows alterados. `PUBLIC_ANALYTICS_ENABLED` controla la instrumentación; dev/tests/previews permanecen excluidos. La publicación del artefacto en GitHub Pages sigue pendiente de F11, que no se inició.

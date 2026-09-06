@@ -113,7 +113,13 @@ const links = [
     links.length > 0 && (
       <div class="page-actions">
         {links.map((link) => (
-          <a class="text-link" href={link.href} target="_blank" rel="noopener noreferrer">
+          <a
+            class="text-link"
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-analytics-event={link.label === 'Demo' ? 'demo_click' : undefined}
+          >
             {link.label} ↗
           </a>
         ))}

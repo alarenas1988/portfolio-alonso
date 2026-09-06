@@ -652,3 +652,43 @@ test('environment rejects wildcard origins and overbroad limits', () => {
     readConfig((key) => (key === 'CONTACT_GLOBAL_HOURLY_LIMIT' ? '10001' : undefined)),
   );
 });
+for (const headers of [
+  { dnt: '1' },
+  { 'sec-gpc': '1' },
+  { 'user-agent': 'Playwright/fixture' },
+  { 'user-agent': 'Googlebot/2.1' },
+] as Record<string, string>[]) {
+  test('privacy/bot opt-out never persists ' + JSON.stringify(headers), async () => {
+    const s = setup();
+    const response = await s.track(request(tracking, headers));
+    assert.equal(response.status, 200);
+    assert.equal(s.calls.event.length, 0);
+  });
+}
+for (const event of ['cv_download', 'linkedin_click', 'github_click'] as const) {
+  test('public detail context supports global action ' + event, async () => {
+    const s = setup();
+    await s.track(
+      request({
+        ...tracking,
+        event_type: event,
+        project_id: id,
+        pathname: '/portfolio-alonso/proyectos/public-case/',
+      }),
+    );
+    assert.equal(s.calls.event.length, 1);
+    assert.equal(s.calls.event[0]!.p_project_id, id);
+  });
+}
+test('same-site referrer is a category, never a full URL', async () => {
+  const s = setup();
+  await s.track(request({ ...tracking, referrer_domain: 'same-site' }));
+  assert.equal(s.calls.event[0]!.p_referrer, 'same-site');
+});
+test('UTC day rotation prevents a session profile across dates', async () => {
+  const first = setup();
+  await first.track(request(tracking));
+  const next = setup({ now: () => now + 86400000 });
+  await next.track(request(tracking));
+  assert.notEqual(first.calls.event[0]!.p_session_hash, next.calls.event[0]!.p_session_hash);
+});

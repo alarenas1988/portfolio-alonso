@@ -1,0 +1,147 @@
+{
+  "date": "2026-09-06T21:39:48.481Z",
+  "checks": [
+    {
+      "name": "Hosted preflight exact allowed origin",
+      "passed": true
+    },
+    {
+      "name": "Malicious origin denied",
+      "passed": true
+    },
+    {
+      "name": "Invalid public key denied",
+      "passed": true
+    },
+    {
+      "name": "Hosted view receipt/retry 0",
+      "passed": true
+    },
+    {
+      "name": "Hosted view receipt/retry 1",
+      "passed": true
+    },
+    {
+      "name": "Hosted action whatsapp_click",
+      "passed": true
+    },
+    {
+      "name": "Hosted action email_click",
+      "passed": true
+    },
+    {
+      "name": "Hosted action email_copy",
+      "passed": true
+    },
+    {
+      "name": "Hosted action github_click",
+      "passed": true
+    },
+    {
+      "name": "Hosted action linkedin_click",
+      "passed": true
+    },
+    {
+      "name": "Hosted action cv_download",
+      "passed": true
+    },
+    {
+      "name": "Browser conversion forgery denied",
+      "passed": true
+    },
+    {
+      "name": "PII field rejected",
+      "passed": true
+    },
+    {
+      "name": "Sensitive query rejected",
+      "passed": true
+    },
+    {
+      "name": "Missing content ID rejected",
+      "passed": true
+    },
+    {
+      "name": "Privacy/bot signal safely omitted",
+      "passed": true
+    },
+    {
+      "name": "Privacy/bot signal safely omitted",
+      "passed": true
+    },
+    {
+      "name": "Privacy/bot signal safely omitted",
+      "passed": true
+    },
+    {
+      "name": "Only one view and six actions persisted; no opt-out, PII or duplicates",
+      "passed": true
+    },
+    {
+      "name": "Unchanged contact receipt/retry 0",
+      "passed": true
+    },
+    {
+      "name": "Unchanged contact receipt/retry 1",
+      "passed": true
+    },
+    {
+      "name": "Exactly one message and one server conversion, no email notification",
+      "passed": true
+    },
+    {
+      "name": "Hosted raw and daily aggregates agree",
+      "passed": true
+    },
+    {
+      "name": "Anon denied analytics_events",
+      "passed": true
+    },
+    {
+      "name": "Anon denied analytics_daily",
+      "passed": true
+    },
+    {
+      "name": "Anon denied analytics_daily_content",
+      "passed": true
+    },
+    {
+      "name": "Anon denied admin_analytics_daily_dimensions",
+      "passed": true
+    },
+    {
+      "name": "Anon denied admin_analytics_daily_sessions",
+      "passed": true
+    },
+    {
+      "name": "Anon cannot invoke get_analytics_report",
+      "passed": true
+    },
+    {
+      "name": "Anon cannot invoke maintain_analytics",
+      "passed": true
+    },
+    {
+      "name": "Anon cannot invoke refresh_analytics",
+      "passed": true
+    },
+    {
+      "name": "Anon cannot invoke edge_record_event",
+      "passed": true
+    },
+    {
+      "name": "Snapshot unchanged by private analytics/contact fixtures",
+      "passed": true
+    },
+    {
+      "name": "No fixture PII in public snapshot",
+      "passed": true
+    },
+    {
+      "name": "Hosted session rate limit bounds a deliberate 61-request fixture burst",
+      "passed": true
+    }
+  ],
+  "fixtures_removed": true,
+  "contact_source_unchanged": true
+}

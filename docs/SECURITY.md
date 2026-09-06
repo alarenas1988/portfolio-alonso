@@ -190,3 +190,9 @@ Ver [DEPLOYMENT.md](DEPLOYMENT.md) para configuración local, URLs exactas, bloq
 - Auth/REST reales: login de tres identidades, signup bloqueado, metadata manipulada en Auth, CRUD denegado/permitido, UUID/FK conocidos, elevación por perfil, vistas, RPC privada, snapshot equivalente, JWT alterado y expirado, recovery local y revocación del owner con JWT aún válido.
 - Las identidades/passwords se generan solo en memoria para la instancia loopback F6 y se eliminan en finally. No se usan datos productivos.
 - Triggers, grants y RLS se prueban sin UI; los seis tests de helpers frontend solo verifican su contrato de UX/recovery.
+
+# F10 — Privacidad y agregados
+
+Analytics no utiliza cookies, localStorage, PII del formulario, IP completa persistida ni fingerprinting. UUID por sesión/pestaña con rotación UTC adicional; en DB solo HMAC diario. DNT/GPC deshabilitan la instrumentación. Tests y previews no generan tráfico productivo. [Datos, retención, límites y restricciones](ANALYTICS.md).
+
+RLS y policies F6 permanecen. get_analytics_report es invoker y exige owner activo además de grants/RLS. Mantenimiento invoker reservado a service_role. El único definer nuevo, private.update_analytics_popularity(), no recibe argumentos y solo actualiza el ranking calculado; evita conceder permisos editoriales amplios para ejecutar los triggers de media existentes. Owner postgres, search_path vacío y EXECUTE solo service_role; probado contra anon/authenticated/owner. SECURITY_AUDIT.json recoge el catálogo local de las 35 tablas RLS y cuatro definer propios.

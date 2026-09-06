@@ -44,6 +44,8 @@ it('accepts public configuration but rejects an arbitrary supplied private canar
 for (const [name, value] of [
   ['SUPABASE_ACCESS_TOKEN', 'private-supabase-access-canary'],
   ['SUPABASE_SECRET_KEYS', '{"default":"private-supabase-dictionary-canary"}'],
+  ['ANALYTICS_HMAC_SECRET', 'private-analytics-session-canary'],
+  ['ANALYTICS_RATE_LIMIT_HMAC_SECRET', 'private-analytics-rate-canary'],
 ] as const) {
   it(`rejects the ${name} canary without logging its value`, async () => {
     const directory = await mkdtemp(join(tmpdir(), 'portfolio-private-env-test-'));

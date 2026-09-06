@@ -6,20 +6,8 @@ import { clientSignal, userAgent, referrer } from '../_shared/privacy.ts';
 import { accepted } from '../_shared/repository.ts';
 import type { EdgeConfig } from '../_shared/env.ts';
 import type { Runtime } from '../_shared/runtime.ts';
-export const events = [
-  'page_view',
-  'project_view',
-  'post_view',
-  'whatsapp_click',
-  'email_click',
-  'email_copy',
-  'github_click',
-  'linkedin_click',
-  'demo_click',
-  'cv_download',
-  'contact_submit',
-  'article_share',
-] as const;
+import { events } from '../_shared/events.ts';
+export { events } from '../_shared/events.ts';
 export function trackEvent(
   getConfig: () => EdgeConfig,
   runtime: Runtime,
@@ -51,35 +39,20 @@ export function trackEvent(
         (['post_view', 'article_share'].includes(event) && (!post || project))
       )
         invalid();
-      if (
-        project &&
-        ![
-          'page_view',
-          'project_view',
-          'demo_click',
-          'github_click',
-          'whatsapp_click',
-          'email_click',
-          'email_copy',
-        ].includes(event)
-      )
-        invalid();
-      if (
-        post &&
-        ![
-          'page_view',
-          'post_view',
-          'article_share',
-          'whatsapp_click',
-          'email_click',
-          'email_copy',
-        ].includes(event)
-      )
-        invalid();
+      // Any public page can contain global CV/social/contact actions. Content IDs
+      // still have to match a published resource and its exact path in the RPC.
       const domain =
         body.referrer_domain !== undefined ? string(body.referrer_domain, 1, 253) : null;
       if (domain && !/^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?$/.test(domain)) invalid();
       const now = runtime.now();
+      if (
+        request.headers.get('dnt') === '1' ||
+        request.headers.get('sec-gpc') === '1' ||
+        /Googlebot|bingbot|DuckDuckBot|HeadlessChrome|Playwright|HealthCheck/i.test(
+          request.headers.get('user-agent') || '',
+        )
+      )
+        return { data: { status: 'accepted' } };
       const agent = userAgent(request);
       accepted(
         await db.event({

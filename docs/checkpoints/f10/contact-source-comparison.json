@@ -1,0 +1,77 @@
+{
+  "date": "2026-09-06T21:41:53.623Z",
+  "base": "e528078f19a245af7d56b00be6895e3af681777a",
+  "results": [
+    {
+      "path": "supabase/functions/contact-submit/deno.json",
+      "equal": true,
+      "sha256": "dbffe5c4f4d2bc77f8b3193afc98ebd2ab0d5feec58d9e5443cc1328fe5e0d56"
+    },
+    {
+      "path": "supabase/functions/contact-submit/handler.ts",
+      "equal": true,
+      "sha256": "ba112f4c271529b1d668179cb1863b6195404539626ceb52935fb7b101bd6f3e"
+    },
+    {
+      "path": "supabase/functions/contact-submit/index.ts",
+      "equal": true,
+      "sha256": "6c0c45158a6867165b35c083b8785e5f0d4cd6579b7f1c6b7e72154f3f68f712"
+    },
+    {
+      "path": "supabase/functions/_shared/auth.ts",
+      "equal": true,
+      "sha256": "2d6b564910bfc4ea4f4c5c74934409c3a8c234f9fa59b929cccf3b2b50464576"
+    },
+    {
+      "path": "supabase/functions/_shared/crypto.ts",
+      "equal": true,
+      "sha256": "3a5b5dae28e745d2f39309caf12c89ab3c35ba47964787f059e0c04ea7a6b1c1"
+    },
+    {
+      "path": "supabase/functions/_shared/env.ts",
+      "equal": true,
+      "sha256": "aa9787c04be3a6d2d07dc5320650b3f6b652781f54fd5593c3ae31d4a1a22861"
+    },
+    {
+      "path": "supabase/functions/_shared/errors.ts",
+      "equal": true,
+      "sha256": "9ede24c49ac1201676388969b8e09b6f508e07d93fcad31ab14cf21fcf699cbd"
+    },
+    {
+      "path": "supabase/functions/_shared/github.ts",
+      "equal": true,
+      "sha256": "525a5a2207ab153a0a6eb3cc899c8ee5a6241826a74968e5a8e3f2b60827dd35"
+    },
+    {
+      "path": "supabase/functions/_shared/http.ts",
+      "equal": true,
+      "sha256": "cfb37840d8b3bfde7e0c0f0c651a02352d315f7239ca46c779a09aec008f8c28"
+    },
+    {
+      "path": "supabase/functions/_shared/privacy.ts",
+      "equal": true,
+      "sha256": "7c134aff8d112cc758046aa67e464f4abe6df92db93d7683d54d68cc9906f4c6"
+    },
+    {
+      "path": "supabase/functions/_shared/repository.ts",
+      "equal": true,
+      "sha256": "92a89dfc1ddc36682ca8e71ce7a8597c2867af36283c9af7903aa71be845b0d6"
+    },
+    {
+      "path": "supabase/functions/_shared/runtime.ts",
+      "equal": true,
+      "sha256": "b353133988287776c426f772bbca733c348773baf6205d1ef1da6dd9bde2b702"
+    },
+    {
+      "path": "supabase/functions/_shared/timeout.ts",
+      "equal": true,
+      "sha256": "7aefd8d1c580bed32cce9155f299898beb1e2acbcba95a0787ea782036eca7aa"
+    },
+    {
+      "path": "supabase/functions/_shared/validation.ts",
+      "equal": true,
+      "sha256": "287e41e078cb82099d8674472d0404aa5183feaa6158b41cff0af49a0e45ee20"
+    }
+  ],
+  "all_equal": true
+}

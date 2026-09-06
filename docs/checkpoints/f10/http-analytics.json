@@ -1,0 +1,202 @@
+{
+  "local": true,
+  "checks": [
+    {
+      "name": "Concurrent idempotent receipts accepted",
+      "passed": true
+    },
+    {
+      "name": "Concurrent duplicate creates one raw event",
+      "passed": true
+    },
+    {
+      "name": "Concurrent independent views accepted while aggregation runs",
+      "passed": true
+    },
+    {
+      "name": "All 25 independent events persisted without losses",
+      "passed": true
+    },
+    {
+      "name": "Recomputation reflects concurrent intake exactly",
+      "passed": true
+    },
+    {
+      "name": "Repeated aggregate refresh is idempotent",
+      "passed": true
+    },
+    {
+      "name": "Real public context: project_view",
+      "passed": true
+    },
+    {
+      "name": "Real public context: post_view",
+      "passed": true
+    },
+    {
+      "name": "Real public context: demo_click",
+      "passed": true
+    },
+    {
+      "name": "Real public context: cv_download",
+      "passed": true
+    },
+    {
+      "name": "Real public context: linkedin_click",
+      "passed": true
+    },
+    {
+      "name": "Real public context: article_share",
+      "passed": true
+    },
+    {
+      "name": "Private/future/missing post denied: f10-http-draft",
+      "passed": true
+    },
+    {
+      "name": "Private/future/missing post denied: f10-http-future",
+      "passed": true
+    },
+    {
+      "name": "Private/future/missing post denied: missing",
+      "passed": true
+    },
+    {
+      "name": "Mismatched public slug rejected",
+      "passed": true
+    },
+    {
+      "name": "Browser cannot forge contact conversion",
+      "passed": true
+    },
+    {
+      "name": "PII/unapproved property or URL rejected",
+      "passed": true
+    },
+    {
+      "name": "PII/unapproved property or URL rejected",
+      "passed": true
+    },
+    {
+      "name": "PII/unapproved property or URL rejected",
+      "passed": true
+    },
+    {
+      "name": "PII/unapproved property or URL rejected",
+      "passed": true
+    },
+    {
+      "name": "Privacy/bot signal gets nonrevealing acknowledgement",
+      "passed": true
+    },
+    {
+      "name": "Privacy/bot signal gets nonrevealing acknowledgement",
+      "passed": true
+    },
+    {
+      "name": "Privacy/bot signal gets nonrevealing acknowledgement",
+      "passed": true
+    },
+    {
+      "name": "Opt-outs do not persist raw events",
+      "passed": true
+    },
+    {
+      "name": "Anon cannot query report",
+      "passed": true
+    },
+    {
+      "name": "Real JWT report boundary: normal",
+      "passed": true
+    },
+    {
+      "name": "RLS normal analytics_events",
+      "passed": true
+    },
+    {
+      "name": "RLS normal analytics_daily",
+      "passed": true
+    },
+    {
+      "name": "RLS normal analytics_daily_content",
+      "passed": true
+    },
+    {
+      "name": "RLS normal admin_analytics_daily_dimensions",
+      "passed": true
+    },
+    {
+      "name": "RLS normal admin_analytics_daily_sessions",
+      "passed": true
+    },
+    {
+      "name": "JWT cannot run retention: normal",
+      "passed": true
+    },
+    {
+      "name": "Real JWT report boundary: inactive",
+      "passed": true
+    },
+    {
+      "name": "RLS inactive analytics_events",
+      "passed": true
+    },
+    {
+      "name": "RLS inactive analytics_daily",
+      "passed": true
+    },
+    {
+      "name": "RLS inactive analytics_daily_content",
+      "passed": true
+    },
+    {
+      "name": "RLS inactive admin_analytics_daily_dimensions",
+      "passed": true
+    },
+    {
+      "name": "RLS inactive admin_analytics_daily_sessions",
+      "passed": true
+    },
+    {
+      "name": "JWT cannot run retention: inactive",
+      "passed": true
+    },
+    {
+      "name": "Real JWT report boundary: owner",
+      "passed": true
+    },
+    {
+      "name": "RLS owner analytics_events",
+      "passed": true
+    },
+    {
+      "name": "RLS owner analytics_daily",
+      "passed": true
+    },
+    {
+      "name": "RLS owner analytics_daily_content",
+      "passed": true
+    },
+    {
+      "name": "RLS owner admin_analytics_daily_dimensions",
+      "passed": true
+    },
+    {
+      "name": "RLS owner admin_analytics_daily_sessions",
+      "passed": true
+    },
+    {
+      "name": "Typed owner repository reads bounded aggregates",
+      "passed": true
+    },
+    {
+      "name": "JWT cannot run retention: owner",
+      "passed": true
+    },
+    {
+      "name": "Popularity derives from public views",
+      "passed": true
+    }
+  ],
+  "fixtures_removed": true
+}

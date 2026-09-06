@@ -1,0 +1,14 @@
+{
+  "date": "2026-09-06T21:34:47.603Z",
+  "commit": "6648f684781e69e099ed44784c6f0f822deda6dd",
+  "dry_run": {
+    "upToDate": false,
+    "dryRun": true,
+    "migrations": ["20260906002200_analytics_aggregation.sql"],
+    "seeds": [],
+    "roles": [],
+    "message": "Finished supabase db push."
+  },
+  "catalog_unchanged": true,
+  "backup_verified": true
+}

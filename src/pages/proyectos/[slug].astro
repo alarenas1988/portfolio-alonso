@@ -22,6 +22,7 @@ const content = await loadPublicPages(getPublicConfig(), fileURLToPath(outDir));
 <InternalLayout
   content={content}
   active="projects"
+  analyticsProject={item.row.id}
   seo={pageSeo(content, item.href, item.row.title, item.row.summary ?? '', item.row)}
 >
   <ProjectCaseStudy content={content} project={item} /><ContactSection home={content} />

@@ -3,7 +3,12 @@ import { once } from 'node:events';
 import { startHomeFixtureServer } from '../tests/fixtures/home-server.ts';
 
 const fixture = await startHomeFixtureServer();
-const env = { ...process.env, ...fixture.env, MEDIA_TEST_FIXTURE: '1' };
+const env = {
+  ...process.env,
+  ...fixture.env,
+  MEDIA_TEST_FIXTURE: '1',
+  PUBLIC_ANALYTICS_ENABLED: 'false',
+};
 const astro = 'node_modules/astro/bin/astro.mjs';
 const output = '.tools/home-e2e-dist';
 const build = spawn(process.execPath, [astro, 'build', '--outDir', output], {

@@ -1,0 +1,60 @@
+{
+  "date": "2026-09-06T21:23:22.351Z",
+  "project": {
+    "name": "portfolio-alonso",
+    "region": "sa-east-1",
+    "status": "ACTIVE_HEALTHY"
+  },
+  "cli": "2.116.0",
+  "state": {
+    "auth_users": 1,
+    "automatic_rls": [
+      {
+        "enabled": "O",
+        "name": "ensure_rls"
+      }
+    ],
+    "collisions": 0,
+    "content": 0,
+    "daily": 0,
+    "form_enabled": true,
+    "history": ["20260906001900", "20260906002000", "20260906002100"],
+    "messages": 0,
+    "owners": 1,
+    "postgres": "17.6",
+    "raw": 0
+  },
+  "functions": [
+    {
+      "slug": "contact-submit",
+      "status": "ACTIVE",
+      "version": 2,
+      "verify_jwt": false
+    }
+  ],
+  "secret_names": [
+    "ANALYTICS_HMAC_SECRET",
+    "CONTACT_GLOBAL_HOURLY_LIMIT",
+    "CONTACT_RATE_LIMIT_HMAC_SECRET",
+    "PORTFOLIO_ALLOWED_ORIGINS",
+    "PORTFOLIO_SITE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_DB_URL",
+    "SUPABASE_JWKS",
+    "SUPABASE_PUBLISHABLE_KEYS",
+    "SUPABASE_SECRET_KEYS",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "SUPABASE_URL"
+  ],
+  "migration": "20260906002200_analytics_aggregation.sql",
+  "sha256": "e42d5a7bec25648fc8fb7d8a857aa7329c7c58439e29a5dcb6864b5b69acdea9",
+  "dry_run": {
+    "upToDate": false,
+    "dryRun": true,
+    "migrations": ["20260906002200_analytics_aggregation.sql"],
+    "seeds": [],
+    "roles": [],
+    "message": "Finished supabase db push."
+  },
+  "review": "Only own column/index/functions, minimal service grants and hourly cron. No managed DDL or policy changes. DELETE occurs only inside tested recomputation/retention functions."
+}
