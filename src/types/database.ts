@@ -137,6 +137,7 @@ export type Database = {
           alt_text: string;
           caption: string;
           category: string;
+          decorative: boolean;
           file_size: number;
           filename: string;
           height: number;
@@ -684,6 +685,7 @@ export type Database = {
           category: string;
           created_at: string;
           created_by: string | null;
+          decorative: boolean;
           file_size: number;
           filename: string;
           height: number | null;
@@ -702,6 +704,7 @@ export type Database = {
           category?: string;
           created_at?: string;
           created_by?: string | null;
+          decorative?: boolean;
           file_size: number;
           filename: string;
           height?: number | null;
@@ -720,6 +723,7 @@ export type Database = {
           category?: string;
           created_at?: string;
           created_by?: string | null;
+          decorative?: boolean;
           file_size?: number;
           filename?: string;
           height?: number | null;
@@ -755,6 +759,7 @@ export type Database = {
           project_id: string | null;
           project_image_id: string | null;
           settings_id: string | null;
+          technology_id: string | null;
         };
         Insert: {
           asset_id: string;
@@ -768,6 +773,7 @@ export type Database = {
           project_id?: string | null;
           project_image_id?: string | null;
           settings_id?: string | null;
+          technology_id?: string | null;
         };
         Update: {
           asset_id?: string;
@@ -781,6 +787,7 @@ export type Database = {
           project_id?: string | null;
           project_image_id?: string | null;
           settings_id?: string | null;
+          technology_id?: string | null;
         };
         Relationships: [
           {
@@ -823,6 +830,13 @@ export type Database = {
             columns: ['settings_id'];
             isOneToOne: false;
             referencedRelation: 'site_settings';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'media_references_technology_id_fkey';
+            columns: ['technology_id'];
+            isOneToOne: false;
+            referencedRelation: 'technologies';
             referencedColumns: ['id'];
           },
         ];
@@ -1629,6 +1643,8 @@ export type Database = {
           description: string | null;
           featured: boolean;
           icon: string | null;
+          icon_asset_id: string | null;
+          icon_url: string | null;
           id: string;
           name: string;
           official_url: string | null;
@@ -1643,6 +1659,8 @@ export type Database = {
           description?: string | null;
           featured?: boolean;
           icon?: string | null;
+          icon_asset_id?: string | null;
+          icon_url?: string | null;
           id?: string;
           name: string;
           official_url?: string | null;
@@ -1657,6 +1675,8 @@ export type Database = {
           description?: string | null;
           featured?: boolean;
           icon?: string | null;
+          icon_asset_id?: string | null;
+          icon_url?: string | null;
           id?: string;
           name?: string;
           official_url?: string | null;
@@ -1665,7 +1685,15 @@ export type Database = {
           updated_at?: string;
           visible?: boolean;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: 'technologies_icon_asset_id_fkey';
+            columns: ['icon_asset_id'];
+            isOneToOne: false;
+            referencedRelation: 'media_assets';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       work_principles: {
         Row: {
@@ -1804,6 +1832,7 @@ export type Database = {
           alt_text: string | null;
           caption: string | null;
           category: string | null;
+          decorative: boolean | null;
           file_size: number | null;
           filename: string | null;
           height: number | null;
@@ -1817,7 +1846,16 @@ export type Database = {
       };
     };
     Functions: {
+      activate_cv: { Args: { document_id: string }; Returns: undefined };
       get_public_snapshot: { Args: never; Returns: Json };
+      replace_media_asset: {
+        Args: {
+          expected_updated_at: string;
+          previous_id: string;
+          replacement_id: string;
+        };
+        Returns: undefined;
+      };
     };
     Enums: {
       [_ in never]: never;
