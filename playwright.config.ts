@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig } from '@playwright/test';
 
 // The host may inject NO_COLOR while Playwright colors child output.
 // Remove both host overrides before Playwright starts workers and the preview server.
@@ -14,12 +14,12 @@ export default defineConfig({
   reporter: 'list',
   use: { baseURL: 'http://127.0.0.1:4322/portfolio-alonso/', trace: 'retain-on-failure' },
   projects: [
-    { name: 'desktop', use: { ...devices['Desktop Chrome'] } },
-    {
-      name: 'tablet',
-      use: { ...devices['Desktop Chrome'], viewport: { width: 768, height: 1024 } },
-    },
-    { name: 'mobile', use: { ...devices['Pixel 7'] } },
+    { name: 'mobile-360', use: { viewport: { width: 360, height: 800 }, hasTouch: true } },
+    { name: 'mobile-390', use: { viewport: { width: 390, height: 844 }, hasTouch: true } },
+    { name: 'tablet-768', use: { viewport: { width: 768, height: 1024 }, hasTouch: true } },
+    { name: 'desktop-1024', use: { viewport: { width: 1024, height: 768 } } },
+    { name: 'desktop-1440', use: { viewport: { width: 1440, height: 1000 } } },
+    { name: 'desktop-1920', use: { viewport: { width: 1920, height: 1080 } } },
   ],
   webServer: {
     command: 'npm run build && npm run preview -- --port 4322',

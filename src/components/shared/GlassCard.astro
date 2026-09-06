@@ -1,0 +1,57 @@
+---
+interface Props {
+  level?: 'subtle' | 'standard' | 'strong';
+  as?: 'article' | 'section' | 'div';
+  interactive?: boolean;
+  class?: string;
+}
+
+const props = Astro.props as Props;
+const { level = 'standard', as: Tag = 'article', interactive = false, class: className } = props;
+---
+
+<Tag
+  class:list={['glass-card', `glass-card--${level}`, className]}
+  data-glass={level}
+  data-tilt={interactive ? '' : undefined}
+  data-spotlight={interactive ? '' : undefined}
+>
+  <div class="glass-card__content"><slot /></div>
+</Tag>
+
+<style>
+  .glass-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    isolation: isolate;
+  }
+
+  .glass-card--subtle {
+    border-radius: var(--radius-md);
+    background: var(--glass-subtle);
+  }
+
+  .glass-card--standard {
+    border-radius: var(--radius-lg);
+    background: var(--glass-standard);
+    box-shadow: 0 18px 56px rgb(var(--black-rgb) / 0.18);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .glass-card--strong {
+    border-radius: var(--radius-xl);
+    background: var(--glass-strong);
+    box-shadow: var(--shadow-glass);
+    backdrop-filter: blur(var(--blur-glass));
+    -webkit-backdrop-filter: blur(var(--blur-glass));
+  }
+
+  .glass-card__content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+  }
+</style>

@@ -1,14 +1,23 @@
 ---
 import '../../styles/global.css';
+import manropeFont from '../../assets/fonts/manrope-latin-variable.woff2?url';
+import spaceGroteskFont from '../../assets/fonts/space-grotesk-latin-variable.woff2?url';
+import { getPublicConfig } from '../../lib/config/public.ts';
+import { createUrlHelpers } from '../../lib/utils/urls.ts';
 interface Props {
   title: string;
   description: string;
 }
 const { title, description } = Astro.props;
+const { withBase } = createUrlHelpers(getPublicConfig().siteUrl);
 ---
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050816" />
+<link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+<link rel="preload" href={manropeFont} as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href={spaceGroteskFont} as="font" type="font/woff2" crossorigin="anonymous" />
 <title>{title}</title>
 <meta name="description" content={description} />
 <meta name="robots" content="noindex,nofollow" />
