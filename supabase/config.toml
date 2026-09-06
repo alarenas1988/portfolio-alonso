@@ -381,6 +381,24 @@ inspector_port = 8483
 # The Deno major version to use.
 deno_version = 2
 
+# F9 checks API keys/JWT with @supabase/server; callback requires its own HMAC.
+# SDK + Auth validate user JWTs including asymmetric signing keys.
+[functions.contact-submit]
+verify_jwt = false
+entrypoint = "./functions/contact-submit/index.ts"
+
+[functions.publish-site]
+verify_jwt = false
+entrypoint = "./functions/publish-site/index.ts"
+
+[functions.build-status]
+verify_jwt = false
+entrypoint = "./functions/build-status/index.ts"
+
+[functions.track-event]
+verify_jwt = false
+entrypoint = "./functions/track-event/index.ts"
+
 # [edge_runtime.secrets]
 # secret_key = "env(SECRET_VALUE)"
 
