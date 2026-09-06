@@ -1,0 +1,115 @@
+{
+  "date": "2026-09-06T19:35:00.777Z",
+  "commit": "0f48b4073dbf81a45c5007a7a9e26af4584a5fac",
+  "base": "302a00211db100237630d16bd323f07e8475bc92",
+  "checks": [
+    {
+      "name": "npm ci: 460 installed",
+      "passed": true
+    },
+    {
+      "name": "npm ls --depth=0",
+      "passed": true
+    },
+    {
+      "name": "npm audit: zero vulnerabilities",
+      "passed": true
+    },
+    {
+      "name": "format:check",
+      "passed": true
+    },
+    {
+      "name": "eslint",
+      "passed": true
+    },
+    {
+      "name": "Astro/TypeScript: zero diagnostics",
+      "passed": true
+    },
+    {
+      "name": "npm test: 145 passed",
+      "passed": true
+    },
+    {
+      "name": "remote public snapshot build: 6 static pages",
+      "passed": true
+    },
+    {
+      "name": "check:static",
+      "passed": true
+    },
+    {
+      "name": "check:secrets: 21 artifacts",
+      "passed": true
+    },
+    {
+      "name": "E2E: 179 passed, 73 breakpoint-specific skipped",
+      "passed": true
+    },
+    {
+      "name": "Deno check",
+      "passed": true
+    },
+    {
+      "name": "Deno lint",
+      "passed": true
+    },
+    {
+      "name": "Deno unit tests: 88 passed",
+      "passed": true
+    },
+    {
+      "name": "clean local rebuild: 019/020/021 and seed",
+      "passed": true
+    },
+    {
+      "name": "db lint: no errors",
+      "passed": true
+    },
+    {
+      "name": "SQL: 659 passed",
+      "passed": true
+    },
+    {
+      "name": "types regenerated and matching",
+      "passed": true
+    },
+    {
+      "name": "seed snapshot contract and replay",
+      "passed": true
+    },
+    {
+      "name": "real Auth/RLS: 107 passed",
+      "passed": true
+    },
+    {
+      "name": "real Storage/media: 66 passed",
+      "passed": true
+    },
+    {
+      "name": "real Edge HTTP: 79 passed after rebuild",
+      "passed": true
+    },
+    {
+      "name": "real local contact UI and fixture cleanup",
+      "passed": true
+    },
+    {
+      "name": "visual contact mobile/desktop inspected",
+      "passed": true
+    },
+    {
+      "name": "known-private-value source scan: 54 files",
+      "passed": true
+    },
+    {
+      "name": "git diff --check",
+      "passed": true
+    },
+    {
+      "name": "SQL forward review: no DROP, no managed auth/storage DDL, no client grant/policy changes",
+      "passed": true
+    }
+  ]
+}

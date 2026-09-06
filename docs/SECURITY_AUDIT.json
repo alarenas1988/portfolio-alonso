@@ -363,6 +363,13 @@
       "grantor": "postgres",
       "table_name": "analytics_events",
       "table_schema": "public",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "analytics_events",
+      "table_schema": "public",
       "privilege_type": "TRIGGER"
     },
     {
@@ -392,6 +399,13 @@
       "table_name": "contact_messages",
       "table_schema": "public",
       "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "contact_messages",
+      "table_schema": "public",
+      "privilege_type": "SELECT"
     },
     {
       "grantee": "service_role",
@@ -3300,6 +3314,16 @@
       "authenticated_execute": false
     },
     {
+      "name": "consume_edge_limit",
+      "owner": "postgres",
+      "schema": "private",
+      "settings": ["search_path=\"\""],
+      "arguments": "p_hash text, p_action text, p_limit integer, p_seconds integer",
+      "anon_execute": false,
+      "security_definer": false,
+      "authenticated_execute": false
+    },
+    {
       "name": "derive_cv_url",
       "owner": "postgres",
       "schema": "private",
@@ -3450,6 +3474,56 @@
       "authenticated_execute": true
     },
     {
+      "name": "edge_dispatch_failed",
+      "owner": "postgres",
+      "schema": "public",
+      "settings": ["search_path=\"\""],
+      "arguments": "p_build_id uuid, p_reason text",
+      "anon_execute": false,
+      "security_definer": false,
+      "authenticated_execute": false
+    },
+    {
+      "name": "edge_record_contact",
+      "owner": "postgres",
+      "schema": "public",
+      "settings": ["search_path=\"\""],
+      "arguments": "p_submission_id uuid, p_name text, p_email text, p_subject text, p_message text, p_origin_hash text, p_global_hash text, p_session_hash text, p_global_limit integer, p_notify boolean",
+      "anon_execute": false,
+      "security_definer": false,
+      "authenticated_execute": false
+    },
+    {
+      "name": "edge_record_event",
+      "owner": "postgres",
+      "schema": "public",
+      "settings": ["search_path=\"\""],
+      "arguments": "p_event_id uuid, p_session_hash text, p_event_type text, p_pathname text, p_origin_hash text, p_global_hash text, p_project_id uuid, p_post_id uuid, p_referrer text, p_device text, p_browser text",
+      "anon_execute": false,
+      "security_definer": false,
+      "authenticated_execute": false
+    },
+    {
+      "name": "edge_request_build",
+      "owner": "postgres",
+      "schema": "public",
+      "settings": ["search_path=\"\""],
+      "arguments": "p_request_id uuid, p_actor uuid, p_trigger text, p_entity_type text, p_entity_id uuid, p_retry_of uuid",
+      "anon_execute": false,
+      "security_definer": false,
+      "authenticated_execute": false
+    },
+    {
+      "name": "edge_update_build_status",
+      "owner": "postgres",
+      "schema": "public",
+      "settings": ["search_path=\"\""],
+      "arguments": "p_build_id uuid, p_status text, p_run_id bigint, p_run_attempt integer, p_commit_sha text, p_run_url text, p_started_at timestamp with time zone, p_completed_at timestamp with time zone, p_deployment_id text, p_failure_reason text",
+      "anon_execute": false,
+      "security_definer": false,
+      "authenticated_execute": false
+    },
+    {
       "name": "get_public_snapshot",
       "owner": "postgres",
       "schema": "public",
@@ -3467,16 +3541,6 @@
       "arguments": "previous_id uuid, replacement_id uuid, expected_updated_at timestamp with time zone",
       "anon_execute": false,
       "security_definer": false,
-      "authenticated_execute": true
-    },
-    {
-      "name": "rls_auto_enable",
-      "owner": "postgres",
-      "schema": "public",
-      "settings": ["search_path=pg_catalog"],
-      "arguments": "",
-      "anon_execute": true,
-      "security_definer": true,
       "authenticated_execute": true
     }
   ],

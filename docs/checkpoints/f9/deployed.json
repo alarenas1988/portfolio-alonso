@@ -1,0 +1,30 @@
+{
+  "date": "2026-09-06T19:56:35.322Z",
+  "history": ["20260906001900", "20260906002000", "20260906002100"],
+  "functions": [
+    {
+      "slug": "contact-submit",
+      "status": "ACTIVE",
+      "verify_jwt": false,
+      "version": 2
+    }
+  ],
+  "configured_names": [
+    "ANALYTICS_HMAC_SECRET",
+    "CONTACT_GLOBAL_HOURLY_LIMIT",
+    "CONTACT_RATE_LIMIT_HMAC_SECRET",
+    "PORTFOLIO_ALLOWED_ORIGINS",
+    "PORTFOLIO_SITE_URL"
+  ],
+  "managed_names": [
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_DB_URL",
+    "SUPABASE_JWKS",
+    "SUPABASE_PUBLISHABLE_KEYS",
+    "SUPABASE_SECRET_KEYS",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "SUPABASE_URL"
+  ],
+  "form_enabled": false,
+  "function_only_resume": true
+}

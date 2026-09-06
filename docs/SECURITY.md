@@ -4,7 +4,7 @@
 
 `authenticated != administrator` sigue vigente. Las nuevas RPC tienen EXECUTE solo service_role, SECURITY INVOKER y search_path vacío; no hay nuevos definer ni grants/policies de navegador. Publicación verifica JWT/Auth/perfil activo en RLS y de nuevo en la transacción. Contacto valida texto, tamaños, honeypot, duración e idempotencia; no INSERT público. CORS explícito no sustituye identidad ni límites. Callback con HMAC/ventana y transiciones irreversibles. Los hashes diarios de abuso no contienen IP/UA completos y caducan con limpieza periódica. [Matriz, pruebas adversariales, secretos y límites](EDGE_FUNCTIONS.md).
 
-El formulario cliente es UX; las pruebas reales llaman Edge/DB sin depender de esa protección. F9 no modifica Auth, owner, buckets ni las policies aprobadas. El historial siguiente describe cada checkpoint en su fecha.
+El formulario cliente es UX; las pruebas reales llaman Edge/DB sin depender de esa protección. Contact-submit v2 está activo en remoto, con 27 comprobaciones y limpieza verificadas. La plataforma rechaza CF-Connecting-IP falsificado; XFF no define el cliente en hosted. Se contrastaron las definiciones completas propias, constraints, columnas, índices, triggers, grants y policies con la reconstrucción local. [Evidencia de cierre](checkpoints/F9_EDGE_FUNCTIONS.md). F9 no modifica Auth, owner, buckets ni las policies aprobadas. El historial siguiente describe cada checkpoint en su fecha.
 
 ## Backend remoto desplegado — 2026-09-06
 

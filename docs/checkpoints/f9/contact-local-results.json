@@ -1,0 +1,14 @@
+{
+  "local": true,
+  "checks": [
+    "real static snapshot",
+    "real Edge HTTP receipt",
+    "offline preservation",
+    "lost response after DB commit",
+    "idempotent retry",
+    "five messages persisted",
+    "sixth message rate limited",
+    "no-JS disabled submit",
+    "reduced motion mobile"
+  ]
+}

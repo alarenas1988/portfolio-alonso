@@ -1,0 +1,321 @@
+{
+  "local": true,
+  "checks": [
+    {
+      "name": "Real preflight without credentials does not authenticate or insert",
+      "passed": true
+    },
+    {
+      "name": "Preflight consumes no rate bucket",
+      "passed": true
+    },
+    {
+      "name": "Contact rejects malicious origin",
+      "passed": true
+    },
+    {
+      "name": "Contact rejects missing origin",
+      "passed": true
+    },
+    {
+      "name": "Contact rejects invalid API key",
+      "passed": true
+    },
+    {
+      "name": "Contact rejects missing API key",
+      "passed": true
+    },
+    {
+      "name": "Contact rejects publishable key is not user JWT",
+      "passed": true
+    },
+    {
+      "name": "HTTP server validation: empty name",
+      "passed": true
+    },
+    {
+      "name": "HTTP server validation: email",
+      "passed": true
+    },
+    {
+      "name": "HTTP server validation: subject",
+      "passed": true
+    },
+    {
+      "name": "HTTP server validation: short message",
+      "passed": true
+    },
+    {
+      "name": "HTTP server validation: long message",
+      "passed": true
+    },
+    {
+      "name": "HTTP server validation: unknown field",
+      "passed": true
+    },
+    {
+      "name": "HTTP server validation: client status",
+      "passed": true
+    },
+    {
+      "name": "Invalid JSON rejected by real Edge Runtime",
+      "passed": true
+    },
+    {
+      "name": "Oversized real HTTP body rejected",
+      "passed": true
+    },
+    {
+      "name": "GET cannot create contact",
+      "passed": true
+    },
+    {
+      "name": "Honeypot produces generic response without message",
+      "passed": true
+    },
+    {
+      "name": "Unicode and HTML are accepted as plain text",
+      "passed": true
+    },
+    {
+      "name": "Stored message is unmodified text",
+      "passed": true
+    },
+    {
+      "name": "Internal status and notification mode are server controlled",
+      "passed": true
+    },
+    {
+      "name": "Concurrent double submit/retry accepted",
+      "passed": true
+    },
+    {
+      "name": "Concurrent request creates one message and one conversion",
+      "passed": true
+    },
+    {
+      "name": "Idempotency key cannot replace stored body",
+      "passed": true
+    },
+    {
+      "name": "Real concurrent contact rate limit is atomic: five accepted, three denied",
+      "passed": true
+    },
+    {
+      "name": "Rate limit sends bounded Retry-After",
+      "passed": true
+    },
+    {
+      "name": "Database failure returns temporary error",
+      "passed": true
+    },
+    {
+      "name": "Failed transaction has no partial contact/conversion",
+      "passed": true
+    },
+    {
+      "name": "Retry after database recovery persists exactly once",
+      "passed": true
+    },
+    {
+      "name": "Real JWT normal: administration denied",
+      "passed": true
+    },
+    {
+      "name": "Direct contact insert denied: normal",
+      "passed": true
+    },
+    {
+      "name": "Manipulated user_metadata does not grant owner",
+      "passed": true
+    },
+    {
+      "name": "Authenticated fixture cannot create owner",
+      "passed": true
+    },
+    {
+      "name": "Real JWT inactive: administration denied",
+      "passed": true
+    },
+    {
+      "name": "Direct contact insert denied: inactive",
+      "passed": true
+    },
+    {
+      "name": "Real JWT owner: authorized, dispatch safely unconfigured",
+      "passed": true
+    },
+    {
+      "name": "Direct contact insert denied: owner",
+      "passed": true
+    },
+    {
+      "name": "Publish rejects anonymous caller",
+      "passed": true
+    },
+    {
+      "name": "Publish rejects invalid JWT",
+      "passed": true
+    },
+    {
+      "name": "Publish rejects expired signed local JWT",
+      "passed": true
+    },
+    {
+      "name": "Unconfigured dispatch leaves no queued build",
+      "passed": true
+    },
+    {
+      "name": "Real callback rejects forged HMAC",
+      "passed": true
+    },
+    {
+      "name": "Real callback rejects expired timestamp",
+      "passed": true
+    },
+    {
+      "name": "Signed callback transitions real build to building",
+      "passed": true
+    },
+    {
+      "name": "Repeated real callback is idempotent",
+      "passed": true
+    },
+    {
+      "name": "Callback cannot hijack another run",
+      "passed": true
+    },
+    {
+      "name": "Signed callback persists success with deployment identity",
+      "passed": true
+    },
+    {
+      "name": "Repeated success does not change final state",
+      "passed": true
+    },
+    {
+      "name": "Old callback cannot downgrade completed build",
+      "passed": true
+    },
+    {
+      "name": "Successful remote-style workflow state is preserved",
+      "passed": true
+    },
+    {
+      "name": "Callback cannot create an unknown build",
+      "passed": true
+    },
+    {
+      "name": "Real allowed event: page_view",
+      "passed": true
+    },
+    {
+      "name": "Real allowed event: whatsapp_click",
+      "passed": true
+    },
+    {
+      "name": "Real allowed event: email_click",
+      "passed": true
+    },
+    {
+      "name": "Real allowed event: email_copy",
+      "passed": true
+    },
+    {
+      "name": "Real allowed event: github_click",
+      "passed": true
+    },
+    {
+      "name": "Real allowed event: linkedin_click",
+      "passed": true
+    },
+    {
+      "name": "Real allowed event: cv_download",
+      "passed": true
+    },
+    {
+      "name": "Real event validation rejects unknown/PII payload",
+      "passed": true
+    },
+    {
+      "name": "Real event validation rejects unknown/PII payload",
+      "passed": true
+    },
+    {
+      "name": "Real event validation rejects unknown/PII payload",
+      "passed": true
+    },
+    {
+      "name": "Real event validation rejects unknown/PII payload",
+      "passed": true
+    },
+    {
+      "name": "Real event validation rejects unknown/PII payload",
+      "passed": true
+    },
+    {
+      "name": "Real event validation rejects unknown/PII payload",
+      "passed": true
+    },
+    {
+      "name": "Browser cannot forge contact conversion",
+      "passed": true
+    },
+    {
+      "name": "Real event idempotency",
+      "passed": true
+    },
+    {
+      "name": "Real analytics session limit is atomic: sixty accepted, three denied",
+      "passed": true
+    },
+    {
+      "name": "Raw session UUID never persisted",
+      "passed": true
+    },
+    {
+      "name": "Anon cannot read contact_messages",
+      "passed": true
+    },
+    {
+      "name": "Anon cannot read analytics_events",
+      "passed": true
+    },
+    {
+      "name": "Anon cannot read site_builds",
+      "passed": true
+    },
+    {
+      "name": "Anon cannot read admin_activity",
+      "passed": true
+    },
+    {
+      "name": "No private rows for normal: contact_messages",
+      "passed": true
+    },
+    {
+      "name": "No private rows for normal: analytics_events",
+      "passed": true
+    },
+    {
+      "name": "No private rows for normal: site_builds",
+      "passed": true
+    },
+    {
+      "name": "No private rows for inactive: contact_messages",
+      "passed": true
+    },
+    {
+      "name": "No private rows for inactive: analytics_events",
+      "passed": true
+    },
+    {
+      "name": "No private rows for inactive: site_builds",
+      "passed": true
+    },
+    {
+      "name": "Anonymous cannot call privileged intake RPC",
+      "passed": true
+    }
+  ]
+}

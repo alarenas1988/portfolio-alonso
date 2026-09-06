@@ -1,0 +1,117 @@
+{
+  "date": "2026-09-06T20:04:23.281Z",
+  "completed": true,
+  "checks": [
+    {
+      "name": "Hosted preflight has exact origin and 204",
+      "passed": true
+    },
+    {
+      "name": "Hosted malicious Origin denied without CORS grant",
+      "passed": true
+    },
+    {
+      "name": "Hosted invalid public key denied",
+      "passed": true
+    },
+    {
+      "name": "Hosted honeypot returns generic receipt",
+      "passed": true
+    },
+    {
+      "name": "Managed gateway rejects a caller-supplied Cloudflare client header",
+      "passed": true
+    },
+    {
+      "name": "Direct public contact INSERT remains denied",
+      "passed": true
+    },
+    {
+      "name": "Privileged RPC remains inaccessible to anon",
+      "passed": true
+    },
+    {
+      "name": "Disabled editorial form rejects legitimate request",
+      "passed": true
+    },
+    {
+      "name": "Real public snapshot build for remote contact",
+      "passed": true
+    },
+    {
+      "name": "Local Astro preview available for real remote function",
+      "passed": true
+    },
+    {
+      "name": "Real browser confirms receipt before clearing",
+      "passed": true
+    },
+    {
+      "name": "Real hosted contact receipt and exact CORS",
+      "passed": true
+    },
+    {
+      "name": "Hosted duplicate request reuses receipt",
+      "passed": true
+    },
+    {
+      "name": "Duplicate request creates one message",
+      "passed": true
+    },
+    {
+      "name": "Same UUID with changed content is rejected",
+      "passed": true
+    },
+    {
+      "name": "Hosted bounded receipt 0",
+      "passed": true
+    },
+    {
+      "name": "Hosted bounded receipt 1",
+      "passed": true
+    },
+    {
+      "name": "Hosted bounded receipt 2",
+      "passed": true
+    },
+    {
+      "name": "Hosted Node origin cannot accept more than five messages despite spoofed XFF",
+      "passed": true
+    },
+    {
+      "name": "Snapshot exposes enabled form through existing public contract",
+      "passed": true
+    },
+    {
+      "name": "Snapshot contains no message fixtures",
+      "passed": true
+    },
+    {
+      "name": "Every accepted receipt has one persisted message/conversion; notification disabled",
+      "passed": true
+    },
+    {
+      "name": "Public private-table read denied: contact_messages",
+      "passed": true
+    },
+    {
+      "name": "Public private-table read denied: analytics_events",
+      "passed": true
+    },
+    {
+      "name": "Public private-table read denied: site_builds",
+      "passed": true
+    },
+    {
+      "name": "Public private-table read denied: admin_activity",
+      "passed": true
+    },
+    {
+      "name": "Public private-table read denied: admin_profiles",
+      "passed": true
+    }
+  ],
+  "form_enabled": true,
+  "fixture_messages_removed": true,
+  "rate_counters": "Preserved until normal expiry; production limits are not reset by tests."
+}

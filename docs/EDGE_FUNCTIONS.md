@@ -6,7 +6,7 @@ Fecha: 2026-09-06. Base `origin/main`: `302a00211db100237630d16bd323f07e8475bc92
 
 | Función          | Caller                                 | Contrato                                   | Estado del despliegue                                  |
 | ---------------- | -------------------------------------- | ------------------------------------------ | ------------------------------------------------------ |
-| `contact-submit` | Publicable + origen permitido          | Persistencia e idempotencia de contacto    | Puerta remota en verificación                          |
+| `contact-submit` | Publicable + origen permitido          | Persistencia e idempotencia de contacto    | Remoto ACTIVE, versión 2; formulario habilitado        |
 | `publish-site`   | JWT verificado + owner activo en DB    | Solicitud de publicación; adaptador GitHub | Local; dispatch productivo pendiente F11               |
 | `build-status`   | HMAC dedicado; sin Origin de navegador | Callback exacto del futuro workflow        | Local; pendiente F11                                   |
 | `track-event`    | Publicable + origen permitido          | Receptor acotado; sin instrumentación      | Local; activación y retención analítica pendientes F10 |
@@ -100,7 +100,7 @@ El wrapper crea `.env.edge.local` ignorado con secretos aleatorios **solo locale
 
 Secrets propios: CONTACT_RATE_LIMIT_HMAC_SECRET, ANALYTICS_HMAC_SECRET; para tracking local ANALYTICS_RATE_LIMIT_HMAC_SECRET; callback local BUILD_CALLBACK_HMAC_SECRET. GITHUB_FINE_GRAINED_TOKEN futuro en F11 y proveedor email futuro opcional. Supabase provee el contexto administrativo en Edge; nunca copiarlo a PUBLIC_* ni al frontend. `.env.edge.example` documenta solo nombres/valores públicos. El escáner de dist contempla los cuatro secretos HMAC.
 
-Pruebas locales: 88 Edge unitarias; 46 SQL F9 dentro de 659 SQL totales; 79 comprobaciones HTTP Runtime/Auth/DB; 107 Auth/RLS y 66 Storage/media previas conservadas. Navegador local verifica commit real, respuesta perdida, retry, límite, no-JS y limpieza. Fixtures Auth/passwords solo locales; filas y bytes de prueba eliminados. Tests npm/CI/E2E usan fixtures y no requieren el remoto. Las pruebas SQL usan rollback.
+Pruebas locales: 90 Edge unitarias; 46 SQL F9 dentro de 659 SQL totales; 79 comprobaciones HTTP Runtime/Auth/DB; 107 Auth/RLS y 66 Storage/media. Navegador local verifica commit real, respuesta perdida, retry, límite, no-JS y limpieza. Fixtures Auth/passwords solo locales; filas y bytes de prueba eliminados. Tests npm/CI/E2E usan fixtures y no requieren el remoto. Las pruebas SQL usan rollback. Suite npm: 146 aprobadas; E2E: 179 aprobadas y 73 omisiones explícitas por breakpoint, sin fallos pendientes. Se inspeccionaron capturas reales del formulario en 390/1440 y la recepción remota en 390.
 
 ## Operación remota y límites
 
@@ -114,6 +114,14 @@ Corrección: deno.json y lock propios en cada función, con versiones idénticas
 
 La versión 1 quedó ACTIVE el 2026-09-06 a las 19:43 UTC. El primer smoke remoto recibió mensajes y verificó idempotencia, pero falló el límite por origen: seis inserciones se repartieron entre tres hashes (hits 1/2/3) al utilizar el último intermediario XFF. Se restauró form_enabled=false y se eliminaron mensajes/conversiones. No se reiniciaron contadores productivos. La corrección usa el contrato Cloudflare anterior y añade pruebas de intermediarios variables, cabecera ausente y headers manipulados. No requiere nueva migración, cambio RLS ni secreto.
 
-**Estado actual:** revalidación de la señal de origen antes de reemplazar únicamente la función. El cierre de F9 registrará el resultado remoto efectivo.
+**Estado final:** contact-submit versión 2 ACTIVE desde 19:56 UTC. Smoke remoto: 27 comprobaciones aprobadas, incluida UI Astro real → publicable → Edge → PostgreSQL, idempotencia, 429, lectura privada denegada y snapshot. La plataforma rechazó con 403 la falsificación de CF-Connecting-IP; se corrigió la expectativa de la prueba, separándola del límite por origen. Cambiar XFF no permitió superar cinco mensajes por origen en la ventana. No se relajó ninguna protección para pasar el smoke.
+
+El formulario quedó `form_enabled=true` únicamente después del smoke completo. Es configuración editorial autorizada para conectar F4; no cambio de seed ni policy. Mensajes/conversiones temporales eliminados: cero filas remanentes. Solo permanecieron dos counters HMAC dentro de su TTL; no se reinició el rate limit remoto. No hay nuevos usuarios ni bytes Storage. Los canales alternativos Email/WhatsApp todavía no están configurados: sin JS el formulario informa su limitación y no ofrece envío falso.
+
+Se reconstruyó localmente después del deploy: 019 → 020 → 021 y seed, db lint limpio, 659 SQL, tipos y snapshot correctos. Una ejecución HTTP local tuvo timeout al rechazar un body oversized; el runtime había registrado 413. Se conservó el log y se repitió la suite sin cambios de código: 79/79 y limpieza completa. No se sustituyó la prueba ni se aumentó el timeout para ocultarlo.
+
+Auditoría posterior: 35 tablas RLS, 138 policies y tres definer de F6 conservados; coinciden grants, vistas, 404 columnas, 256 constraints, 100 índices, 45 triggers y definiciones de 24 funciones propias entre local y remoto. Dry-run sin migraciones pendientes. Tipos remotos equivalentes; solo se normaliza la anotación administrada PostgrestVersion 14.5 conforme al checkpoint inicial. Automatic RLS permanece activo. [Evidencia y cierre de F9](checkpoints/F9_EDGE_FUNCTIONS.md).
+
+Se configuraron exclusivamente dos secretos HMAC propios y tres ajustes públicos/de límite. Supabase añadió sus variables de runtime administradas, incluidas las colecciones de claves nuevas; no se copiaron ni versionaron sus valores. No se crearon secretos GitHub/callback/email remotos. El build final con snapshot público real genera seis páginas y pasa escaneo de secretos. GitHub Pages no se publicó en esta fase.
 
 Sin cambios Auth, owner, buckets, políticas ni contenido final. No se han iniciado F10/F7/F11/F12/F13/F14. No hay PR ni merge automático.

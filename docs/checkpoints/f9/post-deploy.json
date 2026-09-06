@@ -1,0 +1,115 @@
+{
+  "date": "2026-09-06T20:08:30.734Z",
+  "project": {
+    "name": "portfolio-alonso",
+    "region": "sa-east-1",
+    "status": "ACTIVE_HEALTHY"
+  },
+  "cli": "2.116.0",
+  "state": {
+    "analytics_events": 0,
+    "auth_users": 1,
+    "automatic_rls": [
+      {
+        "enabled": "O",
+        "name": "ensure_rls"
+      }
+    ],
+    "contact_messages": 0,
+    "cron": [
+      {
+        "active": true,
+        "name": "portfolio-rate-limit-retention",
+        "schedule": "*/15 * * * *"
+      }
+    ],
+    "expired_rate_counters": 0,
+    "form_enabled": true,
+    "history": ["20260906001900", "20260906002000", "20260906002100"],
+    "owners": 1,
+    "postgres": "17.6",
+    "rate_counters": 2,
+    "storage_objects": 0
+  },
+  "functions": [
+    {
+      "slug": "contact-submit",
+      "status": "ACTIVE",
+      "version": 2,
+      "verify_jwt": false
+    }
+  ],
+  "security_comparison": [
+    {
+      "section": "application_tables",
+      "equal": true
+    },
+    {
+      "section": "grants",
+      "equal": true
+    },
+    {
+      "section": "column_grants",
+      "equal": true
+    },
+    {
+      "section": "functions",
+      "equal": true
+    },
+    {
+      "section": "views",
+      "equal": true
+    },
+    {
+      "section": "policies",
+      "equal": true
+    },
+    {
+      "section": "storage_grants",
+      "equal": true
+    },
+    {
+      "section": "storage_rls",
+      "equal": true
+    },
+    {
+      "section": "application_buckets",
+      "equal": true
+    }
+  ],
+  "ddl_comparison": [
+    {
+      "section": "columns",
+      "equal": true,
+      "count": 404
+    },
+    {
+      "section": "indexes",
+      "equal": true,
+      "count": 100
+    },
+    {
+      "section": "triggers",
+      "equal": true,
+      "count": 45
+    },
+    {
+      "section": "functions",
+      "equal": true,
+      "count": 24
+    },
+    {
+      "section": "constraints",
+      "equal": true,
+      "count": 256
+    }
+  ],
+  "dry_run": {
+    "upToDate": true,
+    "dryRun": true,
+    "migrations": [],
+    "seeds": [],
+    "roles": [],
+    "message": "Remote database is up to date."
+  }
+}

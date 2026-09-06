@@ -6,6 +6,8 @@ La capa Edge comparte validación HTTP/CORS, SDK oficial de contexto, errores, H
 
 ## Páginas públicas F4 — 2026-09-06
 
+Estado posterior: F9 conectó el transporte del formulario mediante Edge; los contratos y resultados vigentes están en [el cierre F9](checkpoints/F9_EDGE_FUNCTIONS.md). El resto de esta sección describe la entrega original F4.
+
 Los índices proyectos/blog/perfil/contacto y los detalles SSG comparten `loadPublicPages()`: una RPC pública validada y un build de assets F8 por ejecución. Los getStaticPaths reciben únicamente contenido público con fecha cumplida. No hay SSR, cliente Supabase en el navegador ni rutas de drafts. La Home conserva sus límites de preview y enlaza ahora a las páginas internas.
 
 El renderer Markdown compartido produce HTML sanitizado, TOC y lectura calculada. Media por UUID, sintaxis resaltada con clases del Design System, ningún HTML/estilo ejecutable del autor. El formulario permanece sin transporte hasta F9. Navbar/MobileNavigation/Footer siguen siendo únicos; la corrección de IDs de gradiente del logo evita colisiones al reutilizarlo sin alterar su diseño. [Contrato, rutas y validación F4](PUBLIC_PAGES.md).
