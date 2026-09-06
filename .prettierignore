@@ -8,5 +8,6 @@ playwright-report/
 coverage/
 package-lock.json
 .env*
+supabase/.temp/
 # Preserve the supplied specification byte for byte.
 PORTFOLIO_ALONSO_LARENAS_CODEX_MASTER.md
