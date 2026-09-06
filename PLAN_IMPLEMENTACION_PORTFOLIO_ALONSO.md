@@ -1,7 +1,7 @@
 # Plan de implementación — Portfolio Alonso Larenas
 
-> **Estado: propuesta para aprobación; implementación no iniciada.**
-> Para ejecutar: seguir `superpowers:executing-plans`, tarea por tarea, con las verificaciones de este documento. Las casillas representan trabajo futuro, salvo la inspección expresamente completada. La autorización actual comprende exclusivamente inspección y planificación.
+> **Estado: plan aprobado; únicamente F1 autorizada y en ejecución.**
+> Para ejecutar: seguir `superpowers:executing-plans`, tarea por tarea, con las verificaciones de este documento. Detenerse al terminar F1 para revisión. F2 y fases posteriores requieren autorización adicional.
 
 **Objetivo:** construir el portfolio premium **AL — Alonso Larenas**, su CMS privado y su publicación C2, respetando la especificación maestra.
 
@@ -9,7 +9,7 @@
 
 **Stack:** Astro, Tailwind CSS, TypeScript, Supabase JS, PostgreSQL, Supabase Auth/Storage/Edge Functions, GitHub Actions/Pages. CSS, Web Animations API e IntersectionObserver para movimiento; Lucide para iconografía.
 
-**Especificación:** [PORTFOLIO_ALONSO_LARENAS_CODEX_MASTER.md](C:/Users/alonso/Downloads/PORTFOLIO_ALONSO_LARENAS_CODEX_MASTER.md), leído íntegramente: 2.594 líneas, 37 secciones y cierre. SHA-256: `F38CE3E6A0E3A6AE012D29949D5170BB89F02FD443DFA1A2B7D5BF11AA106CD8`.
+**Especificación:** [PORTFOLIO_ALONSO_LARENAS_CODEX_MASTER.md](./PORTFOLIO_ALONSO_LARENAS_CODEX_MASTER.md), copia íntegra del original de Downloads: 2.594 líneas, 37 secciones y cierre. SHA-256: `F38CE3E6A0E3A6AE012D29949D5170BB89F02FD443DFA1A2B7D5BF11AA106CD8`.
 
 **Fecha de inspección:** 2026-09-05. El maestro prevalece en producto; la solicitud del usuario define el método y exige aprobación antes de implementar. Las decisiones que completan vacíos del maestro se identifican como propuestas en este plan.
 
@@ -17,7 +17,7 @@
 
 El repositorio está vacío de aplicación: contiene únicamente `.git/` y un README inicial. No hay código, dependencias, migraciones ni configuración que migrar. Se conservarán el historial Git, el remoto y la identificación del proyecto.
 
-Se proponen 14 fases verificables. Se mantienen los números solicitados para trazabilidad, pero se adelantan base de datos y seguridad, como recomienda el maestro: **1 → 2 → 5 → 6 → 8 → 3 → 4 → 9 → 10 → 7 → 11 → 12 → 13 → 14**. Así el frontend y el CMS consumen contratos reales y la base de datos nace protegida. SEO, accesibilidad y rendimiento se incorporan desde los primeros componentes y tienen una fase posterior de cierre.
+Se proponen 14 fases verificables. Se mantienen los números solicitados para trazabilidad, pero se adelantan base de datos y seguridad, como recomienda el maestro: **1 → 2 → 5 → 6 → 8 → 3 → 4 → 9 → 10A → 7 → 10B → 11 → 12 → 13 → 14**. F10A entrega eventos y consultas para un dashboard útil; F10B completa agregaciones multidimensionales, retención y optimizaciones antes del cierre de analítica. Así el frontend y el CMS consumen contratos reales y la base de datos nace protegida. SEO, accesibilidad y rendimiento se incorporan desde los primeros componentes y tienen una fase posterior de cierre.
 
 Cada fase define dependencias, tareas, archivos, entregables, pruebas, riesgos y aceptación. Los módulos grandes se entregan en varios commits; una fase no se considera terminada si depende de integraciones todavía simuladas.
 
@@ -100,7 +100,7 @@ Estas resoluciones completan la especificación y forman parte del plan que debe
 | D10 | Reemplazar/borrar assets remotos puede romper la última publicación correcta | Objetos con nombre inmutable; copiar imágenes y CV usados al artefacto estático; borrar referencias de DB con control de uso | Build fallido conserva HTML y archivos anteriores. Retirar datos sensibles ya publicados requiere despliegue efectivo y gestionar copias externas. |
 | D11 | `/blog` pide “Más leídos” pero analytics es privado | Guardar únicamente ranking derivado público en posts; el agregador privado lo actualiza, sin exponer eventos, sesiones ni RPC de analytics | Ranking sin tráfico no se presenta como medición; se usa un estado vacío. |
 | D12 | Agregados definidos no cubren origen, dispositivo, todos los clics y rangos largos | Ampliar agregados privados por dimensiones y conservar sesiones mínimas para únicos por rango | Evita sumar únicos diarios como si fueran usuarios únicos mensuales; detalles en F10. |
-| D13 | Claves nuevas de Supabase no son JWT; el runtime actual expone diccionarios de claves | JWT de usuario en Authorization; publishable en apikey; helper Edge adapta `SUPABASE_SECRET_KEYS` a la necesidad conceptual `SUPABASE_SECRET_KEY` | Nada se envía al navegador; no confiar solo en la comprobación del gateway. [Claves](https://supabase.com/docs/guides/getting-started/api-keys), [entorno Edge](https://supabase.com/docs/guides/functions/secrets). |
+| D13 | Claves nuevas de Supabase no son JWT; el runtime actual expone diccionarios de claves | Priorizar `@supabase/server`, `withSupabase()` / `createSupabaseContext()` y modos `user/publishable/secret/none`. JWT de usuario en Authorization; API keys únicamente en apikey. | Usar autenticación del SDK; ninguna implementación manual equivalente si el SDK resuelve el caso. La autorización owner y validación del webhook siguen siendo obligatorias. [Auth SDK](https://supabase.com/docs/guides/functions/auth). |
 | D14 | Cuenta GitHub inspeccionada solo puede leer | Configurar cuenta/credencial con acceso al repo antes del despliegue y PAT acotado para dispatch | Bloquea publicación remota, no planificación ni desarrollo local. No cambiar dueño, remoto o repositorio para eludirlo. |
 | D15 | “Subtle” y acentos del diseño no garantizan AA en todas las combinaciones | Mantener tokens; reservar combinaciones insuficientes para decoración y elegir tokens de texto con contraste comprobado | No usar gris sutil para texto pequeño ni texto blanco sobre gradiente sin medir cada punto. |
 | D16 | Sitio estático no ofrece protección de ruta por servidor, 301 configurables ni headers arbitrarios | Páginas físicas, 404 real, advertencia de cambio de slug y política CSP compatible mediante meta cuando corresponda | No prometer redirects HTTP o headers que Pages no permite configurar; Auth/RLS siguen siendo la protección. |
@@ -253,6 +253,7 @@ Las verificaciones de cada fase se suman a la puerta de calidad común de §9. L
 
 - [ ] Preservar README e historial; copiar el maestro íntegro y verificar su hash. Fijar Node/npm, paquetes compatibles y lockfile. Resolver PATH para la sesión/documentar Laragon, sin dependencia de PHP o Apache.
 - [ ] Configurar Astro estático, plugin Tailwind Vite, TypeScript estricto y separación de configuración pública/privada. Inicializar clientes Supabase sin secretos privilegiados en `src/`.
+- [ ] Crear `.env.local` ignorado por Git y `.env.example` sin valores reales con `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_PUBLISHABLE_KEY`. Sin credenciales aportadas, dejarlas vacías y comprobar el estado sin configuración; no inventar una conexión real.
 - [ ] Crear helpers de base URL y rutas; usar `site`/`base` derivados de configuración validada. Preparar `404.astro` y salida por directorios.
 - [ ] Configurar lint de Astro/TS, formato y runner de pruebas significativas. Agregar scripts `dev`, `build`, `preview`, `typecheck`, `lint`, `format:check`, `test`, `test:e2e` y comprobación de artefactos al incorporarlos.
 - [ ] Documentar instalación Windows/CI, variables y alcance C2. La página de bootstrap identifica que el contenido todavía no está conectado; no lleva métricas ficticias.
@@ -464,7 +465,7 @@ Las verificaciones de cada fase se suman a la puerta de calidad común de §9. L
 | `build-status` | Callback privado con secreto/firma; sin dependencia de JWT de usuario | Estado y run/intento/deployment actualizados de manera idempotente |
 
 - [ ] Implementar helpers de entorno, CORS por orígenes exactos localhost/producción, OPTIONS, JSON y errores. CORS limita navegadores, no sustituye autenticación ni controles de abuso.
-- [ ] En `publish-site` enviar usuario JWT como Authorization y verificar identidad/owner en handler aunque el gateway acepte una API key. Para funciones públicas y webhook configurar verificación de JWT de acuerdo con su contrato, validando siempre en código lo requerido. [Auth Edge](https://supabase.com/docs/guides/functions/auth).
+- [ ] Priorizar `@supabase/server`: `withSupabase()` o `createSupabaseContext()` según integración. `publish-site` usa modo `user` y verifica owner; tracking/contacto usan `publishable` sin equiparar clave con identidad; callback usa `none` más su firma obligatoria; comunicaciones de servicio con API key privada usan `secret` cuando corresponda. `Authorization: Bearer <user JWT>` expresa identidad; `apikey: <publishable/secret key>` expresa API key. Nunca tratar `sb_publishable_*` ni `sb_secret_*` como JWT ni recrear la autenticación resuelta por el SDK. [Auth Edge](https://supabase.com/docs/guides/functions/auth).
 - [ ] Payload propuesto: tracking ≤4 KiB, publish/callback ≤8 KiB, contacto ≤16 KiB; nombre 2–120, email ≤254, asunto 3–200, mensaje 20–5000 caracteres, tiempo mínimo 3s. Validar límites en servidor, sin logging de cuerpos.
 - [ ] Rate limiting atómico PostgreSQL: tracking 60/min por sesión y límite adicional por hash efímero de origen; contacto 5/15min por origen y techo global configurable; publish una solicitud activa equivalente y cooldown 30s. HMAC separado para abuso con rotación diaria y TTL ≤24h; no guardar IP ni UA completo. Límites son parámetros privados versionados/documentados.
 - [ ] Contacto guarda antes de notificar; submission UUID evita duplicados. Email a destinatario fijo configurado, remitente verificado y Reply-To validado; escapar contenido en plantilla y bloquear inyección de headers. Sin proveedor: CMS conserva recepción y lo indica.
@@ -735,7 +736,18 @@ Un timeout de GitHub después de enviar dispatch es resultado incierto: conserva
 - [x] Versiones consultadas en fuentes oficiales; incompatibilidad de TypeScript documentada.
 - [x] Plan con 14 fases, orden, dependencias, entregables, verificaciones, riesgos y aceptación.
 - [x] Trazabilidad de las 37 secciones y decisiones que completan vacíos.
-- [ ] Aprobación de Alonso para iniciar la implementación conforme a este plan.
+- [x] Aprobación de Alonso para iniciar únicamente F1 conforme a este plan y sus precisiones.
 - [ ] Inicio de F1 y registro de resultados reales de cada fase.
 
-La próxima acción tras la aprobación será **F1 — Bootstrap**, con incorporación del maestro al repositorio y configuración reproducible. Hasta entonces, el único entregable nuevo es este plan y la aplicación permanece sin implementar.
+La autorización vigente comprende **F1 — Bootstrap**: maestro versionado, configuración reproducible, controles y documentación. Al finalizar F1 se entrega evidencia y se detiene el trabajo para revisión, sin avanzar a F2.
+
+### Precisiones aprobadas antes de F1
+
+1. Edge Functions priorizan `@supabase/server` y los modos de autenticación del SDK. No se implementan funciones Edge durante F1.
+2. Separación estricta entre JWT de usuario en `Authorization` y API keys en `apikey`; claves publicables/secretas no son JWT.
+3. `.env.local` existe, está ignorado y contiene las dos variables públicas Supabase; `.env.example` no incluye valores reales. La falta de claves no bloquea un bootstrap local sin conexión.
+4. El proyecto remoto tiene **Automatic RLS habilitado**, según información del owner. F5/F6 conservarán declaraciones explícitas de RLS, grants y policies en migraciones: ambas capas se mantienen.
+5. El permiso READ de GitHub CLI no bloquea desarrollo local; resolver escritura/configuración es requisito obligatorio antes de F11.
+6. F9/F11 se implementan en incrementos verificables: publicación → callback de estado → reintento manual → reconciliación automática/casos extremos. Se preserva la seguridad y todos los requisitos finales.
+7. F10A implementa eventos básicos y consultas para un dashboard útil, conectado en F7; F10B completa agregaciones multidimensionales, retención y optimizaciones. F7 puede empezar con F10A; F10 no se cierra hasta completar ambos incrementos.
+8. Seguridad, RLS, secretos, accesibilidad, responsive y Design System no se reducen. Trabajar en la rama local `feat/f1-bootstrap` dentro del checkout actual, conforme al plan aprobado; no se necesita un worktree adicional para este bootstrap aislado por rama.
