@@ -4,7 +4,7 @@ Portfolio personal premium de Alonso Larenas. El proyecto usa una arquitectura C
 
 ## Estado
 
-F1/F2/F5/F6/F8 y el despliegue inicial del backend están integrados. F3 implementa la Home estática con contenido público de Supabase, conservando el Design System aprobado. El CMS, las páginas internas, Edge Functions, tracking y la publicación C2 siguen pendientes de sus fases. [Contrato y validación de la Home](./docs/HOME.md).
+F1/F2/F5/F6/F8/F3 y el despliegue inicial del backend están integrados. F4 agrega proyectos/casos, blog/artículos, Sobre mí y Contacto como HTML estático desde un snapshot público compartido. El formulario conserva envío deshabilitado hasta F9. CMS, Edge Functions, tracking y publicación C2 siguen pendientes. [Home F3](./docs/HOME.md) · [Páginas públicas y Markdown F4](./docs/PUBLIC_PAGES.md).
 
 ## Stack actual
 

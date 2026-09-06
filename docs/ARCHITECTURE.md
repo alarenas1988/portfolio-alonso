@@ -1,5 +1,13 @@
 # Arquitectura del portfolio
 
+## Páginas públicas F4 — 2026-09-06
+
+Los índices proyectos/blog/perfil/contacto y los detalles SSG comparten `loadPublicPages()`: una RPC pública validada y un build de assets F8 por ejecución. Los getStaticPaths reciben únicamente contenido público con fecha cumplida. No hay SSR, cliente Supabase en el navegador ni rutas de drafts. La Home conserva sus límites de preview y enlaza ahora a las páginas internas.
+
+El renderer Markdown compartido produce HTML sanitizado, TOC y lectura calculada. Media por UUID, sintaxis resaltada con clases del Design System, ningún HTML/estilo ejecutable del autor. El formulario permanece sin transporte hasta F9. Navbar/MobileNavigation/Footer siguen siendo únicos; la corrección de IDs de gradiente del logo evita colisiones al reutilizarlo sin alterar su diseño. [Contrato, rutas y validación F4](PUBLIC_PAGES.md).
+
+Las secciones anteriores de F3/backend que siguen son evidencia histórica. F4 no modifica sus esquemas ni la configuración remota.
+
 ## Home pública de F3 — 2026-09-06
 
 La portada consume una lectura consistente de `loadPublicSnapshot()` durante el build. `loadHomePage()` coordina la RPC anónima, `buildSnapshotAssets()` de F8 y el DTO de presentación `createHomeModel()`. La página solo compone componentes Astro. El navegador recibe HTML, CSS, assets locales y scripts pequeños para navegación, movimiento progresivo y copia de correo; no recibe un cliente Supabase ni una sesión administrativa.
