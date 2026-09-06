@@ -1,0 +1,10 @@
+/** No database schema is assumed in F1. Replace with generated types in F5. */
+export interface Database {
+  public: {
+    Tables: Record<string, never>;
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
+  };
+}
