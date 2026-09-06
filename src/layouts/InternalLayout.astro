@@ -10,11 +10,19 @@ interface Props {
   content: PublicModel;
   active?: 'projects' | 'blog' | 'about' | 'contact';
   seo: ReturnType<typeof pageSeo>;
+  analyticsProject?: string;
+  analyticsPost?: string;
+  analyticsDisabled?: boolean;
 }
 const { content, active, seo } = Astro.props;
 ---
 
-<PublicLayout {...seo}>
+<PublicLayout
+  {...seo}
+  {...Astro.props.analyticsProject ? { analyticsProject: Astro.props.analyticsProject } : {}}
+  {...Astro.props.analyticsPost ? { analyticsPost: Astro.props.analyticsPost } : {}}
+  {...Astro.props.analyticsDisabled ? { analyticsDisabled: true } : {}}
+>
   <Navbar home={content} {...active ? { active } : {}} slot="navigation" />
   <slot />
   <Footer home={content} slot="footer" />

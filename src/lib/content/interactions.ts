@@ -10,7 +10,10 @@ export type PublicInteraction = {
     | 'share_linkedin';
   source: 'home' | 'article' | 'contact' | 'about';
 };
-/** F10 will supply transport. F3 records no analytics, identifiers, cookies or network traffic. */
+/** Local semantic hook; only the enabled Analytics subscriber selects allowed events. */
 export function recordPublicInteraction(event: PublicInteraction): void {
-  void event;
+  if (typeof window !== 'undefined')
+    window.dispatchEvent(
+      new CustomEvent('portfolio:interaction', { detail: { name: event.name } }),
+    );
 }

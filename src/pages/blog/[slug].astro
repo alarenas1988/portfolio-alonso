@@ -33,7 +33,7 @@ const tags = content.snapshot.tags.filter((tag) =>
 );
 ---
 
-<InternalLayout content={content} active="blog" seo={seo}>
+<InternalLayout content={content} active="blog" seo={seo} analyticsPost={item.row.id}>
   <article>
     <header class="page-hero page-hero--editorial container">
       <Breadcrumbs

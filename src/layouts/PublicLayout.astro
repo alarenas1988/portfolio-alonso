@@ -1,24 +1,44 @@
 ---
 import PageHead from '../components/shared/PageHead.astro';
+import { getPublicConfig } from '../lib/config/public.ts';
 interface Props {
   title: string;
   description: string;
   canonical?: string;
   robots?: string;
   image?: string | null;
+  analyticsProject?: string;
+  analyticsPost?: string;
+  analyticsDisabled?: boolean;
 }
+const config = getPublicConfig();
+const analytics =
+  !import.meta.env.DEV &&
+  import.meta.env.PUBLIC_ANALYTICS_ENABLED !== 'false' &&
+  !Astro.props.analyticsDisabled &&
+  config.supabase;
 ---
 
 <!doctype html>
 <html lang="es">
   <head><PageHead {...Astro.props} /></head>
-  <body>
+  <body
+    data-analytics-enabled={Boolean(analytics)}
+    data-analytics-endpoint={analytics
+      ? new URL('/functions/v1/track-event', analytics.url).href
+      : undefined}
+    data-analytics-key={analytics ? analytics.publishableKey : undefined}
+    data-analytics-site={analytics ? config.siteUrl : undefined}
+    data-analytics-project={Astro.props.analyticsProject}
+    data-analytics-post={Astro.props.analyticsPost}
+  >
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <slot name="navigation" />
     <main id="contenido" tabindex="-1"><slot /></main>
     <slot name="footer" />
     <script>
       import '../scripts/motion';
+      import '../scripts/analytics';
     </script>
   </body>
 </html>
