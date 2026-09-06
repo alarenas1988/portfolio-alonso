@@ -1,0 +1,67 @@
+{
+  "date": "2026-09-06T23:12:11.930Z",
+  "project": {
+    "name": "portfolio-alonso",
+    "region": "sa-east-1",
+    "status": "ACTIVE_HEALTHY"
+  },
+  "cli": "2.116.0",
+  "state": {
+    "auth_users": 1,
+    "automatic_rls": [
+      {
+        "enabled": "O",
+        "name": "ensure_rls"
+      }
+    ],
+    "collisions": 0,
+    "content": 0,
+    "daily": 0,
+    "form_enabled": true,
+    "history": ["20260906001900", "20260906002000", "20260906002100", "20260906002200"],
+    "messages": 0,
+    "owners": 1,
+    "postgres": "17.6",
+    "raw": 0
+  },
+  "functions": [
+    {
+      "slug": "contact-submit",
+      "status": "ACTIVE",
+      "version": 3,
+      "verify_jwt": false
+    },
+    {
+      "slug": "track-event",
+      "status": "ACTIVE",
+      "version": 1,
+      "verify_jwt": false
+    }
+  ],
+  "secret_names": [
+    "ANALYTICS_HMAC_SECRET",
+    "ANALYTICS_RATE_LIMIT_HMAC_SECRET",
+    "CONTACT_GLOBAL_HOURLY_LIMIT",
+    "CONTACT_RATE_LIMIT_HMAC_SECRET",
+    "PORTFOLIO_ALLOWED_ORIGINS",
+    "PORTFOLIO_SITE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_DB_URL",
+    "SUPABASE_JWKS",
+    "SUPABASE_PUBLISHABLE_KEYS",
+    "SUPABASE_SECRET_KEYS",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "SUPABASE_URL"
+  ],
+  "migration": "20260906002300_admin_editorial_transactions.sql",
+  "sha256": "06c123fe8582f18d54345588d1e6e2b334ca45904662308b0a7cb021fe717b63",
+  "dry_run": {
+    "upToDate": false,
+    "dryRun": true,
+    "migrations": ["20260906002300_admin_editorial_transactions.sql"],
+    "seeds": [],
+    "roles": [],
+    "message": "Finished supabase db push."
+  },
+  "review": "Only three SECURITY INVOKER owner-checked editorial RPCs and a private invoker parent-revision trigger. No new tables, table grants, RLS policies, managed DDL or SECURITY DEFINER. DELETE is scoped to the locked editorial parent inside each atomic save."
+}

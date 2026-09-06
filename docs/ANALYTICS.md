@@ -91,3 +91,7 @@ El test de upgrade destruye únicamente el stack local de prueba validado en 584
 Rate limits existentes: 60/min por sesión, 120/min por señal de origen y 10000/h global; body 4 KiB. Secrets consumidores: ANALYTICS_HMAC_SECRET (hash diario, reutilizado), ANALYTICS_RATE_LIMIT_HMAC_SECRET (abuso de tracking), contexto Supabase administrado dentro de Edge y configuración pública de orígenes/URL. Ninguno participa en el build público. No rotar secretos existentes sin motivo.
 
 La operación remota requiere puerta local aprobada, proyecto verificado, backup/inventario, diff completo y dry-run exclusivo de 022. Solo se ejecuta deploy de track-event. Añadir un secreto de proyecto hizo que la plataforma incrementara contact-submit de v2 a v3 sin cambiar su código: los 14 archivos descargados coinciden con el SHA base F9. No se ejecutó deploy de contacto. Supabase aplica los secrets inmediatamente sin requerir otro despliegue de código ([documentación oficial](https://supabase.com/docs/guides/functions/secrets)). El cierre F10 registra ejecución, pruebas e incidencias sin valores de secrets.
+
+## Consumidor administrativo F7
+
+/admin/analytics utiliza loadAnalyticsReport y la RPC owner-only de F10. Consulta únicamente agregados para 7/30 días o un rango acotado; muestra métricas, tablas top, interacciones y tendencia SVG. Indica que las sesiones son aproximadas y rotan diariamente. No consulta raw events, no agrega tracking y no modifica retención ni HMAC. Los scripts públicos de Analytics no se cargan en Admin. [Guía CMS](ADMIN_CMS.md).

@@ -140,3 +140,11 @@ El procedimiento vigente de Edge, configuración ignorada y contratos de secreto
 Estado vigente: historial 019/020/021/022 y `track-event` v1 ACTIVE. Solo se ejecutó deploy de tracking. El nuevo secreto ANALYTICS_RATE_LIMIT_HMAC_SECRET provocó una actualización de versión de plataforma para contacto (v2 → v3), sin diferencias en sus 14 archivos de código frente a F9. No repetir push ni recrear secretos para reproducir esa comprobación.
 
 Respaldo lógico privado, puerta local de 25 controles, dry-run exclusivo 022 y comparación posterior de tipos/catálogo documentados en [cierre F10](checkpoints/F10_ANALYTICS.md). No seed, Auth, buckets, owner, RLS ni workflows alterados. `PUBLIC_ANALYTICS_ENABLED` controla la instrumentación; dev/tests/previews permanecen excluidos. La publicación del artefacto en GitHub Pages sigue pendiente de F11, que no se inició.
+
+# CMS F7 — migración editorial (2026-09-06)
+
+La migración aditiva `20260906002300_admin_editorial_transactions.sql` quedó aplicada al proyecto `portfolio-alonso` después de reconstrucción local, upgrade con datos, suites completas, backup lógico privado y dry-run que mostraba únicamente 023. Historial remoto final: 019/020/021/022/023. No se ejecutaron seed, cambios de Auth, buckets, secrets ni despliegues Edge.
+
+Las tres RPC editoriales son invoker/owner-only; el trigger privado propaga la revisión de hijos al padre. Los catálogos y tipos propios local/remoto coinciden; el dry-run posterior queda vacío. La evidencia y los límites del backup están en el [checkpoint F7](checkpoints/F7_ADMIN_CMS.md). Los archivos roles/schema/data están fuera del repositorio, bajo ACL restringida en LOCALAPPDATA; esta copia nueva no fue restaurada independientemente y no incluye bytes Storage.
+
+El Admin es HTML estático bajo `/portfolio-alonso/admin/`, con acceso a datos posterior a Auth en navegador. Guardar o marcar contenido público no publica GitHub Pages. `publish-site` productivo, workflow y callback siguen pendientes de F11. No se ejecutó push, PR ni merge de la rama F7.

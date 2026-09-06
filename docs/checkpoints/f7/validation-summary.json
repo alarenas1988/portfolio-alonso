@@ -1,0 +1,136 @@
+{
+  "date": "2026-09-06T23:29:03.068Z",
+  "npm": [
+    {
+      "name": "ci",
+      "passed": true
+    },
+    {
+      "name": "ls --depth=0",
+      "passed": true
+    },
+    {
+      "name": "audit --audit-level=high",
+      "passed": true
+    },
+    {
+      "name": "run format:check",
+      "passed": true
+    },
+    {
+      "name": "run lint",
+      "passed": true
+    },
+    {
+      "name": "run typecheck",
+      "passed": true
+    },
+    {
+      "name": "run test",
+      "passed": true
+    },
+    {
+      "name": "run build",
+      "passed": true
+    },
+    {
+      "name": "run check:static",
+      "passed": true
+    },
+    {
+      "name": "run check:secrets",
+      "passed": true
+    },
+    {
+      "name": "run test:e2e",
+      "passed": true
+    }
+  ],
+  "database": [
+    {
+      "name": "run db:lint",
+      "passed": true
+    },
+    {
+      "name": "run db:test",
+      "passed": true
+    },
+    {
+      "name": "run db:types:check",
+      "passed": true
+    },
+    {
+      "name": "run db:snapshot:check",
+      "passed": true
+    },
+    {
+      "name": "run test:auth:local",
+      "passed": true
+    },
+    {
+      "name": "run test:media:local",
+      "passed": true
+    },
+    {
+      "name": "run edge:check",
+      "passed": true
+    },
+    {
+      "name": "run test:edge",
+      "passed": true
+    },
+    {
+      "name": "run test:edge:http",
+      "passed": true
+    },
+    {
+      "name": "run test:analytics:local",
+      "passed": true
+    },
+    {
+      "name": "run test:contact:local",
+      "passed": true
+    }
+  ],
+  "counts": {
+    "sql": 745,
+    "sql_new_admin": 31,
+    "npm_unit": 182,
+    "edge_unit": 99,
+    "auth_rls_http": 107,
+    "storage_media_http": 66,
+    "edge_http": 79,
+    "analytics_http": 49,
+    "contact_local_ui": 9,
+    "admin_e2e": 15,
+    "public_e2e": 197,
+    "public_expected_skips": 136,
+    "remote_cms": 34,
+    "visual_screenshots": 30
+  },
+  "final_rebuild": {
+    "migrations": ["019", "020", "021", "022", "023"],
+    "seed": true,
+    "sql": true,
+    "lint": true,
+    "types_match": true,
+    "upgrade_with_existing_data": true
+  },
+  "public_build": {
+    "real_remote_snapshot": true,
+    "pages": 31,
+    "public_pages": 6,
+    "admin_shells": 25,
+    "text_artifacts": 371,
+    "secret_scanned_artifacts": 381
+  },
+  "dependencies_added": 0,
+  "audit_vulnerabilities": 0,
+  "typecheck": {
+    "files": 181,
+    "errors": 0,
+    "warnings": 0,
+    "hints": 0
+  },
+  "private_fixtures_cleaned": true
+}

@@ -1,18 +1,129 @@
 ---
 import PageHead from '../components/shared/PageHead.astro';
+import BrandMark from '../components/shared/BrandMark.astro';
+import { adminSections, type AdminRoute } from '../lib/admin/routes.ts';
+import { getPublicConfig } from '../lib/config/public.ts';
+import { createUrlHelpers } from '../lib/utils/urls.ts';
 import '../styles/admin.css';
 interface Props {
   title: string;
+  route?: AdminRoute;
 }
-const { title } = Astro.props;
-// Static shell only. F6/F7 will supply Auth and owner authorization through RLS.
+const { title, route } = Astro.props;
+const { withBase } = createUrlHelpers(getPublicConfig().siteUrl);
+const auth = route === 'login' || route === 'reset-password';
 ---
 
 <!doctype html>
 <html lang="es">
-  <head><PageHead title={title} description="Administración del portfolio." /></head>
-  <body class="admin-shell">
+  <head
+    ><PageHead
+      title={`${title} · AL Admin`}
+      description="Administración del portfolio."
+      robots="noindex,nofollow"
+    /><meta name="referrer" content="no-referrer" /></head
+  >
+  <body class:list={['admin-shell', { 'cms-shell': route !== undefined, 'cms-auth': auth }]}>
     <a class="skip-link" href="#contenido-admin">Saltar al contenido</a>
-    <main id="contenido-admin" class="admin-container" tabindex="-1"><slot /></main>
+    {
+      route !== undefined && !auth && (
+        <>
+          <aside class="cms-sidebar" id="cms-sidebar" aria-label="Panel administrativo">
+            <a class="cms-brand" href={withBase('/admin/')}>
+              <>
+                <BrandMark />
+                <span>
+                  PORTFOLIO<span class="cms-brand-sub">Workspace</span>
+                </span>
+              </>
+            </a>
+            <button type="button" data-nav-close class="cms-mobile-only">
+              Cerrar navegación
+            </button>
+            <nav aria-label="Administración">
+              {adminSections.map((section) => (
+                <div class="cms-nav-group">
+                  <p>{section.label}</p>
+                  {section.items.map(([path, label]) => (
+                    <a
+                      href={withBase('/admin/' + path)}
+                      aria-current={
+                        (path ? route === path || route.startsWith(path + '/') : route === '')
+                          ? 'page'
+                          : undefined
+                      }
+                    >
+                      <span aria-hidden="true" class="cms-nav-dot" />
+                      {label}
+                    </a>
+                  ))}
+                </div>
+              ))}
+            </nav>
+            <a class="cms-site-link" href={withBase('/')} target="_blank" rel="noopener noreferrer">
+              Ver sitio público ↗
+            </a>
+          </aside>
+          <button
+            type="button"
+            class="cms-backdrop"
+            data-nav-backdrop
+            hidden
+            aria-label="Cerrar navegación"
+          />
+          <header class="cms-header">
+            <>
+              <div>
+                <>
+                  <button
+                    type="button"
+                    data-nav-open
+                    class="cms-mobile-only"
+                    aria-controls="cms-sidebar"
+                    aria-expanded="false"
+                  >
+                    Menú
+                  </button>
+                  <span class="cms-header-label">AL / ADMIN</span>
+                </>
+              </div>
+              <div class="cms-session">
+                <>
+                  <span data-session-label>Comprobando sesión…</span>
+                  <button type="button" data-logout disabled>
+                    Salir ↗
+                  </button>
+                </>
+              </div>
+            </>
+          </header>
+        </>
+      )
+    }
+    <main
+      id="contenido-admin"
+      class:list={[route !== undefined ? 'cms-main' : 'admin-container']}
+      tabindex="-1"
+      data-admin-route={route}
+    >
+      {auth && <h1>{title}</h1>}
+      {
+        route !== undefined && !auth && (
+          <header class="cms-page-heading">
+            <>
+              <div>
+                <>
+                  <p class="cms-eyebrow">Tu espacio de trabajo</p>
+                  <h1>{title}</h1>
+                </>
+              </div>
+              <span class="cms-data-note">Datos en Supabase · build independiente</span>
+            </>
+          </header>
+        )
+      }
+      <slot />
+    </main>
+    {route !== undefined && <script>import '../scripts/admin/bootstrap.ts';</script>}
   </body>
 </html>

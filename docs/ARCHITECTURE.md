@@ -148,3 +148,7 @@ Los tokens de F2 son la fuente visual compartida por Tailwind, el frontend y el 
 La instrumentación pública reutiliza los hooks F3/F4 y el intake F9. Cliente nativo sin dependencias Analytics, sesión efímera, payload finito y fallos silenciosos. La transacción de contacto sigue siendo el único origen de contact_submit.
 
 022 incorpora recomputación PostgreSQL atómica, job horario, retención 90/400 fechas, popular_rank derivado y consulta owner-only de agregados. No cambia baseline, Auth, Storage, snapshot ni policies. No hay dashboard F7 ni workflows F11. [Arquitectura, contratos y decisiones F10](ANALYTICS.md).
+
+## F7: administración estática autenticada
+
+El Admin dispone de 25 rutas físicas Astro y módulos TypeScript cargados según sección. El build solo genera el shell; todos los datos privados se solicitan con sesión Auth en navegador. El guard llama getUser y consulta el perfil mediante RLS. Los repositorios existentes de F8/F10 suministran media y Analytics. Tres RPC invoker de 023 permiten guardar padres y relaciones editorialmente en una transacción con control de revisión. [Contrato y módulos CMS](ADMIN_CMS.md).

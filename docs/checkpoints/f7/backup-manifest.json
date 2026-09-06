@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-06T23:08:32.078Z",
+  "location": "%LOCALAPPDATA%/portfolio-alonso/backups/20260906-f7-admin",
+  "files": [
+    {
+      "name": "roles.sql",
+      "bytes": 370,
+      "sha256": "168a95a9c745af5ed4679751f90419ac9dc434240a213b03e32a06d5664c2308"
+    },
+    {
+      "name": "schema.sql",
+      "bytes": 178581,
+      "sha256": "03fb8b497b8d466dbf2e7b2c164a272a5e3d0b7a77621cd96b43f8bc8dedf848"
+    },
+    {
+      "name": "data.sql",
+      "bytes": 23759,
+      "sha256": "4160afc43b658ec8459c20d4f270147a073df5393a6f25c4e01ab43f7194984f"
+    }
+  ],
+  "scope": "Logical roles/schema/data; excludes managed vector catalogs as in approved baseline backup. No Storage bytes; configuration inventoried separately.",
+  "limitation": "Free managed restore unavailable in approved checkpoint. This fresh logical backup has not been independently restored; use the previously tested compatible Supabase recovery procedure."
+}

@@ -1,0 +1,163 @@
+{
+  "date": "2026-09-06T23:29:03.060Z",
+  "inspected": true,
+  "widths": [390, 768, 1440],
+  "additional_overflow_checks": [360, 1024, 1920],
+  "accessibility": "27 principal authenticated page views with axe WCAG A/AA/2.1 AA; keyboard, focus, dialogs and menu checked",
+  "corrections": [
+    "Mobile editor action bar no longer covers fields",
+    "Use existing --space-8 token"
+  ],
+  "files": [
+    {
+      "name": "analytics-1440.png",
+      "path": ".tools/admin-screenshots/analytics-1440.png",
+      "sha256": "28c46865b866d0e1ed1fe49c70532d31940e6cf55db90ffb3a550c800a643269"
+    },
+    {
+      "name": "analytics-390.png",
+      "path": ".tools/admin-screenshots/analytics-390.png",
+      "sha256": "9445b650ef6db7c62f48b1efd39e3e3b9df4b4928defb3789641c587f47f6dc3"
+    },
+    {
+      "name": "analytics-768.png",
+      "path": ".tools/admin-screenshots/analytics-768.png",
+      "sha256": "c72ce994391a64fc00b846e926943ed632d90f104833148ac2d5be4cc614b077"
+    },
+    {
+      "name": "blog-1440.png",
+      "path": ".tools/admin-screenshots/blog-1440.png",
+      "sha256": "53465b6ade86e8b2e34cdcbb6a0ed090e9d060fcb546b8919408bb3d054c8e3a"
+    },
+    {
+      "name": "blog-390.png",
+      "path": ".tools/admin-screenshots/blog-390.png",
+      "sha256": "1047d73bb73ddb293b1857e077c2bf711f9af62ddecb2800cfdd586c40688b7b"
+    },
+    {
+      "name": "blog-768.png",
+      "path": ".tools/admin-screenshots/blog-768.png",
+      "sha256": "22580ce86e234e29470e097dd8dbf4a68bbdab0690154ef8cbfeb4de6ee277d5"
+    },
+    {
+      "name": "dashboard-1440.png",
+      "path": ".tools/admin-screenshots/dashboard-1440.png",
+      "sha256": "25871c2065665f5a8707db20d4da88369386ad03c30f9a3ba7500ec7d3af181f"
+    },
+    {
+      "name": "dashboard-390.png",
+      "path": ".tools/admin-screenshots/dashboard-390.png",
+      "sha256": "c8a3bba32e546a67962a0d623a736880a2e578e5f178e4adb6759bb55297ecbd"
+    },
+    {
+      "name": "dashboard-768.png",
+      "path": ".tools/admin-screenshots/dashboard-768.png",
+      "sha256": "fb3d2bbd1045a12c495629d482bd7e34fbee20576769785cba31df1a7c7476d1"
+    },
+    {
+      "name": "login-1440.png",
+      "path": ".tools/admin-screenshots/login-1440.png",
+      "sha256": "6c31a033cfa656488ff5213c1a75f5ade8c4b6f93dcfe39d86ac4f10b43ad37f"
+    },
+    {
+      "name": "login-390.png",
+      "path": ".tools/admin-screenshots/login-390.png",
+      "sha256": "a2b84fe37aa29870e663f1aa303787a440a77d2f43208f2e26a98380fe53e9cb"
+    },
+    {
+      "name": "login-768.png",
+      "path": ".tools/admin-screenshots/login-768.png",
+      "sha256": "450fceebf4466457ce3e40080a46ea10891938ba9856f2016ac12818397bff6c"
+    },
+    {
+      "name": "media-1440.png",
+      "path": ".tools/admin-screenshots/media-1440.png",
+      "sha256": "fe85cbfbf90206dc6030a238c54839e8358096668d74494a53b6890d6722c6c0"
+    },
+    {
+      "name": "media-390.png",
+      "path": ".tools/admin-screenshots/media-390.png",
+      "sha256": "fe270042ee67b1ba6ef9f7dcfa445f83de168832402e5aabcfd158ccc8240fb3"
+    },
+    {
+      "name": "media-768.png",
+      "path": ".tools/admin-screenshots/media-768.png",
+      "sha256": "49ae0f674c11276d44b0f090f7e02fc60a6090da6e386e3c466981ab367f1a73"
+    },
+    {
+      "name": "messages-1440.png",
+      "path": ".tools/admin-screenshots/messages-1440.png",
+      "sha256": "176674fc9266b51754ab6237b2c805f63f30b7dfa7f627c0be0943b9d13f8a51"
+    },
+    {
+      "name": "messages-390.png",
+      "path": ".tools/admin-screenshots/messages-390.png",
+      "sha256": "4414b0d1461c735d97d1552c13cc5aabfd89574819e0fcec8a9f4b6c1b34984e"
+    },
+    {
+      "name": "messages-768.png",
+      "path": ".tools/admin-screenshots/messages-768.png",
+      "sha256": "e985a9c8ca18818ca134759f1f8e962a1c37739c90aeca5aad65588f16fce1a0"
+    },
+    {
+      "name": "post-editor-1440.png",
+      "path": ".tools/admin-screenshots/post-editor-1440.png",
+      "sha256": "d4d8bcb8bc461ce59f1168b2b68b8e7f2e5879b8a4aa71907752ad57c65b0e56"
+    },
+    {
+      "name": "post-editor-390.png",
+      "path": ".tools/admin-screenshots/post-editor-390.png",
+      "sha256": "2476aeb8dcb4296d2b8c166e63203ad6d00e662f9e80c53ed86e2652d4dce090"
+    },
+    {
+      "name": "post-editor-768.png",
+      "path": ".tools/admin-screenshots/post-editor-768.png",
+      "sha256": "908c014d0f94f1a5ac906c8faaadccbd66a15591a1c4b7646ebe6d422e6d4c04"
+    },
+    {
+      "name": "project-editor-1440.png",
+      "path": ".tools/admin-screenshots/project-editor-1440.png",
+      "sha256": "daac11c53aa7a563116db70404ebfa7b4c329165ec2429b5a803bc2f2220577f"
+    },
+    {
+      "name": "project-editor-390.png",
+      "path": ".tools/admin-screenshots/project-editor-390.png",
+      "sha256": "024ef568bc9fb9fcd840b67e28d74f56ddc5d849c7ca5f23c052c692ab98b835"
+    },
+    {
+      "name": "project-editor-768.png",
+      "path": ".tools/admin-screenshots/project-editor-768.png",
+      "sha256": "b02b2f69781b1fdfe9f7393c2e5c8b757fdac5579627b220c0d1298616e7a11b"
+    },
+    {
+      "name": "projects-1440.png",
+      "path": ".tools/admin-screenshots/projects-1440.png",
+      "sha256": "c6a15a70de8d08c49fb62a0310028c68801db91371aac7a8f9c177de40e7de09"
+    },
+    {
+      "name": "projects-390.png",
+      "path": ".tools/admin-screenshots/projects-390.png",
+      "sha256": "41e841b9ac7341ebb23933e7820e19fb33a6ac07227d85ab0af9d6d034efe536"
+    },
+    {
+      "name": "projects-768.png",
+      "path": ".tools/admin-screenshots/projects-768.png",
+      "sha256": "bd9085ba71c3beca7b480a412ff62e85cfe13b3ed13e85b124ef1a55eb343981"
+    },
+    {
+      "name": "settings-1440.png",
+      "path": ".tools/admin-screenshots/settings-1440.png",
+      "sha256": "23cebcf89c9ba7e9b1b5d093e77ab4e4ae00a82f6062369c87c76a0b29436e80"
+    },
+    {
+      "name": "settings-390.png",
+      "path": ".tools/admin-screenshots/settings-390.png",
+      "sha256": "9b0c5593169186d347de3d425ef1358fa1f4258fd99d11f2732fa61fedab7ed2"
+    },
+    {
+      "name": "settings-768.png",
+      "path": ".tools/admin-screenshots/settings-768.png",
+      "sha256": "ab44000cf728aaa62ce881a08e2e752a7026d42a2297ffa6bb14e0a713d57a50"
+    }
+  ]
+}
