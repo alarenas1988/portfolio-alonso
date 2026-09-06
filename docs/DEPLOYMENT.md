@@ -1,0 +1,104 @@
+# Entorno y despliegue — contrato F6
+
+F6 está validada solo en Supabase local. **No ejecutar db push ni modificar el proyecto remoto sin una aprobación posterior explícita.** Automatic RLS remoto permanece habilitado y se mantendrá junto a las migraciones RLS/grants/policies.
+
+## Aislamiento local
+
+La rama `feat/f6-auth-rls` parte de `origin/main` en `4056e6b`, que contiene F1, F2 y F5. Su worktree es `.worktrees/f6-auth-rls`.
+
+- Proyecto CLI: portfolio-alonso-f6-local.
+- PostgreSQL: 17.6, imagen 17.6.1.165, puerto 55422; shadow 55420.
+- API: http://127.0.0.1:55421.
+- Studio: http://127.0.0.1:55423.
+- Mailpit: http://127.0.0.1:55424.
+- CLI: 2.116.0 fijada; Node 24.20.0; npm 11.19.0.
+- La instancia local F5 en los puertos 5432x se conserva separada.
+- .env.local existe y está ignorado; puede conservar las dos variables públicas remotas. Los tests de Auth NO lo cargan: obtienen únicamente las claves de la CLI local y rechazan URLs/puertos diferentes de los loopback fijados.
+- No se versionan passwords, JWT, claves privadas ni identidades owner reales.
+
+```powershell
+$env:Path = 'C:/laragon/www/portfolio/.tools/node-v24.20.0-win-x64;' + $env:Path
+Set-Location C:/laragon/www/portfolio/.worktrees/f6-auth-rls
+npm ci
+npm ls --depth=0
+npm run db:start
+npm run db:reset
+npm run db:lint
+npm run db:test
+npm run db:types
+npm run db:types:check
+npm run db:snapshot:check
+npm run test:auth:local
+npm run db:audit
+```
+
+db:reset reconstruye únicamente el proyecto local de F6 y aplica todas las migraciones/seed. Los wrappers no aceptan parámetros remotos. Los tests SQL usan ROLLBACK; test:auth:local exige el seed limpio, crea usuarios con passwords aleatorias en memoria y elimina exactamente sus fixtures al finalizar. El script no imprime credenciales. Las solicitudes de recovery llegan a Mailpit local, sin enviar correos externos.
+
+Si cambia config.toml de Auth, detener el proyecto local con `npx --no-install supabase stop` y volver a iniciar con db:start antes de probar. stop conserva el backup local; no usar opciones para descartar datos ajenos a las pruebas.
+
+## Auth y registro
+
+- auth.enabled=true.
+- auth.enable_signup=false: bloqueo global de registro público.
+- auth.email.enable_signup=true: en esta versión de CLI mantiene el proveedor email/password disponible; desactivarlo produjo email_provider_disabled al intentar login. El bloqueo global se comprueba con una petición signup real denegada.
+- Sign-in anónimo deshabilitado; password mínimo 12.
+- PKCE en el cliente browser; persistencia de sesión y refresh gestionados por Supabase JS. No interpretar publishable keys como JWT.
+- Un login correcto no concede permisos: la consulta RLS de admin_profiles y private.is_portfolio_admin definen al owner.
+
+En remoto, después de autorización de despliegue: mantener el proveedor email/password habilitado y desactivar **Allow new users to sign up** en Auth; mantener anonymous sign-ins deshabilitado. Verificar el rechazo real del endpoint signup. Configurar redirects exactos y mecanismos de recuperación antes de habilitar uso administrativo. Estos cambios remotos todavía no se han realizado.
+
+Referencias: [configuración Auth](https://supabase.com/docs/guides/auth/general-configuration), [passwords y recovery](https://supabase.com/docs/guides/auth/passwords), [RLS](https://supabase.com/docs/guides/database/postgres/row-level-security), [Storage](https://supabase.com/docs/guides/storage/security/access-control).
+
+## URLs de Auth y contrato de recovery
+
+La base Astro inicial es /portfolio-alonso/. URLs previstas:
+
+| Entorno            | Site URL                                         | Callback físico de recovery                                           |
+| ------------------ | ------------------------------------------------ | --------------------------------------------------------------------- |
+| Desarrollo         | http://localhost:4321/portfolio-alonso/          | http://localhost:4321/portfolio-alonso/admin/reset-password/          |
+| Producción inicial | https://alarenas1988.github.io/portfolio-alonso/ | https://alarenas1988.github.io/portfolio-alonso/admin/reset-password/ |
+
+config.toml solo permite el callback exacto local; no agrega redirects productivos al entorno de pruebas. Si cambia el base de Astro, derivar de nuevo las rutas con getAuthRedirects(), actualizar la allowlist y volver a probar; nunca aceptar returnTo arbitrario ni usar comodines de producción.
+
+En F7 se deberá crear `src/pages/admin/reset-password.astro`, generando una página estática real en esa ruta, junto a la UI de login. No se necesita endpoint server-side en GitHub Pages. Antes de esa fase la URL es un contrato, no una pantalla de recovery funcional.
+
+Flujo previsto: solicitar reset con resetPasswordForEmail y redirect fijo; validar el callback esperado; intercambiar el código PKCE mediante Supabase JS (con el verifier/flowId gestionado por SDK cuando corresponda); verificar al usuario con Auth; cambiar password usando updateUser; retirar el código de la URL y no registrarlo en analytics/logs. readRecoveryCode() valida origen/ruta/código y rechaza callbacks implícitos con tokens en hash. F6 no crea el formulario ni un consumidor automático del callback.
+
+Recovery no crea admin_profiles ni modifica role/active. Recuperar una cuenta normal no la convierte en owner. Una sesión local caducada o manipulada debe fallar contra Auth/REST; nunca usar localStorage como autorización.
+
+## Bootstrap del owner: operación administrativa futura
+
+No existe formulario público para crear owner. El seed productivo no incluye Auth ni perfiles.
+
+Después de la aprobación del despliegue y verificación de políticas:
+
+1. Un operador autorizado crea o invita al usuario mediante el canal administrativo Supabase Auth; la contraseña se entrega/establece mediante un canal seguro, fuera de Git, SQL y documentación.
+2. Verifica la identidad del usuario y obtiene su UUID real desde Auth. No autoriza por coincidencia de email ni por metadata proporcionada por el usuario.
+3. Con una conexión administrativa y variables psql proporcionadas fuera del repositorio, ejecuta una transacción equivalente a:
+
+```sql
+begin;
+insert into public.admin_profiles (id, display_name, role, active)
+values (:'owner_uuid'::uuid, 'Alonso Larenas', 'owner', true);
+-- Verificar que se creó exactamente la identidad previamente comprobada.
+commit;
+```
+
+La FK exige un auth.users existente; el índice único impide un segundo owner activo. No usar ON CONFLICT para activar silenciosamente otro perfil ni conceder INSERT sobre admin_profiles al navegador. Cualquier sustitución/reactivación es otra operación administrativa explícita.
+
+4. Inicia sesión como owner y comprueba CRUD; repite pruebas de anon/noowner/inactivo en un entorno de verificación apropiado.
+5. Comprueba recuperación y URLs exactas. El futuro frontend solo recibe URL y publishable key.
+
+En las pruebas locales de F6 se usa un procedimiento equivalente con identidades efímeras, alta por la API Auth administrativa y SQL local para los perfiles. Ningún owner remoto se ha creado.
+
+## Antes de evaluar el primer despliegue remoto
+
+Esta lista describe trabajo futuro, no autorización para ejecutarlo:
+
+- Confirmar PostgreSQL remoto compatible y el alcance de todas las migraciones.
+- Revisar SECURITY_AUDIT.json contra grants/policies ya presentes: las policies permisivas se combinan con OR; una policy heredada amplia no debe conservarse sin análisis.
+- Mantener Automatic RLS y declaraciones explícitas de aplicación.
+- Verificar los privileges administrados de Storage. F6 solo instala seguridad; F8 creará portfolio-public, blog, documents y private y probará bytes, MIME/tamaño y operaciones de Storage API.
+- Preparar variables/secretos únicamente en sus entornos privados; nunca exponer service_role ni secret keys en Astro/dist.
+- Obtener autorización explícita antes de db push, cambios de Auth remoto o alta de owner.
+- No se han creado Edge Functions, secretos, buckets remotos ni workflows de despliegue.

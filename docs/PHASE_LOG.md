@@ -196,3 +196,93 @@ El commit de cierre documental se identifica en `git log main..feat/f5-supabase-
 - F6, Auth, Storage de la aplicación, CMS, Edge Functions, tracking, Home definitiva y Actions C2 no se iniciaron.
 
 Inventario de archivos: `supabase/migrations/*.sql`, `supabase/seed.sql`, `supabase/tests/schema.test.sql`, `src/types/{database,content}.ts`, `src/lib/content/{snapshot,snapshot-contract,parse-snapshot}.ts`, `src/lib/supabase/queries.ts`, `scripts/{supabase-local,generate-database-types,check-local-snapshot}.mjs`, `tests/unit/snapshot.test.ts`, `package.json`, `eslint.config.mjs`, `docs/{ARCHITECTURE,CONTENT,PHASE_LOG}.md`. El tooling previo también versionó `supabase/config.toml`, `supabase/.gitignore` y el lockfile.
+
+## Fase 6 — Auth, seguridad y RLS
+
+**Estado:** completada y verificada exclusivamente en Supabase local; detenida para revisión. F8, F3, F7 y las demás fases posteriores no se iniciaron.
+
+**Fecha:** 2026-09-06, America/Santiago.
+
+**Rama/worktree:** `feat/f6-auth-rls` en `.worktrees/f6-auth-rls`.
+
+### Sincronización y alcance
+
+Se verificó el checkout limpio, se sincronizó main con origin/main y se creó el worktree aislado desde `4056e6b9ee06a4a0fb6e2fe48248dd179e8b2ae8`, merge del PR #3 de F5. Ese historial contiene F1, F2 y F5. No se reescribió historial, no hubo force-push y main permanece en ese commit. F6 deja commits locales para revisión; no se publica ni integra automáticamente.
+
+El stack F6 usa project_id `portfolio-alonso-f6-local`, API 55421 y PostgreSQL 55422, aislado de F5. Docker Desktop 4.89.0/motor 29.7.2, Supabase CLI 2.116.0 fijada y PostgreSQL 17.6 (imagen 17.6.1.165) están operativos. Node 24.20.0/npm 11.19.0 se habilitaron únicamente en el PATH de trabajo. .env.local sigue ignorado; las pruebas Auth/REST rechazan endpoints distintos al entorno local fijado.
+
+### Migraciones y autorización
+
+Se agregaron seis migraciones; las siete de F5 y su seed permanecen sin modificación:
+
+| Migración                                 | Responsabilidad                                                                         |
+| ----------------------------------------- | --------------------------------------------------------------------------------------- |
+| 20260906000800_owner_authorization.sql    | Función owner, perfil protegido y proyecciones públicas de contacto/media               |
+| 20260906000900_content_rls.sql            | Grants y policies por recurso, padres/joins visibles y autoría de media                 |
+| 20260906001000_private_data_rls.sql       | Lectura owner de operación, actualización limitada de mensajes y escrituras de servicio |
+| 20260906001100_public_snapshot_access.sql | RPC pública invoker con proyección idéntica para todos los roles                        |
+| 20260906001200_public_media_cache.sql     | Invalidación de URLs al privatizar assets o desactivar CV                               |
+| 20260906001300_storage_policies.sql       | Contrato de bucket/ruta/owner y cinco policies Storage sin crear buckets                |
+
+Las 32 tablas public y tres private conservan RLS. El catálogo tiene 139 policies incluyendo Storage. authenticated sin perfil e inactive owner solo ven contenido público. Owner activo obtiene CRUD en 25 tablas editoriales, lectura operacional y UPDATE(status) de mensajes. admin_profiles solo permite leer el perfil propio y editar display_name/avatar_url; no concede INSERT/DELETE ni UPDATE de id/role/active.
+
+Hay 23 tablas con SELECT público filtrado y dos vistas con proyecciones públicas para contacto/media. Dos vistas administrativas invoker exponen agregados privados únicamente al owner. Solo get_public_snapshot es RPC propia en public; private no está expuesto en PostgREST.
+
+Las tres funciones propias SECURITY DEFINER son is_portfolio_admin, read_public_contact y read_public_media. Todas viven en private, tienen propietario postgres, search_path vacío, proyección fija/sin parámetros y EXECUTE limitado. La primera evita recursión al consultar perfiles; las otras dos eliminan campos que RLS por fila no puede redactar. El inventario también distingue las cuatro funciones definer administradas por la plataforma.
+
+El snapshot y loadPublicSnapshot están habilitados y validados contra PostgreSQL/API local reales. La salida de anon, usuario normal, owner inactivo y owner activo es equivalente salvo generated_at; excluye drafts, archivados, posts futuros, media privada, contacto oculto, mensajes, analytics, builds, auditoría y perfiles. Las páginas de F2 conservan su fixture.
+
+### Auth, recovery y Storage
+
+Auth bloquea signup global y mantiene activo el proveedor email/password. Las identidades y contraseñas de pruebas se generan de forma aislada; las contraseñas viven solo en memoria y los usuarios se eliminan al terminar. La prueba real verifica que manipular user_metadata no concede permisos, que JWT alterado/expirado falla y que desactivar al owner revoca acceso con el mismo JWT.
+
+Se implementaron helpers de sesión verificada y owner para UX, y contrato de recovery con callbacks fijos bajo /portfolio-alonso/. No se crearon páginas de login/recovery ni CMS. El alta administrativa futura del único owner y la configuración remota para impedir signup se documentan sin credenciales ni UUID reales en DEPLOYMENT.md.
+
+Storage mantiene RLS de la tabla administrada y agrega cinco policies para portfolio-public, blog, documents y private. Los cuatro buckets de testing se crean solo dentro de una transacción revertida. El catálogo final no contiene buckets de aplicación. F8 deberá crearlos, configurar MIME/tamaño y validar bytes/operaciones HTTP; no se implementó gestión multimedia.
+
+### Verificaciones finales
+
+| Comando / evidencia                          | Resultado                                                          |
+| -------------------------------------------- | ------------------------------------------------------------------ |
+| npm ci                                       | 402 paquetes; 0 vulnerabilidades                                   |
+| npm ls --depth=0                             | Dependencias completas y válidas                                   |
+| npm run format:check                         | Correcto                                                           |
+| npm run lint                                 | Correcto                                                           |
+| npm run typecheck                            | 42 archivos; 0 errores, warnings o hints                           |
+| npm test                                     | 55 pruebas aprobadas                                               |
+| npm run build                                | 2 páginas estáticas; fixture F2 conservado                         |
+| npm run check:static                         | Base /portfolio-alonso/ y 2 documentos correctos                   |
+| npm run check:secrets                        | 8 artefactos; sin secretos detectados                              |
+| git diff --check / git diff --cached --check | Correctos                                                          |
+| npm run db:reset                             | Reconstrucción final desde cero con las 13 migraciones y seed      |
+| npm run db:lint                              | Sin errores ni warnings                                            |
+| npm run db:test                              | 568 aserciones: 194 esquema + 333 autorización + 41 Storage        |
+| npm run db:types:check                       | Tipos regenerados; sin drift                                       |
+| npm run db:snapshot:check                    | Contrato PostgreSQL real e idempotencia del seed correctos         |
+| npm run test:auth:local                      | 106 comprobaciones Auth/REST reales aprobadas; fixtures eliminados |
+| npm run db:audit                             | Catálogo final exportado a SECURITY_AUDIT.json                     |
+
+Las pruebas negativas cubren lectura directa de drafts/hijos por UUID, FK de recursos privados, joins, vistas, RPC privada, CRUD no autorizado, segundo owner, role/active/id, metadata, WITH CHECK, publicación no autorizada y falsificación de autoría. UPDATE/DELETE denegados se comprueban también mediante cero filas afectadas. Se prueba un search_path manipulado con tabla temporal falsa sin alterar la decisión owner. Todas estas pruebas acceden directamente a PostgreSQL/HTTP, sin protección de UI.
+
+La reconstrucción final se ejecutó después de completar migraciones y pruebas. El recorrido posterior repitió lint SQL, 568 aserciones, comprobación de tipos, snapshot, Auth/REST y auditoría. No se repitió QA visual porque F6 no modifica la interfaz.
+
+### Commits
+
+- `5bd4696 feat: add portfolio owner authorization and rls`
+- `9831ef0 feat: secure public snapshots and storage access`
+- `394f057 feat: configure local auth and recovery contracts`
+- `04b6be4 test: verify portfolio authorization boundaries`
+
+El cierre documental usa `docs: record phase six security validation`; el historial completo se consulta con `git log origin/main..feat/f6-auth-rls --oneline`.
+
+### Precisiones y pendientes
+
+- La redacción de columnas exige dos helpers definer adicionales a la función owner; están justificados y probados. Ninguna RPC de edición genérica ni auditoría enterprise fue agregada.
+- storage.objects pertenece a Supabase. Su RLS se verifica en la migración sin cambiar propiedad; su ACL incluye concesiones de la plataforma que postgres no puede revocar. Las policies deniegan DML no autorizado por la API; las concesiones amplias administradas y sus otorgantes quedan inventariados para revisar antes de producción. No se conceden permisos equivalentes en las tablas de aplicación.
+- graphql_public.graphql es un stub invoker del stack, con EXECUTE administrado para clientes; pg_graphql no está habilitado y la invocación local no devuelve datos. Debe revisarse nuevamente si se habilita esa extensión en otro entorno.
+- Recovery entrega contrato y solicitud Auth local verificada; la página física y el intercambio PKCE de la UI quedan para F7. La ruta no se presenta como implementada.
+- Buckets, validación de MIME/bytes/tamaño, URLs firmadas y UI pertenecen a F8. RLS de metadatos no vuelve privados los bytes ya publicados en un bucket público.
+- El despliegue remoto requiere aprobación y comparación de versiones, grants y policies existentes (las policies permisivas se combinan con OR). La prueba local no certifica un entorno remoto que no se ha inspeccionado/modificado.
+- No se cambió Supabase remoto, Automatic RLS, Auth remoto ni owner remoto. No hubo db push, secrets remotos, Edge Functions ni pruebas contra producción.
+
+Inventario F6: seis migraciones anteriores; `supabase/config.toml`; `supabase/tests/{schema,rls,storage}.test.sql`; `supabase/tests/fixtures/content.psql`; `src/lib/auth/{session,owner,redirects}.ts`; `src/types/database.ts`; `tests/unit/auth.test.ts`; `scripts/{check-local-snapshot,test-local-auth,audit-local-security}.mjs`; `package.json`; `docs/{SECURITY,ARCHITECTURE,DEPLOYMENT,CONTENT,PHASE_LOG}.md`; `docs/SECURITY_AUDIT.json`.
