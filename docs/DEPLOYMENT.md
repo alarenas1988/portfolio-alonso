@@ -1,5 +1,13 @@
 # Entorno y despliegue — contrato F6
 
+## Checkpoint remoto del 2026-09-06
+
+**Estado posterior al login:** CLI 2.116.0 autenticada, proyecto enlazado, auditoría de lectura actualizada y respaldo lógico fuera de Git. La simulación no aplicó migraciones. El orden 014 → 018 sigue creando temporalmente la FK rechazada; se detiene para acordar la instalación inicial, sin reescribir historial. [Informe CLI](checkpoints/CLI_REMOTE_PREFLIGHT.md). La recuperación aún requiere ensayo y el diff disponible tiene dirección inversa al despliegue. Los párrafos siguientes conservan el contexto previo a este acceso CLI.
+
+F8 ya está integrada en main. El [informe de inspección remota](checkpoints/SUPABASE_REMOTE_READINESS.md) registra PostgreSQL 17.6, Automatic RLS activo y backend todavía sin desplegar. La instrucción vigente prohíbe db push. La FK compuesta se corrigió localmente mediante la migración 018 hacia la PK UUID de Storage; siguen pendientes el volcado restaurable, el diff y la revisión de la puerta remota. La CLI 2.116.0 requiere login administrativo; no usar las claves públicas como sustituto. El futuro push debe incluir `--skip-vault`; no incluye seed por defecto. No se aplicaron cambios remotos ni se creó PR/merge del checkpoint.
+
+La configuración Auth observada todavía permite signup, tiene Site URL `http://localhost:3000` y carece de redirects. El plan Free no incluye backups restaurables. La [decisión Storage](checkpoints/STORAGE_OBJECT_IDENTITY.md) registra la corrección local probada. El informe conserva el estado remoto previo, Automatic RLS, recuperación y pasos pendientes. No modificar signup, URLs ni usuarios durante esta corrección.
+
 F8 incorpora un stack aislado adicional, buckets locales y el pipeline de multimedia. Para puertos, reconstrucción y comandos vigentes de esa fase, consultar [MEDIA.md](MEDIA.md). Los puertos y la evidencia F6 siguientes se conservan como historial; no ejecutar pruebas F8 contra ese entorno anterior.
 
 F6 está validada solo en Supabase local. **No ejecutar db push ni modificar el proyecto remoto sin una aprobación posterior explícita.** Automatic RLS remoto permanece habilitado y se mantendrá junto a las migraciones RLS/grants/policies.

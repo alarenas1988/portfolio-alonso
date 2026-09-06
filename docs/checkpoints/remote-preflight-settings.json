@@ -1,0 +1,41 @@
+{
+  "observed_at_utc": "2026-09-06T05:20:45Z",
+  "project_name": "portfolio-alonso",
+  "region": "sa-east-1",
+  "region_label": "South America (São Paulo)",
+  "plan": "Free",
+  "postgres_image_version": "17.6.1.166",
+  "auth_version": "2.196.0",
+  "postgrest_version": "14.5",
+  "automatic_rls": {
+    "enabled": true,
+    "event_trigger": "ensure_rls",
+    "function": "public.rls_auto_enable()",
+    "modified": false
+  },
+  "auth": {
+    "signup_enabled": true,
+    "email_enabled": true,
+    "email_confirmation": true,
+    "anonymous_sign_ins": false,
+    "site_url": "http://localhost:3000",
+    "redirect_urls": [],
+    "users": 0
+  },
+  "storage": {
+    "buckets": [],
+    "objects": 0,
+    "global_limit_display": "50 MB",
+    "image_transformations_enabled": false
+  },
+  "backup": {
+    "dashboard_restorable_backups": false,
+    "logical_dump_created": false
+  },
+  "deployment": {
+    "performed": false,
+    "migrations_applied": [],
+    "seed_executed": false,
+    "fixtures_created": false
+  }
+}

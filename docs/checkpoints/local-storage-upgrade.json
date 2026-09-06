@@ -1,0 +1,111 @@
+{
+  "postgres": "17.6",
+  "catalog": {
+    "columns": [
+      {
+        "name": "id",
+        "type": "uuid",
+        "not_null": true
+      },
+      {
+        "name": "bucket_id",
+        "type": "text",
+        "not_null": false
+      },
+      {
+        "name": "name",
+        "type": "text",
+        "not_null": false
+      },
+      {
+        "name": "owner",
+        "type": "uuid",
+        "not_null": false
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "not_null": false
+      },
+      {
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "not_null": false
+      },
+      {
+        "name": "last_accessed_at",
+        "type": "timestamp with time zone",
+        "not_null": false
+      },
+      {
+        "name": "metadata",
+        "type": "jsonb",
+        "not_null": false
+      },
+      {
+        "name": "path_tokens",
+        "type": "text[]",
+        "not_null": false
+      },
+      {
+        "name": "version",
+        "type": "text",
+        "not_null": false
+      },
+      {
+        "name": "owner_id",
+        "type": "text",
+        "not_null": false
+      },
+      {
+        "name": "user_metadata",
+        "type": "jsonb",
+        "not_null": false
+      },
+      {
+        "name": "archived_at",
+        "type": "timestamp with time zone",
+        "not_null": false
+      },
+      {
+        "name": "is_delete_marker",
+        "type": "boolean",
+        "not_null": true
+      },
+      {
+        "name": "is_versioned",
+        "type": "boolean",
+        "not_null": true
+      }
+    ],
+    "constraints": ["FOREIGN KEY (bucket_id) REFERENCES storage.buckets(id)", "PRIMARY KEY (id)"],
+    "indexes": [
+      "CREATE UNIQUE INDEX bucketid_objname ON storage.objects USING btree (bucket_id, name)",
+      "CREATE INDEX idx_objects_bucket_id_name ON storage.objects USING btree (bucket_id, name COLLATE \"C\")",
+      "CREATE INDEX idx_objects_bucket_id_name_lower ON storage.objects USING btree (bucket_id, lower(name) COLLATE \"C\")",
+      "CREATE INDEX name_prefix_search ON storage.objects USING btree (name text_pattern_ops)",
+      "CREATE UNIQUE INDEX objects_pkey ON storage.objects USING btree (id)"
+    ],
+    "triggers": [
+      "CREATE TRIGGER protect_objects_delete BEFORE DELETE ON storage.objects FOR EACH STATEMENT EXECUTE FUNCTION storage.protect_delete()",
+      "CREATE TRIGGER update_objects_updated_at BEFORE UPDATE ON storage.objects FOR EACH ROW EXECUTE FUNCTION storage.update_updated_at_column()"
+    ]
+  },
+  "checks": [
+    "upload_returns_catalog_uuid",
+    "registered_pk_allows_read",
+    "copy_has_new_uuid_preserves_source",
+    "copied_public_bytes_readable",
+    "replacement_upload_has_new_uuid",
+    "restricted_api_delete_preserves_row_and_bytes",
+    "unregistered_api_delete_removes_row_and_bytes",
+    "recreated_path_has_different_uuid",
+    "populated_f8_upgrade_backfills_actual_uuid_preserves_location",
+    "populated_upgrade_preserves_multiple_references",
+    "new_media_pk_fk_blocks_api_delete_and_preserves_bytes",
+    "legacy_composite_dependency_removed",
+    "storage_structure_unchanged"
+  ],
+  "delete_error_code": "ResourceReferenced",
+  "fixture_ids_omitted": true
+}

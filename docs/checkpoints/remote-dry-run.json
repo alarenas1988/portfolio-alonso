@@ -1,0 +1,27 @@
+{
+  "success": true,
+  "dry_run": true,
+  "skip_vault": true,
+  "include_seed": false,
+  "migrations": [
+    "20260906000100_base.sql",
+    "20260906000200_media_settings.sql",
+    "20260906000300_content.sql",
+    "20260906000400_relations.sql",
+    "20260906000500_operations_analytics.sql",
+    "20260906000600_integrity.sql",
+    "20260906000700_public_snapshot.sql",
+    "20260906000800_owner_authorization.sql",
+    "20260906000900_content_rls.sql",
+    "20260906001000_private_data_rls.sql",
+    "20260906001100_public_snapshot_access.sql",
+    "20260906001200_public_media_cache.sql",
+    "20260906001300_storage_policies.sql",
+    "20260906001400_storage_buckets.sql",
+    "20260906001500_media_lifecycle.sql",
+    "20260906001600_media_public_contract.sql",
+    "20260906001700_media_api_integrity.sql",
+    "20260906001800_storage_object_identity.sql"
+  ],
+  "migration_count": 18
+}

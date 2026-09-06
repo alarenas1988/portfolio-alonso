@@ -1,0 +1,705 @@
+{
+  "default_acl": [
+    {
+      "acl": "{postgres=rwU/supabase_admin,anon=rwU/supabase_admin,authenticated=rwU/supabase_admin,service_role=rwU/supabase_admin}",
+      "role": "supabase_admin",
+      "schema": "public",
+      "object_type": "S"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/supabase_admin,anon=arwdDxtm/supabase_admin,authenticated=arwdDxtm/supabase_admin,service_role=arwdDxtm/supabase_admin}",
+      "role": "supabase_admin",
+      "schema": "public",
+      "object_type": "r"
+    },
+    {
+      "acl": "{postgres=X/supabase_admin,anon=X/supabase_admin,authenticated=X/supabase_admin,service_role=X/supabase_admin}",
+      "role": "supabase_admin",
+      "schema": "public",
+      "object_type": "f"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+      "role": "postgres",
+      "schema": "storage",
+      "object_type": "r"
+    },
+    {
+      "acl": "{postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "role": "postgres",
+      "schema": "storage",
+      "object_type": "f"
+    },
+    {
+      "acl": "{postgres=rwU/postgres,anon=rwU/postgres,authenticated=rwU/postgres,service_role=rwU/postgres}",
+      "role": "postgres",
+      "schema": "storage",
+      "object_type": "S"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "role": "supabase_auth_admin",
+      "schema": "auth",
+      "object_type": "r"
+    },
+    {
+      "acl": "{postgres=rwU/supabase_auth_admin,dashboard_user=rwU/supabase_auth_admin}",
+      "role": "supabase_auth_admin",
+      "schema": "auth",
+      "object_type": "S"
+    },
+    {
+      "acl": "{postgres=X/supabase_auth_admin,dashboard_user=X/supabase_auth_admin}",
+      "role": "supabase_auth_admin",
+      "schema": "auth",
+      "object_type": "f"
+    },
+    {
+      "acl": "{postgres=rwU/supabase_admin,anon=rwU/supabase_admin,authenticated=rwU/supabase_admin,service_role=rwU/supabase_admin}",
+      "role": "supabase_admin",
+      "schema": "graphql_public",
+      "object_type": "S"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/supabase_admin,anon=arwdDxtm/supabase_admin,authenticated=arwdDxtm/supabase_admin,service_role=arwdDxtm/supabase_admin}",
+      "role": "supabase_admin",
+      "schema": "graphql_public",
+      "object_type": "r"
+    },
+    {
+      "acl": "{postgres=X/supabase_admin,anon=X/supabase_admin,authenticated=X/supabase_admin,service_role=X/supabase_admin}",
+      "role": "supabase_admin",
+      "schema": "graphql_public",
+      "object_type": "f"
+    },
+    {
+      "acl": "{postgres=a*r*w*d*D*x*t*m*/supabase_admin}",
+      "role": "supabase_admin",
+      "schema": "extensions",
+      "object_type": "r"
+    },
+    {
+      "acl": "{postgres=X*/supabase_admin}",
+      "role": "supabase_admin",
+      "schema": "extensions",
+      "object_type": "f"
+    },
+    {
+      "acl": "{postgres=r*w*U*/supabase_admin}",
+      "role": "supabase_admin",
+      "schema": "extensions",
+      "object_type": "S"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/supabase_admin,anon=arwdDxtm/supabase_admin,authenticated=arwdDxtm/supabase_admin,service_role=arwdDxtm/supabase_admin}",
+      "role": "supabase_admin",
+      "schema": "graphql",
+      "object_type": "r"
+    },
+    {
+      "acl": "{postgres=X/supabase_admin,anon=X/supabase_admin,authenticated=X/supabase_admin,service_role=X/supabase_admin}",
+      "role": "supabase_admin",
+      "schema": "graphql",
+      "object_type": "f"
+    },
+    {
+      "acl": "{postgres=rwU/supabase_admin,anon=rwU/supabase_admin,authenticated=rwU/supabase_admin,service_role=rwU/supabase_admin}",
+      "role": "supabase_admin",
+      "schema": "graphql",
+      "object_type": "S"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,anon=Dxtm/postgres,authenticated=Dxtm/postgres,service_role=Dxtm/postgres}",
+      "role": "postgres",
+      "schema": "public",
+      "object_type": "r"
+    },
+    {
+      "acl": "{postgres=rwU/postgres}",
+      "role": "postgres",
+      "schema": "public",
+      "object_type": "S"
+    },
+    {
+      "acl": "{postgres=X/postgres}",
+      "role": "postgres",
+      "schema": "public",
+      "object_type": "f"
+    },
+    {
+      "acl": "{postgres=rwU/supabase_admin,dashboard_user=rwU/supabase_admin}",
+      "role": "supabase_admin",
+      "schema": "realtime",
+      "object_type": "S"
+    },
+    {
+      "acl": "{postgres=X/supabase_admin,dashboard_user=X/supabase_admin}",
+      "role": "supabase_admin",
+      "schema": "realtime",
+      "object_type": "f"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/supabase_admin,dashboard_user=arwdDxtm/supabase_admin}",
+      "role": "supabase_admin",
+      "schema": "realtime",
+      "object_type": "r"
+    }
+  ],
+  "object_columns": [
+    {
+      "name": "id",
+      "type": "uuid",
+      "nullable": "NO"
+    },
+    {
+      "name": "bucket_id",
+      "type": "text",
+      "nullable": "YES"
+    },
+    {
+      "name": "name",
+      "type": "text",
+      "nullable": "YES"
+    },
+    {
+      "name": "owner",
+      "type": "uuid",
+      "nullable": "YES"
+    },
+    {
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "nullable": "YES"
+    },
+    {
+      "name": "updated_at",
+      "type": "timestamp with time zone",
+      "nullable": "YES"
+    },
+    {
+      "name": "last_accessed_at",
+      "type": "timestamp with time zone",
+      "nullable": "YES"
+    },
+    {
+      "name": "metadata",
+      "type": "jsonb",
+      "nullable": "YES"
+    },
+    {
+      "name": "path_tokens",
+      "type": "ARRAY",
+      "nullable": "YES"
+    },
+    {
+      "name": "version",
+      "type": "text",
+      "nullable": "YES"
+    },
+    {
+      "name": "owner_id",
+      "type": "text",
+      "nullable": "YES"
+    },
+    {
+      "name": "user_metadata",
+      "type": "jsonb",
+      "nullable": "YES"
+    },
+    {
+      "name": "archived_at",
+      "type": "timestamp with time zone",
+      "nullable": "YES"
+    },
+    {
+      "name": "is_delete_marker",
+      "type": "boolean",
+      "nullable": "NO"
+    },
+    {
+      "name": "is_versioned",
+      "type": "boolean",
+      "nullable": "NO"
+    }
+  ],
+  "auth_user_count": 0,
+  "managed_triggers": [
+    "CREATE TRIGGER enforce_bucket_name_length_trigger BEFORE INSERT OR UPDATE OF name ON storage.buckets FOR EACH ROW EXECUTE FUNCTION storage.enforce_bucket_name_length()",
+    "CREATE TRIGGER protect_buckets_delete BEFORE DELETE ON storage.buckets FOR EACH STATEMENT EXECUTE FUNCTION storage.protect_delete()",
+    "CREATE TRIGGER protect_objects_delete BEFORE DELETE ON storage.objects FOR EACH STATEMENT EXECUTE FUNCTION storage.protect_delete()",
+    "CREATE TRIGGER update_objects_updated_at BEFORE UPDATE ON storage.objects FOR EACH ROW EXECUTE FUNCTION storage.update_updated_at_column()"
+  ],
+  "automatic_rls_acl": null,
+  "storage_migrations": [
+    {
+      "id": 0,
+      "hash": "e18db593bcde2aca2a408c4d1100f6abba2195df",
+      "name": "create-migrations-table",
+      "executed_at": "2026-09-05T23:30:30.251532"
+    },
+    {
+      "id": 1,
+      "hash": "6ab16121fbaa08bbd11b712d05f358f9b555d777",
+      "name": "initialmigration",
+      "executed_at": "2026-09-05T23:30:30.291519"
+    },
+    {
+      "id": 2,
+      "hash": "f6a1fa2c93cbcd16d4e487b362e45fca157a8dbd",
+      "name": "storage-schema",
+      "executed_at": "2026-09-05T23:30:30.299197"
+    },
+    {
+      "id": 3,
+      "hash": "2cb1b0004b817b29d5b0a971af16bafeede4b70d",
+      "name": "pathtoken-column",
+      "executed_at": "2026-09-05T23:30:30.328012"
+    },
+    {
+      "id": 4,
+      "hash": "427c5b63fe1c5937495d9c635c263ee7a5905058",
+      "name": "add-migrations-rls",
+      "executed_at": "2026-09-05T23:30:30.347383"
+    },
+    {
+      "id": 5,
+      "hash": "79e081a1455b63666c1294a440f8ad4b1e6a7f84",
+      "name": "add-size-functions",
+      "executed_at": "2026-09-05T23:30:30.35516"
+    },
+    {
+      "id": 6,
+      "hash": "ded78e2f1b5d7e616117897e6443a925965b30d2",
+      "name": "change-column-name-in-get-size",
+      "executed_at": "2026-09-05T23:30:30.363231"
+    },
+    {
+      "id": 7,
+      "hash": "e7e7f86adbc51049f341dfe8d30256c1abca17aa",
+      "name": "add-rls-to-buckets",
+      "executed_at": "2026-09-05T23:30:30.371718"
+    },
+    {
+      "id": 8,
+      "hash": "fd670db39ed65f9d08b01db09d6202503ca2bab3",
+      "name": "add-public-to-buckets",
+      "executed_at": "2026-09-05T23:30:30.379786"
+    },
+    {
+      "id": 9,
+      "hash": "af597a1b590c70519b464a4ab3be54490712796b",
+      "name": "fix-search-function",
+      "executed_at": "2026-09-05T23:30:30.388034"
+    },
+    {
+      "id": 10,
+      "hash": "b595f05e92f7e91211af1bbfe9c6a13bb3391e16",
+      "name": "search-files-search-function",
+      "executed_at": "2026-09-05T23:30:30.395774"
+    },
+    {
+      "id": 11,
+      "hash": "7425bdb14366d1739fa8a18c83100636d74dcaa2",
+      "name": "add-trigger-to-auto-update-updated_at-column",
+      "executed_at": "2026-09-05T23:30:30.404019"
+    },
+    {
+      "id": 12,
+      "hash": "8e92e1266eb29518b6a4c5313ab8f29dd0d08df9",
+      "name": "add-automatic-avif-detection-flag",
+      "executed_at": "2026-09-05T23:30:30.412154"
+    },
+    {
+      "id": 13,
+      "hash": "cce962054138135cd9a8c4bcd531598684b25e7d",
+      "name": "add-bucket-custom-limits",
+      "executed_at": "2026-09-05T23:30:30.419931"
+    },
+    {
+      "id": 14,
+      "hash": "941c41b346f9802b411f06f30e972ad4744dad27",
+      "name": "use-bytes-for-max-size",
+      "executed_at": "2026-09-05T23:30:30.428883"
+    },
+    {
+      "id": 15,
+      "hash": "934146bc38ead475f4ef4b555c524ee5d66799e5",
+      "name": "add-can-insert-object-function",
+      "executed_at": "2026-09-05T23:30:30.458347"
+    },
+    {
+      "id": 16,
+      "hash": "76debf38d3fd07dcfc747ca49096457d95b1221b",
+      "name": "add-version",
+      "executed_at": "2026-09-05T23:30:30.466071"
+    },
+    {
+      "id": 17,
+      "hash": "f1cbb288f1b7a4c1eb8c38504b80ae2a0153d101",
+      "name": "drop-owner-foreign-key",
+      "executed_at": "2026-09-05T23:30:30.47406"
+    },
+    {
+      "id": 18,
+      "hash": "e7a511b379110b08e2f214be852c35414749fe66",
+      "name": "add_owner_id_column_deprecate_owner",
+      "executed_at": "2026-09-05T23:30:30.481556"
+    },
+    {
+      "id": 19,
+      "hash": "02e5e22a78626187e00d173dc45f58fa66a4f043",
+      "name": "alter-default-value-objects-id",
+      "executed_at": "2026-09-05T23:30:30.49053"
+    },
+    {
+      "id": 20,
+      "hash": "cd694ae708e51ba82bf012bba00caf4f3b6393b7",
+      "name": "list-objects-with-delimiter",
+      "executed_at": "2026-09-05T23:30:30.499179"
+    },
+    {
+      "id": 21,
+      "hash": "8c804d4a566c40cd1e4cc5b3725a664a9303657f",
+      "name": "s3-multipart-uploads",
+      "executed_at": "2026-09-05T23:30:30.509364"
+    },
+    {
+      "id": 22,
+      "hash": "9737dc258d2397953c9953d9b86920b8be0cdb73",
+      "name": "s3-multipart-uploads-big-ints",
+      "executed_at": "2026-09-05T23:30:30.52829"
+    },
+    {
+      "id": 23,
+      "hash": "9d7e604cddc4b56a5422dc68c9313f4a1b6f132c",
+      "name": "optimize-search-function",
+      "executed_at": "2026-09-05T23:30:30.541607"
+    },
+    {
+      "id": 24,
+      "hash": "8312e37c2bf9e76bbe841aa5fda889206d2bf8aa",
+      "name": "operation-function",
+      "executed_at": "2026-09-05T23:30:30.549466"
+    },
+    {
+      "id": 25,
+      "hash": "d974c6057c3db1c1f847afa0e291e6165693b990",
+      "name": "custom-metadata",
+      "executed_at": "2026-09-05T23:30:30.558591"
+    },
+    {
+      "id": 26,
+      "hash": "215cabcb7f78121892a5a2037a09fedf9a1ae322",
+      "name": "objects-prefixes",
+      "executed_at": "2026-09-05T23:30:30.566437"
+    },
+    {
+      "id": 27,
+      "hash": "859ba38092ac96eb3964d83bf53ccc0b141663a6",
+      "name": "search-v2",
+      "executed_at": "2026-09-05T23:30:30.573724"
+    },
+    {
+      "id": 28,
+      "hash": "c73a2b5b5d4041e39705814fd3a1b95502d38ce4",
+      "name": "object-bucket-name-sorting",
+      "executed_at": "2026-09-05T23:30:30.581228"
+    },
+    {
+      "id": 29,
+      "hash": "ad2c1207f76703d11a9f9007f821620017a66c21",
+      "name": "create-prefixes",
+      "executed_at": "2026-09-05T23:30:30.588374"
+    },
+    {
+      "id": 30,
+      "hash": "2be814ff05c8252fdfdc7cfb4b7f5c7e17f0bed6",
+      "name": "update-object-levels",
+      "executed_at": "2026-09-05T23:30:30.595437"
+    },
+    {
+      "id": 31,
+      "hash": "b40367c14c3440ec75f19bbce2d71e914ddd3da0",
+      "name": "objects-level-index",
+      "executed_at": "2026-09-05T23:30:30.602959"
+    },
+    {
+      "id": 32,
+      "hash": "e0c37182b0f7aee3efd823298fb3c76f1042c0f7",
+      "name": "backward-compatible-index-on-objects",
+      "executed_at": "2026-09-05T23:30:30.610368"
+    },
+    {
+      "id": 33,
+      "hash": "b480e99ed951e0900f033ec4eb34b5bdcb4e3d49",
+      "name": "backward-compatible-index-on-prefixes",
+      "executed_at": "2026-09-05T23:30:30.617543"
+    },
+    {
+      "id": 34,
+      "hash": "ca80a3dc7bfef894df17108785ce29a7fc8ee456",
+      "name": "optimize-search-function-v1",
+      "executed_at": "2026-09-05T23:30:30.625998"
+    },
+    {
+      "id": 35,
+      "hash": "458fe0ffd07ec53f5e3ce9df51bfdf4861929ccc",
+      "name": "add-insert-trigger-prefixes",
+      "executed_at": "2026-09-05T23:30:30.633465"
+    },
+    {
+      "id": 36,
+      "hash": "6ae5fca6af5c55abe95369cd4f93985d1814ca8f",
+      "name": "optimise-existing-functions",
+      "executed_at": "2026-09-05T23:30:30.640672"
+    },
+    {
+      "id": 37,
+      "hash": "3944135b4e3e8b22d6d4cbb568fe3b0b51df15c1",
+      "name": "add-bucket-name-length-trigger",
+      "executed_at": "2026-09-05T23:30:30.647923"
+    },
+    {
+      "id": 38,
+      "hash": "02716b81ceec9705aed84aa1501657095b32e5c5",
+      "name": "iceberg-catalog-flag-on-buckets",
+      "executed_at": "2026-09-05T23:30:30.656052"
+    },
+    {
+      "id": 39,
+      "hash": "6706c5f2928846abee18461279799ad12b279b78",
+      "name": "add-search-v2-sort-support",
+      "executed_at": "2026-09-05T23:30:30.67135"
+    },
+    {
+      "id": 40,
+      "hash": "7ad69982ae2d372b21f48fc4829ae9752c518f6b",
+      "name": "fix-prefix-race-conditions-optimized",
+      "executed_at": "2026-09-05T23:30:30.678396"
+    },
+    {
+      "id": 41,
+      "hash": "07fcf1a22165849b7a029deed059ffcde08d1ae0",
+      "name": "add-object-level-update-trigger",
+      "executed_at": "2026-09-05T23:30:30.685714"
+    },
+    {
+      "id": 42,
+      "hash": "771479077764adc09e2ea2043eb627503c034cd4",
+      "name": "rollback-prefix-triggers",
+      "executed_at": "2026-09-05T23:30:30.693535"
+    },
+    {
+      "id": 43,
+      "hash": "84b35d6caca9d937478ad8a797491f38b8c2979f",
+      "name": "fix-object-level",
+      "executed_at": "2026-09-05T23:30:30.702105"
+    },
+    {
+      "id": 44,
+      "hash": "99c20c0ffd52bb1ff1f32fb992f3b351e3ef8fb3",
+      "name": "vector-bucket-type",
+      "executed_at": "2026-09-05T23:30:30.70916"
+    },
+    {
+      "id": 45,
+      "hash": "049e27196d77a7cb76497a85afae669d8b230953",
+      "name": "vector-buckets",
+      "executed_at": "2026-09-05T23:30:30.717729"
+    },
+    {
+      "id": 46,
+      "hash": "fedeb96d60fefd8e02ab3ded9fbde05632f84aed",
+      "name": "buckets-objects-grants",
+      "executed_at": "2026-09-05T23:30:30.731255"
+    },
+    {
+      "id": 47,
+      "hash": "649df56855c24d8b36dd4cc1aeb8251aa9ad42c2",
+      "name": "iceberg-table-metadata",
+      "executed_at": "2026-09-05T23:30:30.73937"
+    },
+    {
+      "id": 48,
+      "hash": "e0e8b460c609b9999ccd0df9ad14294613eed939",
+      "name": "iceberg-catalog-ids",
+      "executed_at": "2026-09-05T23:30:30.749489"
+    },
+    {
+      "id": 49,
+      "hash": "072b1195d0d5a2f888af6b2302a1938dd94b8b3d",
+      "name": "buckets-objects-grants-postgres",
+      "executed_at": "2026-09-05T23:30:30.769488"
+    },
+    {
+      "id": 50,
+      "hash": "6323ac4f850aa14e7387eb32102869578b5bd478",
+      "name": "search-v2-optimised",
+      "executed_at": "2026-09-05T23:30:30.777549"
+    },
+    {
+      "id": 51,
+      "hash": "2ee395d433f76e38bcd3856debaf6e0e5b674011",
+      "name": "index-backward-compatible-search",
+      "executed_at": "2026-09-05T23:30:30.800434"
+    },
+    {
+      "id": 52,
+      "hash": "5cc44c8696749ac11dd0dc37f2a3802075f3a171",
+      "name": "drop-not-used-indexes-and-functions",
+      "executed_at": "2026-09-05T23:30:30.803227"
+    },
+    {
+      "id": 53,
+      "hash": "d0cb18777d9e2a98ebe0bc5cc7a42e57ebe41854",
+      "name": "drop-index-lower-name",
+      "executed_at": "2026-09-05T23:30:30.817076"
+    },
+    {
+      "id": 54,
+      "hash": "6289e048b1472da17c31a7eba1ded625a6457e67",
+      "name": "drop-index-object-level",
+      "executed_at": "2026-09-05T23:30:30.821475"
+    },
+    {
+      "id": 55,
+      "hash": "262a4798d5e0f2e7c8970232e03ce8be695d5819",
+      "name": "prevent-direct-deletes",
+      "executed_at": "2026-09-05T23:30:30.824205"
+    },
+    {
+      "id": 56,
+      "hash": "b823ed1e418101032fa01374edc9a436e54e3ed4",
+      "name": "fix-optimized-search-function",
+      "executed_at": "2026-09-05T23:30:30.832496"
+    },
+    {
+      "id": 57,
+      "hash": "f127886e00d1b374fadbc7c6b31e09336aad5287",
+      "name": "s3-multipart-uploads-metadata",
+      "executed_at": "2026-09-05T23:30:30.841212"
+    },
+    {
+      "id": 58,
+      "hash": "00ca5d483b3fe0d522133d9002ccc5df98365120",
+      "name": "operation-ergonomics",
+      "executed_at": "2026-09-05T23:30:30.848852"
+    },
+    {
+      "id": 59,
+      "hash": "38456f13e39691c2bbb4b5151d0d1cdbabd4a8c4",
+      "name": "drop-unused-functions",
+      "executed_at": "2026-09-05T23:30:30.857297"
+    },
+    {
+      "id": 60,
+      "hash": "db35e1c91a9201e59f4fef8d972c2f277d68b157",
+      "name": "optimize-existing-functions-again",
+      "executed_at": "2026-09-05T23:30:30.865778"
+    },
+    {
+      "id": 61,
+      "hash": "fe0096517ae9d60aaec1d110172ba9036dc66bb7",
+      "name": "mark-filename-immutable",
+      "executed_at": "2026-09-05T23:30:30.874254"
+    },
+    {
+      "id": 62,
+      "hash": "0b855f00ff3be0bfca91efee02a9858912491a9a",
+      "name": "object-versioning-core",
+      "executed_at": "2026-09-05T23:30:30.881844"
+    },
+    {
+      "id": 63,
+      "hash": "c7485e417624f795ce8bb2da21927f48e088904d",
+      "name": "fix-search-name-relative-to-prefix",
+      "executed_at": "2026-09-05T23:30:30.89213"
+    },
+    {
+      "id": 64,
+      "hash": "0af424ecd388a39bb1645184b222185a12149675",
+      "name": "fix-search-by-timestamp-sqli",
+      "executed_at": "2026-09-05T23:30:30.901989"
+    }
+  ],
+  "auth_migration_versions": [
+    "00",
+    "20171026211738",
+    "20171026211808",
+    "20171026211834",
+    "20180103212743",
+    "20180108183307",
+    "20180119214651",
+    "20180125194653",
+    "20210710035447",
+    "20210722035447",
+    "20210730183235",
+    "20210909172000",
+    "20210927181326",
+    "20211122151130",
+    "20211124214934",
+    "20211202183645",
+    "20220114185221",
+    "20220114185340",
+    "20220224000811",
+    "20220323170000",
+    "20220429102000",
+    "20220531120530",
+    "20220614074223",
+    "20220811173540",
+    "20221003041349",
+    "20221003041400",
+    "20221011041400",
+    "20221020193600",
+    "20221021073300",
+    "20221021082433",
+    "20221027105023",
+    "20221114143122",
+    "20221114143410",
+    "20221125140132",
+    "20221208132122",
+    "20221215195500",
+    "20221215195800",
+    "20221215195900",
+    "20230116124310",
+    "20230116124412",
+    "20230131181311",
+    "20230322519590",
+    "20230402418590",
+    "20230411005111",
+    "20230508135423",
+    "20230523124323",
+    "20230818113222",
+    "20230914180801",
+    "20231027141322",
+    "20231114161723",
+    "20231117164230",
+    "20240115144230",
+    "20240214120130",
+    "20240306115329",
+    "20240314092811",
+    "20240427152123",
+    "20240612123726",
+    "20240729123726",
+    "20240802193726",
+    "20240806073726",
+    "20241009103726",
+    "20250717082212",
+    "20250731150234",
+    "20250804100000",
+    "20250901200500",
+    "20250903112500",
+    "20250904133000",
+    "20250925093508",
+    "20251007112900",
+    "20251104100000",
+    "20251111201300",
+    "20251201000000",
+    "20260115000000",
+    "20260121000000",
+    "20260219120000",
+    "20260302000000",
+    "20260625000000"
+  ],
+  "automatic_rls_definition": "CREATE OR REPLACE FUNCTION public.rls_auto_enable()\n RETURNS event_trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog'\nAS $function$\nDECLARE\n  cmd record;\nBEGIN\n  FOR cmd IN\n    SELECT *\n    FROM pg_event_trigger_ddl_commands()\n    WHERE command_tag IN ('CREATE TABLE', 'CREATE TABLE AS', 'SELECT INTO')\n      AND object_type IN ('table','partitioned table')\n  LOOP\n     IF cmd.schema_name IS NOT NULL AND cmd.schema_name IN ('public') AND cmd.schema_name NOT IN ('pg_catalog','information_schema') AND cmd.schema_name NOT LIKE 'pg_toast%' AND cmd.schema_name NOT LIKE 'pg_temp%' THEN\n      BEGIN\n        EXECUTE format('alter table if exists %s enable row level security', cmd.object_identity);\n        RAISE LOG 'rls_auto_enable: enabled RLS on %', cmd.object_identity;\n      EXCEPTION\n        WHEN OTHERS THEN\n          RAISE LOG 'rls_auto_enable: failed to enable RLS on %', cmd.object_identity;\n      END;\n     ELSE\n        RAISE LOG 'rls_auto_enable: skip % (either system schema or not in enforced list: %.)', cmd.object_identity, cmd.schema_name;\n     END IF;\n  END LOOP;\nEND;\n$function$\n"
+}

@@ -52,6 +52,7 @@ async function storeFile(
       ]);
     notify('processing', null);
     const row = {
+      storage_object_id: uploaded.data.id,
       storage_bucket: bucket,
       storage_path: path,
       public_url:
@@ -77,11 +78,11 @@ async function storeFile(
         .eq('storage_bucket', bucket)
         .eq('storage_path', path)
         .maybeSingle();
-      if (persisted.data) {
+      if (persisted.data && persisted.data.storage_object_id === uploaded.data.id) {
         notify('complete', 100);
         return { asset: persisted.data, cleanup: [] };
       }
-      if (persisted.error)
+      if (persisted.error || persisted.data)
         throw new MediaOperationError(
           'No se pudo confirmar el registro. Revisa los archivos pendientes.',
           [{ bucket, path, reason: 'Resultado de registro desconocido.' }],

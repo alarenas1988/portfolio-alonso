@@ -1,4 +1,5 @@
 import { spawnSync } from 'node:child_process';
+import sharp from 'sharp';
 import { randomBytes, randomUUID, createHmac } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { createClient } from '@supabase/supabase-js';
@@ -14,16 +15,16 @@ const status = spawnSync(process.execPath, [cli, 'status', '--output', 'json'], 
   encoding: 'utf8',
   windowsHide: true,
 });
-if (status.status !== 0) throw new Error('Start the F8 local Supabase stack first.');
+if (status.status !== 0) throw new Error('Start the readiness local Supabase stack first.');
 const local = JSON.parse(status.stdout);
 if (
-  local.API_URL !== 'http://127.0.0.1:56421' ||
+  local.API_URL !== 'http://127.0.0.1:57421' ||
   new URL(local.DB_URL).hostname !== '127.0.0.1' ||
-  new URL(local.DB_URL).port !== '56422'
+  new URL(local.DB_URL).port !== '57422'
 ) {
-  throw new Error('Auth integration tests only permit the isolated F8 loopback stack.');
+  throw new Error('Auth integration tests only permit the isolated readiness loopback stack.');
 }
-const container = 'supabase_db_portfolio-alonso-f8-local';
+const container = 'supabase_db_portfolio-alonso-readiness-local';
 function sql(statement) {
   const result = spawnSync(
     'docker',
@@ -54,7 +55,9 @@ if (
     'select (not exists(select 1 from public.admin_profiles) and not exists(select 1 from public.projects) and not exists(select 1 from public.contact_settings where email is not null))::text;',
   ) !== 'true'
 ) {
-  throw new Error('Auth tests require a clean F8 local seed. Run npm run db:reset locally first.');
+  throw new Error(
+    'Auth tests require a clean readiness local seed. Run npm run db:reset locally first.',
+  );
 }
 let checks = 0;
 function check(condition, label) {
@@ -88,6 +91,7 @@ const ids = Object.fromEntries(
   ].map((k) => [k, randomUUID()]),
 );
 const extraProjects = [];
+const authAssetPath = 'temporary/' + randomUUID() + '.png';
 const uid = (value) => {
   if (!/^[a-f0-9-]{36}$/.test(value)) throw new Error('Invalid fixture identity.');
   return "'" + value + "'";
@@ -101,6 +105,18 @@ try {
     if (!user) throw new Error('Missing local fixture user.');
     actors[label] = { user, client: client(), email };
   }
+  const authAssetBytes = await sharp({
+    create: { width: 1, height: 1, channels: 4, background: '#22d3ee' },
+  })
+    .png()
+    .toBuffer();
+  const authAsset = await admin.storage
+    .from('private')
+    .upload(authAssetPath, authAssetBytes, { contentType: 'image/png', upsert: false });
+  check(
+    !authAsset.error && authAsset.data?.id,
+    'Auth fixture allocates a real Storage object through API',
+  );
   sql(`begin;
     insert into public.admin_profiles(id,display_name,active) values
       (${uid(actors.owner.user.id)},'Local test owner',true),
@@ -120,9 +136,8 @@ try {
       (${uid(ids.hiddenTech)},'PRIVATE_REST_SENTINEL','f6-hidden-tech','test',false);
     insert into public.contact_messages(id,submission_id,name,email,subject,message) values
       (${uid(ids.message)},${uid(randomUUID())},'PRIVATE_REST_SENTINEL','test@example.test','Test','PRIVATE_REST_SENTINEL');
-    insert into storage.objects(bucket_id,name,owner_id) values('private','temporary/10000000-0000-4000-8000-000000000007.png',${uid(actors.owner.user.id)});
-    insert into public.media_assets(id,storage_bucket,storage_path,public_url,filename,mime_type,file_size,created_by,width,height,alt_text) values
-      (${uid(ids.asset)},'private','temporary/10000000-0000-4000-8000-000000000007.png',null,'test.png','image/png',12,${uid(actors.owner.user.id)},1,1,'PRIVATE_REST_SENTINEL');
+    insert into public.media_assets(id,storage_object_id,storage_bucket,storage_path,public_url,filename,mime_type,file_size,created_by,width,height,alt_text) values
+      (${uid(ids.asset)},${uid(authAsset.data.id)},'private','${authAssetPath}',null,'test.png','image/png',${authAssetBytes.length},${uid(actors.owner.user.id)},1,1,'PRIVATE_REST_SENTINEL');
     update public.contact_settings set email='PRIVATE_REST_SENTINEL@example.test',email_visible=false;
     commit;`);
   for (const [label, actor] of Object.entries(actors)) {
@@ -364,12 +379,14 @@ try {
     delete from public.technologies where id in (${uid(ids.tech)},${uid(ids.hiddenTech)});
     delete from public.contact_messages where id=${uid(ids.message)};
     delete from public.media_assets where id=${uid(ids.asset)};
-    select set_config('storage.allow_delete_query','true',true);
-    delete from storage.objects where bucket_id='private' and name='temporary/10000000-0000-4000-8000-000000000007.png';
     update public.contact_settings set email=null,email_visible=false where email='PRIVATE_REST_SENTINEL@example.test';
     ${users.length ? 'delete from public.admin_profiles where id in (' + users.join(',') + ');' : ''}
     commit;`);
   let cleanupComplete = true;
+  if ((await admin.storage.from('private').remove([authAssetPath])).error) {
+    cleanupComplete = false;
+    process.exitCode = 1;
+  }
   for (const actor of Object.values(actors)) {
     const result = await admin.auth.admin.deleteUser(actor.user.id);
     if (result.error) {

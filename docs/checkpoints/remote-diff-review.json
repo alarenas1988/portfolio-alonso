@@ -1,0 +1,16 @@
+{
+  "direction": "migrations to linked (reverse of deployment)",
+  "engine": "migra",
+  "schema_filter": ["public", "private"],
+  "drop_tables": 35,
+  "create_tables": 0,
+  "automatic_rls_mentions": [
+    "CREATE OR REPLACE FUNCTION public.rls_auto_enable()",
+    "        RAISE LOG 'rls_auto_enable: enabled RLS on %', cmd.object_identity;",
+    "          RAISE LOG 'rls_auto_enable: failed to enable RLS on %', cmd.object_identity;",
+    "        RAISE LOG 'rls_auto_enable: skip % (either system schema or not in enforced list: %.)', cmd.object_identity, cmd.schema_name;"
+  ],
+  "managed_alter": [],
+  "sql_sha256": "cd408e44afe0d73c9453e71d85e1eee08715d00108d2d015f615c86647328af6",
+  "deployable": false
+}
