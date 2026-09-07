@@ -216,3 +216,7 @@ RLS y policies F6 permanecen. get_analytics_report es invoker y exige owner acti
 Se conserva la allowlist F9/F10A, HMAC diario UTC, sesiones efímeras, exclusión DNT/GPC y ausencia de datos personales del formulario en Analytics. La UI distingue sesiones aproximadas de personas. La única corrección funcional descarta respuestas/error de consultas Admin obsoletas; no cambia RLS, grants, Auth ni intake.
 
 Mantenimiento/reconciliación continúan reservados a service_role; owner accede solo al informe invoker y agregados autorizados. No se añadió SECURITY DEFINER: el cálculo privado de rank conserva owner postgres, search_path vacío y EXECUTE mínimo. Se verificó catálogo/tipos remoto en lectura, cron automático y dry-run vacío. Los datasets de volumen, fallos inyectados y usuarios de pruebas permanecen exclusivamente locales y se retiran. [Cierre y evidencia](checkpoints/F10B_ANALYTICS_CLOSURE.md).
+
+### F11: activación comprobada, aceptación CMS pendiente
+
+PR #15 integrado (`bd2ef407`); CI real y primer Pages deployment aprobados. Sitio: https://alarenas1988.github.io/portfolio-alonso/. Se aplicó únicamente024 y se activaron publish-site/build-status; tipos y catálogo remoto coinciden. Contacto y Analytics probados desde Pages con fixtures eliminados. El dispatch CMS recibió GitHub HTTP403: revisar acceso del Fine-Grained PAT antes de declarar F11 completa. Detalles y evidencia en [checkpoint F11](checkpoints/F11_C2_DEPLOYMENT.md#activación-real-y-bloqueo-observado--2026-09-07-utc). Sin F12/F13/F14.

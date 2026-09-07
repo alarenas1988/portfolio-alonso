@@ -4,8 +4,9 @@ import { createHash } from 'node:crypto';
 import { format, resolveConfig } from 'prettier';
 import { cli, cliJson, sql, verifyProject, verifyLink, ref } from './edge-remote.mjs';
 import { localSql } from './edge-local.mjs';
-if (process.argv[2] !== '--inspect-f11')
-  throw new Error('Use --inspect-f11 after local validation/deployment. Read-only.');
+const deployed = process.argv[2] === '--verify-f11';
+if (!deployed && process.argv[2] !== '--inspect-f11')
+  throw new Error('Use --inspect-f11 before deployment or --verify-f11 afterwards. Read-only.');
 verifyProject();
 verifyLink();
 const query = `begin read only;set local search_path='';select jsonb_build_object(
@@ -27,7 +28,7 @@ writeFileSync('.tools/f11/remote-schema.json', JSON.stringify(remote, null, 2));
 const matches = {};
 for (const key of Object.keys(local)) {
   try {
-    if (key === 'functions') {
+    if (key === 'functions' && !deployed) {
       const isReservation = (f) => f.schema === 'public' && f.name === 'edge_request_build';
       assert.deepEqual(
         remote[key].filter((f) => !isReservation(f)),
@@ -82,7 +83,7 @@ assert.equal(
   'Remote/local generated types differ; investigate before accepting.',
 );
 const dry = JSON.parse(cli(['db', 'push', '--linked', '--dry-run', '--skip-vault']));
-assert.deepEqual(dry.migrations, ['20260907002400_publication_freshness.sql']);
+assert.deepEqual(dry.migrations, deployed ? [] : ['20260907002400_publication_freshness.sql']);
 assert.deepEqual(dry.seeds, []);
 assert.deepEqual(dry.roles, []);
 const state = sql(
@@ -102,6 +103,7 @@ assert.equal(functions.find((f) => f.slug === 'contact-submit').status, 'ACTIVE'
 const evidence = {
   date: new Date().toISOString(),
   catalog_matches_except_reviewed_024_body: matches,
+  deployed_024_verified: deployed,
   remote_mutations: false,
   catalog_counts: Object.fromEntries(Object.entries(local).map(([k, v]) => [k, v.length])),
   types_equal: true,
@@ -112,5 +114,8 @@ const evidence = {
   state,
   functions,
 };
-writeFileSync('.tools/f11/remote-preflight.json', JSON.stringify(evidence, null, 2));
+writeFileSync(
+  deployed ? '.tools/f11/remote-verification.json' : '.tools/f11/remote-preflight.json',
+  JSON.stringify(evidence, null, 2),
+);
 console.log(JSON.stringify(evidence, null, 2));

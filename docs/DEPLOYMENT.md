@@ -188,3 +188,7 @@ La migración aditiva `20260906002300_admin_editorial_transactions.sql` quedó a
 Las tres RPC editoriales son invoker/owner-only; el trigger privado propaga la revisión de hijos al padre. Los catálogos y tipos propios local/remoto coinciden; el dry-run posterior queda vacío. La evidencia y los límites del backup están en el [checkpoint F7](checkpoints/F7_ADMIN_CMS.md). Los archivos roles/schema/data están fuera del repositorio, bajo ACL restringida en LOCALAPPDATA; esta copia nueva no fue restaurada independientemente y no incluye bytes Storage.
 
 El Admin es HTML estático bajo `/portfolio-alonso/admin/`, con acceso a datos posterior a Auth en navegador. Guardar o marcar contenido público no publica GitHub Pages. `publish-site` productivo, workflow y callback siguen pendientes de F11. No se ejecutó push, PR ni merge de la rama F7.
+
+### F11: activación comprobada, aceptación CMS pendiente
+
+PR #15 integrado (`bd2ef407`); CI real y primer Pages deployment aprobados. Sitio: https://alarenas1988.github.io/portfolio-alonso/. Se aplicó únicamente024 y se activaron publish-site/build-status; tipos y catálogo remoto coinciden. Contacto y Analytics probados desde Pages con fixtures eliminados. El dispatch CMS recibió GitHub HTTP403: revisar acceso del Fine-Grained PAT antes de declarar F11 completa. Detalles y evidencia en [checkpoint F11](checkpoints/F11_C2_DEPLOYMENT.md#activación-real-y-bloqueo-observado--2026-09-07-utc). Sin F12/F13/F14.

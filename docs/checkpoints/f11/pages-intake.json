@@ -1,0 +1,70 @@
+{
+  "date": "2026-09-07T02:05:29.713Z",
+  "checks": [
+    {
+      "name": "Analytics contains only approved minimal fields",
+      "passed": true
+    },
+    {
+      "name": "Browser never emits contact conversion",
+      "passed": true
+    },
+    {
+      "name": "Pages analytics accepted: Home",
+      "passed": true
+    },
+    {
+      "name": "Analytics contains only approved minimal fields",
+      "passed": true
+    },
+    {
+      "name": "Browser never emits contact conversion",
+      "passed": true
+    },
+    {
+      "name": "Pages analytics accepted: proyectos/",
+      "passed": true
+    },
+    {
+      "name": "Analytics contains only approved minimal fields",
+      "passed": true
+    },
+    {
+      "name": "Browser never emits contact conversion",
+      "passed": true
+    },
+    {
+      "name": "Pages analytics accepted: blog/",
+      "passed": true
+    },
+    {
+      "name": "Analytics contains only approved minimal fields",
+      "passed": true
+    },
+    {
+      "name": "Browser never emits contact conversion",
+      "passed": true
+    },
+    {
+      "name": "Pages analytics accepted: contacto/",
+      "passed": true
+    },
+    {
+      "name": "One real contact submission from Pages",
+      "passed": true
+    },
+    {
+      "name": "One receipt, one server conversion, no outgoing email",
+      "passed": true
+    },
+    {
+      "name": "Four page views plus one contact conversion persisted",
+      "passed": true
+    },
+    {
+      "name": "Exact fixtures removed; aggregates rebuilt from remaining traffic",
+      "passed": true
+    }
+  ],
+  "fixtures_removed": true
+}

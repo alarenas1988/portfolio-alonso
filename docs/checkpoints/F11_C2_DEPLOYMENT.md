@@ -1,6 +1,6 @@
 # F11 — Publicación C2: implementación y puerta de activación
 
-Estado: **implementación local preparada; F11 todavía requiere integración y aceptación remota**. Fecha local 2026-09-06, America/Santiago. La inspección inicial entre 2026-09-07 00:17 y 00:19 UTC se conserva a continuación como historial. El usuario confirmó posteriormente el secret; su presencia fue verificada sin leer su valor. La configuración posterior se registra al final de este documento.
+Estado actual: **PR #15 integrado y Pages operativo; publicación desde CMS bloqueada por GitHub HTTP 403**. La aceptación completa de F11 permanece pendiente. Fecha local 2026-09-06, America/Santiago. La inspección inicial entre 2026-09-07 00:17 y 00:19 UTC se conserva a continuación como historial. El usuario confirmó posteriormente el secret; su presencia fue verificada sin leer su valor. La configuración posterior se registra al final de este documento.
 
 ## Base y aislamiento
 
@@ -159,3 +159,36 @@ Verificación independiente a las **2026-09-07 01:34 UTC** ([evidencia](f11/plat
 - Archivo temporal restringido del HMAC eliminado; ninguna credencial queda en Git, evidencia o output público.
 
 Pendiente de autorización: subir esta rama, abrir PR, verificar CI y hacer merge; después completar la activación controlada de 024/Edge y la aceptación real CMS→GitHub→Pages. La puerta de backend se revalidará inmediatamente antes de aplicar 024, incluyendo respaldo actualizado. F11 no queda cerrada hasta esas pruebas.
+
+## Activación real y bloqueo observado — 2026-09-07 UTC
+
+El usuario autorizó expresamente commit, push, PR y merge. [PR #15](https://github.com/alarenas1988/portfolio-alonso/pull/15) se integró mediante merge commit `bd2ef40702420b85eecae91d2aa4604642b8984a`, sin reescribir historial. La rama y main local se sincronizaron por fast-forward. Las secciones anteriores conservan la inspección previa.
+
+| Control                     | Evidencia real                                                                                                                                          |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CI en PR                    | [34074041466](https://github.com/alarenas1988/portfolio-alonso/actions/runs/34074041466): success                                                       |
+| CI en main                  | [34074215121](https://github.com/alarenas1988/portfolio-alonso/actions/runs/34074215121): success                                                       |
+| Pages desde main            | [34074215118](https://github.com/alarenas1988/portfolio-alonso/actions/runs/34074215118): success; artifact github-pages `10001496988`, 2,267,083 bytes |
+| Reconciliación workflow_run | [34074298371](https://github.com/alarenas1988/portfolio-alonso/actions/runs/34074298371): success, sin solicitudes activas en ese momento               |
+| URL                         | https://alarenas1988.github.io/portfolio-alonso/                                                                                                        |
+| Backend                     | Dry-run solo024; aplicación efectiva024; historial019–024; sin seed                                                                                     |
+| Post-deploy                 | Catálogo/tipos iguales, sin migraciones pendientes; 35 tablas con RLS/138 policies, Automatic RLS conservado                                            |
+| Edge                        | build-status v1; publish-site v2; contact-submit v5 y track-event v3 conservados                                                                        |
+
+Antes de024 se capturó backup lógico privado (roles/schema/data) con ACL restringida fuera de Git. El manifiesto local `.tools/f11/backup-manifest.json` registra hashes y ubicación. No se presenta como restauración gestionada Free, no incluye bytes Storage y esta captura no fue restaurada independientemente. No se alteraron Auth, owner, buckets, RLS ni contenido editorial.
+
+**Producción pública:** health HTTP de Home, proyectos, blog, sobre mí, contacto, login, recovery y 404; doce assets válidos. Dieciséis E2E (390/1440) aprobados; axe Home/login sin infracciones; DNT/GPC sin eventos. Capturas Home/login y Home con reduced-motion inspeccionadas. El contenido revela secciones al entrar al viewport; una captura larga sin scroll no demuestra falta de datos.
+
+**Contacto/Analytics desde Pages:** dieciséis controles específicos aprobados: cuatro page_views y un envío real del formulario, exactamente una conversión server-side, cero correos salientes. Mensaje/eventos fixture eliminados por sus UUID exactos; agregados recalculados desde el tráfico restante. No se modificó configuración ni código de intake. Las redes/CV no configuradas no se inventaron para la prueba.
+
+**Owner/CMS:** se accedió al Admin de producción con una sesión Auth temporal del owner existente obtenida administrativamente sin enviar correo ni cambiar contraseña. Anon y noowner con metadata owner falsificada no pueden publicar. Se cerraron las sesiones de prueba y eliminaron los usuarios noowner; no se creó otro owner. No se automatizó la contraseña definitiva.
+
+**Bloqueo de dispatch:** la acción CMS llegó a publish-site y creó registros reales, pero GitHub rechazó dispatch con HTTP403. El log seguro de Supabase a las02:02:46UTC confirmó `{function:publish-site,upstream:github,status:403}`. Las solicitudes quedaron failed/dispatch_failed; no hay builds eternamente activos ni workflow CMS iniciado. Se conservan cuatro registros de fallo como historial operacional. No se afirma haber completado CMS→building→Pages→success, cancelación/superseded remotos o callback success para una solicitud CMS. Las pruebas locales de estas rutas permanecen aprobadas.
+
+Se añadió User-Agent explícito al adaptador (requerido por [GitHub](https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api)) y diagnóstico exclusivo del status upstream, con prueba de regresión. Esto no resolvió el403; por tanto no se atribuye el rechazo a ese header. El cuerpo/respuesta/header de GitHub y el PAT nunca se imprimen. Las119 pruebas Edge y check de los cuatro entrypoints pasan. El smoke CMS consulta la reserva por request UUID para no depender de leer tardíamente un response de Chromium tras navegación.
+
+**Acción requerida:** revisar en GitHub Settings → Developer settings → Personal access tokens → Fine-grained tokens el token correspondiente a GITHUB_FINE_GRAINED_TOKEN: resource owner alarenas1988, acceso únicamente a portfolio-alonso, Contents Read and write ([requisito oficial de repository_dispatch](https://docs.github.com/en/rest/repos/repos#create-a-repository-dispatch-event)), Actions Read-only para observar runs/jobs. Confirmar vigencia y aprobación. Si es necesario reemplazarlo, guardar el valor directamente en Supabase Edge Functions Secrets con el mismo nombre, nunca en chat/Git. No se sustituye por la credencial del operador. El403 no demuestra por sí solo cuál configuración concreta falta; requiere revisar el token.
+
+La integración y deployment por código quedan verificados. F11 permanece abierta hasta corregir el acceso y demostrar el recorrido CMS completo. F12/F13/F14 no fueron iniciadas.
+
+Evidencia seleccionada: [activación](f11/activation.json), [push DB](f11/db-deploy.json), [intake Pages](f11/pages-intake.json). Los logs y capturas de operación permanecen ignorados en .tools/f11.

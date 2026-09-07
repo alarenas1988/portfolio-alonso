@@ -628,3 +628,7 @@ Cron remoto verificado en lectura: job 2 `portfolio-analytics-maintenance`, minu
 787 SQL (42 nuevas), 182 unitarias, 99 Edge, 107 Auth/RLS HTTP, 79 Edge HTTP, 52 Analytics HTTP; cinco E2E Admin relevantes y 67 públicos aprobados (siete omisiones previstas por breakpoint). Dataset local de 95.000 eventos/95 fechas, transacción revertida: reporte 30 días ≈7 ms/13.302 bytes; refresh de dos fechas ≈47 ms; mantenimiento con 5.000 vencidos ≈56 ms. Índices existentes suficientes. Build real remoto de 31 páginas y escaneos static/secrets aprobados; fixtures locales retirados.
 
 [Matriz previa y resultado](checkpoints/F10B_GAP_ANALYSIS.md), [entrega completa](checkpoints/F10B_ANALYTICS_CLOSURE.md) y [contrato actualizado](ANALYTICS.md). Commits locales, sin push/PR/merge. F11/F12/F13/F14 no iniciadas.
+
+### F11: activación comprobada, aceptación CMS pendiente
+
+PR #15 integrado (`bd2ef407`); CI real y primer Pages deployment aprobados. Sitio: https://alarenas1988.github.io/portfolio-alonso/. Se aplicó únicamente024 y se activaron publish-site/build-status; tipos y catálogo remoto coinciden. Contacto y Analytics probados desde Pages con fixtures eliminados. El dispatch CMS recibió GitHub HTTP403: revisar acceso del Fine-Grained PAT antes de declarar F11 completa. Detalles y evidencia en [checkpoint F11](checkpoints/F11_C2_DEPLOYMENT.md#activación-real-y-bloqueo-observado--2026-09-07-utc). Sin F12/F13/F14.

@@ -1,0 +1,29 @@
+{
+  "date": "2026-09-07T01:49:57.431Z",
+  "commit": "bd2ef40702420b85eecae91d2aa4604642b8984a",
+  "dry_run": {
+    "upToDate": false,
+    "dryRun": true,
+    "migrations": ["20260907002400_publication_freshness.sql"],
+    "seeds": [],
+    "roles": [],
+    "message": "Finished supabase db push."
+  },
+  "result": {
+    "upToDate": false,
+    "dryRun": false,
+    "migrations": ["20260907002400_publication_freshness.sql"],
+    "seeds": [],
+    "roles": [],
+    "message": "Finished supabase db push."
+  },
+  "history": [
+    "20260906001900",
+    "20260906002000",
+    "20260906002100",
+    "20260906002200",
+    "20260906002300",
+    "20260907002400"
+  ],
+  "backup_verified": true
+}
