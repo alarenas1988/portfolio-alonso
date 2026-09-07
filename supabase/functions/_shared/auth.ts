@@ -2,10 +2,12 @@ import { createSupabaseContext } from '@supabase/server';
 import type { Database } from '../../../src/types/database.ts';
 import { EdgeError } from './errors.ts';
 import { repository, type EdgeRepository } from './repository.ts';
+import { publishingRepository, type PublishingRepository } from './publishing-repository.ts';
 export type AuthMode = 'publishable' | 'user' | 'none';
 export interface Authorized {
   db: EdgeRepository;
   ownerId?: string;
+  publishing?: PublishingRepository;
 }
 export async function authorize(request: Request, mode: AuthMode): Promise<Authorized> {
   const { data: ctx, error } = await createSupabaseContext<Database>(request, {
@@ -47,5 +49,9 @@ export async function authorize(request: Request, mode: AuthMode): Promise<Autho
     ownerId = profile.id;
   }
   // Privileged client is scoped to fixed service-only RPCs, never browser-supplied SQL/table names.
-  return { db: repository(ctx.supabaseAdmin), ...(ownerId ? { ownerId } : {}) };
+  return {
+    db: repository(ctx.supabaseAdmin),
+    publishing: publishingRepository(ctx.supabaseAdmin),
+    ...(ownerId ? { ownerId } : {}),
+  };
 }

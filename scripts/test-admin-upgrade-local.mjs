@@ -29,7 +29,7 @@ copyFileSync(resolve(root, 'src/types/database.ts'), join(temporary, 'src/types/
 const migrations = readdirSync(resolve(root, 'supabase/migrations'))
   .filter((f) => f.endsWith('.sql'))
   .sort();
-assert.equal(migrations.length, 5);
+assert.ok(migrations.length >= 5);
 assert.ok(migrations[4].startsWith('20260906002300_'));
 for (const file of migrations.slice(0, 4))
   copyFileSync(
@@ -91,7 +91,10 @@ console.log(
 );
 run(['stop', '--no-backup'], temporary);
 run(['start']);
-assert.equal(localSql('select count(*) from supabase_migrations.schema_migrations;'), '5');
+assert.equal(
+  localSql('select count(*) from supabase_migrations.schema_migrations;'),
+  String(migrations.length),
+);
 assert.equal(localSql('select count(*) from public.analytics_events;'), '0');
 writeFileSync(
   resolve(root, '.tools/f7/upgrade.json'),

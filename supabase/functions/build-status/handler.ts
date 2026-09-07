@@ -5,6 +5,8 @@ import { verifyCallback } from '../_shared/crypto.ts';
 import { accepted } from '../_shared/repository.ts';
 import type { EdgeConfig } from '../_shared/env.ts';
 import type { Runtime } from '../_shared/runtime.ts';
+import { observePublication, reconcilePublications } from '../_shared/publishing.ts';
+import { EdgeError } from '../_shared/errors.ts';
 export function buildStatus(
   getConfig: () => EdgeConfig,
   runtime: Runtime,
@@ -15,7 +17,34 @@ export function buildStatus(
     getConfig,
     async (request, text, config) => {
       await verifyCallback(request, text, config.callbackSecret, runtime.now());
-      const body = object(json(text), [
+      const decoded = json(text);
+      if (decoded && typeof decoded === 'object' && 'action' in decoded) {
+        const command = object(
+          decoded,
+          decoded.action === 'reconcile'
+            ? ['action']
+            : ['action', 'build_id', 'run_id', 'run_attempt', 'phase', 'repository'],
+        );
+        const action = choice(command.action, ['observe', 'reconcile'] as const);
+        const { db, publishing } = await runtime.authorize(request, 'none');
+        if (!publishing) throw new EdgeError(503, 'not_configured');
+        if (action === 'reconcile')
+          return { data: await reconcilePublications(db, publishing, config, runtime) };
+        if (command.repository !== 'alarenas1988/portfolio-alonso') invalid();
+        const build = await publishing.get(uuid(command.build_id));
+        if (!build) throw new EdgeError(404, 'not_found');
+        const status = await observePublication(
+          build,
+          integer(command.run_id, 1, Number.MAX_SAFE_INTEGER),
+          integer(command.run_attempt, 1, 1000),
+          choice(command.phase, ['building', 'finish'] as const),
+          db,
+          config,
+          runtime,
+        );
+        return { data: { status } };
+      }
+      const body = object(decoded, [
         'build_id',
         'status',
         'run_id',

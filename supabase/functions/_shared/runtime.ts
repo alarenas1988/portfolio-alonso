@@ -11,6 +11,7 @@ export interface Runtime {
   authorize: (request: Request, mode: AuthMode) => Promise<Authorized>;
   dispatch: (config: EdgeConfig, buildId: string) => Promise<void>;
   now: () => number;
+  githubFetch?: typeof fetch;
   notify?: (message: ContactText, signal: AbortSignal) => Promise<void>;
 }
 export const runtime: Runtime = { authorize, dispatch, now: () => Date.now() };

@@ -334,7 +334,7 @@ test('publish duplicate and already queued build do not redispatch', async () =>
   assert.equal(s.calls.dispatch, 0);
 });
 for (const status of [502, 504])
-  test(`dispatch failure ${status} persists failed status`, async () => {
+  test(`dispatch result ${status} preserves definite versus ambiguous delivery`, async () => {
     const s = setup({
       dispatch: async () => {
         throw new EdgeError(status, 'temporary_failure');
@@ -342,9 +342,9 @@ for (const status of [502, 504])
     });
     assert.equal(
       (await s.publish(request(publication, { authorization: 'Bearer owner' }))).status,
-      status,
+      status === 504 ? 202 : status,
     );
-    assert.equal(s.calls.failed, 1);
+    assert.equal(s.calls.failed, status === 504 ? 0 : 1);
   });
 test('GitHub adapter uses only configured repository and minimal build payload', async () => {
   await dispatch(settings, id, async (input, init) => {
