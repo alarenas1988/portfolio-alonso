@@ -1,0 +1,77 @@
+{
+  "date": "2026-09-07T02:53:16.142Z",
+  "checks": [
+    {
+      "name": "Anonymous publication denied",
+      "passed": true
+    },
+    {
+      "name": "Forged metadata cannot dispatch",
+      "passed": true
+    },
+    {
+      "name": "Nonowner cannot read builds",
+      "passed": true
+    },
+    {
+      "name": "Definitive owner verified by Auth and RLS",
+      "passed": true
+    },
+    {
+      "name": "Owner accesses the production physical Admin page",
+      "passed": true
+    },
+    {
+      "name": "CMS request accepted before correlating persistence",
+      "passed": true
+    },
+    {
+      "name": "Production CMS reserves an owner publication (HTTP 202)",
+      "passed": true
+    },
+    {
+      "name": "Same request UUID returns the same build",
+      "passed": true
+    },
+    {
+      "name": "Automatic reconciliation recovers cancelled workflow",
+      "passed": true
+    },
+    {
+      "name": "Cancellation has a safe precise reason",
+      "passed": true
+    },
+    {
+      "name": "Idempotent retry creates only one GitHub workflow",
+      "passed": true
+    },
+    {
+      "name": "Untrusted callback signature rejected remotely",
+      "passed": true
+    },
+    {
+      "name": "Definitive owner authorization unchanged",
+      "passed": true
+    }
+  ],
+  "publications": [
+    {
+      "id": "bf458195-90ef-4fef-ad32-bfb6f746c749",
+      "cancellation_test": true,
+      "transitions": ["queued", "failed"],
+      "request_id": "f4a86efd-8a5b-4e99-a490-4fd4a8c80af1",
+      "cancelled_run": 34077743526,
+      "status": "failed",
+      "reason": "cancelled",
+      "run_id": 34077743526,
+      "run_url": "https://github.com/alarenas1988/portfolio-alonso/actions/runs/34077743526",
+      "deployment_id": null,
+      "commit": "ca25934adbdad1eb1283b7f235fe0e43873af2e7",
+      "created_at": "2026-09-07T02:52:45.588859+00:00",
+      "completed_at": "2026-09-07T02:52:57+00:00",
+      "duration_seconds": 11
+    }
+  ],
+  "owner_auth": "Temporary Auth session for existing owner; no password/email change, no email sent",
+  "actual_build_history_retained": true
+}

@@ -1,0 +1,39 @@
+{
+  "date": "2026-09-07T02:53:15.148Z",
+  "publication": {
+    "commit_sha": "ca25934adbdad1eb1283b7f235fe0e43873af2e7",
+    "completed_at": "2026-09-07 02:46:50+00",
+    "created_at": "2026-09-07 02:44:34.284926+00",
+    "deployment_id": "6301006352",
+    "github_run_id": 34077290325,
+    "github_run_url": "https://github.com/alarenas1988/portfolio-alonso/actions/runs/34077290325",
+    "id": "7e0aad57-24dd-4247-9ce1-9f1acfc281eb",
+    "request_id": "30a17545-8bda-41ac-a874-eaa4fcc68ef0",
+    "started_at": "2026-09-07 02:44:36+00",
+    "status": "success"
+  },
+  "transitions": ["queued", "building", "success"],
+  "cms_success_screenshot": ".tools/f11/screenshots/cms-production-success.png",
+  "idempotent_request_runs": 1,
+  "workflow": {
+    "id": 34077290325,
+    "url": "https://github.com/alarenas1988/portfolio-alonso/actions/runs/34077290325",
+    "conclusion": "success"
+  },
+  "jobs": [
+    {
+      "name": "Build approved main",
+      "conclusion": "success"
+    },
+    {
+      "name": "Deploy Pages",
+      "conclusion": "success"
+    },
+    {
+      "name": "Record deployment result",
+      "conclusion": "success"
+    }
+  ],
+  "duration_seconds": 136,
+  "source": "Completed normal portion of real CMS smoke; cancellation was checked independently."
+}
