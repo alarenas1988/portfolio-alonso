@@ -27,6 +27,7 @@ export async function dispatch(
           'Content-Type': 'application/json',
           Authorization: `Bearer ${config.githubToken}`,
           'X-GitHub-Api-Version': '2022-11-28',
+          'User-Agent': 'portfolio-c2',
         },
         body: JSON.stringify({
           event_type: 'portfolio_publish',
@@ -36,7 +37,13 @@ export async function dispatch(
     );
     // Do not read/log provider bodies; 204 is accepted dispatch, not deployed content.
     await response.body?.cancel();
-    if (response.status !== 204) throw new EdgeError(502, 'temporary_failure');
+    if (response.status !== 204) {
+      // Record only the upstream HTTP category; never provider bodies or headers.
+      console.info(
+        JSON.stringify({ function: 'publish-site', upstream: 'github', status: response.status }),
+      );
+      throw new EdgeError(502, 'temporary_failure');
+    }
   } catch (error) {
     if (error instanceof DOMException && ['TimeoutError', 'AbortError'].includes(error.name))
       throw new EdgeError(504, 'temporary_failure');

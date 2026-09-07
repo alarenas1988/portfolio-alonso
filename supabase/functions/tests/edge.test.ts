@@ -348,6 +348,7 @@ for (const status of [502, 504])
   });
 test('GitHub adapter uses only configured repository and minimal build payload', async () => {
   await dispatch(settings, id, async (input, init) => {
+    assert.equal(new Headers(init?.headers).get('User-Agent'), 'portfolio-c2');
     assert.equal(
       String(input),
       'https://api.github.com/repos/alarenas1988/portfolio-alonso/dispatches',
