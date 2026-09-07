@@ -162,21 +162,23 @@ export async function mountOverview(root: HTMLElement, client: AdminClient, only
           );
         if (build.failure_reason) info.append(el('p', build.failure_reason));
         item.append(info);
+        const historyActions = el('div', '', 'cms-toolbar');
         if (build.status === 'failed')
-          info.append(
+          historyActions.append(
             button('Reintentar publicación', () => {
               void publication.submit(build.id);
             }),
           );
         if (build.status === 'success')
-          info.append(link('Ver sitio', getPublicConfig().siteUrl, 'cms-text-link'));
+          historyActions.append(link('Ver sitio', getPublicConfig().siteUrl, 'cms-text-link'));
         if (
           build.github_run_url &&
           /^https:\/\/github\.com\/alarenas1988\/portfolio-alonso\/actions\/runs\/\d+$/.test(
             build.github_run_url,
           )
         )
-          info.append(link('Ver ejecución', build.github_run_url, 'cms-text-link'));
+          historyActions.append(link('Ver ejecución', build.github_run_url, 'cms-text-link'));
+        if (historyActions.childElementCount) info.append(historyActions);
         history.append(item);
       }
     }

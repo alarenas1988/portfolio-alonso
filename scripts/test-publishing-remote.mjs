@@ -10,6 +10,8 @@ import { supabaseFetch } from '../src/lib/supabase/transport.ts';
 import { resolveAdminAccess } from '../src/lib/admin/auth.ts';
 
 assert.equal(process.argv[2], '--smoke-f11');
+const cancelOnly = process.argv[3] === '--cancel-only';
+assert(!process.argv[3] || cancelOnly);
 verifyProject();
 verifyLink();
 assert.equal(
@@ -146,14 +148,34 @@ try {
     await page.getByRole('button', { name: 'Solicitar publicación', exact: true }).click();
     const payload = (await request).postDataJSON(),
       received = await response;
-    const reserved = ok(
-      await owner
+    writeFileSync(
+      '.tools/f11/latest-cms-request.json',
+      JSON.stringify({
+        request_id: payload.request_id,
+        http_status: received.status(),
+        cancellation_test: cancel,
+      }),
+    );
+    check(received.status() === 202, 'CMS request accepted before correlating persistence');
+    let reserved;
+    // Read-only bounded retry; never submit a new request to recover a transient read.
+    for (let attempt = 0; attempt < 4; attempt++) {
+      const result = await owner
         .from('site_builds')
         .select('id,status')
         .eq('request_id', payload.request_id)
-        .single(),
-      'Find committed publication by request UUID',
-    );
+        .maybeSingle();
+      if (result.data) {
+        reserved = result.data;
+        break;
+      }
+      if (attempt === 3)
+        throw new Error(
+          'Publication lookup unavailable; code ' + (result.error?.code ?? 'not-visible'),
+        );
+      await delay(500 * (attempt + 1));
+    }
+    assert(reserved);
     const id = reserved.id,
       transitions = ['queued'];
     const evidence = { id, cancellation_test: cancel, transitions, request_id: payload.request_id };
@@ -229,7 +251,7 @@ try {
         transitions.includes('building') && completed.deployment_id,
         'Observed queued/building/success with deployment identity',
       );
-    await expect(page.getByRole('status')).toHaveText(
+    await expect(page.getByRole(cancel ? 'alert' : 'status')).toHaveText(
       cancel ? 'Publicación fallida' : 'Sitio actualizado',
       { timeout: 15000 },
     );
@@ -246,7 +268,7 @@ try {
     check(runs.length === 1, 'Idempotent retry creates only one GitHub workflow');
     return completed;
   }
-  await publish();
+  if (!cancelOnly) await publish();
   await publish(true);
   const badCallback = await fetch(new URL('/functions/v1/build-status', env.PUBLIC_SUPABASE_URL), {
     method: 'POST',
@@ -266,7 +288,7 @@ try {
     'Definitive owner authorization unchanged',
   );
   writeFileSync(
-    '.tools/f11/cms-production.json',
+    cancelOnly ? '.tools/f11/cms-cancel-production.json' : '.tools/f11/cms-production.json',
     JSON.stringify(
       {
         date: new Date().toISOString(),
