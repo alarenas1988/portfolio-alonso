@@ -1,0 +1,260 @@
+{
+  "project": {
+    "name": "portfolio-alonso",
+    "region": "sa-east-1",
+    "status": "ACTIVE_HEALTHY"
+  },
+  "cron_timezone": "GMT",
+  "jobs": [
+    {
+      "active": true,
+      "command": "delete from private.rate_limit_buckets where expires_at <= now()",
+      "id": 1,
+      "name": "portfolio-rate-limit-retention",
+      "schedule": "*/15 * * * *",
+      "username": "postgres"
+    },
+    {
+      "active": true,
+      "command": "set local role service_role; select public.maintain_analytics()",
+      "id": 2,
+      "name": "portfolio-analytics-maintenance",
+      "schedule": "7 * * * *",
+      "username": "postgres"
+    }
+  ],
+  "observed_at": "2026-09-07T00:07:54.250993+00:00",
+  "postgres": "17.6",
+  "rows": {
+    "content": 0,
+    "daily": 0,
+    "dimensions": 0,
+    "raw": 0,
+    "sessions": 0
+  },
+  "runs": [
+    {
+      "duration_ms": 41.349,
+      "end_time": "2026-09-07T00:07:00.151908+00:00",
+      "jobid": 2,
+      "jobname": "portfolio-analytics-maintenance",
+      "message": "1 row",
+      "runid": 21,
+      "start_time": "2026-09-07T00:07:00.110559+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 1.732,
+      "end_time": "2026-09-07T00:00:00.091531+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 0",
+      "runid": 20,
+      "start_time": "2026-09-07T00:00:00.089799+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 3.217,
+      "end_time": "2026-09-06T23:45:00.110243+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 0",
+      "runid": 19,
+      "start_time": "2026-09-06T23:45:00.107026+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 4.92,
+      "end_time": "2026-09-06T23:30:00.195978+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 0",
+      "runid": 18,
+      "start_time": "2026-09-06T23:30:00.191058+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 6.592,
+      "end_time": "2026-09-06T23:15:00.143225+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 0",
+      "runid": 17,
+      "start_time": "2026-09-06T23:15:00.136633+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 43.659,
+      "end_time": "2026-09-06T23:07:00.115029+00:00",
+      "jobid": 2,
+      "jobname": "portfolio-analytics-maintenance",
+      "message": "1 row",
+      "runid": 16,
+      "start_time": "2026-09-06T23:07:00.07137+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 1.505,
+      "end_time": "2026-09-06T23:00:00.066999+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 0",
+      "runid": 15,
+      "start_time": "2026-09-06T23:00:00.065494+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 3.746,
+      "end_time": "2026-09-06T22:45:00.193526+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 0",
+      "runid": 14,
+      "start_time": "2026-09-06T22:45:00.18978+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 1.522,
+      "end_time": "2026-09-06T22:30:00.074147+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 0",
+      "runid": 13,
+      "start_time": "2026-09-06T22:30:00.072625+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 3.086,
+      "end_time": "2026-09-06T22:15:00.117002+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 0",
+      "runid": 12,
+      "start_time": "2026-09-06T22:15:00.113916+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 132.271,
+      "end_time": "2026-09-06T22:07:00.229024+00:00",
+      "jobid": 2,
+      "jobname": "portfolio-analytics-maintenance",
+      "message": "1 row",
+      "runid": 11,
+      "start_time": "2026-09-06T22:07:00.096753+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 4.635,
+      "end_time": "2026-09-06T22:00:00.108909+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 2",
+      "runid": 10,
+      "start_time": "2026-09-06T22:00:00.104274+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 11.116,
+      "end_time": "2026-09-06T21:45:00.395845+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 4",
+      "runid": 9,
+      "start_time": "2026-09-06T21:45:00.384729+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 2.57,
+      "end_time": "2026-09-06T21:30:00.094872+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 0",
+      "runid": 8,
+      "start_time": "2026-09-06T21:30:00.092302+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 4.546,
+      "end_time": "2026-09-06T21:15:00.106693+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 0",
+      "runid": 7,
+      "start_time": "2026-09-06T21:15:00.102147+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 6.062,
+      "end_time": "2026-09-06T21:00:00.073896+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 1",
+      "runid": 6,
+      "start_time": "2026-09-06T21:00:00.067834+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 2.48,
+      "end_time": "2026-09-06T20:45:00.067268+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 0",
+      "runid": 5,
+      "start_time": "2026-09-06T20:45:00.064788+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 3.941,
+      "end_time": "2026-09-06T20:30:00.074459+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 0",
+      "runid": 4,
+      "start_time": "2026-09-06T20:30:00.070518+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 3.972,
+      "end_time": "2026-09-06T20:15:00.074407+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 1",
+      "runid": 3,
+      "start_time": "2026-09-06T20:15:00.070435+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 3.579,
+      "end_time": "2026-09-06T20:00:00.141534+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 5",
+      "runid": 2,
+      "start_time": "2026-09-06T20:00:00.137955+00:00",
+      "status": "succeeded"
+    },
+    {
+      "duration_ms": 5.078,
+      "end_time": "2026-09-06T19:45:00.120596+00:00",
+      "jobid": 1,
+      "jobname": "portfolio-rate-limit-retention",
+      "message": "DELETE 0",
+      "runid": 1,
+      "start_time": "2026-09-06T19:45:00.115518+00:00",
+      "status": "succeeded"
+    }
+  ],
+  "automatic_run_observed": true,
+  "evidence_source": "Existing cron.job_run_details; no manual invocation or reschedule",
+  "next_nominal_utc": "2026-09-07T01:07:00.000Z",
+  "next_run_note": "Schedule estimate, not an execution guarantee",
+  "dry_run": {
+    "upToDate": true,
+    "dryRun": true,
+    "migrations": [],
+    "seeds": [],
+    "roles": [],
+    "message": "Remote database is up to date."
+  },
+  "remote_mutations": false
+}

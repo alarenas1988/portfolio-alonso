@@ -606,3 +606,13 @@ Upgrade con contenido existente y reconstrucción limpia 019→023+seed aprobado
 023 aplicada al proyecto portfolio-alonso a las 23:22 UTC tras 36 controles locales, backup lógico privado y dry-run limitado a esa migración. Catálogo/tipos propios iguales entre local/remoto, dry-run posterior vacío, 35 tablas RLS y Automatic RLS activo. 34 comprobaciones CMS remotas aprobadas, incluida edición desde navegador con JWT del owner existente; sin solicitar ni modificar su contraseña. Todos los fixtures eliminados; solo permanece el owner original. No se cambiaron Auth, buckets, secrets, funciones Edge ni Analytics. Build público remoto posterior: 31 páginas (seis públicas y 25 shells Admin); static, privacidad y secrets aprobados.
 
 [Guía CMS](ADMIN_CMS.md) y [entrega completa/evidencia](checkpoints/F7_ADMIN_CMS.md). Publicación automática sigue pendiente de F11; guardar contenido público no implica un deploy estático. Sin push, PR ni merge; F10B/F11/F12/F13/F14 no iniciadas.
+
+# F10B — cierre de Analytics (2026-09-06, completada)
+
+Base `ec063d4d7449cf8e5229d48596198e4138c46858`, rama/worktree nuevo `feat/f10b-analytics-closure`. El análisis previo confirmó que F10A ya cubría todos los objetos previstos y F7 los consumía. No hay migración, índice, RPC, tabla, cron, dimensión ni dependencia nueva. La única corrección funcional impide que respuestas/errores tardíos reemplacen el período actual del dashboard.
+
+Cron remoto verificado en lectura: job 2 `portfolio-analytics-maintenance`, minuto 7 horario, ejecuciones automáticas exitosas a las 22:07 y 23:07 UTC y nuevo run 21 observado a las 00:07 UTC del día 7 (21:07 del día 6 en Santiago), 41,349 ms; job 1 de counters cada 15 minutos. Historial 019–023, catálogo/tipos propios sin drift, dry-run vacío, Automatic RLS activo. Sin escrituras remotas ni fixtures productivos.
+
+787 SQL (42 nuevas), 182 unitarias, 99 Edge, 107 Auth/RLS HTTP, 79 Edge HTTP, 52 Analytics HTTP; cinco E2E Admin relevantes y 67 públicos aprobados (siete omisiones previstas por breakpoint). Dataset local de 95.000 eventos/95 fechas, transacción revertida: reporte 30 días ≈7 ms/13.302 bytes; refresh de dos fechas ≈47 ms; mantenimiento con 5.000 vencidos ≈56 ms. Índices existentes suficientes. Build real remoto de 31 páginas y escaneos static/secrets aprobados; fixtures locales retirados.
+
+[Matriz previa y resultado](checkpoints/F10B_GAP_ANALYSIS.md), [entrega completa](checkpoints/F10B_ANALYTICS_CLOSURE.md) y [contrato actualizado](ANALYTICS.md). Commits locales, sin push/PR/merge. F11/F12/F13/F14 no iniciadas.

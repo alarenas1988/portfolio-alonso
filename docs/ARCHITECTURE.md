@@ -152,3 +152,7 @@ La instrumentación pública reutiliza los hooks F3/F4 y el intake F9. Cliente n
 ## F7: administración estática autenticada
 
 El Admin dispone de 25 rutas físicas Astro y módulos TypeScript cargados según sección. El build solo genera el shell; todos los datos privados se solicitan con sesión Auth en navegador. El guard llama getUser y consulta el perfil mediante RLS. Los repositorios existentes de F8/F10 suministran media y Analytics. Tres RPC invoker de 023 permiten guardar padres y relaciones editorialmente en una transacción con control de revisión. [Contrato y módulos CMS](ADMIN_CMS.md).
+
+# Cierre de Analytics F10B
+
+F10A ya proveía agregación multidimensional, retención, popularidad y RPC; F7 aportó el consumidor. F10B conserva esa arquitectura, acredita cron automático y mide consultas con 95.000 eventos locales. La única corrección funcional hace que el Admin descarte respuestas de períodos anteriores. No hay nuevas migraciones, índices, dependencias ni cambios al cliente público. La [matriz de gaps](checkpoints/F10B_GAP_ANALYSIS.md) y el [contrato operativo](ANALYTICS.md#cierre-f10b) documentan rendimiento, reconciliación y la semántica histórica al retirar contenido.

@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-07T00:01:25.021Z",
+  "local": {
+    "users": 0,
+    "owners": 0,
+    "events": 0,
+    "daily": 0,
+    "content": 0,
+    "dimensions": 0,
+    "sessions": 0,
+    "media": 0,
+    "objects": 0,
+    "messages": 0,
+    "projects": 0,
+    "posts": 0
+  },
+  "fixtures_removed": true,
+  "remote_test_fixtures_created": 0
+}
