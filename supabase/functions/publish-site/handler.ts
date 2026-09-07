@@ -59,11 +59,20 @@ export function publishSite(
           await runtime.dispatch(config, result.build_id);
         } catch (error) {
           const timeout = error instanceof EdgeError && error.status === 504;
-          await db.dispatchFailed(
-            result.build_id,
-            timeout ? 'dispatch_timeout' : 'dispatch_failed',
-          );
-          throw new EdgeError(timeout ? 504 : 502, 'temporary_failure');
+          if (timeout) {
+            // GitHub may have accepted the dispatch. Preserve queued/idempotency until
+            // an authenticated observer or the bounded reconciliation finds the run.
+            return {
+              status: 202,
+              data: {
+                build_id: result.build_id,
+                status: 'queued',
+                dispatch_status: 'pending_verification',
+              },
+            };
+          }
+          await db.dispatchFailed(result.build_id, 'dispatch_failed');
+          throw new EdgeError(502, 'temporary_failure');
         }
       }
       return { status: 202, data: { build_id: result.build_id, status: result.status } };

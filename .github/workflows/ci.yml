@@ -1,0 +1,42 @@
+name: Portfolio CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: portfolio-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  quality:
+    name: Quality and public regression
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      ASTRO_TELEMETRY_DISABLED: '1'
+      PUBLIC_ANALYTICS_ENABLED: 'false'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm ls --depth=0
+      - run: npm audit --audit-level=high
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - name: Build against an isolated public snapshot
+        run: node scripts/ci-build.mjs
+      - run: npm run check:static
+      - run: npm run check:admin:static
+      - run: npm run check:secrets
+      - run: npm run test:edge
+      - run: npx --no-install playwright install --with-deps chromium
+      - run: npm run test:e2e -- --project=mobile-390 --project=desktop-1440

@@ -25,6 +25,7 @@
     "test:edge:http": "node scripts/test-edge-http.mjs",
     "test:contact:local": "node scripts/test-contact-local.mjs",
     "test:analytics:local": "node scripts/test-analytics-local.mjs",
+    "test:publishing:local": "node --experimental-transform-types scripts/test-publishing-local.mjs",
     "test:e2e": "playwright test",
     "test:home:build": "node scripts/test-home-build.mjs",
     "check:static": "node scripts/check-static-output.mjs",

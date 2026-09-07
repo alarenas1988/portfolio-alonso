@@ -38,7 +38,11 @@ Autosave usa debounce de 1,5 segundos y una cola por editor. Estados: Sin cambio
 
 Guardar persiste en Supabase. Publicar valida referencias de media, guarda visibilidad/estado editorial y solicita `publish-site` con JWT e identificador de solicitud. El sitio estático no cambia por guardar. Otro build puede recoger los cambios de un registro que ya sea público: no existe versionado editorial aislado en V1.
 
-F11 sigue pendiente. La función de dispatch no está habilitada remotamente; el CMS muestra **contenido público guardado / rebuild pendiente**, nunca “sitio actualizado”. `site_builds` se consulta en lectura, con queued/building/success/failed, fecha, commit, duración y error resumido. No se crea workflow, PAT ni callback productivo.
+F11 conecta el estado de publicación del CMS: **Publicación en cola → Construyendo sitio → Sitio actualizado / Publicación fallida**. El éxito requiere confirmación de Pages. Editor y publicación tienen regiones de feedback separadas. Hasta activar la función remota, una respuesta de configuración sigue indicando rebuild pendiente; guardar nunca simula un deployment.
+
+La solicitud conserva su UUID ante respuesta perdida o fallo de red y bloquea doble envío técnico. Un reintento de publicación fallida usa una nueva solicitud con `retry_of`; solicitudes distintas respetan un cooldown de 30 segundos. No se reutiliza un build que pudiera haber capturado contenido anterior. El seguimiento consulta únicamente `site_builds` con JWT/RLS cada cinco segundos mientras esté activo, se detiene al terminar/salir y corta tras tres errores de red. Volver a la pantalla permite recuperar el seguimiento; el navegador no consulta GitHub.
+
+El historial muestra estados, commit, duración y razón resumida. El enlace al sitio aparece únicamente para un resultado exitoso; la URL del run se valida contra el repositorio aprobado. La activación y las pruebas reales se registran en el [checkpoint F11](checkpoints/F11_C2_DEPLOYMENT.md); implementar los controles locales no equivale a haber publicado Pages.
 
 ## Markdown y multimedia
 

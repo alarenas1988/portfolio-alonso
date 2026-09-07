@@ -14,7 +14,12 @@ for (const mode of ['full', 'empty', 'unavailable', 'incompatible', 'missing-ass
         process.execPath,
         ['node_modules/astro/bin/astro.mjs', 'build', '--outDir', directory],
         {
-          env: { ...process.env, ...fixture.env, MEDIA_TEST_FIXTURE: '0' },
+          env: {
+            ...process.env,
+            ...fixture.env,
+            MEDIA_TEST_FIXTURE: '0',
+            PUBLIC_ANALYTICS_ENABLED: 'false',
+          },
           stdio: ['ignore', 'pipe', 'pipe'],
         },
       );
@@ -43,7 +48,15 @@ for (const mode of ['full', 'empty', 'unavailable', 'incompatible', 'missing-ass
       for (const route of ['proyectos', 'blog', 'sobre-mi', 'contacto']) {
         const page = await readFile(resolve(directory, route, 'index.html'), 'utf8');
         assert.equal((page.match(/<h1\b/g) ?? []).length, 1);
-        assert(!page.includes(fixtureKey) && !page.includes(fixture.origin));
+        // F9's enabled contact form intentionally embeds public API configuration.
+        // Remove only those two exact data attributes; media/links must stay local.
+        const staticPage =
+          route === 'contacto'
+            ? page
+                .replace(`data-key="${fixtureKey}"`, '')
+                .replace(`data-url="${fixture.origin}"`, '')
+            : page;
+        assert(!staticPage.includes(fixtureKey) && !staticPage.includes(fixture.origin));
       }
       const projectPaths = (
         await readdir(resolve(directory, 'proyectos'), { withFileTypes: true })

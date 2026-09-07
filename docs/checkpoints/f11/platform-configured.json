@@ -1,0 +1,51 @@
+{
+  "date": "2026-09-07T01:32:50.993Z",
+  "account": "alarenas1988",
+  "project": {
+    "name": "portfolio-alonso",
+    "region": "sa-east-1",
+    "status": "ACTIVE_HEALTHY"
+  },
+  "pages": {
+    "build_type": "workflow",
+    "html_url": "https://alarenas1988.github.io/portfolio-alonso/",
+    "status": null
+  },
+  "environment": "github-pages",
+  "allowed_branch": "main",
+  "variables": ["PUBLIC_SUPABASE_URL", "PUBLIC_SUPABASE_PUBLISHABLE_KEY"],
+  "shared_secret": "BUILD_CALLBACK_HMAC_SECRET",
+  "dispatch_token_present": true,
+  "workflows_pushed": false,
+  "edge_functions_deployed": [],
+  "deployment_verified": false,
+  "verified_at": "2026-09-07T01:34:10.491Z",
+  "workflow_count": 0,
+  "functions": [
+    {
+      "name": "contact-submit",
+      "version": 5,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "track-event",
+      "version": 3,
+      "status": "ACTIVE"
+    }
+  ],
+  "migrations": [
+    "20260906001900",
+    "20260906002000",
+    "20260906002100",
+    "20260906002200",
+    "20260906002300"
+  ],
+  "public_variables_verified": true,
+  "callback_secret_present_both": true,
+  "callback_signature_live_test": false,
+  "application_db_writes": false,
+  "auth_changes": false,
+  "content_changes": false,
+  "owner_changes": false,
+  "storage_changes": false
+}

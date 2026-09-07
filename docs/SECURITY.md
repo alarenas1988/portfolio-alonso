@@ -1,5 +1,15 @@
 # Seguridad del portfolio
 
+## Frontera de publicación C2 — F11
+
+GitHub Pages se construye exclusivamente con `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_PUBLISHABLE_KEY`. CI no consume secretos ni el proyecto remoto. Ningún workflow recibe service role, JWT owner o clave secreta Supabase. Las acciones oficiales se fijan por SHA; Node deriva de `.nvmrc`. No hay `pull_request_target`, `write-all`, ref controlado por payload ni despliegue de backend durante publicación web.
+
+`GITHUB_FINE_GRAINED_TOKEN` permanece solo en Edge: repositorio único, Contents write para dispatch y Actions read para verificar runs. La metadata de deployments de este repositorio público se consulta mediante la API pública; no se amplía el PAT. `BUILD_CALLBACK_HMAC_SECRET` se comparte solo entre Edge y el paso de callback/reconciliación en Actions. HMAC-SHA256 verifica los bytes exactos, timestamp con ventana de cinco minutos y transiciones idempotentes; el callback no acepta una afirmación libre de éxito del navegador.
+
+La migración 024 no amplía permisos: reemplaza únicamente la decisión de reservar builds distintos dentro de `edge_request_build`, con el mismo owner check, bloqueo advisory, cooldown, ACL service-only y `search_path` vacío. Raw Analytics, mensajes, Storage, Auth y owner no cambian. Los controladores CMS son UX; RLS/Edge siguen siendo la autoridad.
+
+Una interrupción de GitHub conserva el estado pendiente hasta poder observar evidencia. La limpieza de solicitudes sin run usa comparación de `updated_at`/estado para no pisar un callback concurrente. La recuperación no confía en un callback garantizado tras cancelación. Los errores almacenan categorías acotadas, sin logs completos ni secretos. [Evidencia y límites de activación](checkpoints/F11_C2_DEPLOYMENT.md).
+
 ## Frontera Edge F9 — 2026-09-06
 
 `authenticated != administrator` sigue vigente. Las nuevas RPC tienen EXECUTE solo service_role, SECURITY INVOKER y search_path vacío; no hay nuevos definer ni grants/policies de navegador. Publicación verifica JWT/Auth/perfil activo en RLS y de nuevo en la transacción. Contacto valida texto, tamaños, honeypot, duración e idempotencia; no INSERT público. CORS explícito no sustituye identidad ni límites. Callback con HMAC/ventana y transiciones irreversibles. Los hashes diarios de abuso no contienen IP/UA completos y caducan con limpieza periódica. [Matriz, pruebas adversariales, secretos y límites](EDGE_FUNCTIONS.md).

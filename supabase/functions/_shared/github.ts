@@ -41,6 +41,7 @@ export async function dispatch(
     if (error instanceof DOMException && ['TimeoutError', 'AbortError'].includes(error.name))
       throw new EdgeError(504, 'temporary_failure');
     if (error instanceof EdgeError) throw error;
-    throw new EdgeError(502, 'temporary_failure');
+    // Network failure after sending is ambiguous, just like a timeout.
+    throw new EdgeError(504, 'temporary_failure');
   }
 }

@@ -1,0 +1,44 @@
+{
+  "date": "2026-09-07T00:19:22.391Z",
+  "project": {
+    "name": "portfolio-alonso",
+    "region": "sa-east-1",
+    "status": "ACTIVE_HEALTHY"
+  },
+  "cli_version": "2.116.0",
+  "authenticated": true,
+  "functions": [
+    {
+      "slug": "contact-submit",
+      "status": "ACTIVE",
+      "version": 3,
+      "verify_jwt": false
+    },
+    {
+      "slug": "track-event",
+      "status": "ACTIVE",
+      "version": 1,
+      "verify_jwt": false
+    }
+  ],
+  "secret_names": [
+    "ANALYTICS_HMAC_SECRET",
+    "ANALYTICS_RATE_LIMIT_HMAC_SECRET",
+    "CONTACT_GLOBAL_HOURLY_LIMIT",
+    "CONTACT_RATE_LIMIT_HMAC_SECRET",
+    "PORTFOLIO_ALLOWED_ORIGINS",
+    "PORTFOLIO_SITE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_DB_URL",
+    "SUPABASE_JWKS",
+    "SUPABASE_PUBLISHABLE_KEYS",
+    "SUPABASE_SECRET_KEYS",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "SUPABASE_URL"
+  ],
+  "publishing_secret_presence": {
+    "GITHUB_FINE_GRAINED_TOKEN": false,
+    "BUILD_CALLBACK_HMAC_SECRET": false
+  },
+  "remote_mutations": false
+}

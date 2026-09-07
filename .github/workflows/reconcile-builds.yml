@@ -1,0 +1,32 @@
+name: Reconcile portfolio publications
+on:
+  workflow_run:
+    workflows: [Deploy portfolio Pages]
+    types: [completed]
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: portfolio-reconciliation
+  cancel-in-progress: false
+jobs:
+  reconcile:
+    if: github.repository == 'alarenas1988/portfolio-alonso' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+      - name: Reconcile only server-verified GitHub evidence
+        run: node scripts/publishing/workflow.mjs reconcile
+        env:
+          BUILD_STATUS_URL: ${{ vars.PUBLIC_SUPABASE_URL }}/functions/v1/build-status
+          BUILD_CALLBACK_HMAC_SECRET: ${{ secrets.BUILD_CALLBACK_HMAC_SECRET }}

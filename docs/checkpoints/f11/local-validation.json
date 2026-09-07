@@ -1,0 +1,73 @@
+{
+  "date": "2026-09-07T01:30:57.737Z",
+  "base": "8bb9815d869064621254d4ccbfe087b1e4962b4d",
+  "node": "24.20.0",
+  "npm": "11.19.0",
+  "supabase_cli": "2.116.0",
+  "npm_ci": "460 packages, passed",
+  "npm_ls": "passed",
+  "audit_high": "0 vulnerabilities",
+  "format": "passed",
+  "lint": "passed",
+  "typecheck": {
+    "files": 186,
+    "errors": 0,
+    "warnings": 0
+  },
+  "unit": {
+    "passed": 188
+  },
+  "edge": {
+    "passed": 119,
+    "entrypoints": 4
+  },
+  "sql": {
+    "passed": 798,
+    "files": 10,
+    "lint": "passed"
+  },
+  "auth_http": 107,
+  "edge_http": 79,
+  "publishing_http": {
+    "checks": 13,
+    "local": true,
+    "actual_edge_http": true,
+    "github_provider": "separately mocked in Edge tests",
+    "passed": true
+  },
+  "public_e2e": {
+    "passed": 67,
+    "skipped_by_breakpoint": 7,
+    "widths": [390, 1440]
+  },
+  "admin_e2e": {
+    "relevant_passed": 7,
+    "publishing_specific_passed": 3
+  },
+  "visual": {
+    "widths": [390, 1440],
+    "axe_violations": 0,
+    "images_inspected": true,
+    "source": "local authenticated fixture, not production"
+  },
+  "build": {
+    "source": "remote public snapshot with publishable key only",
+    "pages": 31,
+    "admin_routes": 25,
+    "artifacts": 381,
+    "static": "passed",
+    "private_canaries": 0,
+    "secrets": "passed"
+  },
+  "build_scenarios": ["full", "empty", "unavailable", "incompatible", "missing-asset"],
+  "types": "local and remote equal",
+  "actionlint": "1.7.12 passed",
+  "local_fixture_counts": {
+    "users": 0,
+    "builds": 0,
+    "events": 0,
+    "messages": 0
+  },
+  "remote_deployment": false,
+  "remote_ci": false
+}

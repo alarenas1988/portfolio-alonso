@@ -183,6 +183,6 @@ test('Guard verifies server identity and active owner profile independently of c
     auth: { persistSession: false, autoRefreshToken: false },
   });
   assert.equal((await resolveAdminAccess(anonymous)).state, 'anonymous');
-  assert.equal(await requestPublication(anonymous), 'pending');
+  assert.deepEqual(await requestPublication(anonymous), { state: 'anonymous' });
   assert.deepEqual(Object.keys(buildLabels), ['queued', 'building', 'success', 'failed']);
 });

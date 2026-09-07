@@ -61,7 +61,7 @@ select is(pg_temp.request_build('normal')->>'outcome','forbidden','Noowner denie
 select is(pg_temp.request_build('inactive')->>'outcome','forbidden','Inactive owner denied inside transaction');
 select is(pg_temp.request_build()->>'dispatch','true','Active owner reserves exactly one dispatch');
 select is(pg_temp.request_build()->>'dispatch','false','Repeated request does not dispatch again');
-select is(public.edge_request_build(gen_random_uuid(),pg_temp.edge_id('owner'),'manual')->>'dispatch','false','An active snapshot build is reused instead of a storm');
+select is(public.edge_request_build(gen_random_uuid(),pg_temp.edge_id('owner'),'manual')->>'outcome','limited','Distinct requests obey cooldown without reusing a stale snapshot');
 select is((select count(*) from public.site_builds where request_id=pg_temp.edge_id('request')),1::bigint,'One build row');
 
 reset role;
