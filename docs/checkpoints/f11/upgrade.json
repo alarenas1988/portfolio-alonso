@@ -1,0 +1,15 @@
+{
+  "date": "2026-09-07T01:14:52.057Z",
+  "upgrade": "023 -> 024",
+  "pending_build_preserved": true,
+  "security_unchanged": true,
+  "clean_install": [
+    "20260906001900_initial_portfolio.sql",
+    "20260906002000_edge_intake.sql",
+    "20260906002100_edge_build_contracts.sql",
+    "20260906002200_analytics_aggregation.sql",
+    "20260906002300_admin_editorial_transactions.sql",
+    "20260907002400_publication_freshness.sql"
+  ],
+  "fixtures_remaining": 0
+}

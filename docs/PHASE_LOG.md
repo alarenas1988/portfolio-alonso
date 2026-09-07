@@ -1,5 +1,15 @@
 # Registro de fases
 
+## F11 — implementación local y puerta de activación (2026-09-06)
+
+Base `8bb9815d869064621254d4ccbfe087b1e4962b4d` (F10B PR #14), rama/worktree nuevo `feat/f11-c2-deployment`. El usuario configuró `GITHUB_FINE_GRAINED_TOKEN`; presencia verificada sin leer el valor. Tres workflows: CI, Pages y reconciliación. Acciones oficiales fijadas, Node 24.20.0, build público/RLS/F8, HMAC con observación de run/deployment, timeout ambiguo conservando queued y CMS con seguimiento moderado.
+
+Gap comprobado: una solicitud nueva reutilizaba el snapshot de un build en curso. Nueva migración 024 mantiene autorización/grants/idempotencia/cooldown y reserva builds distintos para cambios nuevos. Cuatro pruebas fallaban antes; once pasan después. Upgrade 023→024 preserva datos/ACL y reconstrucción desde volumen local vacío pasa. 019–023 intactas, sin nuevas tablas ni SECURITY DEFINER.
+
+Validación: 798 SQL, 107 Auth/RLS HTTP, 79 Edge HTTP, 13 publicación HTTP/DB, 119 Edge unitarias y 188 Node unitarias; 67 E2E públicos (7 omisiones por breakpoint) y 7 E2E relevantes CMS. Build real con snapshot público: 31 páginas, 25 admin, 381 artefactos sin secretos/canarios privados. Cinco escenarios de build y tipos correctos. Preflight remoto: catálogo sin drift salvo cuerpo previsto de 024, tipos iguales, Automatic RLS activo, dry-run solo 024 sin seed/roles. No se aplicó la migración remota.
+
+[Checkpoint y aceptación pendiente](checkpoints/F11_C2_DEPLOYMENT.md). CI real/PR, deploy Pages y circuito completo desde CMS requieren integrar workflows en GitHub; se mantiene la prohibición de push/PR/merge automático del usuario. F11 todavía no se declara terminada. F12/F13/F14 no iniciadas.
+
 ## F4 — Páginas públicas internas — 2026-09-06
 
 **Estado:** implementada y validada; se detiene para revisión del usuario, sin push, PR ni merge automático. Base origin/main `1f4780a1e87a418c0cee9e8ad12df7f7c38dcb50`, sincronizada con main limpio y con F1/F2/F5/F6/F8/F3 y los checkpoints Supabase integrados. F3 ya había sido aprobada y mergeada mediante PR #9. Rama nueva `feat/f4-public-pages`, worktree aislado `.worktrees/f4-public-pages`; no se reutilizaron worktrees anteriores.

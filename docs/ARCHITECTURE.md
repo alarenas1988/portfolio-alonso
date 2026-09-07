@@ -1,5 +1,15 @@
 # Arquitectura del portfolio
 
+## Publicación C2 — F11
+
+`publish-site` verifica JWT y owner activo, reserva una solicitud mediante la RPC service-only existente y envía `portfolio_publish` con únicamente `build_id`. La migración 024 conserva seguridad invoker, firma y ACL de esa RPC; corrige la reutilización de un snapshot en curso para solicitudes editoriales distintas. UUID idéntico es idempotente; solicitudes nuevas tienen cooldown de 30 segundos.
+
+CI construye fixtures aislados. Pages construye el SHA de main asociado al evento con snapshot público/RLS y el pipeline F8, verifica el artefacto y publica mediante Actions oficiales. Antes de desplegar verifica que ese SHA siga siendo main; un artefacto anterior no reemplaza código más reciente. No instala CLI Supabase ni aplica DB/Edge durante el build web.
+
+El callback firmado pide observar un run: Edge valida repositorio, workflow, main, evento, título con build UUID, intento y SHA. Solo confirma success al comprobar el job de deploy y su deployment público `github-pages`. La reconciliación tras cada run y cada 15 minutos recupera cancelaciones/callbacks perdidos; una solicitud sin run se cierra después de una hora, únicamente tras una consulta GitHub completa y correcta. Fallos de GitHub no se presentan como evidencia de cancelación. No hay nuevas tablas ni SECURITY DEFINER.
+
+`site_builds` representa solicitudes CMS. Push de código y recuperación manual publican sin inventar solicitudes editoriales. Concurrency serializa deployments, conserva el que está corriendo y permite que GitHub sustituya el pendiente por uno más nuevo. Las solicitudes sustituidas convergen por reconciliación. [Operación, límites y estado real](checkpoints/F11_C2_DEPLOYMENT.md).
+
 ## Edge Functions F9 — 2026-09-06
 
 La capa Edge comparte validación HTTP/CORS, SDK oficial de contexto, errores, HMAC, privacidad y repositorio de RPC fijas. Contacto y eventos se persisten mediante transacciones service-only; publicación exige JWT y owner activo. Callback autenticado con HMAC. Se reutilizan rate_limit_buckets y las identidades de F5; 020/021 amplían contratos sin editar 019 ni debilitar RLS. El formulario F4 utiliza únicamente URL y publicable, conserva texto ante fallo y confirma entrega real. [Arquitectura, contratos y evidencia F9](EDGE_FUNCTIONS.md). Las secciones siguientes son historia de las fases aprobadas.

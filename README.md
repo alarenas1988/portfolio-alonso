@@ -1,10 +1,10 @@
 # AL — Portfolio Alonso Larenas
 
-Portfolio personal premium de Alonso Larenas. El proyecto usa una arquitectura C2: Supabase es la fuente de verdad, Astro genera un sitio estático y GitHub Actions lo publica en GitHub Pages. El CMS privado vivirá en `/admin/` y accederá a Supabase mediante Auth, JWT y RLS.
+Portfolio personal de Alonso Larenas. Supabase es la fuente de verdad, Astro genera HTML estático y el CMS bajo `/admin/` accede mediante Auth, JWT y RLS. La publicación C2 utiliza GitHub Actions y GitHub Pages.
 
 ## Estado
 
-F1/F2/F5/F6/F8/F3 y el despliegue inicial del backend están integrados. F4 agrega proyectos/casos, blog/artículos, Sobre mí y Contacto como HTML estático desde un snapshot público compartido. El formulario conserva envío deshabilitado hasta F9. CMS, Edge Functions, tracking y publicación C2 siguen pendientes. [Home F3](./docs/HOME.md) · [Páginas públicas y Markdown F4](./docs/PUBLIC_PAGES.md).
+F1/F2/F5/F6/F8/F3/F4/F9/F10/F7/F10B y los checkpoints del backend están integrados. F11 prepara los workflows y conecta publicación/seguimiento del CMS. Su aceptación requiere CI, deployment y publicación CMS reales después de integrar los workflows; no se afirma que Pages ya esté publicado. [Estado exacto F11](./docs/checkpoints/F11_C2_DEPLOYMENT.md) · [CMS](./docs/ADMIN_CMS.md) · [Analytics](./docs/ANALYTICS.md).
 
 ## Stack actual
 
@@ -92,7 +92,7 @@ npm.cmd run preview
 
 Astro genera `dist/` con HTML estático. `check:static` valida estructura y referencias internas bajo la base configurada; `check:secrets` busca material privado conocido y valores canario de las variables privadas disponibles durante el check.
 
-El build consume `loadPublicSnapshot()` con publishable key y RLS. F8 descarga los assets públicos referenciados, genera AVIF/WebP/PNG y copia PDF dentro de `dist/assets/media/`. La Home publicada no consulta Supabase desde el navegador. No necesita una sesión owner ni service role. Un fallo de snapshot o de asset requerido aborta la compilación.
+El build consume `loadPublicSnapshot()` con publishable key y RLS. F8 descarga los assets públicos referenciados, genera AVIF/WebP/PNG y copia PDF dentro de `dist/assets/media/`. El contenido se sirve estático; contacto y Analytics utilizan sus Edge Functions en navegador. No se necesita sesión owner ni service role para construir. Un fallo de snapshot o de asset requerido aborta la compilación.
 
 ## Despliegue
 
@@ -105,7 +105,7 @@ El flujo final será:
        → GitHub Actions → Astro build → GitHub Pages
 ```
 
-Los workflows y la publicación se implementarán en F11.
+`.github/workflows/ci.yml` valida PR con fixtures; `deploy-pages.yml` construye main por push, `portfolio_publish` o recuperación manual; `reconcile-builds.yml` recupera estados de solicitudes CMS. El workflow web no aplica migraciones ni despliega Edge Functions. [Configuración y recuperación](./docs/DEPLOYMENT.md).
 
 ## Documentación
 

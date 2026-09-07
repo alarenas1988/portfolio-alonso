@@ -1,5 +1,45 @@
 # Entorno y despliegue — contrato F6
 
+## Publicación C2 — procedimiento F11
+
+Este apartado describe la operación preparada; el [checkpoint F11](checkpoints/F11_C2_DEPLOYMENT.md) distingue implementación local, configuración de plataforma y aceptación remota. Los apartados siguientes conservan el historial de cada fase.
+
+### Workflows y credenciales
+
+| Workflow               | Disparadores                                                | Responsabilidad                                                   |
+| ---------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------- |
+| `ci.yml`               | Pull request, push main, manual                             | Quality gates, build fixture sin remoto, Edge unit y E2E 390/1440 |
+| `deploy-pages.yml`     | Push main, `repository_dispatch: portfolio_publish`, manual | Build público real, artifact y Pages, health checks, callback CMS |
+| `reconcile-builds.yml` | Fin del workflow Pages, cada 15 minutos, manual             | Observar runs y cerrar solicitudes abandonadas                    |
+
+Node 24.20.0 proviene de `.nvmrc`; npm cache mediante setup-node, sin cache de `dist`, snapshot o media. Acciones oficiales fijadas por commit: checkout 7.0.1, setup-node 7.0.0, configure-pages 6.0.0, upload-pages-artifact 5.0.0 y deploy-pages 5.0.1. CI usa `contents: read`; únicamente el job Pages agrega `pages: write` e `id-token: write`, con environment `github-pages` limitado a main. No se impone protección adicional a la rama del único mantenedor.
+
+Repository Variables: `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_PUBLISHABLE_KEY`. `PUBLIC_SITE_URL` queda explícita en el workflow como `https://alarenas1988.github.io/portfolio-alonso/`; activa Analytics únicamente para el build productivo. No usar variables de servicio o JWT en Actions.
+
+Secrets: `GITHUB_FINE_GRAINED_TOKEN` únicamente en Edge (Contents write y Actions read, un repositorio); `BUILD_CALLBACK_HMAC_SECRET` en Edge y Actions. El script de operador `configure-c2-remote.mjs --configure-f11` requiere rama exacta, árbol limpio, gate local asociado al commit, proyecto y cuenta administradora correctos. Conserva secretos existentes y detecta configuración parcial. Si falta HMAC en ambos destinos, genera uno en memoria y lo transmite con archivo temporal restringido fuera de Git para CLI y stdin para gh; retira el archivo inmediatamente. Nunca copiarlo al chat ni a YAML. Los secretos no pueden descargarse para comparar sus valores: la prueba firmada posterior demuestra coincidencia.
+
+### Orden de activación
+
+1. Completar controles locales y commit; configurar Pages con source GitHub Actions, variables y HMAC. No hacer branch publishing.
+2. Obtener autorización de integración de F11: la instrucción del usuario prohíbe push/PR/merge automático. Crear PR, comprobar CI y hacer merge únicamente con esa autorización. La primera publicación por push main no necesita una fila CMS.
+3. Revisar nuevamente historial/drift y respaldo remoto. Dry-run debe listar solamente `20260907002400_publication_freshness.sql`. Aplicar 024 mediante CLI controlada, fuera del workflow; comprobar definición/ACL y tipos. No alterar 019–023.
+4. Con el workflow presente en main, desplegar exclusivamente `publish-site` y `build-status` desde esta versión aprobada. No redeploy de contact-submit/track-event; no cambios Auth/owner/Storage.
+5. Verificar HMAC/reconciliación, deployment real, rutas, assets y una solicitud owner desde CMS. Confirmar queued/building/success a partir de la evidencia GitHub. Probar contacto/Analytics con fixtures acotados y limpiar solo esos fixtures. Hasta entonces F11 no está cerrada.
+
+La presencia del PAT en Secrets no permite comprobar su alcance o vigencia sin usar su consumidor. Si GitHub devuelve falta de permisos, conservar el error seguro y corregir el token mediante el canal del usuario; no sustituirlo por credenciales amplias de operador.
+
+### Concurrency, callbacks y recuperación
+
+Pages serializa el workflow con `cancel-in-progress: false`: no interrumpe el deployment en curso; GitHub puede sustituir la solicitud pendiente por una más reciente. La comprobación de main antes de Pages impide que un run antiguo publique código ya superado. Un build o asset fallido no sube un artefacto válido ni elimina el deployment anterior. Un fallo del health check posterior no revierte automáticamente el sitio: requiere recuperación manual y se informa como fallo.
+
+CMS envía `{build_id}`; no rama, SHA ni credenciales. Los pasos firman una solicitud de observación con HMAC/timestamp. Edge comprueba los datos reales del run, intento y deployment. `success` requiere job Pages correcto y metadata del environment con URL exacta; completar Astro no basta. Se conserva el callback explícito firmado de F9 para compatibilidad, pero los workflows F11 utilizan observación. Los callbacks duplicados son idempotentes y no pueden cambiar una correlación ya fijada.
+
+Ante timeout de dispatch, 202 conserva queued y la misma identidad: GitHub podría haber aceptado el evento. No hay retry ciego de dispatch. La reconciliación busca el run por workflow/main/evento/título con UUID; resultados incompletos o GitHub inaccesible impiden declarar abandono. Sin run después de una hora se marca failed mediante comparación de revisión/estado. Con run, recupera cancelación, timeout o resultado de Pages. El schedule de GitHub no es un SLA y puede retrasarse o desactivarse por inactividad del repositorio; ejecutar el workflow de reconciliación manualmente si es necesario. Un fallo en Actions/secreto/PAT puede retrasar la convergencia; revisar el run de mantenimiento.
+
+Para recuperación de código usar workflow_dispatch en main, sin build_id. Para un CMS failed usar Reintentar y una nueva solicitud `retry_of`. No reutilizar manualmente el intento de un run ya correlacionado: la RPC bloquea cambios de intento/SHA. No marcar success mediante SQL manual ni enviar callbacks inventados.
+
+Fuentes: [Pages Actions oficiales](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages), [concurrency](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency), [metadata pública de deployments](https://docs.github.com/en/rest/deployments/deployments#list-deployments). Dominio propio, F12/F13/F14 y CD de DB/Edge quedan fuera de F11.
+
 ## Primer despliegue real — 2026-09-06
 
 Baseline 019 aplicado a portfolio-alonso, sa-east-1, PostgreSQL 17.6; CLI 2.116.0. Rama `chore/supabase-initial-deploy`, base main `d3b5d0f671aa783c09d59760a68b466aded5662f`. Historial remoto, esquema, RLS, buckets, snapshot y reconstrucción local posterior verificados. [Informe vigente](checkpoints/INITIAL_DEPLOY.md).
