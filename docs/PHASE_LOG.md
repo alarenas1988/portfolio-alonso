@@ -10,6 +10,8 @@ Validación: 798 SQL, 107 Auth/RLS HTTP, 79 Edge HTTP, 13 publicación HTTP/DB, 
 
 [Checkpoint y aceptación pendiente](checkpoints/F11_C2_DEPLOYMENT.md). CI real/PR, deploy Pages y circuito completo desde CMS requieren integrar workflows en GitHub; se mantiene la prohibición de push/PR/merge automático del usuario. F11 todavía no se declara terminada. F12/F13/F14 no iniciadas.
 
+Plataforma preparada: Pages source Actions, environment github-pages restringido a main, dos variables públicas y HMAC compartido configurados/verificados. PAT del usuario conservado. No db push ni despliegue de código Edge; al configurar el HMAC la plataforma incrementó contact-submit a v5 y track-event a v3, ACTIVE. Todavía cero workflows remotos y ninguna publicación real. [Evidencia de configuración](checkpoints/f11/platform-configured.json).
+
 ## F4 — Páginas públicas internas — 2026-09-06
 
 **Estado:** implementada y validada; se detiene para revisión del usuario, sin push, PR ni merge automático. Base origin/main `1f4780a1e87a418c0cee9e8ad12df7f7c38dcb50`, sincronizada con main limpio y con F1/F2/F5/F6/F8/F3 y los checkpoints Supabase integrados. F3 ya había sido aprobada y mergeada mediante PR #9. Rama nueva `feat/f4-public-pages`, worktree aislado `.worktrees/f4-public-pages`; no se reutilizaron worktrees anteriores.

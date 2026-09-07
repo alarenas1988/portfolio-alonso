@@ -146,3 +146,16 @@ CI utiliza una selección de dos breakpoints (aproximadamente dos minutos localm
 - `773cdf0`: estado de publicación CMS, intención editorial y pruebas de navegador.
 
 La documentación, scripts de operador y evidencia de configuración se conservan en commits separados. No push, PR ni merge de esta rama.
+
+## Configuración de plataforma realizada
+
+Verificación independiente a las **2026-09-07 01:34 UTC** ([evidencia](f11/platform-configured.json)):
+
+- GitHub: cuenta administradora `alarenas1988`; Pages `build_type=workflow`; URL prevista `https://alarenas1988.github.io/portfolio-alonso/`. Environment `github-pages`, única regla de deployment para rama `main`. Sin reglas que bloqueen commits/PR del mantenedor.
+- Variables `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_PUBLISHABLE_KEY` comprobadas contra configuración local pública; valores no documentados. `BUILD_CALLBACK_HMAC_SECRET` creado de forma coordinada en Actions/Edge; nombres/presencia comprobados sin descargar valores. El PAT configurado por el usuario se conservó sin rotación.
+- GitHub todavía tiene **cero workflows**, cero evidencia de CI/Pages deployment; `status` de Pages es null. Configurar Pages no publica el sitio por sí solo.
+- Supabase: historial todavía **019–023**, sin db push efectivo, seed, fixtures o escrituras de aplicación remotas. No cambios de Auth, owner, Storage, contenido ni Analytics. `publish-site`/`build-status` permanecen sin desplegar hasta que exista su workflow receptor en main.
+- Configurar el HMAC provocó el incremento de versiones de plataforma a contact-submit **v5** y track-event **v3**, ambas ACTIVE. No se ejecutó deploy de su código. No se declara probada una firma remota: la prueba de consumidor sigue pendiente.
+- Archivo temporal restringido del HMAC eliminado; ninguna credencial queda en Git, evidencia o output público.
+
+Pendiente de autorización: subir esta rama, abrir PR, verificar CI y hacer merge; después completar la activación controlada de 024/Edge y la aceptación real CMS→GitHub→Pages. La puerta de backend se revalidará inmediatamente antes de aplicar 024, incluyendo respaldo actualizado. F11 no queda cerrada hasta esas pruebas.
