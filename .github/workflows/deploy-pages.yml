@@ -77,6 +77,8 @@ jobs:
           package-manager-cache: false
       - name: Confirm current main
         run: node scripts/publishing/check-production.mjs --current-main
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - name: Publish Pages artifact
         id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

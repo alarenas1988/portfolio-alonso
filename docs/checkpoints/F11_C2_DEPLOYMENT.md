@@ -192,3 +192,9 @@ Se añadió User-Agent explícito al adaptador (requerido por [GitHub](https://d
 La integración y deployment por código quedan verificados. F11 permanece abierta hasta corregir el acceso y demostrar el recorrido CMS completo. F12/F13/F14 no fueron iniciadas.
 
 Evidencia seleccionada: [activación](f11/activation.json), [push DB](f11/db-deploy.json), [intake Pages](f11/pages-intake.json). Los logs y capturas de operación permanecen ignorados en .tools/f11.
+
+## Permiso corregido y consulta del HEAD — 2026-09-07 UTC
+
+El usuario confirmó Contents Read and write. GitHub aceptó repository_dispatch y el callback owner/HMAC funcionó. Se observó un deployment CMS exitoso (run34076613726) y, en el smoke posterior (run34076748680), fallo de la comprobación remota de main antes de publicar Pages. Se confirmó que ambos usaban el mismo SHA1195aba7 todavía actual. El último deployment correcto se conservó y el callback registró failed/deploy_failed. El error seguro previo no conservaba el status de la consulta de main, por lo que no se atribuye con certeza a rate limiting.
+
+La consulta de main era anónima; esos requests comparten una cuota por IP. Se cambia únicamente ese paso a autenticación mediante el GITHUB_TOKEN efímero del job, recomendado por [GitHub](https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api). No se crea secret, no se amplían permisos y no se usa el PAT Supabase en Actions. El token se pasa exclusivamente al paso Confirm current main; no entra al build público ni al health de Pages. Se mantienen destino fijo, timeout, prohibición de redirects y comparación estricta del SHA. Un HTTP fallido se informa por status sin imprimir cuerpo ni headers; la consulta falla de forma cerrada. Nueva prueba verifica header, destino, redirects y ausencia de token en errores.

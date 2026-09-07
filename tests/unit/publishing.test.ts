@@ -22,6 +22,29 @@ test('superseded code is rejected before the deployment action', async () => {
   );
   await assert.rejects(currentMain(sha, async () => new Response('', { status: 503 })));
 });
+
+test('main verification authenticates only to the fixed GitHub API and rejects provider errors', async () => {
+  const sha = 'a'.repeat(40),
+    token = randomBytes(32).toString('hex');
+  await currentMain(
+    sha,
+    async (input, init) => {
+      assert.equal(String(input), `https://api.github.com/repos/${repository}/branches/main`);
+      assert.equal(new Headers(init?.headers).get('Authorization'), `Bearer ${token}`);
+      assert.equal(init?.redirect, 'error');
+      assert(init?.signal);
+      return Response.json({ commit: { sha } });
+    },
+    token,
+  );
+  await assert.rejects(
+    currentMain(sha, async () => new Response(token, { status: 403 }), token),
+    (error) =>
+      error instanceof Error &&
+      error.message.includes('HTTP 403') &&
+      !error.message.includes(token),
+  );
+});
 test('production health verifies physical routes, 404 and base-prefixed static assets', async () => {
   const report = await checkDeployment(async (input) => {
     const path = new URL(String(input)).pathname;

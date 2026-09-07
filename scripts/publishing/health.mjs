@@ -1,13 +1,27 @@
 import { siteUrl, repository } from './contract.mjs';
 
-export async function currentMain(sha, transport = fetch) {
+export class MainLookupError extends Error {
+  constructor(status) {
+    super(`GitHub main lookup returned HTTP ${status}.`);
+  }
+}
+
+export async function currentMain(sha, transport = fetch, token = '') {
   if (!/^[a-f0-9]{40}$/.test(sha || '')) throw new Error('Invalid approved commit.');
   const response = await transport(`https://api.github.com/repos/${repository}/branches/main`, {
-    headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'portfolio-c2-health' },
+    headers: {
+      Accept: 'application/vnd.github+json',
+      'User-Agent': 'portfolio-c2-health',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
     redirect: 'error',
     signal: AbortSignal.timeout(10000),
   });
-  if (!response.ok || (await response.json()).commit?.sha !== sha)
+  if (!response.ok) {
+    await response.body?.cancel();
+    throw new MainLookupError(response.status);
+  }
+  if ((await response.json()).commit?.sha !== sha)
     throw new Error(
       'The artifact no longer corresponds to current main; preserve the existing deployment.',
     );
