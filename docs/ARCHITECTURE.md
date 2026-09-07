@@ -166,3 +166,7 @@ El Admin dispone de 25 rutas físicas Astro y módulos TypeScript cargados segú
 # Cierre de Analytics F10B
 
 F10A ya proveía agregación multidimensional, retención, popularidad y RPC; F7 aportó el consumidor. F10B conserva esa arquitectura, acredita cron automático y mide consultas con 95.000 eventos locales. La única corrección funcional hace que el Admin descarte respuestas de períodos anteriores. No hay nuevas migraciones, índices, dependencias ni cambios al cliente público. La [matriz de gaps](checkpoints/F10B_GAP_ANALYSIS.md) y el [contrato operativo](ANALYTICS.md#cierre-f10b) documentan rendimiento, reconciliación y la semántica histórica al retirar contenido.
+
+### F11: activación comprobada, aceptación CMS pendiente
+
+PR #15 integrado (`bd2ef407`); CI real y primer Pages deployment aprobados. Sitio: https://alarenas1988.github.io/portfolio-alonso/. Se aplicó únicamente024 y se activaron publish-site/build-status; tipos y catálogo remoto coinciden. Contacto y Analytics probados desde Pages con fixtures eliminados. El dispatch CMS recibió GitHub HTTP403: revisar acceso del Fine-Grained PAT antes de declarar F11 completa. Detalles y evidencia en [checkpoint F11](checkpoints/F11_C2_DEPLOYMENT.md#activación-real-y-bloqueo-observado--2026-09-07-utc). Sin F12/F13/F14.

@@ -1,0 +1,122 @@
+{
+  "date": "2026-09-07T02:05:36.094Z",
+  "integration": {
+    "pr": 15,
+    "url": "https://github.com/alarenas1988/portfolio-alonso/pull/15",
+    "merge": "bd2ef40702420b85eecae91d2aa4604642b8984a"
+  },
+  "runs": [
+    {
+      "id": 34074041466,
+      "url": "https://github.com/alarenas1988/portfolio-alonso/actions/runs/34074041466",
+      "name": "Portfolio CI",
+      "conclusion": "success",
+      "sha": "82999a7e8956e89cd42eedf92a53d1b005b365a7",
+      "created_at": "2026-09-07T01:45:25Z",
+      "updated_at": "2026-09-07T01:47:50Z"
+    },
+    {
+      "id": 34074215121,
+      "url": "https://github.com/alarenas1988/portfolio-alonso/actions/runs/34074215121",
+      "name": "Portfolio CI",
+      "conclusion": "success",
+      "sha": "bd2ef40702420b85eecae91d2aa4604642b8984a",
+      "created_at": "2026-09-07T01:48:47Z",
+      "updated_at": "2026-09-07T01:51:18Z"
+    },
+    {
+      "id": 34074215118,
+      "url": "https://github.com/alarenas1988/portfolio-alonso/actions/runs/34074215118",
+      "name": "C2 push",
+      "conclusion": "success",
+      "sha": "bd2ef40702420b85eecae91d2aa4604642b8984a",
+      "created_at": "2026-09-07T01:48:47Z",
+      "updated_at": "2026-09-07T01:50:21Z"
+    },
+    {
+      "id": 34074298371,
+      "url": "https://github.com/alarenas1988/portfolio-alonso/actions/runs/34074298371",
+      "name": "Reconcile portfolio publications",
+      "conclusion": "success",
+      "sha": "bd2ef40702420b85eecae91d2aa4604642b8984a",
+      "created_at": "2026-09-07T01:50:23Z",
+      "updated_at": "2026-09-07T01:50:35Z"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 10001496988,
+      "name": "github-pages",
+      "bytes": 2267083,
+      "expired": false
+    }
+  ],
+  "functions": [
+    {
+      "name": "contact-submit",
+      "version": 5,
+      "status": "ACTIVE",
+      "verify_jwt": false
+    },
+    {
+      "name": "track-event",
+      "version": 3,
+      "status": "ACTIVE",
+      "verify_jwt": false
+    },
+    {
+      "name": "build-status",
+      "version": 1,
+      "status": "ACTIVE",
+      "verify_jwt": false
+    },
+    {
+      "name": "publish-site",
+      "version": 2,
+      "status": "ACTIVE",
+      "verify_jwt": false
+    }
+  ],
+  "publications": [
+    {
+      "completed_at": "2026-09-07 01:55:16.270295+00",
+      "created_at": "2026-09-07 01:55:15.870418+00",
+      "failure_reason": "dispatch_failed",
+      "github_run_id": null,
+      "id": "f2668eb3-0e5d-4ee7-ad48-6b2595e50dae",
+      "status": "failed"
+    },
+    {
+      "completed_at": "2026-09-07 02:01:51.961361+00",
+      "created_at": "2026-09-07 02:01:51.612636+00",
+      "failure_reason": "dispatch_failed",
+      "github_run_id": null,
+      "id": "17b4438f-509d-4933-8274-55eb4d49576a",
+      "status": "failed"
+    },
+    {
+      "completed_at": "2026-09-07 02:02:46.038243+00",
+      "created_at": "2026-09-07 02:02:45.609829+00",
+      "failure_reason": "dispatch_failed",
+      "github_run_id": null,
+      "id": "b50d305b-9f63-4ea8-a1c2-fc9b9ca88f5f",
+      "status": "failed"
+    },
+    {
+      "completed_at": "2026-09-07 02:04:18.120823+00",
+      "created_at": "2026-09-07 02:04:17.798628+00",
+      "failure_reason": "dispatch_failed",
+      "github_run_id": null,
+      "id": "fdc3da63-e41d-4056-8711-dd138f62c468",
+      "status": "failed"
+    }
+  ],
+  "github_dispatch": {
+    "http_status": 403,
+    "source": "Supabase publish-site logs 2026-09-07 02:02:46 UTC",
+    "token_value_read": false,
+    "successful_cms_dispatch": false
+  },
+  "fixture_accounts_remaining": 0,
+  "owner_credentials_changed": false
+}
