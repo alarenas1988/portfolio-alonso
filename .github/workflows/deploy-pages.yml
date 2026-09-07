@@ -1,0 +1,104 @@
+name: Deploy portfolio Pages
+run-name: C2 ${{ github.event.client_payload.build_id || github.event_name }}
+on:
+  push:
+    branches: [main]
+  repository_dispatch:
+    types: [portfolio_publish]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: portfolio-production
+  cancel-in-progress: false
+jobs:
+  build:
+    name: Build approved main
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Validate trigger and notify building
+        run: node scripts/publishing/workflow.mjs building
+        env:
+          BUILD_STATUS_URL: ${{ vars.PUBLIC_SUPABASE_URL }}/functions/v1/build-status
+          BUILD_CALLBACK_HMAC_SECRET: ${{ secrets.BUILD_CALLBACK_HMAC_SECRET }}
+      - run: npm ci
+      - run: npm ls --depth=0
+      - run: npm audit --audit-level=high
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - name: Build public snapshot and immutable media
+        run: npm run build
+        env:
+          ASTRO_TELEMETRY_DISABLED: '1'
+          PUBLIC_SITE_URL: https://alarenas1988.github.io/portfolio-alonso/
+          PUBLIC_SUPABASE_URL: ${{ vars.PUBLIC_SUPABASE_URL }}
+          PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+          PUBLIC_ANALYTICS_ENABLED: 'true'
+      - run: npm run check:static
+      - run: npm run check:admin:static
+      - run: npm run check:secrets
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: dist
+          retention-days: 1
+  deploy:
+    name: Deploy Pages
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+      - name: Confirm current main
+        run: node scripts/publishing/check-production.mjs --current-main
+      - name: Publish Pages artifact
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+      - name: Check public routes and assets
+        run: node scripts/publishing/check-production.mjs
+  result:
+    name: Record deployment result
+    if: always() && github.ref == 'refs/heads/main'
+    needs: [build, deploy]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+      - name: Observe GitHub deployment and deliver final status
+        run: node scripts/publishing/workflow.mjs finish
+        env:
+          BUILD_STATUS_URL: ${{ vars.PUBLIC_SUPABASE_URL }}/functions/v1/build-status
+          BUILD_CALLBACK_HMAC_SECRET: ${{ secrets.BUILD_CALLBACK_HMAC_SECRET }}
