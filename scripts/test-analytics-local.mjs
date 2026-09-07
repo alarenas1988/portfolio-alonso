@@ -115,6 +115,46 @@ try {
       (await event(command(randomUUID(), type, path, ctx))).status === 200,
       'Real public context: ' + type,
     );
+  // F10B: simultaneous views/interactions for the same project and post while
+  // the existing aggregate transaction runs. No new intake or identity model.
+  const contentBurst = Promise.all(
+    Array.from({ length: 40 }, (_, index) => {
+      const type = ['project_view', 'post_view', 'demo_click', 'article_share'][index % 4];
+      const isProject = type === 'project_view' || type === 'demo_click';
+      return event(
+        command(
+          randomUUID(),
+          type,
+          isProject
+            ? '/portfolio-alonso/proyectos/f10-http-project/'
+            : '/portfolio-alonso/blog/f10-http-post/',
+          isProject ? { project_id: project } : { post_id: post },
+        ),
+      );
+    }),
+  );
+  await delay(30);
+  refresh();
+  check(
+    (await contentBurst).every((r) => r.status === 200),
+    'Concurrent content views and interactions accepted',
+  );
+  refresh();
+  const contentCounters = () =>
+    JSON.parse(
+      localSql(
+        `select json_build_object('project_views',project_views,'post_views',post_views,'demo_clicks',demo_clicks,'article_shares',article_shares) from public.analytics_daily where date='${today}';`,
+      ),
+    );
+  check(
+    Object.values(contentCounters()).every((value) => value === 11),
+    'Concurrent content counters retain all eleven events per type',
+  );
+  refresh();
+  check(
+    Object.values(contentCounters()).every((value) => value === 11),
+    'Repeated content reconciliation does not inflate counters',
+  );
   for (const [id, slug] of [
     [draft, 'f10-http-draft'],
     [future, 'f10-http-future'],

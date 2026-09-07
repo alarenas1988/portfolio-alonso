@@ -200,3 +200,9 @@ RLS y policies F6 permanecen. get_analytics_report es invoker y exige owner acti
 ## F7: frontera del CMS
 
 /admin es descargable en GitHub Pages; no contiene datos privados de build. JWT verificado, owner activo, grants/RLS y funciones invoker siguen siendo la autoridad. No se guarda un owner flag ni datos privados en localStorage. El SDK conserva exclusivamente su sesión oficial. Logout limpia el DOM y revoca la sesión actual; recovery usa PKCE, elimina el código de la URL y exige owner. Las RPC save_project/save_post/save_experience tienen allowlists, tamaño acotado y search_path vacío; no agregan SECURITY DEFINER ni amplían grants de tablas. Preview reutiliza el sanitizador F4; los mensajes son texto escapado. [Pruebas y límites](ADMIN_CMS.md).
+
+# Verificación F10B
+
+Se conserva la allowlist F9/F10A, HMAC diario UTC, sesiones efímeras, exclusión DNT/GPC y ausencia de datos personales del formulario en Analytics. La UI distingue sesiones aproximadas de personas. La única corrección funcional descarta respuestas/error de consultas Admin obsoletas; no cambia RLS, grants, Auth ni intake.
+
+Mantenimiento/reconciliación continúan reservados a service_role; owner accede solo al informe invoker y agregados autorizados. No se añadió SECURITY DEFINER: el cálculo privado de rank conserva owner postgres, search_path vacío y EXECUTE mínimo. Se verificó catálogo/tipos remoto en lectura, cron automático y dry-run vacío. Los datasets de volumen, fallos inyectados y usuarios de pruebas permanecen exclusivamente locales y se retiran. [Cierre y evidencia](checkpoints/F10B_ANALYTICS_CLOSURE.md).

@@ -1,0 +1,142 @@
+{
+  "date": "2026-09-07T00:06:31.252Z",
+  "base": "ec063d4d7449cf8e5229d48596198e4138c46858",
+  "npm": [
+    {
+      "name": "npm ci",
+      "passed": true,
+      "log": ".tools/f10b/npm-ci.log"
+    },
+    {
+      "name": "npm ls --depth=0",
+      "passed": true,
+      "log": ".tools/f10b/npm-ls---depth-0.log"
+    },
+    {
+      "name": "npm audit --audit-level=high",
+      "passed": true,
+      "log": ".tools/f10b/npm-audit---audit-level-high.log"
+    },
+    {
+      "name": "npm run format:check",
+      "passed": true,
+      "log": ".tools/f10b/npm-run-format-check.log"
+    },
+    {
+      "name": "npm run lint",
+      "passed": true,
+      "log": ".tools/f10b/npm-run-lint.log"
+    },
+    {
+      "name": "npm run typecheck",
+      "passed": true,
+      "log": ".tools/f10b/npm-run-typecheck.log"
+    },
+    {
+      "name": "npm test",
+      "passed": true,
+      "log": ".tools/f10b/npm-test.log"
+    },
+    {
+      "name": "npm run build",
+      "passed": true,
+      "log": ".tools/f10b/npm-run-build.log"
+    },
+    {
+      "name": "npm run check:static",
+      "passed": true,
+      "log": ".tools/f10b/npm-run-check-static.log"
+    },
+    {
+      "name": "npm run check:admin:static",
+      "passed": true,
+      "log": ".tools/f10b/npm-run-check-admin-static.log"
+    },
+    {
+      "name": "npm run check:secrets",
+      "passed": true,
+      "log": ".tools/f10b/npm-run-check-secrets.log"
+    },
+    {
+      "name": "npm run test:e2e -- --project=mobile-390 --project=desktop-1440",
+      "passed": true,
+      "log": ".tools/f10b/npm-run-test-e2e------project-mobile-390---project-desktop-1440.log"
+    }
+  ],
+  "database": [
+    {
+      "name": "run db:lint",
+      "passed": true
+    },
+    {
+      "name": "run db:types:check",
+      "passed": true
+    },
+    {
+      "name": "run test:auth:local",
+      "passed": true
+    },
+    {
+      "name": "run edge:check",
+      "passed": true
+    },
+    {
+      "name": "run test:edge",
+      "passed": true
+    },
+    {
+      "name": "run test:edge:http",
+      "passed": true
+    },
+    {
+      "name": "run test:analytics:local",
+      "passed": true
+    }
+  ],
+  "sql": {
+    "passed": 787,
+    "new_closure": 42,
+    "files": 9
+  },
+  "tests": {
+    "unit": 182,
+    "edge": 99,
+    "auth_rls_http": 107,
+    "edge_http": 79,
+    "analytics_http": 52,
+    "admin_e2e": 5,
+    "public_e2e": 67,
+    "public_expected_skips": 7
+  },
+  "regression": {
+    "before_fix": {
+      "passed": false,
+      "selected_days": 30,
+      "expected": 3030,
+      "actual": 707
+    },
+    "after_fix": {
+      "passed": true,
+      "stale_success_ignored": true,
+      "stale_failure_ignored": true
+    }
+  },
+  "typecheck": {
+    "files": 182,
+    "errors": 0,
+    "warnings": 0,
+    "hints": 0
+  },
+  "build": {
+    "real_public_remote_snapshot": true,
+    "pages": 31,
+    "public_pages": 6,
+    "admin_shells": 25,
+    "secret_scanned_artifacts": 381,
+    "admin_static_text_artifacts": 371
+  },
+  "dependencies_added": 0,
+  "migrations_added": 0,
+  "remote_mutations": false,
+  "client_analytics_changed": false
+}

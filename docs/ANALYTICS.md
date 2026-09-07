@@ -60,7 +60,7 @@ Popularidad: SUM(views) de posts en los últimos 30 días de reporte, solo publi
 
 `private.update_analytics_popularity()` es el único SECURITY DEFINER nuevo: owner postgres, search_path vacío, sin argumentos, nombres completos, EXECUTE únicamente service_role. Actualiza solo el ranking calculado. Es necesario porque actualizar posts ejecuta los triggers editoriales de media F8; encapsular este cálculo evita conceder CRUD amplio sobre media al servidor. No autoriza identidad ni acepta SQL, tablas, IDs o rank del caller. Los tres definer F6 permanecen sin cambios.
 
-## Acceso administrativo futuro
+## Acceso administrativo
 
 `get_analytics_report(from,to)` es SECURITY INVOKER con comprobación `private.is_portfolio_admin()` y RLS. Anon no tiene EXECUTE; authenticated sin owner y owner inactivo reciben denegación. Owner activo puede leer agregados; no ejecutar mantenimiento/ranking. Raw y agregados nunca entran al snapshot público.
 
@@ -70,7 +70,7 @@ Popularidad: SUM(views) de posts en los últimos 30 días de reporte, solo publi
 
 ```powershell
 npm.cmd run db:start
-node scripts/test-analytics-upgrade-local.mjs
+npm.cmd run db:types:check
 npm.cmd run db:lint
 npm.cmd run db:test
 npm.cmd run db:types:check
@@ -86,7 +86,7 @@ npm.cmd test
 npm.cmd run test:e2e
 ```
 
-El test de upgrade destruye únicamente el stack local de prueba validado en 58421/58422; crea una copia ignorada de 019–021, conserva un evento al aplicar 022 y después reconstruye las cuatro migraciones desde volumen vacío. Nunca acepta DB remota ni modifica los archivos históricos. Los fixtures HTTP se eliminan por UUID; se recalculan sus agregados después de limpiar raw.
+El test histórico `test-analytics-upgrade-local.mjs` pertenece a la evidencia F10A: probó 021→022 y reconstruyó las cuatro migraciones de ese checkpoint. No utilizarlo como preparación del entorno actual, que ya incluye 023. Para reconstruir hoy el stack de pruebas vacío se utiliza `npm.cmd run db:reset`, que aplica todas las migraciones activas. Los fixtures HTTP se eliminan por UUID; se recalculan sus agregados después de limpiar raw.
 
 Rate limits existentes: 60/min por sesión, 120/min por señal de origen y 10000/h global; body 4 KiB. Secrets consumidores: ANALYTICS_HMAC_SECRET (hash diario, reutilizado), ANALYTICS_RATE_LIMIT_HMAC_SECRET (abuso de tracking), contexto Supabase administrado dentro de Edge y configuración pública de orígenes/URL. Ninguno participa en el build público. No rotar secretos existentes sin motivo.
 
@@ -95,3 +95,47 @@ La operación remota requiere puerta local aprobada, proyecto verificado, backup
 ## Consumidor administrativo F7
 
 /admin/analytics utiliza loadAnalyticsReport y la RPC owner-only de F10. Consulta únicamente agregados para 7/30 días o un rango acotado; muestra métricas, tablas top, interacciones y tendencia SVG. Indica que las sesiones son aproximadas y rotan diariamente. No consulta raw events, no agrega tracking y no modifica retención ni HMAC. Los scripts públicos de Analytics no se cargan en Admin. [Guía CMS](ADMIN_CMS.md).
+
+## Cierre F10B
+
+F10A ya había implementado todos los objetos de datos previstos para F10B y F7 ya consumía sus métricas. El [análisis previo](checkpoints/F10B_GAP_ANALYSIS.md) evita duplicar tablas, RPC, dimensiones, índices, sesiones, retención y jobs. F10B añade verificación de operación/rendimiento y corrige una carrera de presentación: una respuesta lenta de un período anterior podía reemplazar el seleccionado. El Admin ahora aplica solamente la respuesta/error de la consulta vigente; no modifica el contrato SQL ni el bundle público.
+
+La ejecución automática se verificó directamente en `cron.job_run_details`, sin invocar ni reprogramar el job: `portfolio-analytics-maintenance`, job 2, `7 * * * *`, corrió correctamente a las 22:07 y 23:07 UTC del 2026-09-06. Durante el cierre se observó además el run 21 del 2026-09-07 a las 00:07 UTC (21:07 del día 6 en Santiago), succeeded, 41,349 ms, posterior al deploy F7. Cron utiliza GMT; cada comando calcula fechas de informe con America/Santiago. El job de contadores `portfolio-rate-limit-retention`, job 1, continúa cada 15 minutos. [Monitorización soportada por Supabase](https://supabase.com/docs/guides/cron).
+
+El dataset de rendimiento es exclusivamente local: 95.000 eventos, 95 fechas, ocho proyectos, ocho posts y doce tipos. Se generan los agregados existentes, se actualizan estadísticas y se ejecuta EXPLAIN ANALYZE/BUFFERS dentro de una transacción que termina en ROLLBACK. No es una carga remota ni una garantía de latencia del plan Free.
+
+| Consulta/operación local                       | Tiempo observado |
+| ---------------------------------------------- | ---------------: |
+| Reporte owner 7 días                           |           6,3 ms |
+| Reporte owner 30 días                          |           7,0 ms |
+| Reporte owner 366 días                         |          11,4 ms |
+| Top páginas 30 días                            |           0,4 ms |
+| DISTINCT de sesiones 30 días                   |           1,8 ms |
+| Refresh de dos fechas                          |          46,8 ms |
+| Mantenimiento, incluida purga de 5.000 eventos |          56,5 ms |
+
+El reporte de 30 días mide 13.302 bytes JSON sin comprimir. El CMS hace una RPC y, si hay top content, dos consultas batched para sus títulos (máximo 40 IDs); no N+1 ni descarga raw. Las trece sumas sobre `analytics_daily` recorren como máximo 400 filas pequeñas: no se justifica una RPC nueva ni reescribirlas por ese costo. EXPLAIN observa el índice raw `analytics_events_created_at` para la ventana reciente y las claves por fecha de dimensiones/sesiones para sus rangos. No se añadieron índices. El nodo Result de una función PL/pgSQL mide su costo total pero no desglosa su SQL interno; por eso se midieron también las consultas relevantes por separado. [Interpretación de EXPLAIN](https://www.postgresql.org/docs/17/using-explain.html).
+
+### Integridad histórica y recuperación
+
+Cambiar slug mantiene el UUID de contenido; nuevos eventos requieren la ruta vigente. Los conteos por contenido conservan continuidad; la dimensión pathname conserva las rutas históricas separadas. Archivar/despublicar impide nueva ingestión y retira el rank en la siguiente recomputación; no borra eventos existentes.
+
+Eliminar contenido aplica ON DELETE SET NULL en raw, sin cascade. Los agregados históricos guardan UUID sin FK y el CMS presenta «Contenido retirado». Al recalcular una fecha después del borrado, los raw con FK nula ya no pueden atribuirse a ese contenido: los totales diarios se mantienen, pero se retira la atribución de contenido de esa fecha. Las fechas no recalculadas conservan la atribución histórica hasta su retención. Es el límite explícito del modelo aprobado, no una identidad reconstruida a partir de slugs.
+
+Una falla de agregación revierte todo el mantenimiento: quedan los raw ya recibidos y la última versión válida de los agregados. El próximo job recompone hoy/ayer. Si la interrupción supera dos fechas, un operador debe recalcular los días faltantes por tramos de hasta siete fechas mediante `refresh_analytics(desde,hasta)`, bajo el contexto de servicio administrado existente, antes de ejecutar la purga y antes de perder raw. Solo admite fechas retenidas (hoy−89 a hoy); no promete reconstruir datos vencidos. La UI owner solo lee reportes; no se abrió EXECUTE de mantenimiento al navegador.
+
+La purga actual es una transacción por ventana vencida, no un cursor de lotes configurable. El ensayo de 5.000 vencidos/95.000 raw fue breve; no se cambia la implementación por carga hipotética. Vigilar duración/fallos del job y esperas de locks si aumenta el volumen o hay una interrupción larga. La retención sigue siendo 90/400 fechas inclusivas y los límites se probaron hasta el microsegundo alrededor del corte Santiago, además de DST.
+
+El proyecto usa el plan Free identificado en los checkpoints. La oferta consultada incluye 500 MB de base de datos y CPU compartida, sin backup automático/PITR y con posible pausa tras inactividad; Analytics comparte ese presupuesto con contenido e índices. pg_cron ya está disponible y operativo en este proyecto, sin infraestructura adicional. No tomar el rate limit global como capacidad sostenible de almacenamiento ni el ensayo local como SLA remoto. Se conservan las prácticas de respaldo lógico del portfolio y la supervisión de uso del proyecto; no se añade un sistema de backup de Analytics. [Límites publicados del plan](https://supabase.com/pricing).
+
+Comprobaciones F10B reproducibles:
+
+```powershell
+node scripts/benchmark-analytics-local.mjs --local-only
+npm.cmd run db:test
+npm.cmd run test:analytics:local
+npm.cmd run test:admin -- --grep "Analytics|Session failure"
+node scripts/audit-analytics-closure-remote.mjs --read-only
+```
+
+El auditor reutiliza el comparador de catálogo/tipos de F7 dentro del worktree actual; su flag histórico no realiza despliegues ni fixtures. Inspecciona cron, estado y dry-run vacío. No se modificó el remoto, ni se rotaron secrets, ni se desplegó track-event. [Entrega completa F10B](checkpoints/F10B_ANALYTICS_CLOSURE.md).

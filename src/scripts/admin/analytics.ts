@@ -70,11 +70,18 @@ export async function mountAnalytics(root: HTMLElement, client: AdminClient) {
     status,
     output,
   );
+  let requestVersion = 0;
+  window.addEventListener('admin-dispose', () => {
+    requestVersion++;
+  });
   async function load() {
+    const version = ++requestVersion;
     output.setAttribute('aria-busy', 'true');
+    feedback(status, 'Consultando el período solicitado…');
     try {
       validateRange(from.value, to.value);
       const report = await loadAnalyticsReport(client, from.value, to.value);
+      if (version !== requestVersion) return;
       feedback(status, 'America/Santiago · ' + report.from + ' → ' + report.to);
       const stats = el('section', '', 'cms-stats');
       stats.append(
@@ -159,6 +166,7 @@ export async function mountAnalytics(root: HTMLElement, client: AdminClient) {
             { data: [], error: null },
             { data: [], error: null },
           ];
+      if (version !== requestVersion) return;
       const names = new Map(
         [...(projects.data ?? []), ...(posts.data ?? [])].map((c) => [c.id, c.title]),
       );
@@ -192,13 +200,15 @@ export async function mountAnalytics(root: HTMLElement, client: AdminClient) {
       );
       output.append(dimensions);
     } catch {
+      if (version !== requestVersion) return;
+      output.replaceChildren();
       feedback(
         status,
         'No se pudo obtener el informe. Revisa las fechas (máximo 366 días) y reintenta.',
         'error',
       );
     } finally {
-      output.removeAttribute('aria-busy');
+      if (version === requestVersion) output.removeAttribute('aria-busy');
     }
   }
   await load();
