@@ -117,4 +117,4 @@ El flujo final será:
 
 `supabase/migrations/` es la fuente reproducible del backend desplegado. Automatic RLS coexiste con RLS, grants y policies explícitos. F3 consume el contrato existente sin modificar el backend remoto.
 
-Sitio público operativo: https://alarenas1988.github.io/portfolio-alonso/. CI y Pages desde main comprobados. La publicación solicitada desde CMS sigue pendiente de resolver el HTTP403 del PAT GitHub; véase [checkpoint F11](docs/checkpoints/F11_C2_DEPLOYMENT.md).
+Sitio público operativo: https://alarenas1988.github.io/portfolio-alonso/. CI, Pages desde main y publicación real solicitada desde CMS comprobados, incluyendo callback e idempotencia; véase [checkpoint F11](docs/checkpoints/F11_C2_DEPLOYMENT.md).

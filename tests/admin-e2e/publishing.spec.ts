@@ -129,6 +129,11 @@ test('Publishing: failure is actionable and leaving the module stops active poll
   stage = 'building';
   await page.reload();
   await expect(page.getByRole('status')).toHaveText('Construyendo sitio');
+  stage = 'failed';
+  await expect(page.getByRole('alert')).toHaveText('Publicación fallida', { timeout: 10000 });
+  stage = 'building';
+  await page.reload();
+  await expect(page.getByRole('status')).toHaveText('Construyendo sitio');
   await page.goto('admin/settings/');
   const departed = polls;
   await page.waitForTimeout(5500);

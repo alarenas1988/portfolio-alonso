@@ -189,6 +189,6 @@ Las tres RPC editoriales son invoker/owner-only; el trigger privado propaga la r
 
 El Admin es HTML estático bajo `/portfolio-alonso/admin/`, con acceso a datos posterior a Auth en navegador. Guardar o marcar contenido público no publica GitHub Pages. `publish-site` productivo, workflow y callback siguen pendientes de F11. No se ejecutó push, PR ni merge de la rama F7.
 
-### F11: activación comprobada, aceptación CMS pendiente
+### F11: publicación C2 verificada
 
-PR #15 integrado (`bd2ef407`); CI real y primer Pages deployment aprobados. Sitio: https://alarenas1988.github.io/portfolio-alonso/. Se aplicó únicamente024 y se activaron publish-site/build-status; tipos y catálogo remoto coinciden. Contacto y Analytics probados desde Pages con fixtures eliminados. El dispatch CMS recibió GitHub HTTP403: revisar acceso del Fine-Grained PAT antes de declarar F11 completa. Detalles y evidencia en [checkpoint F11](checkpoints/F11_C2_DEPLOYMENT.md#activación-real-y-bloqueo-observado--2026-09-07-utc). Sin F12/F13/F14.
+F11 verificada: publicación CMS→repository_dispatch→Actions→Pages→callback success (136s), cancelación→failed (11s en GitHub, seguida de reconciliación), idempotencia y owner-only. PR15/16/17 integrados; el permiso Contents del PAT fue corregido por el usuario. Solo024 y publish-site/build-status se activaron; Auth/RLS/Storage conservados. Sitio: https://alarenas1988.github.io/portfolio-alonso/. Contacto/Analytics probados con fixtures eliminados. Reconciliación por workflow_run comprobada; primer evento schedule aún no observado. [Evidencia e informe completo](checkpoints/F11_C2_DEPLOYMENT.md#cierre-de-aceptación-f11). F12/F13/F14 no iniciadas.
