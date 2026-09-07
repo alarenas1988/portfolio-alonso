@@ -14,7 +14,7 @@ import { el, button, feedback, confirmAction, link } from '../../lib/admin/dom.t
 import { mountRelations } from '../../lib/admin/relations.ts';
 import { getPublicConfig } from '../../lib/config/public.ts';
 import { createUrlHelpers } from '../../lib/utils/urls.ts';
-import { requestPublication } from '../../lib/admin/builds.ts';
+import { publicationController } from './publication.ts';
 export async function mountEditor(
   root: HTMLElement,
   client: AdminClient,
@@ -133,6 +133,7 @@ export async function mountEditor(
   const read = (): Patch =>
     Object.fromEntries(fields.map((f) => [f.key, readControl(f, controls.get(f.key)!.input)]));
   let disposePreview = () => {};
+  let disposePublication = () => {};
   async function persist() {
     const patch = read(),
       errors = validateFields(patch, fields, config.siteUrl);
@@ -218,12 +219,23 @@ export async function mountEditor(
         ) {
           autosave.dispose();
           disposePreview();
+          disposePublication();
           await mountEditor(root, client, table, row?.id, seoOnly);
         }
       })();
     }),
   );
   if (['projects', 'posts'].includes(table)) {
+    const publicationStatus = el(
+      'p',
+      'El sitio se actualiza después de confirmar la publicación.',
+      'cms-notice',
+    );
+    publicationStatus.setAttribute('role', 'status');
+    publicationStatus.setAttribute('aria-label', 'Estado de publicación');
+    actions.append(publicationStatus);
+    const publication = publicationController(client, publicationStatus);
+    disposePublication = publication.dispose;
     actions.append(
       button('Publicar contenido', () => {
         void (async () => {
@@ -247,13 +259,7 @@ export async function mountEditor(
           }
           autosave.change();
           if (await autosave.flush()) {
-            const result = await requestPublication(client);
-            feedback(
-              status,
-              result === 'queued'
-                ? 'Contenido público guardado. Build en cola; aún no desplegado.'
-                : 'Contenido público guardado. Rebuild pendiente: la publicación automática del sitio está pendiente de configuración.',
-            );
+            await publication.submit(undefined, JSON.stringify([read(), readRelations()]));
           }
         })();
       }),

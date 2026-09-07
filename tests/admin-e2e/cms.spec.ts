@@ -139,7 +139,9 @@ test('Project: create, autosave, relations, concurrency, publication and delete'
     .getByRole('dialog')
     .getByRole('button', { name: 'Publicar contenido', exact: true })
     .click();
-  await expect(page.locator('.cms-notice').first()).toContainText('Rebuild pendiente');
+  await expect(page.getByRole('status', { name: 'Estado de publicación' })).toContainText(
+    'No se pudo confirmar',
+  );
   await page.getByRole('button', { name: 'Eliminar definitivamente' }).click();
   await page.getByRole('dialog').getByRole('button', { name: 'Eliminar', exact: true }).click();
   await expect(page).toHaveURL(/admin\/projects\/$/);

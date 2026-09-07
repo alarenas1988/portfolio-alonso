@@ -1,5 +1,6 @@
 import type { AdminClient } from '../../lib/admin/repository.ts';
-import { loadBuilds, buildLabels, requestPublication } from '../../lib/admin/builds.ts';
+import { loadBuilds, buildLabels } from '../../lib/admin/builds.ts';
+import { publicationController } from './publication.ts';
 import { loadAnalyticsReport, analyticsRange } from '../../lib/analytics/queries.ts';
 import { el, button, link, feedback } from '../../lib/admin/dom.ts';
 import { getPublicConfig } from '../../lib/config/public.ts';
@@ -24,7 +25,7 @@ export async function mountOverview(root: HTMLElement, client: AdminClient, only
     const builds = await loadBuilds(client),
       status = el(
         'p',
-        'La publicación automática del sitio todavía no está configurada. Puedes guardar contenido; el rebuild queda pendiente.',
+        'Supabase conectado. Guardar contenido y actualizar el sitio público son operaciones diferentes.',
         'cms-notice',
       );
     const toolbar = el('div', '', 'cms-toolbar');
@@ -34,6 +35,7 @@ export async function mountOverview(root: HTMLElement, client: AdminClient, only
       link('Subir archivo', withBase('/admin/media/'), 'cms-button'),
     );
     root.replaceChildren(toolbar, status);
+    status.setAttribute('role', 'status');
     if (!onlyBuilds) {
       const [projects, posts, messages] = await Promise.all([
         client.from('projects').select('id', { count: 'exact', head: true }),
@@ -109,44 +111,78 @@ export async function mountOverview(root: HTMLElement, client: AdminClient, only
       el('h2', 'Publicación del sitio'),
       el('p', 'Guardar en Supabase y desplegar el sitio son operaciones diferentes.', 'cms-muted'),
     );
-    const rebuild = button('Solicitar rebuild', () => {
+    const history = el('div');
+    async function refreshHistory() {
+      try {
+        renderHistory(await loadBuilds(client));
+      } catch {
+        feedback(status, 'No se pudo actualizar el historial. Reintenta la consulta.', 'error');
+      }
+    }
+    const publication = publicationController(client, status, () => {
+      void refreshHistory();
+    });
+    const rebuild = button('Solicitar publicación', () => {
       void (async () => {
         rebuild.disabled = true;
-        const result = await requestPublication(client);
-        feedback(
-          status,
-          result === 'queued'
-            ? 'Build solicitado. Espera su confirmación antes de considerar el sitio actualizado.'
-            : 'Rebuild pendiente. El pipeline de publicación se configurará en F11.',
-        );
+        await publication.submit();
         rebuild.disabled = false;
       })();
     });
-    panel.append(rebuild);
-    if (!builds.length) panel.append(el('div', 'Todavía no hay builds registrados.', 'cms-empty'));
-    for (const build of builds) {
-      const item = el('article', '', 'cms-list-row'),
-        info = el('div');
-      info.append(
-        el('h3', buildLabels[build.status as keyof typeof buildLabels] ?? build.status),
-        el(
-          'p',
-          dateLabel(build.created_at) +
-            (build.commit_sha ? ' · ' + build.commit_sha.slice(0, 8) : ''),
-        ),
-      );
-      if (build.started_at && build.completed_at)
+    const publicationActions = el('div', '', 'cms-toolbar');
+    publicationActions.append(
+      rebuild,
+      button('Actualizar estado', () => {
+        void refreshHistory();
+      }),
+    );
+    panel.append(publicationActions, history);
+    function renderHistory(items: typeof builds) {
+      history.replaceChildren();
+      if (!items.length)
+        history.append(el('div', 'Todavía no hay builds registrados.', 'cms-empty'));
+      for (const build of items) {
+        const item = el('article', '', 'cms-list-row'),
+          info = el('div');
         info.append(
+          el('h3', buildLabels[build.status as keyof typeof buildLabels] ?? build.status),
           el(
             'p',
-            Math.round((Date.parse(build.completed_at) - Date.parse(build.started_at)) / 1000) +
-              ' segundos',
+            dateLabel(build.created_at) +
+              (build.commit_sha ? ' · ' + build.commit_sha.slice(0, 8) : ''),
           ),
         );
-      if (build.failure_reason) info.append(el('p', build.failure_reason));
-      item.append(info);
-      panel.append(item);
+        if (build.started_at && build.completed_at)
+          info.append(
+            el(
+              'p',
+              Math.round((Date.parse(build.completed_at) - Date.parse(build.started_at)) / 1000) +
+                ' segundos',
+            ),
+          );
+        if (build.failure_reason) info.append(el('p', build.failure_reason));
+        item.append(info);
+        if (build.status === 'failed')
+          info.append(
+            button('Reintentar publicación', () => {
+              void publication.submit(build.id);
+            }),
+          );
+        if (build.status === 'success')
+          info.append(link('Ver sitio', getPublicConfig().siteUrl, 'cms-text-link'));
+        if (
+          build.github_run_url &&
+          /^https:\/\/github\.com\/alarenas1988\/portfolio-alonso\/actions\/runs\/\d+$/.test(
+            build.github_run_url,
+          )
+        )
+          info.append(link('Ver ejecución', build.github_run_url, 'cms-text-link'));
+        history.append(item);
+      }
     }
+    renderHistory(builds);
+    const activeBuild = builds.find((build) => ['queued', 'building'].includes(build.status));
+    if (activeBuild) publication.observe(activeBuild.id);
     root.append(panel);
   } catch {
     moduleFailure(root, () => {
