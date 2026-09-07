@@ -1,7 +1,10 @@
-import { currentMain, checkDeployment } from './health.mjs';
+import { currentMain, checkDeployment, MainLookupError } from './health.mjs';
 try {
-  if (process.argv[2] === '--current-main') await currentMain(process.env.GITHUB_SHA);
-  else {
+  if (process.argv[2] === '--current-main') {
+    if (process.env.GITHUB_ACTIONS === 'true' && !process.env.GITHUB_TOKEN)
+      throw new Error('Workflow token missing.');
+    await currentMain(process.env.GITHUB_SHA, fetch, process.env.GITHUB_TOKEN);
+  } else {
     let result;
     for (let attempt = 0; attempt < 6; attempt++) {
       try {
@@ -14,7 +17,11 @@ try {
     }
     console.log(JSON.stringify(result));
   }
-} catch {
-  console.error('Pages health or current-main verification failed.');
+} catch (error) {
+  console.error(
+    error instanceof MainLookupError
+      ? error.message
+      : 'Pages health or current-main verification failed.',
+  );
   process.exitCode = 1;
 }
